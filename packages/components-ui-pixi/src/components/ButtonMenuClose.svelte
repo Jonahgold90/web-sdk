@@ -16,4 +16,4 @@
 	};
 </script>
 
-<UiButton {...props} {sizes} {onpress} icon="menuExit" />
+<UiButton {...props} {sizes} {onpress} icon="menuExit" spriteKey="close_menu_button" />

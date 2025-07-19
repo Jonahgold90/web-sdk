@@ -16,4 +16,4 @@
 	};
 </script>
 
-<UiButton {...props} {sizes} {onpress} icon="settings" variant="light" />
+<UiButton {...props} {sizes} {onpress} icon="soundOn" variant="light" spriteKey="settings_button" />

@@ -18,6 +18,7 @@
 
 	const confirm = () => {
 		stateBet.activeBetModeKey = stateBonus.selectedBetModeKey;
+		console.log('Activated bet mode:', stateBet.activeBetModeKey);
 
 		if (stateBonusDerived.selectedBetModeData().type === 'buy') {
 			eventEmitter.broadcast({ type: 'bet' });

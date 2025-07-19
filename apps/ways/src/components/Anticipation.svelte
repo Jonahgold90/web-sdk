@@ -23,7 +23,12 @@
 			animationName = 'anticipation_out';
 		}
 	});
+
+	const BOARD_Y_OFFSET = 40; // Adjust this value as needed
+
 </script>
+
+
 
 <SpineProvider
 	key="anticipation"
@@ -32,7 +37,7 @@
 	x={context.stateGameDerived.boardLayout().x -
 		context.stateGameDerived.boardLayout().width * 0.5 +
 		(props.reel.reelIndex + REEL_PADDING) * SYMBOL_SIZE}
-	y={context.stateGameDerived.boardLayout().y - SYMBOL_SIZE * 0.06}
+	y={context.stateGameDerived.boardLayout().y - SYMBOL_SIZE * 0.06 - BOARD_Y_OFFSET}
 >
 	<SpineTrack
 		trackIndex={0}

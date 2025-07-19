@@ -20,6 +20,13 @@ export default {
 			rtp: 0.97,
 			max_win: 5000,
 		},
+		super_boost: {
+			cost: 5.0,
+			feature: true,
+			buyBonus: false,
+			rtp: 0.97,
+			max_win: 5000,
+		},
 	},
 	symbols: {
 		W: {

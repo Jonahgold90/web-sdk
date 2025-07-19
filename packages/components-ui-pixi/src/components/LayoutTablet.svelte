@@ -2,16 +2,18 @@
 	import { stateUi } from 'state-shared';
 	import { BLACK } from 'constants-shared/colors';
 	import { MainContainer } from 'components-layout';
-	import { Container, Rectangle, anchorToPivot } from 'pixi-svelte';
+	import { Container, Rectangle, anchorToPivot, Text } from 'pixi-svelte';
 
 	import { getContext } from '../context';
 	import type { LayoutUiProps } from '../types';
 	import LabelFreeSpinCounter from './LabelFreeSpinCounter.svelte';
 	import { DESKTOP_BASE_SIZE, DESKTOP_BACKGROUND_WIDTH_LIST } from '../constants';
+	import ActiveBonusIndicator from './ActiveBonusIndicator.svelte';
 
 	const props: LayoutUiProps = $props();
 	const context = getContext();
 </script>
+
 
 <Container x={20}>
 	{@render props.gameName()}
@@ -22,6 +24,9 @@
 </Container>
 
 <MainContainer standard alignVertical="bottom">
+	<Container x={context.stateLayoutDerived.mainLayoutStandard().width * 0.5 - 150} y={context.stateLayoutDerived.mainLayoutStandard().height - DESKTOP_BASE_SIZE - 90}>
+		<ActiveBonusIndicator />
+	</Container>
 	<Container
 		x={context.stateLayoutDerived.mainLayoutStandard().width * 0.5}
 		y={context.stateLayoutDerived.mainLayoutStandard().height - DESKTOP_BASE_SIZE - 30}
@@ -100,13 +105,10 @@
 			x={100}
 			y={context.stateLayoutDerived.mainLayoutStandard().height - DESKTOP_BASE_SIZE - 30}
 		>
-			<Container y={DESKTOP_BASE_SIZE * 0.5 - 185 - 210 * 3}>
+			<Container y={DESKTOP_BASE_SIZE * 0.5 - 185 - 210 * 2}>
 				{@render props.buttonPayTable({ anchor: 0.5 })}
 			</Container>
 
-			<Container y={DESKTOP_BASE_SIZE * 0.5 - 185 - 210 * 2}>
-				{@render props.buttonGameRules({ anchor: 0.5 })}
-			</Container>
 
 			<Container y={DESKTOP_BASE_SIZE * 0.5 - 185 - 210 * 1}>
 				{@render props.buttonSettings({ anchor: 0.5 })}

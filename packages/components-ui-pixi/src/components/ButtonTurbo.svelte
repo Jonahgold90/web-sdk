@@ -11,6 +11,12 @@
 	const sizes = { width: UI_BASE_SIZE, height: UI_BASE_SIZE };
 	const active = $derived(stateBet.isTurbo);
 	const disabled = $derived(stateBet.isSpaceHold);
+	let hovered = $state(false);
+	let pressed = $state(false);
+
+	$effect(() => {
+		console.log('hovered:', hovered, 'pressed:', pressed, 'disabled:', disabled);
+	});
 
 	const onpress = () => {
 		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
@@ -23,4 +29,20 @@
 	});
 </script>
 
-<UiButton {...props} {sizes} {active} {onpress} {disabled} icon="turbo" />
+<UiButton
+  {...props}
+  {sizes}
+  {active}
+  {onpress}
+  {disabled}
+  icon="turbo"
+  spriteKey={
+    disabled
+      ? "turbo_active_hover"
+      : active
+        ? "turbo_active"
+        : "turbo_active_hover"
+  }
+  onmouseenter={() => (hovered = true)}
+  onmouseleave={() => (hovered = false)}
+/>

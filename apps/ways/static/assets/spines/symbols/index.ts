@@ -12,18 +12,15 @@ import L2 from './l2.json';
 import L3 from './l3.json';
 import L4 from './l4.json';
 
+const spines = {
+	L1, L2, L3, L4, H1, H2, H3, H4, H5,
+};
+console.log('[DEBUG] Exporting spines keys:', Object.keys(spines));
+console.log('[DEBUG] L4 asset:', spines.L4);
+console.log('[DEBUG] H1 asset:', spines.H1);
+
 export default createAsset({
 	img,
 	rawAtlas,
-	spines: {
-		H1,
-		H2,
-		H3,
-		H4,
-		H5,
-		L1,
-		L2,
-		L3,
-		L4,
-	},
+	spines,
 });

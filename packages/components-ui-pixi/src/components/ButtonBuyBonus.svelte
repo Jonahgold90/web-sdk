@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { Text } from 'pixi-svelte';
-	import { Button, type ButtonProps } from 'components-pixi';
-	import { stateModal, stateBet, stateBetDerived } from 'state-shared';
-
-	import UiSprite from './UiSprite.svelte';
-	import { UI_BASE_FONT_SIZE, UI_BASE_SIZE } from '../constants';
+	import type { ButtonProps } from 'components-pixi';
+	import { stateModal, stateBet, stateBetDerived, stateUrlDerived } from 'state-shared';
+	import UiButton from './UiButton.svelte';
+	import { UI_BASE_SIZE, UI_BASE_FONT_SIZE } from '../constants';
 	import { getContext } from '../context';
 	import { i18nDerived } from '../i18n/i18nDerived';
+	import { Text, Rectangle } from 'pixi-svelte';
 
 	const props: Partial<Omit<ButtonProps, 'children'>> = $props();
 	const { stateXstateDerived, eventEmitter } = getContext();
@@ -18,7 +17,6 @@
 	const disableActiveBetMode = () => (stateBet.activeBetModeKey = 'BASE');
 	const onpress = () => {
 		eventEmitter.broadcast({ type: 'soundPressGeneral' });
-
 		if (active) {
 			disableActiveBetMode();
 		} else {
@@ -26,61 +24,61 @@
 		}
 	};
 
-	const getState = (value: {
-		active: boolean;
-		disabled: boolean;
-		hovered: boolean;
-		pressed: boolean;
-	}) => {
-		if (value.disabled) return 'disabled' as const;
-		if (value.pressed) return 'pressed' as const;
-		if (value.hovered) return 'hovered' as const;
-		if (value.active) return 'active' as const;
-		return 'default' as const;
-	};
+	const isSocial = stateUrlDerived.social();
+	const baseWidth = UI_BASE_SIZE * 1.5;
+	const baseHeight = UI_BASE_SIZE * 0.9;
+	const gold = 0xffd700;
+	const dark = 0x18122b;
+	const purple = 0xD99AF7;
 </script>
 
-<Button {...props} {sizes} {disabled} {onpress}>
-	{#snippet children({ center, hovered, pressed })}
-		{@const state = getState({
-			active,
-			disabled,
-			hovered,
-			pressed,
-		})}
-
-		<UiSprite
-			key="buyBonus"
-			{...center}
-			anchor={0.5}
-			width={sizes.width}
-			height={sizes.height}
-			{...disabled
-				? {
-						backgroundColor: 0xaaaaaa,
-					}
-				: {}}
-			{...active
-				? {
-						borderWidth: 10,
-						borderColor: 0xffffff,
-					}
-				: {}}
+{#if isSocial}
+	<UiButton
+		{...props}
+		sizes={{ width: baseWidth, height: baseHeight }}
+		{onpress}
+		{disabled}
+		spriteKey={undefined}
+		icon="payTable"
+	>
+		<Rectangle
+			width={baseWidth}
+			height={baseHeight}
+			x={0}
+			y={0}
+			borderColor={purple}
+			borderWidth={5}
+			borderRadius={28}
+			backgroundColor={dark}
+			alpha={0.9}
 		/>
-
 		<Text
-			{...center}
-			anchor={0.5}
-			text={state === 'active' ? i18nDerived.disable() : i18nDerived.buyBonus()}
+			text={`PLAY\nBONUS`}
 			style={{
+				fontFamily: 'Arial',
+				fontSize: 44,
+				fontWeight: 'bold',
+				fill: gold,
+				stroke: 0x000000,
+				strokeThickness: 5,
+				dropShadow: true,
+				dropShadowColor: gold,
+				dropShadowBlur: 6,
+				dropShadowDistance: 0,
 				align: 'center',
-				wordWrap: true,
-				wordWrapWidth: 200,
-				fontFamily: 'proxima-nova',
-				fontWeight: '600',
-				fontSize: UI_BASE_FONT_SIZE * 0.9,
-				fill: 0xffffff,
 			}}
+			anchor={0.5}
+			x={baseWidth / 2}
+			y={baseHeight / 2}
 		/>
-	{/snippet}
-</Button>
+	</UiButton>
+{:else}
+	<UiButton
+		{...props}
+		{sizes}
+		{onpress}
+		{disabled}
+		spriteKey="buy_bonus_button"
+		icon="payTable"
+	/>
+{/if}

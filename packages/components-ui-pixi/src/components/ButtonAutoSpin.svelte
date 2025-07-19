@@ -19,6 +19,8 @@
 		return false;
 	});
 
+	let hovered = $state(false);
+
 	const stopAutoSpin = () => (stateBet.autoSpinsCounter = 0);
 	const openModal = () => (stateModal.modal = { name: 'autoSpin' });
 	const onpress = () => {
@@ -27,8 +29,18 @@
 	};
 </script>
 
-<UiButton {...props} {sizes} {active} {onpress} {disabled} icon="autoSpin">
-	<Container x={sizes.width * 0.5} y={sizes.height * 0.5}>
-		<ButtonBetAutoSpinsCounter />
-	</Container>
+<UiButton
+  {...props}
+  {sizes}
+  {active}
+  {onpress}
+  {disabled}
+  icon="autoSpin"
+  spriteKey={disabled || hovered ? "autospin_active_hover" : "autospin_active"}
+  on:mouseenter={() => (hovered = true)}
+  on:mouseleave={() => (hovered = false)}
+>
+  <Container x={sizes.width * 0.5} y={sizes.height * 0.5}>
+    <ButtonBetAutoSpinsCounter />
+  </Container>
 </UiButton>

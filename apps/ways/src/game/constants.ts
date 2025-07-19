@@ -190,8 +190,8 @@ const l5Static = {
 	sizeRatios: { width: 0.3, height: 0.3 },
 };
 
-const sStatic = { type: 'sprite', assetKey: 's.png', sizeRatios: { width: 1.243, height: 1.243 } };
-const wStatic = { type: 'sprite', assetKey: 'w.png', sizeRatios: { width: 1.12, height: 1.12 } };
+const sStatic = { type: 'sprite', assetKey: 's.webp', sizeRatios: { width: 1.243, height: 1.243 } };
+const wStatic = { type: 'sprite', assetKey: 'w.webp', sizeRatios: { width: 1.12, height: 1.12 } };
 
 const wSizeRatios = { width: 1.5 * 0.9, height: SPECIAL_SYMBOL_SIZE * 1.15 };
 const sSizeRatios = { width: 2.5, height: SPECIAL_SYMBOL_SIZE * 2.3 };
@@ -331,7 +331,7 @@ export const SYMBOL_INFO_MAP = {
 		explosion,
 		postWinStatic: {
 			type: 'sprite',
-			assetKey: 'explodedW.png',
+			assetKey: 'explodedW.webp',
 			sizeRatios: { width: 0.85, height: 0.85 },
 		},
 		static: wStatic,

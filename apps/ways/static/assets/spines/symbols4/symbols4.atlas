@@ -1,0 +1,33 @@
+symbols4.png
+size: 306,209
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+scatterDiamond
+  rotate: true
+  xy: 188, 7
+  size: 80, 96
+  orig: 200, 200
+  offset: 60, 68
+  index: -1
+scatterDiamondRing
+  rotate: false
+  xy: 188, 89
+  size: 116, 118
+  orig: 200, 200
+  offset: 42, 57
+  index: -1
+scatterFrame
+  rotate: true
+  xy: 2, 35
+  size: 172, 184
+  orig: 200, 200
+  offset: 14, 7
+  index: -1
+scatterText
+  rotate: false
+  xy: 2, 2
+  size: 137, 31
+  orig: 200, 200
+  offset: 32, 26
+  index: -1

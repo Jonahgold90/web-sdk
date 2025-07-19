@@ -16,4 +16,4 @@
 	};
 </script>
 
-<UiButton {...props} {sizes} {onpress} icon="payTable" variant="light" />
+<UiButton {...props} {sizes} {onpress} icon="payTable" variant="light" spriteKey="info_button" />

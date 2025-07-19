@@ -1,68 +1,68 @@
 mm_bg_feature.webp
-size:2033,1561
-filter:Linear,Linear
-scale:0.88
-atmos_glow
-bounds:2,306,1346,259
-offsets:0,16,1346,301
-bg_bonus_base
-bounds:2,567,2020,992
-bg_cart_add
-bounds:1554,125,404,219
-offsets:0,1,404,220
-bg_cart_shine
-bounds:1554,19,377,104
-offsets:8,26,398,142
-bg_particles1
-bounds:2005,507,17,17
-offsets:0,1,18,18
-bg_shovel_add
-bounds:1174,22,130,282
-bonus_lantern_1
-bounds:844,57,167,247
-bonus_lantern_2
-bounds:1013,57,159,247
-bonus_lantern_3
-bounds:425,14,74,112
-offsets:1,0,75,112
-bonus_lantern_4
-bounds:1960,201,47,70
-rotate:90
-bonus_lantern_5
-bounds:1933,2,73,114
-offsets:1,0,74,115
-bonus_lantern_6
-bounds:501,17,72,109
-offsets:1,1,74,110
-bonus_lantern_7
-bounds:1960,118,33,48
-offsets:1,0,34,49
-rotate:90
-bonus_lantern_8
-bounds:1960,250,64,94
-offsets:1,0,65,95
-bonus_lantern_9
-bounds:1960,153,46,67
-offsets:1,0,47,67
-rotate:90
-dust1
-bounds:2,128,176,840
-offsets:11,6,189,850
-rotate:90
-dust2
-bounds:1350,2,202,563
-offsets:2,52,209,619
-dust3
-bounds:1554,346,219,449
-offsets:3,10,226,470
-rotate:90
-dust4
-bounds:2,30,96,421
-offsets:2,9,104,430
-rotate:90
-firefly_1
-bounds:2005,545,26,20
-offsets:3,2,32,25
-firefly_2
-bounds:2005,526,20,17
-offsets:1,1,24,19
+size: 2303,1770
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: true
+  xy: 1501, 360
+  size: 1408, 800
+  orig: 1408, 800
+  offset: 0, 0
+  index: -1
+Arch Doorways
+  rotate: true
+  xy: 1501, 2
+  size: 356, 617
+  orig: 1408, 800
+  offset: 574, 135
+  index: -1
+Crystal Front Left
+  rotate: true
+  xy: 2120, 77
+  size: 281, 150
+  orig: 1408, 800
+  offset: 62, 65
+  index: -1
+Crystal Front Right
+  rotate: false
+  xy: 2, 73
+  size: 296, 195
+  orig: 1408, 800
+  offset: 1084, 50
+  index: -1
+Crystal Middle Left
+  rotate: false
+  xy: 498, 137
+  size: 140, 131
+  orig: 1408, 800
+  offset: 282, 113
+  index: -1
+Crystal Middle Right
+  rotate: false
+  xy: 2, 17
+  size: 48, 54
+  orig: 1408, 800
+  offset: 1034, 113
+  index: -1
+Sun
+  rotate: false
+  xy: 2120, 35
+  size: 41, 40
+  orig: 1408, 800
+  offset: 749, 275
+  index: -1
+clouds
+  rotate: true
+  xy: 300, 82
+  size: 186, 196
+  orig: 1408, 800
+  offset: 654, 477
+  index: -1
+sparkle
+  rotate: false
+  xy: 2, 270
+  size: 1497, 1498
+  orig: 2000, 2000
+  offset: 252, 251
+  index: -1

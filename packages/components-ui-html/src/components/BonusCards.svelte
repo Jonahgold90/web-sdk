@@ -10,17 +10,30 @@
 	import { stateBonus } from '../stateBonus.svelte';
 	import type { EmitterEventModal } from '../types';
 
+	// Import images
+	import superBoostImg from './assets/s.png';
+	import bonusVaultImg from './assets/bonus_vault.png';
+
 	type Props = {
 		list: BetModeData[];
 	};
 
 	const props: Props = $props();
 	const { eventEmitter } = getContextEventEmitter<EmitterEventModal>();
+
+	// Helper to pick image based on mode or type
+	function getImageSrc(betModeData: BetModeData) {
+		if (betModeData.mode === 'super_boost' || betModeData.type === 'activate') return superBoostImg;
+		if (betModeData.mode === 'bonus' || betModeData.type === 'buy') return bonusVaultImg;
+		return undefined;
+	}
 </script>
 
 {#each props.list as betModeData}
 	{#if betModeData.type !== 'default'}
-		<BonusCard>
+		<BonusCard
+			imageSrc={getImageSrc(betModeData)}
+		>
 			{#snippet title()}
 				<div class="title">
 					{betModeData.text.title}

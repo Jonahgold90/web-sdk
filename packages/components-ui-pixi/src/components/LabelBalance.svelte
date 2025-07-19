@@ -19,6 +19,7 @@
 	$effect(() => {
 		balanceTween.set(stateBet.balanceAmount);
 	});
+
 </script>
 
 <UiLabel tiled {label} {value} stacked={props.stacked} />

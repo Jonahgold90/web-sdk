@@ -2,15 +2,17 @@
 	import { stateUi } from 'state-shared';
 	import { BLACK } from 'constants-shared/colors';
 	import { MainContainer } from 'components-layout';
-	import { Container, Rectangle, anchorToPivot } from 'pixi-svelte';
+	import { Container, Rectangle, anchorToPivot, Text } from 'pixi-svelte';
 
 	import { DESKTOP_BASE_SIZE, DESKTOP_BACKGROUND_WIDTH_LIST } from '../constants';
 	import { getContext } from '../context';
 	import type { LayoutUiProps } from '../types';
+	import ActiveBonusIndicator from './ActiveBonusIndicator.svelte';
 
 	const props: LayoutUiProps = $props();
 	const context = getContext();
 </script>
+
 
 <Container x={20}>
 	{@render props.gameName()}
@@ -21,6 +23,9 @@
 </Container>
 
 <MainContainer standard alignVertical="bottom">
+	<Container x={context.stateLayoutDerived.mainLayoutStandard().width * 0.5 + 150} y={context.stateLayoutDerived.mainLayoutStandard().height - DESKTOP_BASE_SIZE - 120}>
+		<ActiveBonusIndicator />
+	</Container>
 	<Container
 		x={context.stateLayoutDerived.mainLayoutStandard().width * 0.5}
 		y={context.stateLayoutDerived.mainLayoutStandard().height - DESKTOP_BASE_SIZE - 10}
@@ -32,15 +37,15 @@
 			},
 		})}
 	>
-		<Container y={DESKTOP_BASE_SIZE * 0.5 - 160} x={900 - 500} scale={0.8}>
+		<Container y={DESKTOP_BASE_SIZE * 0.5 - 160} x={900 - 500 - 300} scale={0.8}>
 			{@render props.amountBalance({ stacked: true })}
 		</Container>
 
-		<Container y={DESKTOP_BASE_SIZE * 0.5 - 160} x={900} scale={0.8}>
+		<Container y={DESKTOP_BASE_SIZE * 0.5 - 160} x={670} scale={0.8}>
 			{@render props.amountWin({ stacked: true })}
 		</Container>
 
-		<Container y={DESKTOP_BASE_SIZE * 0.5 - 160} x={900 + 500} scale={0.8}>
+		<Container y={DESKTOP_BASE_SIZE * 0.5 - 160} x={1250} scale={0.8}>
 			{@render props.amountBet({ stacked: true })}
 		</Container>
 
@@ -93,13 +98,10 @@
 			x={298}
 			y={context.stateLayoutDerived.mainLayoutStandard().height - DESKTOP_BASE_SIZE - 10}
 		>
-			<Container scale={0.8} y={DESKTOP_BASE_SIZE * 0.5 - 150 - 170 * 3}>
+			<Container scale={0.8} y={DESKTOP_BASE_SIZE * 0.5 - 150 - 170 * 2}>
 				{@render props.buttonPayTable({ anchor: 0.5 })}
 			</Container>
 
-			<Container scale={0.8} y={DESKTOP_BASE_SIZE * 0.5 - 150 - 170 * 2}>
-				{@render props.buttonGameRules({ anchor: 0.5 })}
-			</Container>
 
 			<Container scale={0.8} y={DESKTOP_BASE_SIZE * 0.5 - 150 - 170 * 1}>
 				{@render props.buttonSettings({ anchor: 0.5 })}

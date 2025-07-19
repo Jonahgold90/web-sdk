@@ -1,53 +1,76 @@
 <script lang="ts">
-	import { Container, Text } from 'pixi-svelte';
-	import { Button, type ButtonProps } from 'components-pixi';
-	import { OnHotkey } from 'components-shared';
-	import { stateBetDerived } from 'state-shared';
-
-	import UiSprite from './UiSprite.svelte';
+	import type { ButtonProps } from 'components-pixi';
+	import { stateBetDerived, stateUrlDerived } from 'state-shared';
+	import UiButton from './UiButton.svelte';
+	import { UI_BASE_SIZE } from '../constants';
 	import ButtonBetProvider from './ButtonBetProvider.svelte';
-	import { UI_BASE_FONT_SIZE, UI_BASE_SIZE } from '../constants';
+	import { OnHotkey } from 'components-shared';
 	import { i18nDerived } from '../i18n/i18nDerived';
+	import { Text, Rectangle } from 'pixi-svelte';
 
 	const props: Partial<Omit<ButtonProps, 'children'>> = $props();
 	const disabled = $derived(!stateBetDerived.isBetCostAvailable());
-	const sizes = { width: UI_BASE_SIZE, height: UI_BASE_SIZE };
+	const isSocial = stateUrlDerived.social();
+
+	const baseWidth = UI_BASE_SIZE * 1.5;  // More compact
+	const baseHeight = UI_BASE_SIZE * 0.9;
+
+	const gold = 0xffd700;
+	const dark = 0x18122b;
 </script>
 
 <ButtonBetProvider>
 	{#snippet children({ key, onpress })}
 		<OnHotkey hotkey="Space" {disabled} {onpress} />
-		<Button {...props} {sizes} {onpress} {disabled}>
-			{#snippet children({ center, hovered })}
-				<Container {...center}>
-					<UiSprite
-						key="bet"
-						width={sizes.width}
-						height={sizes.height}
-						anchor={0.5}
-						{...disabled || ['spin_disabled', 'stop_disabled'].includes(key)
-							? {
-									backgroundColor: 0xaaaaaa,
-								}
-							: {}}
-					/>
-					<Text
-						anchor={0.5}
-						text={['spin_default', 'spin_disabled'].includes(key)
-							? i18nDerived.bet()
-							: i18nDerived.stop()}
-						style={{
-							align: 'center',
-							wordWrap: true,
-							wordWrapWidth: 200,
-							fontFamily: 'proxima-nova',
-							fontWeight: '600',
-							fontSize: UI_BASE_FONT_SIZE * 0.9,
-							fill: 0xffffff,
-						}}
-					/>
-				</Container>
-			{/snippet}
-		</Button>
+		{#if isSocial}
+			<UiButton
+				{...props}
+				sizes={{ width: baseWidth, height: baseHeight }}
+				{onpress}
+				{disabled}
+				spriteKey={undefined}
+				icon="payTable"
+			>
+				<Rectangle
+					width={baseWidth}
+					height={baseHeight}
+					x={0}
+					y={0}
+					borderColor={0xD99AF7}
+					borderWidth={5}
+					borderRadius={28}
+					backgroundColor={dark}
+					alpha={0.9}
+				/>
+				<Text
+					text={i18nDerived.bet()}
+					style={{
+						fontFamily: 'Arial',
+						fontSize: 44,
+						fontWeight: 'bold',
+						fill: gold,
+						stroke: 0x000000,
+						strokeThickness: 5,
+						dropShadow: true,
+						dropShadowColor: gold,
+						dropShadowBlur: 6,
+						dropShadowDistance: 0,
+						align: 'center',
+					}}
+					anchor={0.5}
+					x={baseWidth / 2}
+					y={baseHeight / 2}
+				/>
+			</UiButton>
+		{:else}
+			<UiButton
+				{...props}
+				sizes={{ width: UI_BASE_SIZE, height: UI_BASE_SIZE }}
+				{onpress}
+				{disabled}
+				spriteKey="bet_button"
+				icon="payTable"
+			/>
+		{/if}
 	{/snippet}
 </ButtonBetProvider>

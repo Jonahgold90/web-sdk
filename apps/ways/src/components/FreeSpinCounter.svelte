@@ -79,7 +79,7 @@
 				onresize={(sizes) => (titleSizes = sizes)}
 			/>
 			<BitmapText
-				text={`${current} OF ${total}`}
+				text={`${current + 1} OF ${total}`}
 				{...counterPosition}
 				anchor={{ x: 0.5, y: 0 }}
 				style={{

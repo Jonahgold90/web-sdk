@@ -7,6 +7,7 @@
 	import { LANDSCAPE_BASE_SIZE, LANDSCAPE_BACKGROUND_WIDTH_LIST } from '../constants';
 	import type { LayoutUiProps } from '../types';
 	import { getContext } from '../context';
+	import ActiveBonusIndicator from './ActiveBonusIndicator.svelte';
 
 	const props: LayoutUiProps = $props();
 	const context = getContext();
@@ -21,6 +22,9 @@
 </Container>
 
 <MainContainer standard alignVertical="bottom">
+	<Container x={context.stateLayoutDerived.mainLayoutStandard().width * 0.5 - 450} y={context.stateLayoutDerived.mainLayoutStandard().height - LANDSCAPE_BASE_SIZE - 70}>
+		<ActiveBonusIndicator />
+	</Container>
 	<Container
 		x={context.stateLayoutDerived.mainLayoutStandard().width * 0.5}
 		y={context.stateLayoutDerived.mainLayoutStandard().height - LANDSCAPE_BASE_SIZE - 40}
@@ -40,15 +44,15 @@
 			{@render props.buttonBuyBonus({ anchor: 0.5 })}
 		</Container>
 
-		<Container y={LANDSCAPE_BASE_SIZE * 0.5} x={420} scale={0.8}>
+		<Container y={LANDSCAPE_BASE_SIZE * 0.5} x={420 - 200} scale={0.8}>
 			{@render props.amountBalance({ stacked: true })}
 		</Container>
 
-		<Container y={LANDSCAPE_BASE_SIZE * 0.5} x={910} scale={0.8}>
+		<Container y={LANDSCAPE_BASE_SIZE * 0.5} x={910 - 200} scale={0.8}>
 			{@render props.amountWin({ stacked: true })}
 		</Container>
 
-		<Container y={LANDSCAPE_BASE_SIZE * 0.5} x={1400} scale={0.8}>
+		<Container y={LANDSCAPE_BASE_SIZE * 0.5} x={1400 - 200} scale={0.8}>
 			{@render props.amountBet({ stacked: true })}
 		</Container>
 
@@ -86,6 +90,7 @@
 	</Container>
 </MainContainer>
 
+
 {#if stateUi.menuOpen}
 	<Rectangle
 		eventMode="static"
@@ -105,12 +110,8 @@
 			x={165}
 			y={context.stateLayoutDerived.mainLayoutStandard().height - LANDSCAPE_BASE_SIZE - 130}
 		>
-			<Container scale={0.8} y={LANDSCAPE_BASE_SIZE * 0.5 - 150 - 170 * 3}>
-				{@render props.buttonPayTable({ anchor: 0.5 })}
-			</Container>
-
 			<Container scale={0.8} y={LANDSCAPE_BASE_SIZE * 0.5 - 150 - 170 * 2}>
-				{@render props.buttonGameRules({ anchor: 0.5 })}
+				{@render props.buttonPayTable({ anchor: 0.5 })}
 			</Container>
 
 			<Container scale={0.8} y={LANDSCAPE_BASE_SIZE * 0.5 - 150 - 170 * 1}>

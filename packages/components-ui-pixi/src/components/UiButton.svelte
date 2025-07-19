@@ -14,6 +14,7 @@
 		active?: boolean;
 		children?: Snippet;
 		variant?: 'dark' | 'light';
+		spriteKey?: string; // NEW: asset key for bespoke button background
 	};
 
 	const {
@@ -21,6 +22,7 @@
 		active,
 		variant = 'dark',
 		children: childrenFromParent,
+		spriteKey, // NEW
 		...buttonProps
 	}: Props = $props();
 </script>
@@ -44,22 +46,10 @@
 						borderColor: variant === 'dark' ? 0xffffff : 0x000000,
 					}
 				: {}}
+			spriteKey={spriteKey}
+			
 		/>
-
-		<Text
-			{...center}
-			anchor={0.5}
-			text={i18nDerived[icon]()}
-			style={{
-				align: 'center',
-				wordWrap: true,
-				wordWrapWidth: 200,
-				fontFamily: 'proxima-nova',
-				fontWeight: '600',
-				fontSize: UI_BASE_FONT_SIZE * 0.9,
-				fill: variant === 'dark' ? 0xffffff : 0x000000,
-			}}
-		/>
+					
 
 		{@render childrenFromParent?.()}
 	{/snippet}

@@ -1,4 +1,5 @@
 import { DEFAULT_BET_MODE_META, DEFAULT_GAME_RULE_META } from './constants';
+import config from '../../../apps/ways/src/game/config';
 
 export type BetModeData = {
 	maxWin?: number;
@@ -57,5 +58,8 @@ export const stateMeta = $state({
 });
 
 export const stateMetaDerived = {
-	betModeMetaList: () => Object.values(stateMeta.betModeMeta),
+  betModeMetaList: () =>
+    Object.keys(config.betModes)
+      .map((key) => stateMeta.betModeMeta[key.toUpperCase()])
+      .filter(Boolean),
 };

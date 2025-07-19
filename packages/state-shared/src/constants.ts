@@ -132,7 +132,7 @@ const DEFAULT_BET_MODE_META = {
 			title: 'BONUS',
 			dialog:
 				'Triggers FREE SPINS feature when activated for 100x the player bet amount. The Global Multiplier can reach up to 64x and remains active for the duration of FREE SPINS.',
-			description: 'Each spin may have a random multiplier applied to winning lines.',
+			description: 'More wilds appear, each with a powerful random multiplier.',
 			button: 'BUY',
 			tickerIdle: 'PLACE YOUR BET',
 			tickerSpin: 'BONUS BUY ACTIVATED',
@@ -167,7 +167,33 @@ const DEFAULT_BET_MODE_META = {
 			bannerText: 'example banner text',
 		},
 	},
-};
+	SUPER_BOOST: {
+		mode: 'SUPER_BOOST',
+		costMultiplier: 5,
+		type: 'activate',
+		parent: '',
+		children: '',
+		assets: {
+			icon: 'URL_TO_ICON', // (optional) add your icon
+			dialogImage: 'URL_TO_IMAGE', // (optional)
+			dialogVolatility: 'URL_TO_VOLATILITY_IMAGE', // (optional)
+			volatility: 'URL_TO_VOLATILITY_IMAGE', // (optional)
+			button: 'URL_TO_BUTTON_IMAGE', // (optional)
+		},
+		text: {
+			title: 'SUPER BOOST',
+			dialog:
+				'1 in 20 chance to trigger the FREE SPINS round when activated for 5x the player bet amount. Guarantees 1 or more Scatter symbols every spin. SUPER BOOST remains active until disabled by the player.',
+			description: 'Guaranteed to land at least 1+ bonus symbol each spin.',
+			button: 'ACTIVATE',
+			betAmountLabel: 'SUPER BOOST',
+			tickerIdle: 'SUPER BOOST IS ACTIVE',
+			tickerSpin: 'GOOD LUCK',
+			bannerText: 'example banner text',
+		},
+	},
+	}
+
 
 const DEFAULT_GAME_RULE_META = {
 	payTable: [

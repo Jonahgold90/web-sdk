@@ -23,6 +23,7 @@ const rgsUrl = () => getUrlSearchParam('rgs_url') || '';
 const force = () => getUrlSearchParam('force') === 'true';
 const social = () => getUrlSearchParam('social') === 'true';
 
+
 export const stateUrlDerived = {
 	lang,
 	sessionID,

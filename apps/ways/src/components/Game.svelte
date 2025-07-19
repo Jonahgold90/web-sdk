@@ -26,8 +26,13 @@
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
+	import ModalPayTable from '../../../../packages/components-ui-html/src/components/ModalPayTable.svelte';
 
 	const context = getContext();
+
+	// Set this to false to skip the loading/press-to-continue screen
+	// type ShowLoadingScreen = boolean;
+	// const SHOW_LOADING_SCREEN: ShowLoadingScreen = true;
 
 	onMount(() => (context.stateLayout.showLoadingScreen = true));
 
@@ -68,12 +73,12 @@
 
 		<UI>
 			{#snippet gameName()}
-				<UiGameName name="WAYS GAME" />
+				<UiGameName name="SKY VAULT" />
 			{/snippet}
 			{#snippet logo()}
 				<Text
 					anchor={{ x: 1, y: 0 }}
-					text="ADD YOUR LOGO"
+					text=""
 					style={{
 						fontFamily: 'proxima-nova',
 						fontSize: REM * 1.5,
@@ -92,7 +97,6 @@
 		<FreeSpinOutro />
 		<Transition />
 
-		<I18nTest />
 	{/if}
 </App>
 
@@ -100,4 +104,7 @@
 	{#snippet version()}
 		<GameVersion version="0.0.0" />
 	{/snippet}
+	<ModalPayTable>
+		<PayTableContent />
+	</ModalPayTable>
 </Modals>
