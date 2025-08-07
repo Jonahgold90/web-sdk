@@ -32,7 +32,7 @@
 
 					<!-- About the Game -->
 					<div style="margin-bottom: 40px; text-align: center;">
-						<h2 style="font-size: 1.5rem; font-weight: bold;">ABOUT THE GAME</h2>
+						<h2 style="font-size: 1.5rem; font-weight: bold;">GAME RULES & INFO</h2>
 						<p style="margin-top: 8px; font-size: 1rem; color: #ccc; max-width: 700px; margin-left: auto; margin-right: auto;">
 							Sky Vault is a 5-reel, 3-row fantasy ways slot where players uncover ancient magical treasures. Trigger Free Spins by landing 3 or more Scatter symbols anywhere, and aim to match rare artifacts for massive payouts!
 						</p>
@@ -115,6 +115,34 @@
 
 						<p style="margin-top: 16px;"><strong>Vault Bonus</strong> — For <strong>100x the bet</strong>, Vault Bonus increases the frequency of Wild symbols and applies a random multiplier on top of Wilds.</p>
 					</div>
+					<!-- Multiplier Mechanics -->
+					<div style="margin-top: 48px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
+						<h3 style="font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 24px;">
+							MULTIPLIER MECHANICS
+						</h3>
+						<p>
+							In certain game modes, Wild symbols may include a multiplier (e.g., 2x, 3x, 5x) displayed directly on the symbol. When a multiplier Wild substitutes in a winning combination, the total win for that combination is <strong>multiplied by the Wild’s value</strong>.
+						</p>
+						<p>
+							Multipliers only apply to wins that <strong>include a Wild symbol</strong>.
+						</p>
+						<p>
+							Wild multipliers are active during the <strong>Vault Bonus</strong> feature.
+						</p>
+					</div>
+					<!-- Free Spins Retriggers -->
+					<div style="margin-top: 48px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
+						<h3 style="font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 24px;">
+							FREE SPINS RETRIGGERS
+						</h3>
+						<p style="text-align: center;">
+							During the Vault Bonus, landing 2 or more Scatter symbols retriggers the feature and awards extra spins:
+						</p>
+						<p style="text-align: center; margin-top: 8px;">
+							<strong>2</strong> Scatters = <strong>+4</strong> spins  <strong>3</strong> Scatters = <strong>+6</strong> spins  <strong>4</strong> Scatters = <strong>+8</strong> spins  <strong>5</strong> Scatters = <strong>+10</strong> spins
+						</p>
+					</div>
+
 
 				</div>
 			</BaseScrollable>

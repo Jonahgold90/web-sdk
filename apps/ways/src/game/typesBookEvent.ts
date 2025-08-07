@@ -52,6 +52,13 @@ type BookEventFreeSpinEnd = {
 	winLevel: number;
 };
 
+type BookEventFreeSpinRetrigger = {
+	index: number;
+	type: 'freeSpinRetrigger';
+	totalFs: number;
+	positions: Position[];
+};
+
 type BookEventWinInfo = {
 	index: number;
 	type: 'winInfo';
@@ -88,9 +95,13 @@ export type BookEvent =
 	| BookEventFinalWin
 	| BookEventSetWin
 	| BookEventFreeSpinEnd
+	| BookEventFreeSpinRetrigger
 	// customised
 	| BookEventCreateBonusSnapshot;
 
 export type Bet = BetType<BookEvent>;
 export type BookEventOfType<T> = Extract<BookEvent, { type: T }>;
-export type BookEventContext = { bookEvents: BookEvent[] };
+export type BookEventContext = { 
+  bookEvents: BookEvent[];
+  isResuming?: boolean;
+};

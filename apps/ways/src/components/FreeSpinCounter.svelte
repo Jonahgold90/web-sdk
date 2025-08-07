@@ -14,7 +14,8 @@
 	import { anchorToPivot, BitmapText, Container, Sprite, type Sizes } from 'pixi-svelte';
 
 	const context = getContext();
-	const PANEL_KEY_DESKTOP = 'Frame_FSCounter.png';
+	const isPortrait = $derived(() => context.stateLayoutDerived.layoutType() === 'portrait');
+	const PANEL_KEY_DESKTOP = 'freeSpinIntroFrame';
 	const PANEL_RATIO_DESKTOP = 824 / 622;
 	const panelKey = PANEL_KEY_DESKTOP;
 	const panelWidth = $derived(SYMBOL_SIZE * 2);
@@ -23,16 +24,27 @@
 		height: panelWidth / PANEL_RATIO_DESKTOP,
 	});
 	const scale = 1;
-	const position = $derived({
-		x:
-			context.stateGameDerived.boardLayout().x -
-			context.stateGameDerived.boardLayout().width * 0.5 -
-			panelSizes.width -
-			SYMBOL_SIZE * 0.7,
-		y:
-			context.stateGameDerived.boardLayout().y -
-			context.stateGameDerived.boardLayout().height * 0.5,
-	});
+	const position = $derived(() => {
+	if (isPortrait()) {
+		// Centered top for mobile (portrait)
+		return {
+			x: 275,
+			y: 150,
+		};
+	} else {
+		// Default desktop/landscape position (left side)
+		return {
+			x:
+				context.stateGameDerived.boardLayout().x -
+				context.stateGameDerived.boardLayout().width * 0.5 -
+				panelSizes.width -
+				SYMBOL_SIZE * 0.7,
+			y:
+				context.stateGameDerived.boardLayout().y -
+				context.stateGameDerived.boardLayout().height * 0.5,
+		};
+	}
+});
 
 	const fontSize = SYMBOL_SIZE * 0.275;
 
@@ -59,7 +71,12 @@
 </script>
 
 <MainContainer>
-	<FadeContainer {show} {...position} {scale}>
+	<FadeContainer
+	{show}
+	x={position().x}
+	y={position().y}
+	{scale}
+>
 		<Sprite key={panelKey} {...panelSizes} />
 		<Container
 			x={panelSizes.width * 0.5}
@@ -70,20 +87,20 @@
 			})}
 		>
 			<BitmapText
-				text={'FREE SPIN'}
+				text={'free spin'}
 				style={{
-					fontFamily: 'gold',
+					fontFamily: 'Cinzel-Black',
 					fontSize,
 					wordWrap: false,
 				}}
 				onresize={(sizes) => (titleSizes = sizes)}
 			/>
 			<BitmapText
-				text={`${current + 1} OF ${total}`}
+				text={`${current + 1} of ${total}`}
 				{...counterPosition}
 				anchor={{ x: 0.5, y: 0 }}
 				style={{
-					fontFamily: 'gold',
+					fontFamily: 'Cinzel-Black',
 					fontSize,
 				}}
 				onresize={(sizes) => (counterSizes = sizes)}

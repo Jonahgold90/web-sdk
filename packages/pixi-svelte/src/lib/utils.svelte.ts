@@ -1,5 +1,3 @@
-import WebFont from 'webfontloader';
-
 import type { PixiPoint, Sizes } from './types';
 
 export const REM = 16;
@@ -61,20 +59,46 @@ export function detectWebGL() {
 export const preloadFont = () =>
 	new Promise<void>((resolve) => {
 		try {
-			WebFont.load({
-				typekit: {
-					id: 'aba0ebl',
-				},
-				active: () => {
-					resolve();
-				},
-				inactive: () => {
-					console.error('Web font load inactive');
-					resolve();
-				},
-			});
+			// Create a style element for our font faces
+			const style = document.createElement('style');
+			style.textContent = `
+                @font-face {
+                    font-family: 'proxima-nova';
+                    src: url('/assets/fonts/localFonts/proxima-nova-regular.woff2') format('woff2');
+                    font-weight: 400;
+                    font-style: normal;
+                    font-display: swap;
+                }
+                @font-face {
+                    font-family: 'proxima-nova';
+                    src: url('/assets/fonts/localFonts/proxima-nova-semibold.woff2') format('woff2');
+                    font-weight: 600;
+                    font-style: normal;
+                    font-display: swap;
+                }
+                @font-face {
+                    font-family: 'proxima-nova';
+                    src: url('/assets/fonts/localFonts/proxima-nova-bold.woff2') format('woff2');
+                    font-weight: 700;
+                    font-style: normal;
+                    font-display: swap;
+                }
+                @font-face {
+                    font-family: 'proxima-nova';
+                    src: url('/assets/fonts/localFonts/proxima-nova-italic.woff2') format('woff2');
+                    font-weight: 400;
+                    font-style: italic;
+                    font-display: swap;
+                }
+            `;
+            
+            // Add the styles to the document
+            document.head.appendChild(style);
+            
+            // Resolve immediately since we don't need to wait for font loading
+            resolve();
 		} catch (error) {
-			console.error(error);
+			console.error('Error loading local fonts:', error);
 			resolve();
 		}
 	});

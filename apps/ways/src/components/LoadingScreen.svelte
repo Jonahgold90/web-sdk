@@ -14,26 +14,29 @@
 
 	const props: Props = $props();
 	const context = getContext();
+	const isMobile = ['portrait'].includes(context.stateLayoutDerived.layoutType());
 
 	let loadingType = $state<'start' | 'transition'>('start');
 </script>
 
 <!-- SkyVault Loading Screen Text Overlay (shows on both loading and press screens) -->
 {#if loadingType === 'start' && (!context.stateApp.loaded || context.stateApp.loaded)}
-  <img
-    src={skyVaultLoadingScreenTextUrl}
-    alt="Sky Vault Loading Screen Text"
-    style="
-      position: fixed;
-      left: 50%;
-      top: 40%;
-      transform: translate(-50%, -50%);
-      width: 30vw;
-      max-width: 900px;
-      z-index: 10;
-      pointer-events: none;
-      display: block;"
-  />
+	<img
+		src={skyVaultLoadingScreenTextUrl}
+		alt="Sky Vault Loading Screen Text"
+		style={` 
+			position: fixed;
+			left: 50%;
+			top: 40%;
+			transform: translate(-50%, -50%);
+			width: ${isMobile ? '95vw' : '30vw'};
+			max-width: ${isMobile ? '95vw' : '900px'};
+			z-index: 10;
+			pointer-events: none;
+			display: block;
+		`}
+	/>
+
 {/if}
 
 <!-- logo and loading progress -->

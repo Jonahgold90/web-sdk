@@ -46,9 +46,9 @@
 		anchor={0.5}
 		x={props.x}
 		y={props.y}
-		text={`${props.rawSymbol.multiplier}X`}
+		text={`${props.rawSymbol.multiplier}x`}
 		style={{
-			fontFamily: 'gold',
+			fontFamily: 'Cinzel-Black',
 			fontSize: 50,
 		}}
 	/>

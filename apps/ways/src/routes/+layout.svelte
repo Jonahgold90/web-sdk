@@ -13,8 +13,9 @@
 
 	let showYourLoader = $state(false);
 
-	const loaderUrlStakeEngine = new URL('../../static/stake-engine-loader.gif', import.meta.url).href;
-	const loaderUrl = new URL('../../static/loader.gif', import.meta.url).href;
+	const loaderUrlStakeEngine = new URL('../../stake-engine-loader.gif', import.meta.url).href;
+	const loaderUrl = new URL('../../loader.gif', import.meta.url).href;
+
 
 	setContext();
 </script>

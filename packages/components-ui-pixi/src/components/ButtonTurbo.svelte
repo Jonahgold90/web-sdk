@@ -14,9 +14,6 @@
 	let hovered = $state(false);
 	let pressed = $state(false);
 
-	$effect(() => {
-		console.log('hovered:', hovered, 'pressed:', pressed, 'disabled:', disabled);
-	});
 
 	const onpress = () => {
 		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
@@ -36,13 +33,15 @@
   {onpress}
   {disabled}
   icon="turbo"
-  spriteKey={
-    disabled
-      ? "turbo_active_hover"
-      : active
-        ? "turbo_active"
-        : "turbo_active_hover"
-  }
+	spriteKey={
+		disabled
+			? "turbo_active_hover"
+			: active
+				? "turbo_active_hover"
+				: "turbo_active"
+	}
+	
+	
   onmouseenter={() => (hovered = true)}
   onmouseleave={() => (hovered = false)}
 />

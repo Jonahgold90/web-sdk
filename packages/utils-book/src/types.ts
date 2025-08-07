@@ -3,7 +3,9 @@ type BookEventUnionTypeToBookEventHandlerUnionType<
 	TBookEvent,
 	THandlerContext extends object,
 > = TBookEvent extends any
-	? (bookEvent: TBookEvent, context: THandlerContext) => Promise<void>
+	? TBookEvent extends { type: 'freeSpinRetrigger' }
+		? (bookEvent: TBookEvent, context: THandlerContext) => Promise<number>
+		: (bookEvent: TBookEvent, context: THandlerContext) => Promise<void>
 	: never;
 export type BookEventHandler<
 	TBookEvent extends BaseBookEvent,

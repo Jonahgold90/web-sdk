@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { recordBookEvent, checkIsMultipleRevealEvents, type BookEventHandlerMap } from 'utils-book';
+import { recordBookEvent, checkIsMultipleRevealEvents, type BookEventHandler, type BookEventHandlerMap } from 'utils-book';
 import { stateBet } from 'state-shared';
 import { sequence } from 'utils-shared/sequence';
 
@@ -43,6 +43,7 @@ const animateSymbols = async ({ positions }: { positions: Position[] }) => {
 	});
 };
 
+
 export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContext> = {
 	reveal: async (bookEvent: BookEventOfType<'reveal'>, { bookEvents }: BookEventContext) => {
 		const isBonusGame = checkIsMultipleRevealEvents({ bookEvents });
@@ -64,16 +65,20 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>) => {
 		stateBet.winBookEventAmount = bookEvent.amount;
 	},
-	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
-		// animate scatters
-		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
-		await animateSymbols({ positions: bookEvent.positions });
+	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>, context: BookEventContext = { bookEvents: [] }) => {
+		// Only animate scatters when not resuming
+		if (!context.isResuming) {
+			eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
+			await animateSymbols({ positions: bookEvent.positions });
+		} else {
+			// Ensure board is shown when resuming
+			eventEmitter.broadcast({ type: 'boardShow' });
+		}
+		
 		// show free spin intro
-		//eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
 		await eventEmitter.broadcastAsync({ type: 'transition' });
 		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
-		//eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
 		eventEmitter.broadcast({ type: 'soundMusic', name: 'bgm_freespin' });
 		await eventEmitter.broadcastAsync({
 			type: 'freeSpinIntroUpdate',
@@ -100,11 +105,35 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			total: bookEvent.total,
 		});
 	},
+	freeSpinRetrigger: (async (bookEvent: BookEventOfType<'freeSpinRetrigger'>, context: BookEventContext) => {
+		
+		// Show free spin intro with updated count
+		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
+		await eventEmitter.broadcastAsync({
+			type: 'freeSpinIntroUpdate',
+			totalFreeSpins: bookEvent.totalFs,
+		});
+		eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
+
+		// Update the free spin counter with the new total
+		eventEmitter.broadcast({
+			type: 'freeSpinCounterUpdate',
+			total: bookEvent.totalFs,
+		});
+
+		// Animate the scatter symbols that triggered the retrigger
+		if (bookEvent.positions && bookEvent.positions.length > 0) {
+			await animateSymbols({ positions: bookEvent.positions });
+		} 
+	}) as unknown as BookEventHandler<BookEvent, BookEventContext>,
+
 	freeSpinEnd: async (bookEvent: BookEventOfType<'freeSpinEnd'>) => {
 		const winLevelData = winLevelMap[bookEvent.winLevel as WinLevel];
 
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
 		stateGame.gameType = 'basegame';
+		//reset the bet mode to base
+		if(stateBet.activeBetModeKey === 'BONUS') stateBet.activeBetModeKey = 'BASE';
 		eventEmitter.broadcast({ type: 'boardFrameGlowHide' });
 		eventEmitter.broadcast({ type: 'freeSpinOutroShow' });
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_youwon_panel' });
@@ -153,7 +182,19 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		const lastSetTotalWinEvent = findLastBookEvent('setTotalWin' as const);
 		const lastUpdateGlobalMultEvent = findLastBookEvent('updateGlobalMult' as const);
 
-		if (lastFreeSpinTriggerEvent) await playBookEvent(lastFreeSpinTriggerEvent, { bookEvents });
+		// Reset the board state before replaying bonus events
+		eventEmitter.broadcast({ type: 'boardHide' });
+		await new Promise(resolve => setTimeout(resolve, 100)); // Small delay to ensure board is hidden
+
+		if (lastFreeSpinTriggerEvent) {
+			// Skip the scatter animation when resuming
+			const event = { ...lastFreeSpinTriggerEvent };
+			const context = { 
+				bookEvents, 
+				isResuming: true 
+			};
+			await playBookEvent(event, context);
+		}
 		if (lastUpdateFreeSpinEvent) playBookEvent(lastUpdateFreeSpinEvent, { bookEvents });
 		if (lastSetTotalWinEvent) playBookEvent(lastSetTotalWinEvent, { bookEvents });
 		if (lastUpdateGlobalMultEvent) playBookEvent(lastUpdateGlobalMultEvent, { bookEvents });

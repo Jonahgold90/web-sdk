@@ -16,9 +16,6 @@
     const BADGE_COLOR = 0xffe066;
     const TEXT_COLOR = 0x222222;
   
-    $effect(() => {
-      console.log('ActiveBonusIndicator:', { activeMode, isActive, key: stateBet.activeBetModeKey });
-    });
   </script>
   
   {#if isActive}

@@ -5,7 +5,7 @@
 	import { EnableHotkey } from 'components-shared';
 	import { MainContainer } from 'components-layout';
 	import { App, Text, REM } from 'pixi-svelte';
-	import { stateModal } from 'state-shared';
+	import { stateBet, stateModal } from 'state-shared';
 
 	import { UI, UiGameName } from 'components-ui-pixi';
 	import { GameVersion, Modals } from 'components-ui-html';
@@ -91,7 +91,7 @@
 		</UI>
 		<Win />
 		<FreeSpinIntro />
-		{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
+		{#if ['desktop', 'landscape', 'portrait', 'tablet'].includes(context.stateLayoutDerived.layoutType())}
 			<FreeSpinCounter />
 		{/if}
 		<FreeSpinOutro />

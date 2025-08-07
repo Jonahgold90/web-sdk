@@ -68,6 +68,13 @@
 				);
 			}
 
+			// Set default bet amount from config if there's no active round
+			if (!authenticateData?.round?.amount && authenticateData?.config?.defaultBetLevel) {
+				const defaultBetAmount = authenticateData.config.defaultBetLevel / API_AMOUNT_MULTIPLIER;
+				stateBet.betAmount = defaultBetAmount;
+				stateBet.wageredBetAmount = defaultBetAmount;
+			}
+
 			// round
 			if (authenticateData?.round) {
 				// Example of authenticateData.round 

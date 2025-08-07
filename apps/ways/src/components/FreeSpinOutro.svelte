@@ -68,7 +68,7 @@
 								anchor={{ x: 0.5, y: 1.2 }}
 								width={350}
 								height={156}
-								key={`freespins_${stateUrlDerived.lang()}.png`}
+								key="freespins_en.png"
 								x={BG_WIDTH / 2}
 								y={BG_HEIGHT * 0.55}
 							/>
@@ -78,7 +78,7 @@
 								anchor={{ x: 0.5, y: 0.5 }}
 								text={bookEventAmountToCurrencyString(countUpAmount)}
 								style={{
-									fontFamily: 'gold',
+									fontFamily: 'Cinzel-Black',
 									fontSize: 90, // tune as needed
 									fontWeight: 'bold',
 								}}

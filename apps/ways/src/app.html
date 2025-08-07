@@ -3,7 +3,10 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
-		<link rel="stylesheet" href="https://use.typekit.net/aba0ebl.css" />
+		<!-- Preload critical font files -->
+		<link rel="preload" href="%sveltekit.assets%/assets/fonts/localFonts/proxima-nova-regular.woff2" as="font" type="font/woff2" crossorigin>
+		<link rel="preload" href="%sveltekit.assets%/assets/fonts/localFonts/proxima-nova-bold.woff2" as="font" type="font/woff2" crossorigin>
+		<link rel="stylesheet" href="%sveltekit.assets%/local-fonts.css">
 		<meta name="viewport" content="width=device-width" />
 		%sveltekit.head%
 	</head>

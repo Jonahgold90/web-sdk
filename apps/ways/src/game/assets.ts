@@ -1,7 +1,7 @@
 export default {
 	pressToContinueText: {
-		type: 'sprites',
-		src: new URL('../../assets/sprites/pressToContinueText/MM_pressanywhere.json', import.meta.url).href,
+		type: 'sprite',
+		src: new URL('../../assets/sprites/pressToContinueText/pressToContinueText_en.png', import.meta.url).href,
 		preload: true,
 	},
 	H1: {
@@ -108,10 +108,6 @@ export default {
 			scale: 2,
 		},
 	},
-	reelsFrame: {
-		type: 'sprites',
-		src: new URL('../../assets/sprites/reelsFrame/reels_frame.json', import.meta.url).href,
-	},
 	payFrame: {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/payFrame/payFrame.png', import.meta.url).href,
@@ -211,14 +207,6 @@ export default {
 		src: {
 			atlas: new URL('../../assets/spines/tumbleWin/tumble_win.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/tumbleWin/tumble_win.json', import.meta.url).href,
-			scale: 2,
-		},
-	},
-	reelhouse: {
-		type: 'spine',
-		src: {
-			atlas: new URL('../../assets/spines/reelhouse/reelhouse_glow.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/reelhouse/reelhouse_glow.json', import.meta.url).href,
 			scale: 2,
 		},
 	},

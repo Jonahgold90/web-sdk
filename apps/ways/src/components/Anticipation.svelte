@@ -36,7 +36,7 @@
 	height={SYMBOL_SIZE * 1.6}
 	x={context.stateGameDerived.boardLayout().x -
 		context.stateGameDerived.boardLayout().width * 0.5 +
-		(props.reel.reelIndex + REEL_PADDING) * SYMBOL_SIZE}
+		(props.reel.reelIndex + REEL_PADDING) * SYMBOL_SIZE - 3}
 	y={context.stateGameDerived.boardLayout().y - SYMBOL_SIZE * 0.06 - BOARD_Y_OFFSET}
 >
 	<SpineTrack

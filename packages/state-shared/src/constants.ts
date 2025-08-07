@@ -131,7 +131,7 @@ const DEFAULT_BET_MODE_META = {
 		text: {
 			title: 'BONUS',
 			dialog:
-				'Triggers FREE SPINS feature when activated for 100x the player bet amount. The Global Multiplier can reach up to 64x and remains active for the duration of FREE SPINS.',
+				'Triggers FREE SPINS feature when activated for 100x the player bet amount. Each wild symbol spawns with a powerful random multiplier',
 			description: 'More wilds appear, each with a powerful random multiplier.',
 			button: 'BUY',
 			tickerIdle: 'PLACE YOUR BET',
@@ -174,11 +174,6 @@ const DEFAULT_BET_MODE_META = {
 		parent: '',
 		children: '',
 		assets: {
-			icon: 'URL_TO_ICON', // (optional) add your icon
-			dialogImage: 'URL_TO_IMAGE', // (optional)
-			dialogVolatility: 'URL_TO_VOLATILITY_IMAGE', // (optional)
-			volatility: 'URL_TO_VOLATILITY_IMAGE', // (optional)
-			button: 'URL_TO_BUTTON_IMAGE', // (optional)
 		},
 		text: {
 			title: 'SUPER BOOST',

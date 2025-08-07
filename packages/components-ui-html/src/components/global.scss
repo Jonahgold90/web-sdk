@@ -1,5 +1,9 @@
+/* Apply font to html and body for higher specificity */
+html, body {
+	font-family: 'proxima-nova', sans-serif !important;
+}
+
 body {
-	font-family: 'proxima-nova', sans-serif;
 	cursor: default;
 	-webkit-user-select: none;
 	-moz-user-select: none;

@@ -1,0 +1,33 @@
+import json
+
+with open("anticipation.json", "r") as f:
+    data = json.load(f)
+
+# Identify visual slots to delete (by name)
+slots_to_delete = [s["name"] for s in data.get("slots", []) if "rock" in s["name"].lower()]
+
+# Remove matching slots
+data["slots"] = [s for s in data.get("slots", []) if s["name"] not in slots_to_delete]
+
+# Clean attachments in skins
+for skin in data.get("skins", []):
+    attachments = skin.get("attachments", {})
+    for slot in list(attachments):
+        if slot in slots_to_delete:
+            del attachments[slot]
+        else:
+            # Remove individual attachments named with 'rock'
+            for attachment_name in list(attachments[slot]):
+                if "rock" in attachment_name.lower():
+                    del attachments[slot][attachment_name]
+
+# Remove slots from animations
+for anim in data.get("animations", {}).values():
+    if "slots" in anim:
+        anim["slots"] = {k: v for k, v in anim["slots"].items() if k not in slots_to_delete}
+
+# Done!
+with open("anticipation_no_rocks.json", "w") as f:
+    json.dump(data, f, indent=2)
+
+print("✅ Rock visuals removed, skeleton structure preserved.")
