@@ -11,7 +11,7 @@
 
 	const context = getContext();
 	const SPINE_SCALE = { width: 0.62, height: 0.66 };
-	const SPRITE_SCALE = { width: 1.25, height: 0.72 };
+	const SPRITE_SCALE = { width: 2.2, height: 1.0 };
 	const POSITION_ADJUSTMENT = 1.01;
 
 	type AnimationName = 'reelhouse_glow_start' | 'reelhouse_glow_idle' | 'reelhouse_glow_exit';
@@ -62,8 +62,9 @@
 	</SpineProvider>
 {/if}
 
+<!-- Reel frame background -->
 <Sprite
-	key="frame_bg.png"
+	key="reelFrameBackgroundLandscape"
 	anchor={0.5}
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
 	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}
@@ -71,8 +72,9 @@
 	height={context.stateGameDerived.boardLayout().width * SPRITE_SCALE.height}
 />
 
+<!-- Reel frame overlay -->
 <Sprite
-	key="frame_edge.png"
+	key="reelFrameLandscape"
 	anchor={0.5}
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
 	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}

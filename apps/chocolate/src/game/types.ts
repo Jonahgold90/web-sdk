@@ -5,6 +5,7 @@ export type SymbolName = keyof typeof config.symbols;
 export type RawSymbol = {
 	name: SymbolName;
 	multiplier?: number;
+	cash_value?: number;
 	scatter?: boolean;
 	wild?: boolean;
 };

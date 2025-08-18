@@ -273,4 +273,44 @@ export default {
 		src: new URL('../../assets/audio/sounds.json', import.meta.url).href,
 		preload: true,
 	},
+	// Base game backgrounds
+	backgroundImageBaseLandscape: {
+		type: 'sprite',
+		src: new URL('../../assets/backgrounds/Base_Game_BG_Landscape_v02.png', import.meta.url).href,
+		preload: true,
+	},
+	backgroundImageBasePortrait: {
+		type: 'sprite',
+		src: new URL('../../assets/backgrounds/Base_Game_BG_Portrait_v02.png', import.meta.url).href,
+		preload: true,
+	},
+	// Bonus game backgrounds
+	backgroundImageBonusLandscape: {
+		type: 'sprite',
+		src: new URL('../../assets/backgrounds/Bonus_Game_BG_Landscape_v02.png', import.meta.url).href,
+		preload: true,
+	},
+	backgroundImageBonusPortrait: {
+		type: 'sprite',
+		src: new URL('../../assets/backgrounds/Bonus_Game_BG_Portrait_v02.png', import.meta.url).href,
+		preload: true,
+	},
+	// Reel frames
+	reelFrameLandscape: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/reelFrames/Base_Game_BG_Landscape_Frame_v02.png', import.meta.url).href,
+	},
+	reelFramePortrait: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/reelFrames/Base_Game_BG_Portrait_Frame_v02.png', import.meta.url).href,
+	},
+	// Reel frame backgrounds
+	reelFrameBackgroundLandscape: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/reelFrameBackgrounds/Base_Game_BG_Landscape_ReelsBG_v02.png', import.meta.url).href,
+	},
+	reelFrameBackgroundPortrait: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/reelFrameBackgrounds/Base_Game_BG_Portrait_ReelsBG_v02.png', import.meta.url).href,
+	},
 } as const;
