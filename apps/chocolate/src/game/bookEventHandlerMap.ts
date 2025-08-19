@@ -148,6 +148,19 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	finalWin: async (bookEvent: BookEventOfType<'finalWin'>) => {
 		// Do nothing
 	},
+	collection: async (bookEvent: BookEventOfType<'collection'>) => {
+		// Handle Big-Bass collection mechanic
+		console.log('Collection event:', bookEvent);
+		
+		// TODO: Implement collection animation
+		// - Animate CW symbols collecting CC symbols
+		// - Show collection values
+		// - Play collection sounds
+		// - Update UI with collected amounts
+		
+		// For now, just log the event
+		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_wild_explode' });
+	},
 	// customised
 	createBonusSnapshot: async (bookEvent: BookEventOfType<'createBonusSnapshot'>) => {
 		const { bookEvents } = bookEvent;

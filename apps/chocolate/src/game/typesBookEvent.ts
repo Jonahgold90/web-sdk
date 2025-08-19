@@ -71,6 +71,24 @@ type BookEventWinInfo = {
 	}[];
 };
 
+// Big-Bass collection event
+type BookEventCollection = {
+	index: number;
+	type: 'collection';
+	spin: number;
+	level: number;
+	cw_count: number;
+	cc_count: number;
+	cc_values: number[];
+	cc_sum: number;
+	collected_amount: number;
+	payout_per_cw_raw: number;
+	subcollections: {
+		cw_index: number;
+		amount: number;
+	}[];
+};
+
 // customised
 type BookEventCreateBonusSnapshot = {
 	index: number;
@@ -88,6 +106,7 @@ export type BookEvent =
 	| BookEventFinalWin
 	| BookEventSetWin
 	| BookEventFreeSpinEnd
+	| BookEventCollection
 	// customised
 	| BookEventCreateBonusSnapshot;
 

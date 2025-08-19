@@ -5,6 +5,7 @@
 	import type { SymbolState, RawSymbol } from '../game/types';
 	import { getContext } from '../game/context';
 	import { BitmapText } from 'pixi-svelte';
+	import { stateBet } from 'state-shared';
 
 	type Props = {
 		x?: number;
@@ -37,6 +38,20 @@
 					context.eventEmitter?.broadcast({ type: 'soundOnce', name: 'sfx_wild_explode' });
 				}
 			},
+		}}
+	/>
+{/if}
+
+{#if props.rawSymbol.name === 'CC' && props.rawSymbol.cash_value}
+	<BitmapText
+		anchor={0.5}
+		x={props.x}
+		y={(props.y || 0) + 30}
+		text={(stateBet.betAmount * props.rawSymbol.cash_value).toString()}
+		style={{
+			fontFamily: 'gold',
+			fontSize: 30,
+			fill: 0xFFFFFF,
 		}}
 	/>
 {/if}
