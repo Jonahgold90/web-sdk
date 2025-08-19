@@ -46,7 +46,7 @@
 	<BitmapText
 		anchor={0.5}
 		x={props.x}
-		y={(props.y || 0) + 30}
+		y={(props.y || 0) + 10}
 		text={(stateBet.betAmount * props.rawSymbol.cash_value).toString()}
 		style={{
 			fontFamily: 'gold',

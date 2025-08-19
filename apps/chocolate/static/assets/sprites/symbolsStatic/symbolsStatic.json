@@ -2,11 +2,11 @@
 
 "CC.png":
 {
-	"frame": {"x":389,"y":889,"w":393,"h":443},
+	"frame": {"x":792,"y":889,"w":472,"h":531},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":443},
-	"sourceSize": {"w":393,"h":443}
+	"spriteSourceSize": {"x":0,"y":0,"w":472,"h":531},
+	"sourceSize": {"w":472,"h":531}
 },
 "CW.png":
 {
@@ -90,7 +90,7 @@
 },
 "S.png":
 {
-	"frame": {"x":792,"y":889,"w":393,"h":443},
+	"frame": {"x":389,"y":889,"w":393,"h":443},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":443},
@@ -113,8 +113,8 @@
 	"version": "1.1",
 	"image": "symbolsStatic.png",
 	"format": "RGBA8888",
-	"size": {"w":1915,"h":1337},
+	"size": {"w":1915,"h":1425},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e44821e1474c06bed9c576ac0583e28d:40b9c2b6611200f13f5b9b039aacd59a:054968cd9a8f077ecaf2c7787737e797$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c837fb49d2c48ad8bff04ad51850b1f8:50346414f405b2f3c456ded5009f5af2:054968cd9a8f077ecaf2c7787737e797$"
 }
 }

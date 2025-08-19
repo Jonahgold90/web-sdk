@@ -5,7 +5,7 @@
 	import { EnableHotkey } from 'components-shared';
 	import { MainContainer } from 'components-layout';
 	import { App, Text, REM } from 'pixi-svelte';
-	import { stateModal } from 'state-shared';
+	import { stateModal, stateBet } from 'state-shared';
 
 	import { UI, UiGameName } from 'components-ui-pixi';
 	import { GameVersion, Modals } from 'components-ui-html';
@@ -26,6 +26,7 @@
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
+	import ControlBar from './ControlBar.svelte';
 
 	const context = getContext();
 
@@ -35,7 +36,24 @@
 		buyBonusConfirm: () => {
 			stateModal.modal = { name: 'buyBonusConfirm' };
 		},
+		hotKey: (event) => {
+			if (event.key === 'Space' && event.action === 'keyDown') {
+				console.log('Spacebar pressed - triggering spin');
+				// Use the same handlePlay function
+				handlePlay();
+			}
+		},
 	});
+
+	// Control bar handlers
+	const handlePlay = () => {
+		console.log('Broadcasting bet event');
+		context.eventEmitter.broadcast({ type: 'bet' });
+	};
+
+	const handleGameInfo = () => {
+		stateModal.modal = { name: 'gameRules' };
+	};
 </script>
 
 <App>
@@ -66,6 +84,7 @@
 			<Anticipations />
 		</MainContainer>
 
+		<!-- Old UI replaced by ControlBar
 		<UI>
 			{#snippet gameName()}
 				<UiGameName name="LINES GAME" />
@@ -84,6 +103,7 @@
 				/>
 			{/snippet}
 		</UI>
+		-->
 		<Win />
 		<FreeSpinIntro />
 		{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
@@ -93,6 +113,12 @@
 		<Transition />
 
 		<I18nTest />
+
+		<!-- Control Bar -->
+		<ControlBar 
+			onPlay={handlePlay}
+			onGameInfo={handleGameInfo}
+		/>
 	{/if}
 </App>
 

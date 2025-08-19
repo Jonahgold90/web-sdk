@@ -13,6 +13,6 @@ export const stateConfig = $state({
 		displaySessionTimer: false,
 		minimumRoundDuration: 0,
 	},
-	betAmountOptions: [1, 5, 25, 50, 75, 100, 200, 500, 800, 1000],
-	betMenuOptions: [1, 5, 25, 50, 75, 100, 200, 500, 800, 1000],
+	betAmountOptions: [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 750, 1000],
+	betMenuOptions: [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 750, 1000],
 });
