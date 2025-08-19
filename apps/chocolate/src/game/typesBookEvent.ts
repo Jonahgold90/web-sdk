@@ -89,6 +89,15 @@ type BookEventCollection = {
 	}[];
 };
 
+// Big-Bass level advance event
+type BookEventLevelAdvance = {
+	index: number;
+	type: 'level_advance';
+	spin: number;
+	new_level: number;
+	extra_spins_granted: number;
+};
+
 // customised
 type BookEventCreateBonusSnapshot = {
 	index: number;
@@ -107,6 +116,7 @@ export type BookEvent =
 	| BookEventSetWin
 	| BookEventFreeSpinEnd
 	| BookEventCollection
+	| BookEventLevelAdvance
 	// customised
 	| BookEventCreateBonusSnapshot;
 

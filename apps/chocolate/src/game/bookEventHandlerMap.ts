@@ -106,7 +106,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			current: bookEvent.amount + 1,
 			total: bookEvent.total,
 		});
-		stateUi.freeSpinCounterTotal = bookEvent.amount + 1;
+		stateUi.freeSpinCounterCurrent = bookEvent.amount + 1;
 		stateUi.freeSpinCounterTotal = bookEvent.total;
 	},
 	freeSpinEnd: async (bookEvent: BookEventOfType<'freeSpinEnd'>) => {
@@ -160,6 +160,43 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		
 		// For now, just log the event
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_wild_explode' });
+	},
+	level_advance: async (bookEvent: BookEventOfType<'level_advance'>) => {
+		// Handle Big-Bass level advancement with retrigger
+		console.log('Level advance event:', bookEvent);
+		
+		// Show retrigger intro when extra spins are granted
+		if (bookEvent.extra_spins_granted > 0) {
+			const currentTotal = stateUi.freeSpinCounterTotal;
+			const newTotal = currentTotal + bookEvent.extra_spins_granted;
+			
+			// Hide UI and show free spin intro for retrigger
+			await eventEmitter.broadcastAsync({ type: 'uiHide' });
+			eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
+			eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
+			await eventEmitter.broadcastAsync({
+				type: 'freeSpinIntroUpdate',
+				totalFreeSpins: bookEvent.extra_spins_granted,
+			});
+			
+			// Update counter and hide intro
+			eventEmitter.broadcast({
+				type: 'freeSpinCounterUpdate',
+				current: undefined, // Keep current spin display unchanged
+				total: newTotal,
+			});
+			stateUi.freeSpinCounterTotal = newTotal;
+			
+			eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
+			await eventEmitter.broadcastAsync({ type: 'uiShow' });
+		}
+		
+		// TODO: Implement level advance animation
+		// - Show level-up animation
+		// - Display new multiplier level
+		
+		// Play level advance sound
+		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_levelup' });
 	},
 	// customised
 	createBonusSnapshot: async (bookEvent: BookEventOfType<'createBonusSnapshot'>) => {
