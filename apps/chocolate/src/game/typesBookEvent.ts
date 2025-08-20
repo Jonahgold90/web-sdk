@@ -45,6 +45,14 @@ type BookEventSetWin = {
 	winLevel: number;
 };
 
+type BookEventSpinWinTotal = {
+	index: number;
+	type: 'spinWinTotal';
+	amount: number;
+	lineWins: number;
+	collections: number;
+};
+
 type BookEventFreeSpinEnd = {
 	index: number;
 	type: 'freeSpinEnd';
@@ -114,6 +122,7 @@ export type BookEvent =
 	| BookEventCreateBonusSnapshot
 	| BookEventFinalWin
 	| BookEventSetWin
+	| BookEventSpinWinTotal
 	| BookEventFreeSpinEnd
 	| BookEventCollection
 	| BookEventLevelAdvance

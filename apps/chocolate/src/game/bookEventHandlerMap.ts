@@ -47,6 +47,13 @@ const animateSymbols = async ({ positions }: { positions: Position[] }) => {
 
 export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContext> = {
 	reveal: async (bookEvent: BookEventOfType<'reveal'>, { bookEvents }: BookEventContext) => {
+		// Check for spinWinTotal events in this book
+		const spinWinTotalEvents = bookEvents.filter(event => event.type === 'spinWinTotal');
+		console.log('🔍 REVEAL: Found', spinWinTotalEvents.length, 'spinWinTotal events in this book');
+		if (spinWinTotalEvents.length > 0) {
+			console.log('🔍 spinWinTotal events:', spinWinTotalEvents);
+		}
+		
 		const isBonusGame = checkIsMultipleRevealEvents({ bookEvents });
 		if (isBonusGame) {
 			eventEmitter.broadcast({ type: 'stopButtonEnable' });
@@ -68,7 +75,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		});
 	},
 	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>) => {
-		console.log('setTotalWin called with amount:', bookEvent.amount, 'at index:', bookEvent.index);
+		console.log('📊 setTotalWin called with amount:', bookEvent.amount, 'at index:', bookEvent.index);
 		stateBet.winBookEventAmount = bookEvent.amount;
 	},
 	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
@@ -135,14 +142,42 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		await eventEmitter.broadcastAsync({ type: 'drawerUnfold' });
 		eventEmitter.broadcast({ type: 'drawerButtonHide' });
 	},
-	setWin: async (bookEvent: BookEventOfType<'setWin'>) => {
-		const winLevelData = winLevelMap[bookEvent.winLevel as WinLevel];
+	setWin: async (bookEvent: BookEventOfType<'setWin'>, { bookEvents }: BookEventContext) => {
+		console.log('🎯 setWin called with amount:', bookEvent.amount, 'winLevel:', bookEvent.winLevel);
+		
+		// Check if there's a spinWinTotal event that will handle this win
+		const hasSpinWinTotal = bookEvents.some(event => event.type === 'spinWinTotal');
+		
+		if (hasSpinWinTotal) {
+			console.log('🎯 spinWinTotal event exists, skipping setWin animation - will be handled by spinWinTotal');
+			return;
+		}
+		
+		console.log('🎯 No spinWinTotal found - this should not happen with new math');
+	},
+	spinWinTotal: async (bookEvent: BookEventOfType<'spinWinTotal'>, { bookEvents }: BookEventContext) => {
+		console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
+		
+		// Skip animation if there's no win
+		if (bookEvent.amount <= 0) {
+			console.log('✨ No win (amount = 0), skipping animation');
+			return;
+		}
+		
+		// Find the setWin event to get the win level
+		const setWinEvent = bookEvents
+			.slice(0, bookEvent.index)
+			.reverse()
+			.find(event => event.type === 'setWin') as BookEventOfType<'setWin'> | undefined;
+		
+		const winLevel = setWinEvent?.winLevel || 2; // Default to level 2 if no setWin found
+		const winLevelData = winLevelMap[winLevel as WinLevel];
 
 		eventEmitter.broadcast({ type: 'winShow' });
 		winLevelSoundsPlay({ winLevelData });
 		await eventEmitter.broadcastAsync({
 			type: 'winUpdate',
-			amount: bookEvent.amount,
+			amount: bookEvent.amount, // Use the complete total from spinWinTotal
 			winLevelData,
 		});
 		winLevelSoundsStop();
@@ -158,21 +193,8 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		// Play collection sound
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_wild_explode' });
 		
-		// Add collection amount to the total win amount shown in control bar
-		if (bookEvent.collected_amount > 0) {
-			console.log('💰 Collection completed for amount:', bookEvent.collected_amount);
-			
-			// Convert collection amount (dollars) to book event amount (cents) 
-			const collectionBookEventAmount = bookEvent.collected_amount * BOOK_AMOUNT_MULTIPLIER;
-			console.log('💰 Collection book event amount:', collectionBookEventAmount);
-			
-			// Add collection amount to current win total
-			const oldTotal = stateBet.winBookEventAmount;
-			const newTotalWin = oldTotal + collectionBookEventAmount;
-			console.log('💰 Updating total win from', oldTotal, 'to', newTotalWin);
-			stateBet.winBookEventAmount = newTotalWin;
-			console.log('💰 Control bar now shows:', stateBet.winBookEventAmount);
-		}
+		// Note: Collection amounts now handled by spinWinTotal events and setTotalWin
+		// No manual addition to control bar needed
 		
 		// TODO: Add more specific collection animations
 		// - Animate CW symbols collecting CC symbols
