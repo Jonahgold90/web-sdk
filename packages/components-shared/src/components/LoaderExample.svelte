@@ -18,9 +18,9 @@
 	oncomplete={() => (showText = false)}
 />
 
-{#if showText}
+<!-- {#if showText}
 	<span class="add-your-loader">Add Your Loader</span>
-{/if}
+{/if} -->
 
 <style lang="scss">
 	.add-your-loader {

@@ -313,4 +313,9 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/reelFrameBackgrounds/Base_Game_BG_Portrait_ReelsBG_v02.png', import.meta.url).href,
 	},
+	// Free Spin Intro PNG
+	Bonus_Screen_Intro: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_Intro.png', import.meta.url).href,
+	},
 } as const;

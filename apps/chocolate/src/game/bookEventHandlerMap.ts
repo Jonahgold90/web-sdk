@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { recordBookEvent, checkIsMultipleRevealEvents, type BookEventHandlerMap } from 'utils-book';
 import { stateBet, stateUi } from 'state-shared';
 import { sequence } from 'utils-shared/sequence';
+import { BOOK_AMOUNT_MULTIPLIER } from 'constants-shared/bet';
 
 import { eventEmitter } from './eventEmitter';
 import { playBookEvent } from './utils';
@@ -60,12 +61,14 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'soundScatterCounterClear' });
 	},
 	winInfo: async (bookEvent: BookEventOfType<'winInfo'>) => {
+		console.log('winInfo called at index:', bookEvent.index, 'totalWin:', bookEvent.totalWin, 'wins count:', bookEvent.wins.length);
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_winlevel_small' });
 		await sequence(bookEvent.wins, async (win) => {
 			await animateSymbols({ positions: win.positions });
 		});
 	},
 	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>) => {
+		console.log('setTotalWin called with amount:', bookEvent.amount, 'at index:', bookEvent.index);
 		stateBet.winBookEventAmount = bookEvent.amount;
 	},
 	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
@@ -150,16 +153,30 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	collection: async (bookEvent: BookEventOfType<'collection'>) => {
 		// Handle Big-Bass collection mechanic
-		console.log('Collection event:', bookEvent);
+		console.log('💰 Collection event triggered at index:', bookEvent.index, 'amount:', bookEvent.collected_amount);
 		
-		// TODO: Implement collection animation
-		// - Animate CW symbols collecting CC symbols
-		// - Show collection values
-		// - Play collection sounds
-		// - Update UI with collected amounts
-		
-		// For now, just log the event
+		// Play collection sound
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_wild_explode' });
+		
+		// Add collection amount to the total win amount shown in control bar
+		if (bookEvent.collected_amount > 0) {
+			console.log('💰 Collection completed for amount:', bookEvent.collected_amount);
+			
+			// Convert collection amount (dollars) to book event amount (cents) 
+			const collectionBookEventAmount = bookEvent.collected_amount * BOOK_AMOUNT_MULTIPLIER;
+			console.log('💰 Collection book event amount:', collectionBookEventAmount);
+			
+			// Add collection amount to current win total
+			const oldTotal = stateBet.winBookEventAmount;
+			const newTotalWin = oldTotal + collectionBookEventAmount;
+			console.log('💰 Updating total win from', oldTotal, 'to', newTotalWin);
+			stateBet.winBookEventAmount = newTotalWin;
+			console.log('💰 Control bar now shows:', stateBet.winBookEventAmount);
+		}
+		
+		// TODO: Add more specific collection animations
+		// - Animate CW symbols collecting CC symbols
+		// - Show individual collection values flying to counter
 	},
 	level_advance: async (bookEvent: BookEventOfType<'level_advance'>) => {
 		// Handle Big-Bass level advancement with retrigger

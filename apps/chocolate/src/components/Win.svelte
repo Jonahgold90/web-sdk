@@ -24,15 +24,27 @@
 	const context = getContext();
 
 	let show = $state(false);
+	
+	// Debug show state
+	$effect(() => {
+		console.log('Win component show state changed:', show);
+	});
 	let amount = $state(0);
 	let winLevelData = $state<WinLevelData>();
 	let oncomplete = $state(() => {});
 	let onCountUpComplete = $state(() => {});
 
 	context.eventEmitter.subscribeOnMount({
-		winShow: () => (show = true),
-		winHide: () => (show = false),
+		winShow: () => {
+			console.log('Win component: winShow received');
+			show = true;
+		},
+		winHide: () => {
+			console.log('Win component: winHide received');
+			show = false;
+		},
 		winUpdate: async (emitterEvent) => {
+			console.log('Win component: winUpdate received', emitterEvent);
 			amount = emitterEvent.amount;
 			winLevelData = emitterEvent.winLevelData;
 			await waitForResolve((resolve) => (oncomplete = resolve));
