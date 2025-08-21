@@ -94,6 +94,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			totalFreeSpins: bookEvent.totalFs,
 		});
 		stateGame.gameType = 'freegame';
+		stateGame.retrigCount = 0; // Reset retrig counter for new free spin session
 		eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
 		eventEmitter.broadcast({ type: 'boardFrameGlowShow' });
 		eventEmitter.broadcast({ type: 'freeSpinCounterShow' });
@@ -206,19 +207,21 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		
 		// Show retrigger intro when extra spins are granted
 		if (bookEvent.extra_spins_granted > 0) {
+			stateGame.retrigCount += 1;
 			const currentTotal = stateUi.freeSpinCounterTotal;
 			const newTotal = currentTotal + bookEvent.extra_spins_granted;
 			
-			// Hide UI and show free spin intro for retrigger
+			// Hide UI and show retrig popup
 			await eventEmitter.broadcastAsync({ type: 'uiHide' });
-			eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
+			eventEmitter.broadcast({ type: 'retrigPopupShow' });
 			eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
 			await eventEmitter.broadcastAsync({
-				type: 'freeSpinIntroUpdate',
-				totalFreeSpins: bookEvent.extra_spins_granted,
+				type: 'retrigPopupUpdate',
+				retrigCount: stateGame.retrigCount,
+				extraSpins: bookEvent.extra_spins_granted,
 			});
 			
-			// Update counter and hide intro
+			// Update counter and hide popup
 			eventEmitter.broadcast({
 				type: 'freeSpinCounterUpdate',
 				current: undefined, // Keep current spin display unchanged
@@ -226,7 +229,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			});
 			stateUi.freeSpinCounterTotal = newTotal;
 			
-			eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
+			eventEmitter.broadcast({ type: 'retrigPopupHide' });
 			await eventEmitter.broadcastAsync({ type: 'uiShow' });
 		}
 		

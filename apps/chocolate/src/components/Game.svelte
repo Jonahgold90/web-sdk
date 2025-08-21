@@ -24,6 +24,7 @@
 	import FreeSpinIntro from './FreeSpinIntro.svelte';
 	import FreeSpinCounter from './FreeSpinCounter.svelte';
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
+	import RetrigPopup from './RetrigPopup.svelte';
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
 	import ControlBar from './ControlBar.svelte';
@@ -106,6 +107,7 @@
 		-->
 		<Win />
 		<FreeSpinIntro />
+		<RetrigPopup />
 		{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
 			<FreeSpinCounter />
 		{/if}

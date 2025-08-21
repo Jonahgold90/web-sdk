@@ -322,4 +322,17 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_Intro.png', import.meta.url).href,
 	},
+	// Extra Spins Retrig PNGs
+	extraSpinsRetrig1: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/extraSpins/Bonus_Extra_Spins_v01.png', import.meta.url).href,
+	},
+	extraSpinsRetrig2: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/extraSpins/Bonus_Extra_Spins_x3_v01.png', import.meta.url).href,
+	},
+	extraSpinsRetrig3: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/extraSpins/Bonus_Extra_Spins_x10_v01.png', import.meta.url).href,
+	},
 } as const;
