@@ -29,16 +29,31 @@
 		boardSettle: ({ board }) => context.stateGameDerived.enhancedBoard.settle(board),
 		boardShow: () => (show = true),
 		boardHide: () => (show = false),
-		boardWithAnimateSymbols: async ({ symbolPositions }) => {
-			const getPromises = () =>
-				symbolPositions.map(async (position) => {
-					const reelSymbol = context.stateGame.board[position.reel].reelState.symbols[position.row];
-					reelSymbol.symbolState = 'win';
-					await waitForResolve((resolve) => (reelSymbol.oncomplete = resolve));
-					reelSymbol.symbolState = 'postWinStatic';
-				});
+		boardWithAnimateSymbols: async ({ symbolPositions }, resolve) => {
+			console.log('🎬 Board: Starting animation for', symbolPositions.length, 'symbols');
+			
+			// Set all symbols in this line to 'win' state simultaneously
+			symbolPositions.forEach((position) => {
+				const reelSymbol = context.stateGame.board[position.reel].reelState.symbols[position.row];
+				reelSymbol.symbolState = 'win';
+			});
 
-			await Promise.all(getPromises());
+			// Wait for all symbols in this line to complete their animations
+			await Promise.all(
+				symbolPositions.map((position) => {
+					const reelSymbol = context.stateGame.board[position.reel].reelState.symbols[position.row];
+					return waitForResolve((resolveSymbol) => (reelSymbol.oncomplete = resolveSymbol));
+				})
+			);
+
+			// Set all symbols to post-win state
+			symbolPositions.forEach((position) => {
+				const reelSymbol = context.stateGame.board[position.reel].reelState.symbols[position.row];
+				reelSymbol.symbolState = 'postWinStatic';
+			});
+
+			console.log('✅ Board: Animation complete for this line');
+			resolve?.();
 		},
 	});
 

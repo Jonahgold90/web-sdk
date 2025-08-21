@@ -70,9 +70,12 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	winInfo: async (bookEvent: BookEventOfType<'winInfo'>) => {
 		console.log('winInfo called at index:', bookEvent.index, 'totalWin:', bookEvent.totalWin, 'wins count:', bookEvent.wins.length);
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_winlevel_small' });
-		await sequence(bookEvent.wins, async (win) => {
-			await animateSymbols({ positions: win.positions });
-		});
+		
+		// Process each line win sequentially
+		for (let i = 0; i < bookEvent.wins.length; i++) {
+			console.log(`Animating line ${i + 1} of ${bookEvent.wins.length}:`, bookEvent.wins[i].meta.lineIndex);
+			await animateSymbols({ positions: bookEvent.wins[i].positions });
+		}
 	},
 	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>) => {
 		console.log('📊 setTotalWin called with amount:', bookEvent.amount, 'at index:', bookEvent.index);

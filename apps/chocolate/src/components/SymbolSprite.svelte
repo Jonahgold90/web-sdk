@@ -19,12 +19,16 @@
 	let scaleY = $state(1);
 
 	onMount(() => {
-		props.oncomplete?.();
+		if (!props.isWinning) {
+			props.oncomplete?.();
+		}
 	});
 
 	$effect(() => {
 		props.symbolInfo;
-		props.oncomplete?.();
+		if (!props.isWinning) {
+			props.oncomplete?.();
+		}
 	});
 
 	$effect(() => {
@@ -37,26 +41,27 @@
 	});
 
 	function playSquishAnimation() {
-		const duration = 500;
-		const intensity = 0.2;
+		const duration = 800;
+		const intensity = 0.3;
 		const startTime = Date.now();
 
 		function animate() {
 			const elapsed = Date.now() - startTime;
 			const progress = Math.min(elapsed / duration, 1);
 			
-			const easeInOut = 0.5 * (1 - Math.cos(progress * Math.PI));
-			const squish = Math.sin(progress * Math.PI * 2) * intensity * (1 - progress);
+			const squish = Math.sin(progress * Math.PI * 3) * intensity * (1 - progress * 0.7);
 			
 			scaleX = 1 + squish;
-			scaleY = 1 - squish * 0.5;
+			scaleY = 1 - squish * 0.6;
 
 			if (progress < 1) {
 				requestAnimationFrame(animate);
 			} else {
 				scaleX = 1;
 				scaleY = 1;
-				props.oncomplete?.();
+				setTimeout(() => {
+					props.oncomplete?.();
+				}, 300);
 			}
 		}
 
