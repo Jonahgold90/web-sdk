@@ -183,7 +183,7 @@ const sStatic = { type: 'sprite', assetKey: 'S.png', sizeRatios: { width: 1.243,
 const wStatic = { type: 'sprite', assetKey: 'W.png', sizeRatios: { width: 1.12, height: 1.12 } };
 
 const wSizeRatios = { width: 1.5 * 0.9, height: SPECIAL_SYMBOL_SIZE * 1.15 };
-const sSizeRatios = { width: 2.5, height: SPECIAL_SYMBOL_SIZE * 2.3 };
+const sSizeRatios = { width: 2.0, height: SPECIAL_SYMBOL_SIZE * 1.8 };
 
 export const SYMBOL_INFO_MAP = {
 	H1: {

@@ -51,7 +51,6 @@
 		style={{
 			fontFamily: 'gold',
 			fontSize: 30,
-			fill: 0xFFFFFF,
 		}}
 	/>
 {/if}
