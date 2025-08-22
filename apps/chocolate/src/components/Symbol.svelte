@@ -35,13 +35,13 @@
 
 {#if props.rawSymbol.multiplier}
 	<BitmapText
-		anchor={0.5}
-		x={props.x}
-		y={props.y}
+		anchor={0}
+		x={(props.x || 0) - 55}
+		y={(props.y || 0) - 60}
 		text={`${props.rawSymbol.multiplier}X`}
 		style={{
 			fontFamily: 'gold',
-			fontSize: 50,
+			fontSize: 28,
 		}}
 	/>
 {/if}

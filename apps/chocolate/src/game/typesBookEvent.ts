@@ -106,6 +106,24 @@ type BookEventLevelAdvance = {
 	extra_spins_granted: number;
 };
 
+// CC Collect Sequence event for deterministic animation
+type BookEventCCCollectSequence = {
+	index: number;
+	type: 'cc_collect_sequence';
+	collections: {
+		cw: { col: number; row: number };
+		cw_level: number;
+		cw_multiplier: number;
+		steps: {
+			cc: { col: number; row: number };
+			base_value: number;
+			multiplier_used: number;
+			credited_value: number;
+		}[];
+		total: number;
+	}[];
+};
+
 // customised
 type BookEventCreateBonusSnapshot = {
 	index: number;
@@ -126,6 +144,7 @@ export type BookEvent =
 	| BookEventFreeSpinEnd
 	| BookEventCollection
 	| BookEventLevelAdvance
+	| BookEventCCCollectSequence
 	// customised
 	| BookEventCreateBonusSnapshot;
 

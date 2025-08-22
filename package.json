@@ -2,7 +2,7 @@
   "name": "twist-turbo",
   "version": "0.0.0",
   "private": true,
-	"license": "MIT",
+  "license": "MIT",
   "scripts": {
     "lint": "turbo run lint",
     "format": "turbo run format",
@@ -19,6 +19,7 @@
   "dependencies": {
     "eslint": "9.21.0",
     "eslint-config-custom": "workspace:*",
+    "gsap": "^3.13.0",
     "prettier": "3.5.2",
     "prettier-plugin-svelte": "3.3.3",
     "turbo": "2.4.4"

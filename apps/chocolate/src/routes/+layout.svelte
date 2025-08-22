@@ -4,6 +4,8 @@
 	import { Authenticate, LoaderStakeEngine, LoaderExample, LoadI18n } from 'components-shared';
 	import Game from '../components/Game.svelte';
 	import { setContext } from '../game/context';
+	// Import collection animation utilities to make them globally available
+	import '../game/collectionAnimationUtils';
 
 	import messagesMap from '../i18n/messagesMap';
 

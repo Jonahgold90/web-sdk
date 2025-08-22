@@ -168,6 +168,17 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			return;
 		}
 		
+		// Check if there are any cc_collect_sequence events that should complete first
+		const hasCollectionSequence = bookEvents.some(event => 
+			event.type === 'cc_collect_sequence' && event.index < bookEvent.index
+		);
+		
+		if (hasCollectionSequence) {
+			console.log('✨ Collection sequences detected, ensuring they complete before win animation');
+			// Small delay to ensure collection animations have completed
+			await new Promise(resolve => setTimeout(resolve, 500));
+		}
+		
 		// Find the setWin event to get the win level
 		const setWinEvent = bookEvents
 			.slice(0, bookEvent.index)
@@ -186,6 +197,9 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		});
 		winLevelSoundsStop();
 		eventEmitter.broadcast({ type: 'winHide' });
+		
+		// Hide collection animations after win display
+		eventEmitter.broadcast({ type: 'collectionAnimationHide' });
 	},
 	finalWin: async (bookEvent: BookEventOfType<'finalWin'>) => {
 		// Do nothing
@@ -199,10 +213,18 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		
 		// Note: Collection amounts now handled by spinWinTotal events and setTotalWin
 		// No manual addition to control bar needed
+	},
+	cc_collect_sequence: async (bookEvent: BookEventOfType<'cc_collect_sequence'>) => {
+		// Handle deterministic CC collection animation
+		console.log('🎬 CC Collect Sequence event triggered at index:', bookEvent.index, 'collections:', bookEvent.collections.length);
 		
-		// TODO: Add more specific collection animations
-		// - Animate CW symbols collecting CC symbols
-		// - Show individual collection values flying to counter
+		// Show collection animation and wait for completion
+		eventEmitter.broadcast({ type: 'collectionAnimationShow' });
+		await eventEmitter.broadcastAsync({ 
+			type: 'collectionAnimationPlay',
+			event: bookEvent
+		});
+		// Keep animation visible for remainder of spin
 	},
 	level_advance: async (bookEvent: BookEventOfType<'level_advance'>) => {
 		// Handle Big-Bass level advancement with retrigger
