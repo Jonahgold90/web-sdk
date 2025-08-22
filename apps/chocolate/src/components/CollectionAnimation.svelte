@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Container, Text } from 'pixi-svelte';
+	import { Container, Text, BitmapText } from 'pixi-svelte';
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
@@ -161,10 +161,12 @@
 		const textId = `${step.cc.col}-${step.cc.row}-${Date.now()}`;
 		
 		// Start with base value, will show multiplier effect during animation
+		// Use currency formatting for display
+		const baseText = numberToCurrencyString(hasMultiplier ? scaled_base_value : scaled_credited_value);
 		const floatingTextData = {
 			id: textId,
 			position: { x: ccCenter.x, y: ccCenter.y },
-			text: numberToCurrencyString(hasMultiplier ? scaled_base_value : scaled_credited_value),
+			text: baseText,
 			animating: true,
 			showMultiplier: false,
 			baseValue: scaled_base_value,
@@ -198,7 +200,7 @@
 				if (hasMultiplier && animationProgress >= 0.5 && !floatingTexts[textIndex].showMultiplier) {
 					floatingTexts[textIndex].showMultiplier = true;
 					floatingTexts[textIndex].text = numberToCurrencyString(scaled_credited_value);
-					console.log(`✨ Showing multiplier effect: ${numberToCurrencyString(scaled_base_value)} × ${step.multiplier_used} = ${numberToCurrencyString(scaled_credited_value)}`);
+					console.log(`✨ Showing multiplier effect: ${scaled_base_value} × ${step.multiplier_used} = ${scaled_credited_value}`);
 				}
 				
 				floatingTexts = [...floatingTexts]; // Force reactivity
@@ -309,18 +311,14 @@
 		<Container bind:this={cwTotalsContainer}>
 			{#each [...cwTotals.entries()] as [key, total] (key)}
 				{#if total.visible}
-					<Text
+					<BitmapText
+						anchor={0.5}
 						x={total.x}
 						y={total.y}
 						text={numberToCurrencyString(total.total)}
-						anchor={0.5}
 						style={{
 							fontFamily: 'gold',
-							fontSize: 20,
-							fill: 0xFFD700,
-							fontWeight: 'bold',
-							stroke: 0x000000,
-							strokeThickness: 2
+							fontSize: 24,
 						}}
 					/>
 				{/if}
@@ -330,36 +328,30 @@
 		<!-- Floating text animations -->
 		<Container>
 			{#each floatingTexts as floatingText (floatingText.id)}
-				<!-- Main floating text -->
-				<Text
+				<!-- Main floating text using same bitmap text as CC values -->
+				<BitmapText
+					anchor={0.5}
 					x={floatingText.position.x}
 					y={floatingText.position.y}
 					text={floatingText.text}
-					anchor={0.5}
 					style={{
 						fontFamily: 'gold',
-						fontSize: 24,
-						fill: floatingText.showMultiplier ? 0x00FF00 : 0xFFD700,
-						fontWeight: 'bold',
-						stroke: 0x000000,
-						strokeThickness: 2
+						fontSize: 30,
+						tint: floatingText.showMultiplier ? 0x00FF00 : 0xFFFFFF,
 					}}
 				/>
 				
 				<!-- Multiplier indicator when active -->
 				{#if floatingText.showMultiplier && floatingText.multiplier && floatingText.multiplier > 1}
-					<Text
-						x={floatingText.position.x}
-						y={floatingText.position.y - 30}
-						text={`×${floatingText.multiplier}`}
+					<BitmapText
 						anchor={0.5}
+						x={floatingText.position.x}
+						y={floatingText.position.y - 25}
+						text={`×${floatingText.multiplier}`}
 						style={{
 							fontFamily: 'gold',
-							fontSize: 16,
-							fill: 0xFF6600,
-							fontWeight: 'bold',
-							stroke: 0x000000,
-							strokeThickness: 1
+							fontSize: 20,
+							tint: 0xFF6600,
 						}}
 					/>
 				{/if}

@@ -4,6 +4,7 @@
 	import type { SymbolState, RawSymbol } from '../game/types';
 	import { BitmapText } from 'pixi-svelte';
 	import { stateBet } from 'state-shared';
+	import { numberToCurrencyString } from 'utils-shared/amount';
 
 	type Props = {
 		x?: number;
@@ -25,7 +26,7 @@
 		anchor={0.5}
 		x={props.x}
 		y={(props.y || 0) + 10}
-		text={(stateBet.betAmount * props.rawSymbol.cash_value).toString()}
+		text={numberToCurrencyString(stateBet.betAmount * props.rawSymbol.cash_value)}
 		style={{
 			fontFamily: 'gold',
 			fontSize: 30,

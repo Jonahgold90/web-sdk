@@ -2,6 +2,7 @@
 	import { BitmapText } from 'pixi-svelte';
 	import { stateBet } from 'state-shared';
 	import { getContext } from '../game/context';
+	import { numberToCurrencyString } from 'utils-shared/amount';
 
 	const context = getContext();
 
@@ -38,7 +39,8 @@
 					
 					if (symbol.rawSymbol.cash_value) {
 						const betSize = stateBet.betSize();
-						const displayValue = (betSize * symbol.rawSymbol.cash_value).toString();
+						const numericValue = betSize * symbol.rawSymbol.cash_value;
+						const displayValue = numberToCurrencyString(numericValue);
 						
 						symbols.push({
 							x: symbol.x || (reelIndex * 120 + 60),

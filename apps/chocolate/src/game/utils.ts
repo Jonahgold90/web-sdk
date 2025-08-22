@@ -13,7 +13,16 @@ import type { RawSymbol, SymbolState } from './types';
 export const { getEmptyBoard } = createGetEmptyPaddedBoard({ reelsDimensions: BOARD_DIMENSIONS });
 export const { playBookEvent, playBookEvents } = createPlayBookUtils({ bookEventHandlerMap });
 export const playBet = async (bet: Bet) => {
-	stateBet.winBookEventAmount = 0;
+	// Only reset win amount for base game spins, preserve cumulative total during bonus
+	const { stateGame } = await import('./stateGame.svelte');
+	
+	if (stateGame.gameType !== 'freegame') {
+		stateBet.winBookEventAmount = 0;
+		console.log('🔄 [BASE] Reset win amount for base game spin');
+	} else {
+		console.log('🔄 [BONUS] Preserving cumulative win amount:', stateBet.winBookEventAmount);
+	}
+	
 	await playBookEvents(bet.state);
 	eventEmitter.broadcast({ type: 'stopButtonEnable' });
 };

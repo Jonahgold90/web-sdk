@@ -77,9 +77,20 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			await animateSymbols({ positions: bookEvent.wins[i].positions });
 		}
 	},
-	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>) => {
+	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>, { bookEvents }: BookEventContext) => {
 		console.log('📊 setTotalWin called with amount:', bookEvent.amount, 'at index:', bookEvent.index);
+		
+		// Check if there's a spinWinTotal event that will handle this win
+		const hasSpinWinTotal = bookEvents.some(event => event.type === 'spinWinTotal');
+		
+		if (hasSpinWinTotal) {
+			console.log('📊 spinWinTotal event exists, skipping setTotalWin - will be handled by spinWinTotal');
+			return;
+		}
+		
+		// Only run if no spinWinTotal exists (fallback behavior)
 		stateBet.winBookEventAmount = bookEvent.amount;
+		console.log('📊 setTotalWin updated control bar to:', bookEvent.amount);
 	},
 	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
 		// animate scatters
@@ -162,6 +173,17 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	spinWinTotal: async (bookEvent: BookEventOfType<'spinWinTotal'>, { bookEvents }: BookEventContext) => {
 		console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
 		
+		// Always accumulate wins during bonus, replace in base game
+		if (stateGame.gameType === 'freegame') {
+			// During free spins/bonus rounds, always add to cumulative total
+			stateBet.winBookEventAmount += bookEvent.amount;
+			console.log('📊 [BONUS] Added', bookEvent.amount, 'to cumulative total, now:', stateBet.winBookEventAmount);
+		} else {
+			// In base game, show current spin win only
+			stateBet.winBookEventAmount = bookEvent.amount;
+			console.log('📊 [BASE] Set control bar win amount to:', bookEvent.amount);
+		}
+		
 		// Skip animation if there's no win
 		if (bookEvent.amount <= 0) {
 			console.log('✨ No win (amount = 0), skipping animation');
@@ -169,14 +191,17 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		}
 		
 		// Check if there are any cc_collect_sequence events that should complete first
-		const hasCollectionSequence = bookEvents.some(event => 
+		const collectionSequenceEvents = bookEvents.filter(event => 
 			event.type === 'cc_collect_sequence' && event.index < bookEvent.index
 		);
 		
-		if (hasCollectionSequence) {
-			console.log('✨ Collection sequences detected, ensuring they complete before win animation');
-			// Small delay to ensure collection animations have completed
-			await new Promise(resolve => setTimeout(resolve, 500));
+		if (collectionSequenceEvents.length > 0) {
+			console.log('✨ Collection sequences detected, waiting for them to complete before win animation');
+			console.log('✨ Collection events to wait for:', collectionSequenceEvents.map(e => e.index));
+			
+			// The collection sequences should already be complete since they are handled 
+			// sequentially in the book event processing, but add a small buffer
+			await new Promise(resolve => setTimeout(resolve, 100));
 		}
 		
 		// Find the setWin event to get the win level
@@ -224,6 +249,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			type: 'collectionAnimationPlay',
 			event: bookEvent
 		});
+		console.log('✅ CC collection sequence animation completed at index:', bookEvent.index);
 		// Keep animation visible for remainder of spin
 	},
 	level_advance: async (bookEvent: BookEventOfType<'level_advance'>) => {
