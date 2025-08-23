@@ -8,6 +8,7 @@
 <script lang="ts">
 	import { waitForResolve } from 'utils-shared/wait';
 	import { getContext } from '../game/context';
+	import ContinueButton from './ContinueButton.svelte';
 	
 	const context = getContext();
 
@@ -58,9 +59,7 @@
 				alt="Extra Spins Retrig" 
 				style="max-width: 80vw; max-height: 60vh; width: auto; height: auto;"
 			/>
-			<div style="color: white; margin-top: 20px; font-family: Arial, sans-serif; font-size: 18px;">
-				Click anywhere to continue
-			</div>
+			<ContinueButton onclick={() => oncomplete()} />
 		</div>
 	</div>
 {/if}

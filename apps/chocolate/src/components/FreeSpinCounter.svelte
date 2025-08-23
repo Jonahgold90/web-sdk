@@ -23,15 +23,25 @@
 		height: panelWidth / PANEL_RATIO_DESKTOP,
 	});
 	const scale = 1;
-	const position = $derived({
-		x:
-			context.stateGameDerived.boardLayout().x -
-			context.stateGameDerived.boardLayout().width * 0.5 -
-			panelSizes.width -
-			SYMBOL_SIZE * 0.7,
-		y:
-			context.stateGameDerived.boardLayout().y -
-			context.stateGameDerived.boardLayout().height * 0.5,
+	const position = $derived.by(() => {
+		const layoutType = context.stateLayoutDerived.layoutType();
+		const boardLayout = context.stateGameDerived.boardLayout();
+		
+		if (layoutType === 'portrait') {
+			// Mobile: center above the board
+			return {
+				x: boardLayout.x - panelSizes.width * 0.5,
+				y: boardLayout.y - boardLayout.height * 0.5 - panelSizes.height - SYMBOL_SIZE * 0.3,
+			};
+		} else {
+			// Desktop/Landscape: centered between left edge and board
+			const boardLeftEdge = boardLayout.x - boardLayout.width * 0.5;
+			const availableSpace = boardLeftEdge; // distance from left edge (0) to board
+			return {
+				x: availableSpace * 0.5 - panelSizes.width * 0.5,
+				y: boardLayout.y - boardLayout.height * 0.5,
+			};
+		}
 	});
 
 	const fontSize = SYMBOL_SIZE * 0.275;

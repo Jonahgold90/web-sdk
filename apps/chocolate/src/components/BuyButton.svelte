@@ -9,12 +9,30 @@
 	import { MainContainer } from 'components-layout';
 	import { Sprite, Container } from 'pixi-svelte';
 	import { getContext } from '../game/context';
-	import { stateModal } from 'state-shared';
+	import { stateModal, stateBet } from 'state-shared';
+	import { stateGame } from '../game/stateGame.svelte';
+	import { stateSlots } from 'utils-slots/src/stateSlots.svelte';
 	import { SYMBOL_SIZE } from '../game/constants';
 	
 	const context = getContext();
 
-	let show = $state(true); // Show by default in base game
+	// Only show in base game, hide during bonus features and outro modals
+	let manualShow = $state(true);
+	let freeSpinOutroVisible = $state(false);
+	let freeSpinCounterVisible = $state(false);
+	let delayedShow = $state(false);
+	
+	// Show logic with delay after free spin counter disappears
+	let show = $derived(manualShow && context.stateGame.gameType === 'basegame' && !freeSpinOutroVisible && !freeSpinCounterVisible && delayedShow);
+	
+	// Check if any reel is spinning
+	let isSpinning = $derived(
+		stateSlots.isPreSpinning || 
+		context.stateGame.board.some(reel => reel.reelState.motion === 'spinning' || reel.reelState.motion === 'bouncing')
+	);
+	
+	// Interactive only when showing and game is not spinning
+	let interactive = $derived(show && !isSpinning);
 
 	// Button sizing and positioning - let PIXI maintain aspect ratio
 	const buttonSize = $derived(SYMBOL_SIZE * 2); // Base size
@@ -23,22 +41,40 @@
 		y: 300, // Simple center position for testing
 	});
 	
-	// Debug the positioning and assets
+	// Debug the positioning and game state
 	$effect(() => {
-		console.log('BuyButton position:', position, 'buttonSize:', buttonSize);
-		console.log('Board layout:', context.stateGameDerived.boardLayout());
-		console.log('BuyButton show state:', show);
-		console.log('Loaded assets keys:', Object.keys(context.stateApp.loadedAssets || {}));
-		console.log('Has buyButton asset:', 'buyButton' in (context.stateApp.loadedAssets || {}));
+		console.log('BuyButton show:', show, 'interactive:', interactive, 'isSpinning:', isSpinning);
+		console.log('Spinning details:', {
+			isPreSpinning: stateSlots.isPreSpinning,
+			reelMotions: context.stateGame.board.map(reel => reel.reelState.motion),
+			gameType: context.stateGame.gameType
+		});
 	});
 
 	context.eventEmitter.subscribeOnMount({
-		buyButtonShow: () => (show = true),
-		buyButtonHide: () => (show = false),
+		buyButtonShow: () => (manualShow = true),
+		buyButtonHide: () => (manualShow = false),
+		freeSpinOutroShow: () => (freeSpinOutroVisible = true),
+		freeSpinOutroHide: () => (freeSpinOutroVisible = false),
+		freeSpinCounterShow: () => (freeSpinCounterVisible = true),
+		freeSpinCounterHide: () => {
+			freeSpinCounterVisible = false;
+			// Delay showing the buy button to let fade out animation complete
+			setTimeout(() => (delayedShow = true), 500);
+		},
 		buyButtonClick: () => {
 			// Open the same modal as the shopping cart button in control bar
 			stateModal.modal = { name: 'buyBonus' };
 		},
+	});
+	
+	// Initialize delayedShow when in base game
+	$effect(() => {
+		if (context.stateGame.gameType === 'basegame' && !freeSpinCounterVisible) {
+			delayedShow = true;
+		} else {
+			delayedShow = false;
+		}
 	});
 
 	function handleClick() {
@@ -53,11 +89,12 @@
 				key="buyButton" 
 				width={200} 
 				height={105}
-				interactive={true}
-				cursor="pointer"
-				onpointertap={handleClick}
-				onpointerover={(e) => e.currentTarget.alpha = 0.8}
-				onpointerout={(e) => e.currentTarget.alpha = 1}
+				interactive={interactive}
+				cursor={interactive ? "pointer" : "default"}
+				alpha={interactive ? 1 : 0.5}
+				onpointertap={interactive ? handleClick : undefined}
+				onpointerover={interactive ? (e) => e.currentTarget.alpha = 0.8 : undefined}
+				onpointerout={interactive ? (e) => e.currentTarget.alpha = (interactive ? 1 : 0.5) : undefined}
 			/>
 		</Container>
 	</MainContainer>
