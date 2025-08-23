@@ -28,6 +28,7 @@
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
 	import ControlBar from './ControlBar.svelte';
+	import BuyButton from './BuyButton.svelte';
 
 	const context = getContext();
 
@@ -113,6 +114,7 @@
 		{/if}
 		<FreeSpinOutro />
 		<Transition />
+		<BuyButton />
 
 		<I18nTest />
 

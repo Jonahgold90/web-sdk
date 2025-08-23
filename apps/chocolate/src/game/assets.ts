@@ -25,6 +25,11 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/freeSpinOutro/Bonus_Screen_Outro.png', import.meta.url).href,
 	},
+	buyButton: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/buyButton/Bonus_buy_v03.png', import.meta.url).href,
+		preload: true,
+	},
 	anticipation: {
 		type: 'spine',
 		src: {

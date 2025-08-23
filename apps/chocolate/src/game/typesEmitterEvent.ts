@@ -7,6 +7,7 @@ import type { EmitterEventWin } from '../components/Win.svelte';
 import type { EmitterEventSound } from '../components/Sound.svelte';
 import type { EmitterEventTransition } from '../components/Transition.svelte';
 import type { EmitterEventRetrigPopup } from '../components/RetrigPopup.svelte';
+import type { EmitterEventBuyButton } from '../components/BuyButton.svelte';
 
 export type EmitterEventGame =
 	| EmitterEventBoard
@@ -17,4 +18,5 @@ export type EmitterEventGame =
 	| EmitterEventFreeSpinOutro
 	| EmitterEventSound
 	| EmitterEventTransition
-	| EmitterEventRetrigPopup;
+	| EmitterEventRetrigPopup
+	| EmitterEventBuyButton;
