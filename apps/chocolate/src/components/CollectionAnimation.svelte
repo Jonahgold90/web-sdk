@@ -380,7 +380,7 @@
 		<!-- CW totals display -->
 		<Container bind:this={cwTotalsContainer}>
 			{#each [...cwTotals.entries()] as [key, total] (key)}
-				{#if total.visible}
+				{#if total.visible && total.total > 0}
 					<BitmapText
 						anchor={0.5}
 						x={total.x}
@@ -388,7 +388,7 @@
 						text={numberToCurrencyString(total.total)}
 						style={{
 							fontFamily: 'gold',
-							fontSize: 24,
+							fontSize: 36,
 						}}
 					/>
 				{/if}
@@ -399,17 +399,19 @@
 		<Container>
 			{#each floatingTexts as floatingText (floatingText.id)}
 				<!-- Main floating text using same bitmap text as CC values -->
-				<BitmapText
-					anchor={0.5}
-					x={floatingText.position.x}
-					y={floatingText.position.y}
-					text={floatingText.text}
-					scale={floatingText.showMultiplier ? 1.2 : 1.0}
-					style={{
-						fontFamily: 'gold',
-						fontSize: 30,
-					}}
-				/>
+				{#if floatingText.text !== '$0.00' && floatingText.text !== '0.00' && floatingText.text !== '$0' && floatingText.text !== '0'}
+					<BitmapText
+						anchor={0.5}
+						x={floatingText.position.x}
+						y={floatingText.position.y}
+						text={floatingText.text}
+						scale={floatingText.showMultiplier ? 1.2 : 1.0}
+						style={{
+							fontFamily: 'gold',
+							fontSize: 30,
+						}}
+					/>
+				{/if}
 				
 				<!-- Slam effect - multiplier coming down -->
 				{#if floatingText.slamEffect && floatingText.slamEffect.show && floatingText.multiplier}
