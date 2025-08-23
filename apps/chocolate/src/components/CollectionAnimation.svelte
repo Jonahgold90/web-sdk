@@ -137,7 +137,13 @@
 		baseValue?: number;
 		multipliedValue?: number;
 		multiplier?: number;
+		slamEffect?: {
+			show: boolean;
+			y: number;
+			scale: number;
+		};
 	}>>([]);
+	
 
 	/**
 	 * Animate a single CC → CW collection step using Svelte tweened motion
@@ -171,7 +177,12 @@
 			showMultiplier: false,
 			baseValue: scaled_base_value,
 			multipliedValue: scaled_credited_value,
-			multiplier: step.multiplier_used
+			multiplier: step.multiplier_used,
+			slamEffect: hasMultiplier ? {
+				show: false,
+				y: cwCenter.y - 60, // Start at CW multiplier position
+				scale: 1.0
+			} : undefined
 		};
 		
 		console.log(`📝 Creating floating text: starting with "${floatingTextData.text}" ${hasMultiplier ? `(will multiply by ${step.multiplier_used})` : ''}`);
@@ -196,12 +207,7 @@
 				const currentDistance = Math.abs(x - ccCenter.x);
 				animationProgress = totalDistance > 0 ? currentDistance / totalDistance : 0;
 				
-				// Show multiplier effect at 50% progress for multiplied values
-				if (hasMultiplier && animationProgress >= 0.5 && !floatingTexts[textIndex].showMultiplier) {
-					floatingTexts[textIndex].showMultiplier = true;
-					floatingTexts[textIndex].text = numberToCurrencyString(scaled_credited_value);
-					console.log(`✨ Showing multiplier effect: ${scaled_base_value} × ${step.multiplier_used} = ${scaled_credited_value}`);
-				}
+				// No mid-animation multiplier effect - happens at the end with slam
 				
 				floatingTexts = [...floatingTexts]; // Force reactivity
 			}
@@ -220,6 +226,15 @@
 			tweenedX.set(cwCenter.x),
 			tweenedY.set(cwCenter.y)
 		]);
+		
+		// Trigger slam effect when CC reaches CW (if has multiplier)
+		if (hasMultiplier) {
+			const textIndex = floatingTexts.findIndex(ft => ft.id === textId);
+			if (textIndex !== -1 && floatingTexts[textIndex].slamEffect) {
+				console.log(`💥 Starting slam effect for ${step.multiplier_used}x`);
+				await performSlamEffect(textIndex, textId, scaled_credited_value);
+			}
+		}
 
 		// Clean up subscriptions
 		unsubscribeX();
@@ -247,6 +262,61 @@
 		// Remove floating text from state
 		floatingTexts = floatingTexts.filter(ft => ft.id !== textId);
 		console.log(`🗑️ Removed floating text, array now has ${floatingTexts.length} items`);
+	}
+
+
+	/**
+	 * Perform the slam effect where CW multiplier slams down on the CC value
+	 */
+	async function performSlamEffect(textIndex: number, textId: string, multipliedValue: number): Promise<void> {
+		console.log(`🎯 Performing slam effect - textIndex: ${textIndex}, multiplier: ${floatingTexts[textIndex].multiplier}`);
+		
+		// Show slam effect
+		floatingTexts[textIndex].slamEffect!.show = true;
+		floatingTexts = [...floatingTexts];
+		console.log(`💥 Slam effect show set to true, y position: ${floatingTexts[textIndex].slamEffect!.y}`);
+		
+		// Animate slam down
+		const slamTween = tweened(floatingTexts[textIndex].slamEffect!.y, { duration: 300, easing: cubicOut });
+		const scaleTween = tweened(1.0, { duration: 300, easing: cubicOut });
+		
+		const unsubSlam = slamTween.subscribe(y => {
+			const idx = floatingTexts.findIndex(ft => ft.id === textId);
+			if (idx !== -1 && floatingTexts[idx].slamEffect) {
+				floatingTexts[idx].slamEffect.y = y;
+				floatingTexts = [...floatingTexts];
+			}
+		});
+		
+		const unsubScale = scaleTween.subscribe(scale => {
+			const idx = floatingTexts.findIndex(ft => ft.id === textId);
+			if (idx !== -1 && floatingTexts[idx].slamEffect) {
+				floatingTexts[idx].slamEffect.scale = scale;
+				floatingTexts = [...floatingTexts];
+			}
+		});
+		
+		// Slam down to CC position with scale up
+		await Promise.all([
+			slamTween.set(floatingTexts[textIndex].position.y - 10),
+			scaleTween.set(1.5)
+		]);
+		
+		// Update CC value to multiplied amount
+		floatingTexts[textIndex].showMultiplier = true;
+		floatingTexts[textIndex].text = numberToCurrencyString(multipliedValue);
+		floatingTexts = [...floatingTexts];
+		
+		// Brief pause for impact
+		await new Promise(resolve => setTimeout(resolve, 150));
+		
+		// Scale back down and hide slam effect
+		await scaleTween.set(0.8);
+		floatingTexts[textIndex].slamEffect!.show = false;
+		floatingTexts = [...floatingTexts];
+		
+		unsubSlam();
+		unsubScale();
 	}
 
 	/**
@@ -334,24 +404,24 @@
 					x={floatingText.position.x}
 					y={floatingText.position.y}
 					text={floatingText.text}
+					scale={floatingText.showMultiplier ? 1.2 : 1.0}
 					style={{
 						fontFamily: 'gold',
 						fontSize: 30,
-						tint: floatingText.showMultiplier ? 0x00FF00 : 0xFFFFFF,
 					}}
 				/>
 				
-				<!-- Multiplier indicator when active -->
-				{#if floatingText.showMultiplier && floatingText.multiplier && floatingText.multiplier > 1}
+				<!-- Slam effect - multiplier coming down -->
+				{#if floatingText.slamEffect && floatingText.slamEffect.show && floatingText.multiplier}
 					<BitmapText
 						anchor={0.5}
 						x={floatingText.position.x}
-						y={floatingText.position.y - 25}
-						text={`×${floatingText.multiplier}`}
+						y={floatingText.slamEffect.y}
+						scale={floatingText.slamEffect.scale}
+						text={`${floatingText.multiplier}X`}
 						style={{
 							fontFamily: 'gold',
-							fontSize: 20,
-							tint: 0xFF6600,
+							fontSize: 36,
 						}}
 					/>
 				{/if}
