@@ -16,16 +16,21 @@
 	let extraSpins = $state(0);
 	let oncomplete = $state(() => {});
 
+	// Use the URL approach for static assets
+	const extraSpinsImage1 = new URL('../../assets/sprites/extraSpins/Bonus_Extra_Spins_v01.png', import.meta.url).href;
+	const extraSpinsImage3 = new URL('../../assets/sprites/extraSpins/Bonus_Extra_Spins_x3_v01.png', import.meta.url).href;
+	const extraSpinsImage10 = new URL('../../assets/sprites/extraSpins/Bonus_Extra_Spins_x10_v01.png', import.meta.url).href;
+
 	// Map retrig count to image paths
 	const getRetrigImagePath = (count: number) => {
 		switch (count) {
 			case 1:
-				return '/assets/sprites/extraSpins/Bonus_Extra_Spins_v01.png';
+				return extraSpinsImage1;
 			case 2:
-				return '/assets/sprites/extraSpins/Bonus_Extra_Spins_x3_v01.png';
+				return extraSpinsImage3;
 			case 3:
 			default:
-				return '/assets/sprites/extraSpins/Bonus_Extra_Spins_x10_v01.png';
+				return extraSpinsImage10;
 		}
 	};
 

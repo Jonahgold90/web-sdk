@@ -11,8 +11,8 @@
 	import { getContext } from '../game/context';
 	import PressToContinue from './PressToContinue.svelte';
 	
-	// Use the correct public path
-	const BonusScreenIntro = '/assets/sprites/freeSpinIntro/Bonus_Screen_Intro.png';
+	// Use the URL approach for static assets
+	const BonusScreenIntro = new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_Intro.png', import.meta.url).href;
 
 	const context = getContext();
 

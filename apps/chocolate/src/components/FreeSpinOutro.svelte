@@ -12,9 +12,9 @@
 	import { waitForResolve } from 'utils-shared/wait';
 	import { getContext } from '../game/context';
 	
-	// Use the correct public path
-	const BonusScreenOutro = '/assets/sprites/freeSpinOutro/Bonus_Screen_Outro.png';
-	const BonusScreenOutroText = '/assets/sprites/freeSpinOutro/bonusGame_winScreen_txt.png';
+	// Use the URL approach for static assets
+	const BonusScreenOutro = new URL('../../assets/sprites/freeSpinOutro/Bonus_Screen_Outro.png', import.meta.url).href;
+	const BonusScreenOutroText = new URL('../../assets/sprites/freeSpinOutro/bonusGame_winScreen_txt.png', import.meta.url).href;
 
 	const context = getContext();
 
