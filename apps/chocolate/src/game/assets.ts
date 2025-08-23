@@ -30,6 +30,16 @@ export default {
 		src: new URL('../../assets/sprites/buyButton/Bonus_buy_v03.png', import.meta.url).href,
 		preload: true,
 	},
+	xBetButtonOff: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/buyButton/xBet_off_v04.png', import.meta.url).href,
+		preload: true,
+	},
+	xBetButtonOn: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/buyButton/xBet_on_v04.png', import.meta.url).href,
+		preload: true,
+	},
 	anticipation: {
 		type: 'spine',
 		src: {
@@ -226,6 +236,19 @@ export default {
 	Bonus_Screen_Intro: {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_Intro.png', import.meta.url).href,
+	},
+	// Free Spin Intro PNGs - specific spin counts
+	Bonus_Screen_10FS: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_10FS_v02.png', import.meta.url).href,
+	},
+	Bonus_Screen_15FS: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_15FS_v02.png', import.meta.url).href,
+	},
+	Bonus_Screen_20FS: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_20FS_v02.png', import.meta.url).href,
 	},
 	// Extra Spins Retrig PNGs
 	extraSpinsRetrig1: {

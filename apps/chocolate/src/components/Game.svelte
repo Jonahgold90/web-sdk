@@ -29,6 +29,7 @@
 	import I18nTest from './I18nTest.svelte';
 	import ControlBar from './ControlBar.svelte';
 	import BuyButton from './BuyButton.svelte';
+	import XBetButton from './XBetButton.svelte';
 
 	const context = getContext();
 
@@ -113,6 +114,7 @@
 		<FreeSpinOutro />
 		<Transition />
 		<BuyButton />
+		<XBetButton />
 
 		<I18nTest />
 

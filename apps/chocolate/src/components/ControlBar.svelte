@@ -47,6 +47,8 @@
 			isGameActive,
 			canPlay,
 			betAmount: stateBet.betAmount,
+			betCost: stateBetDerived.betCost(),
+			activeBetModeKey: stateBet.activeBetModeKey,
 			balanceAmount: stateBet.balanceAmount,
 			gameType: stateGame.gameType,
 			autoSpinsCounter: stateBet.autoSpinsCounter
@@ -239,7 +241,7 @@
 			<div class="bet-controls">
 				<div class="bet-display">
 					<span class="label">Bet</span>
-					<span class="value">{formatCurrency(stateBet.betAmount)}</span>
+					<span class="value">{formatCurrency(stateBetDerived.betCost())}</span>
 				</div>
 				<div class="bet-buttons">
 					<button 

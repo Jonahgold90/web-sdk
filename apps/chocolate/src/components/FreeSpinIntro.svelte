@@ -11,15 +11,26 @@
 	import { getContext } from '../game/context';
 	import PressToContinue from './PressToContinue.svelte';
 	import ContinueButton from './ContinueButton.svelte';
-	
-	// Use the URL approach for static assets
-	const BonusScreenIntro = new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_Intro.png', import.meta.url).href;
 
 	const context = getContext();
 
 	let show = $state(false);
 	let freeSpinsFromEvent = $state(0);
 	let oncomplete = $state(() => {});
+	
+	// Determine which image URL to use based on free spins count
+	let imageUrl = $derived.by(() => {
+		if (freeSpinsFromEvent <= 10) {
+			return new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_10FS_v02.png', import.meta.url).href;
+		} else if (freeSpinsFromEvent <= 15) {
+			return new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_15FS_v02.png', import.meta.url).href;
+		} else if (freeSpinsFromEvent <= 20) {
+			return new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_20FS_v02.png', import.meta.url).href;
+		} else {
+			// Fallback to 20FS for higher counts
+			return new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_20FS_v02.png', import.meta.url).href;
+		}
+	});
 
 	context.eventEmitter.subscribeOnMount({
 		freeSpinIntroShow: () => (show = true),
@@ -38,7 +49,7 @@
 	>
 		<div style="text-align: center;">
 			<img 
-				src={BonusScreenIntro} 
+				src={imageUrl} 
 				alt="Free Spins Bonus" 
 				style="max-width: 80vw; max-height: 60vh; width: auto; height: auto; margin: 0; display: block;"
 			/>
