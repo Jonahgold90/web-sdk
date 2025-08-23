@@ -49,7 +49,7 @@
 
 {#if show}
 	<div 
-		style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 15vh; cursor: pointer;"
+		style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding-top: 10vh; cursor: pointer;"
 		onclick={() => oncomplete()}
 	>
 		<div style="text-align: center;">
