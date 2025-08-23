@@ -8,33 +8,24 @@
 </script>
 
 <script lang="ts">
-	import { Sprite, SpineProvider, SpineTrack, SpineSlot } from 'pixi-svelte';
-	import { FadeContainer, WinCountUpProvider, ResponsiveBitmapText } from 'components-pixi';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { waitForResolve } from 'utils-shared/wait';
-	import { CanvasSizeRectangle } from 'components-layout';
-	import { OnMount } from 'components-shared';
-	import { stateUrlDerived } from 'state-shared';
-
 	import { getContext } from '../game/context';
-	import FreeSpinAnimation from './FreeSpinAnimation.svelte';
-	import PressToContinue from './PressToContinue.svelte';
-	import WinCoins from './WinCoins.svelte';
-
-	type AnimationName = 'intro' | 'idle';
+	
+	// Use the correct public path
+	const BonusScreenOutro = '/assets/sprites/freeSpinOutro/Bonus_Screen_Outro.png';
+	const BonusScreenOutroText = '/assets/sprites/freeSpinOutro/bonusGame_winScreen_txt.png';
 
 	const context = getContext();
 
-	let show = $state(true);
-	let animationName = $state<AnimationName>('intro');
+	let show = $state(false);
 	let amount = $state(0);
 	let winLevelData = $state<WinLevelData>();
 	let oncomplete = $state(() => {});
-	let onCountUpComplete = $state(() => {});
 
 	context.eventEmitter.subscribeOnMount({
 		freeSpinOutroShow: () => (show = true),
-		freeSpinOutroHide: async () => (show = false),
+		freeSpinOutroHide: () => (show = false),
 		freeSpinOutroCountUp: async (emitterEvent) => {
 			amount = emitterEvent.amount;
 			winLevelData = emitterEvent.winLevelData;
@@ -43,69 +34,35 @@
 	});
 </script>
 
-<FadeContainer {show}>
-	{#if winLevelData}
-		{@const duration = winLevelData.presentDuration}
-		{@const isBigWin = winLevelData.type === 'big'}
-		<WinCountUpProvider {amount} {duration} oncomplete={() => onCountUpComplete()}>
-			{#snippet children({ countUpAmount, startCountUp, finishCountUp, countUpCompleted })}
-				<OnMount onmount={() => startCountUp()} />
-
-				<CanvasSizeRectangle backgroundColor={0x000000} backgroundAlpha={0.5} />
-
-				<FreeSpinAnimation>
-					{#snippet children({ sizes })}
-						{#if isBigWin}
-							<Sprite
-								anchor={{ x: 0.5, y: 1.2 }}
-								width={500 * 2.2}
-								height={156 * 2.2}
-								key="freespins_{stateUrlDerived.lang()}.png"
-							/>
-						{:else}
-							<Sprite
-								anchor={{ x: 0.5, y: 1.2 }}
-								width={500 * 4.5}
-								height={80 * 4.5}
-								key="winsmall_{stateUrlDerived.lang()}.png"
-							/>
-						{/if}
-
-						<SpineProvider key="fsOutroNumber" width={sizes.width * 0.4}>
-							<SpineTrack
-								trackIndex={0}
-								{animationName}
-								loop={animationName === 'idle'}
-								listener={{
-									complete: () => (animationName = 'idle'),
-								}}
-							/>
-							<SpineSlot slotName="slot_number">
-								<ResponsiveBitmapText
-									anchor={0.5}
-									style={{
-										fontFamily: 'gold',
-										fontSize: sizes.width * 0.08,
-									}}
-									text={bookEventAmountToCurrencyString(countUpAmount)}
-									maxWidth={sizes.width}
-								/>
-							</SpineSlot>
-						</SpineProvider>
-
-						<Sprite
-							anchor={{ x: 0.5, y: isBigWin ? -3.2 : -2 }}
-							width={177 * (isBigWin ? 2.2 : 3)}
-							height={42 * (isBigWin ? 2.2 : 3)}
-							key="totalwin.png"
-						/>
-					{/snippet}
-				</FreeSpinAnimation>
-
-				<WinCoins emit={!countUpCompleted} levelAlias={winLevelData?.alias} />
-
-				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
-			{/snippet}
-		</WinCountUpProvider>
-	{/if}
-</FadeContainer>
+{#if show}
+	<div 
+		style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+		onclick={() => oncomplete()}
+	>
+		<div style="text-align: center; position: relative;">
+			<img 
+				src={BonusScreenOutro} 
+				alt="Free Spins Outro" 
+				style="max-width: 80vw; max-height: 60vh; width: auto; height: auto;"
+			/>
+			
+			<!-- Text overlay image -->
+			<img 
+				src={BonusScreenOutroText} 
+				alt="Congratulations Text" 
+				style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); max-width: 80%; width: auto; height: auto; z-index: 2;"
+			/>
+			
+			<!-- Win amount positioned over the background -->
+			{#if amount > 0}
+				<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #FFD700; font-family: 'Arial Black', Arial, sans-serif; font-size: 3vw; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); z-index: 3;">
+					{bookEventAmountToCurrencyString(amount)}
+				</div>
+			{/if}
+			
+			<div style="color: white; margin-top: 20px; font-family: Arial, sans-serif; font-size: 18px;">
+				Click anywhere to continue
+			</div>
+		</div>
+	</div>
+{/if}

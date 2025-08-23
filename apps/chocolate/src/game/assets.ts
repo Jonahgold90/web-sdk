@@ -231,4 +231,9 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/extraSpins/Bonus_Extra_Spins_x10_v01.png', import.meta.url).href,
 	},
+	// Free Spin Outro PNG
+	Bonus_Screen_Outro: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/freeSpinOutro/Bonus_Screen_Outro.png', import.meta.url).href,
+	},
 } as const;
