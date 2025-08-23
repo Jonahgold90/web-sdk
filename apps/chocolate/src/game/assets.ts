@@ -21,6 +21,10 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/payFrame/payFrame.png', import.meta.url).href,
 	},
+	freeSpinOutroBackground: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/freeSpinOutro/Bonus_Screen_Outro.png', import.meta.url).href,
+	},
 	anticipation: {
 		type: 'spine',
 		src: {

@@ -10,6 +10,7 @@
 	import { waitForResolve } from 'utils-shared/wait';
 	import { getContext } from '../game/context';
 	import PressToContinue from './PressToContinue.svelte';
+	import ContinueButton from './ContinueButton.svelte';
 	
 	// Use the URL approach for static assets
 	const BonusScreenIntro = new URL('../../assets/sprites/freeSpinIntro/Bonus_Screen_Intro.png', import.meta.url).href;
@@ -39,11 +40,9 @@
 			<img 
 				src={BonusScreenIntro} 
 				alt="Free Spins Bonus" 
-				style="max-width: 80vw; max-height: 60vh; width: auto; height: auto;"
+				style="max-width: 80vw; max-height: 60vh; width: auto; height: auto; margin: 0; display: block;"
 			/>
-			<div style="color: white; margin-top: 20px; font-family: Arial, sans-serif; font-size: 18px;">
-				Click anywhere to continue
-			</div>
+			<ContinueButton onclick={() => oncomplete()} />
 		</div>
 	</div>
 {/if}
