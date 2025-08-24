@@ -30,6 +30,7 @@
 	import ControlBar from './ControlBar.svelte';
 	import BuyButton from './BuyButton.svelte';
 	import XBetButton from './XBetButton.svelte';
+	import BuyConfirmation from './BuyConfirmation.svelte';
 
 	const context = getContext();
 
@@ -115,6 +116,7 @@
 		<Transition />
 		<BuyButton />
 		<XBetButton />
+		<BuyConfirmation />
 
 		<I18nTest />
 

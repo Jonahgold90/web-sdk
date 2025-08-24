@@ -36,6 +36,11 @@ export default {
 		src: new URL('../../assets/sprites/buyButton/xBet_on_v04.png', import.meta.url).href,
 		preload: true,
 	},
+	buyFreeSpins: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/buyConfirmation/BUY_FREE_SPINS.png', import.meta.url).href,
+		preload: true,
+	},
 	anticipation: {
 		type: 'gif',
 		src: new URL('../../assets/sprites/anticipation/Candy_Crypt_anticipation_02_1.gif', import.meta.url).href,
