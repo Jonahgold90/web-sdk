@@ -11,6 +11,7 @@ export type Sizes = {
 export type LoadedSpine = SPINE_PIXI.SkeletonData;
 export type LoadedFont = PIXI.BitmapFont;
 export type LoadedSprite = PIXI.Texture;
+export type LoadedGif = any; // GIF will be loaded as a GifSprite (using any to avoid import issues)
 export type LoadedSpriteSheet = PIXI.Texture[];
 export type LoadedAudio<TSoundName extends string> = {
 	src: string | string[];
@@ -19,16 +20,17 @@ export type LoadedAudio<TSoundName extends string> = {
 	};
 	config: Record<TSoundName, { volume: number }>;
 };
-export type LoadedAsset = LoadedSpine | LoadedSprite | LoadedSpriteSheet | LoadedAudio<string>;
+export type LoadedAsset = LoadedSpine | LoadedSprite | LoadedSpriteSheet | LoadedGif | LoadedAudio<string>;
 export type LoadedAssets = PIXI.Dict<LoadedAsset>;
 
 export type RawAudio = LoadedAudio<string>;
 export type RawSpine = PIXI.Dict<SPINE_PIXI.TextureAtlas | Uint8Array>;
 export type RawSprite = LoadedSprite;
+export type RawGif = PIXI.Texture; // Raw GIF will be loaded as a texture first
 export type RawSprites = { textures: PIXI.Dict<LoadedSprite> };
 export type RawSpriteSheet = { textures: PIXI.Dict<LoadedSprite> };
-export type RawAsset = RawSpine | RawSprite | RawSprites | RawSpriteSheet | RawAudio;
-export type RawType = 'spine' | 'sprite' | 'sprites' | 'spriteSheet' | 'font' | 'audio';
+export type RawAsset = RawSpine | RawSprite | RawGif | RawSprites | RawSpriteSheet | RawAudio;
+export type RawType = 'spine' | 'sprite' | 'gif' | 'sprites' | 'spriteSheet' | 'font' | 'audio';
 
 export type SpineSrc = { skeleton: string; atlas: string; scale?: number };
 export type Asset = { type: RawType; src: string | SpineSrc; preload?: boolean };

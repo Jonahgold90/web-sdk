@@ -17,6 +17,7 @@
     "e2e-mobile": "turbo run e2e-mobile"
   },
   "dependencies": {
+    "@pixi/gif": "^3.0.1",
     "eslint": "9.21.0",
     "eslint-config-custom": "workspace:*",
     "gsap": "^3.13.0",

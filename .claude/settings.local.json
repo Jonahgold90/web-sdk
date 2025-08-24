@@ -9,7 +9,8 @@
       "Bash(mkdir:*)",
       "Bash(timeout 30 pnpm run build)",
       "Bash(rm:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

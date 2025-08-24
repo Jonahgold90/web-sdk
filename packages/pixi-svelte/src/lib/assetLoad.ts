@@ -1,5 +1,6 @@
 import * as SPINE_PIXI from '@esotericsoftware/spine-pixi-v8';
-import type { RawType, RawAsset, RawSpine, RawSprites, SpineSrc, RawAudio } from './types';
+import { GifSprite } from 'pixi.js/gif';
+import type { RawType, RawAsset, RawSpine, RawSprites, RawGif, SpineSrc, RawAudio } from './types';
 
 const PROCESS_METHOD_MAP = {
 	spine: ({ key, rawAsset, src }: { key: string; rawAsset: RawSpine; src: SpineSrc }) => {
@@ -17,6 +18,16 @@ const PROCESS_METHOD_MAP = {
 		return { [key]: skeletonData };
 	},
 	sprite: ({ key, rawAsset }: { key: string; rawAsset: RawSprites }) => ({ [key]: rawAsset }),
+	gif: ({ key, rawAsset }: { key: string; rawAsset: RawGif }) => {
+		// Create a GIF sprite from the loaded texture
+		const gifSprite = new GifSprite({
+			source: rawAsset,
+			autoPlay: true,
+			loop: true,
+			animationSpeed: 1
+		});
+		return { [key]: gifSprite };
+	},
 	sprites: ({ rawAsset }: { rawAsset: RawSprites }) => rawAsset.textures,
 	spriteSheet: ({ key, rawAsset }: { key: string; rawAsset: RawSprites }) => ({
 		[key]: Object.values(rawAsset.textures),

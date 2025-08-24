@@ -41,12 +41,9 @@ export default {
 		preload: true,
 	},
 	anticipation: {
-		type: 'spine',
-		src: {
-			atlas: new URL('../../assets/spines/anticipation/anticipation.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/anticipation/anticipation.json', import.meta.url).href,
-			scale: 2,
-		},
+		type: 'gif',
+		src: new URL('../../assets/sprites/anticipation/Candy_Crypt_anticipation_02_1.gif', import.meta.url).href,
+		preload: true,
 	},
 	goldFont: {
 		type: 'font',
