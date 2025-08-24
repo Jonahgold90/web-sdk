@@ -34,11 +34,20 @@
 	// Interactive only when showing and game is not spinning
 	let interactive = $derived(show && !isSpinning);
 
-	// Button sizing and positioning - let PIXI maintain aspect ratio
-	const buttonSize = $derived(SYMBOL_SIZE * 2); // Base size
-	const position = $derived({
-		x: 100, // Simple left position for testing
-		y: 300, // Simple center position for testing
+	// Comprehensive responsive positioning
+	const position = $derived(() => {
+		const layout = context.stateLayoutDerived.mainLayout();
+		const width = layout.width;
+		const height = layout.height;
+		
+		// Mobile/Tablet: < 1024px - side by side above control bar, below board
+		if (width < 1024) {
+			return { x: 50, y: height - 180 }; // Above control bar (control bar is at bottom)
+		}
+		// Desktop: >= 1024px - stacked vertically on left side
+		else {
+			return { x: 100, y: 300 };
+		}
 	});
 	
 	// Debug the positioning and game state
@@ -84,7 +93,7 @@
 
 {#if show}
 	<MainContainer>
-		<Container x={100} y={300}>
+		<Container x={position().x} y={position().y}>
 			<Sprite 
 				key="buyButton" 
 				width={200} 

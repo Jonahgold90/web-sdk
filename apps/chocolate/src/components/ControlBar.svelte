@@ -13,7 +13,6 @@
 	const ZapIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"></polygon></svg>`;
 	const RefreshCwIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23,4 23,10 17,10"></polyline><path d="M20.49,15a9,9,0,1,1-2.12-9.36L23,10"></path></svg>`;
 	const InfoIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
-	const ShoppingCartIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="m1 1 4 4 16 0L19 14H7l-2-9H3"></path></svg>`;
 	const Volume2Icon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5"></polygon><path d="M19.07,4.93A10,10,0,0,1,23,12a10,10,0,0,1-3.93,7.07"></path><path d="M15.54,8.46A5,5,0,0,1,17,12a5,5,0,0,1-1.46,3.54"></path></svg>`;
 	const MusicIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9,18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`;
 
@@ -156,10 +155,6 @@
 		onGameInfo();
 	};
 
-	const handleBuyBonus = () => {
-		playClickSound();
-		stateModal.modal = { name: 'buyBonus' };
-	};
 
 	const handlePlayClick = () => {
 		console.log('Play button clicked!', { canPlay, isGameActive });
@@ -297,14 +292,6 @@
 					<div class="action-icon">{@html ZapIcon}</div>
 				</button>
 
-				<!-- Buy Bonus Button -->
-				<button 
-					onclick={handleBuyBonus}
-					class="action-button buy-bonus"
-					disabled={isGameActive}
-				>
-					<div class="action-icon">{@html ShoppingCartIcon}</div>
-				</button>
 			</div>
 		</div>
 	</div>
@@ -861,22 +848,6 @@
 		background: rgb(202, 138, 4);
 	}
 
-	.action-button.buy-bonus {
-		background: rgb(59, 130, 246);
-	}
-
-	.action-button.buy-bonus:hover:not(:disabled) {
-		background: rgb(37, 99, 235);
-	}
-
-	.action-button.buy-bonus:disabled {
-		background: rgb(30, 41, 59);
-		cursor: not-allowed;
-	}
-
-	.action-button.buy-bonus:disabled .action-icon {
-		color: rgb(71, 85, 105);
-	}
 
 	.action-icon {
 		width: 0.875rem;

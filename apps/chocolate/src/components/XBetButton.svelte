@@ -51,10 +51,21 @@
 			: 'xBetButtonOff'
 	);
 
-	// Button sizing and positioning - using original image dimensions
-	const position = $derived({
-		x: 100, // Centered under bonus buy button (same x as bonus button now)
-		y: 420, // Position under the bonus buy button
+	// Comprehensive responsive positioning to match BuyButton
+	const position = $derived(() => {
+		const layout = context.stateLayoutDerived.mainLayout();
+		const width = layout.width;
+		const height = layout.height;
+		
+		// Mobile/Tablet: < 1024px - to the right of bonus buy, above control bar
+		if (width < 1024) {
+			const bonusBuyX = 50;
+			return { x: bonusBuyX + 220, y: height - 180 }; // Same height as bonus buy
+		}
+		// Desktop: >= 1024px - stacked below bonus buy button
+		else {
+			return { x: 100, y: 420 };
+		}
 	});
 	
 	// Use original image dimensions scaled down appropriately
@@ -107,7 +118,7 @@
 
 {#if show}
 	<MainContainer>
-		<Container x={position.x} y={position.y}>
+		<Container x={position().x} y={position().y}>
 			<Sprite 
 				key={spriteKey} 
 				width={buttonWidth} 
