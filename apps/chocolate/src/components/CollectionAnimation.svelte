@@ -34,9 +34,9 @@
 	});
 
 	// Debug effect to monitor floatingTexts changes
-	$effect(() => {
-		console.log(`🔍 Floating texts changed: ${floatingTexts.length} texts`, floatingTexts.map(ft => `${ft.id}: "${ft.text}" at (${ft.position.x.toFixed(1)}, ${ft.position.y.toFixed(1)})`));
-	});
+	// $effect(() => {
+	// 	console.log(`🔍 Floating texts changed: ${floatingTexts.length} texts`, floatingTexts.map(ft => `${ft.id}: "${ft.text}" at (${ft.position.x.toFixed(1)}, ${ft.position.y.toFixed(1)})`));
+	// });
 
 	/**
 	 * Calculate scaled values based on current bet
@@ -185,9 +185,9 @@
 			} : undefined
 		};
 		
-		console.log(`📝 Creating floating text: starting with "${floatingTextData.text}" ${hasMultiplier ? `(will multiply by ${step.multiplier_used})` : ''}`);
+		// console.log(`📝 Creating floating text: starting with "${floatingTextData.text}" ${hasMultiplier ? `(will multiply by ${step.multiplier_used})` : ''}`);
 		floatingTexts = [...floatingTexts, floatingTextData];
-		console.log(`📝 Floating texts array now has ${floatingTexts.length} items`);
+		// console.log(`📝 Floating texts array now has ${floatingTexts.length} items`);
 
 		// Create tweened stores for smooth animation
 		const tweenedX = tweened(ccCenter.x, { duration: 1500, easing: cubicOut });

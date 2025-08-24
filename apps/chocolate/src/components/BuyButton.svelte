@@ -42,14 +42,14 @@
 	});
 	
 	// Debug the positioning and game state
-	$effect(() => {
-		console.log('BuyButton show:', show, 'interactive:', interactive, 'isSpinning:', isSpinning);
-		console.log('Spinning details:', {
-			isPreSpinning: stateSlots.isPreSpinning,
-			reelMotions: context.stateGame.board.map(reel => reel.reelState.motion),
-			gameType: context.stateGame.gameType
-		});
-	});
+	// $effect(() => {
+	// 	console.log('BuyButton show:', show, 'interactive:', interactive, 'isSpinning:', isSpinning);
+	// 	console.log('Spinning details:', {
+	// 		isPreSpinning: stateSlots.isPreSpinning,
+	// 		reelMotions: context.stateGame.board.map(reel => reel.reelState.motion),
+	// 		gameType: context.stateGame.gameType
+	// 	});
+	// });
 
 	context.eventEmitter.subscribeOnMount({
 		buyButtonShow: () => (manualShow = true),

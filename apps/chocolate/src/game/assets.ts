@@ -1,11 +1,7 @@
 export default {
 	loader: {
-		type: 'spine',
-		src: {
-			atlas: new URL('../../assets/spines/loader/loader.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/loader/loader.json', import.meta.url).href,
-			scale: 2,
-		},
+		type: 'sprite',
+		src: new URL('../../assets/sprites/loaderImg/intro_screen_v02.png', import.meta.url).href,
 		preload: true,
 	},
 	pressToContinueText: {

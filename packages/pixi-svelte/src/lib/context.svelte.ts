@@ -22,7 +22,13 @@ export function createContextParent(value: PIXI.Container) {
 			context.parent.sortChildren();
 
 			return () => {
-				if (node) node.destroy(); // Equivalent to onDestroy(); Leave this comment for searching.
+				if (node) {
+					try {
+						node.destroy();
+					} catch (error) {
+						// Silently handle node destruction errors that may occur with dev tools open
+					}
+				}
 			};
 		});
 	};
