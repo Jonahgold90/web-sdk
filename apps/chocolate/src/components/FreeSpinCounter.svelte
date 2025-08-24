@@ -34,11 +34,12 @@
 				y: boardLayout.y - boardLayout.height * 0.5 - panelSizes.height - SYMBOL_SIZE * 0.3,
 			};
 		} else {
-			// Desktop/Landscape: centered between left edge and board
-			const boardLeftEdge = boardLayout.x - boardLayout.width * 0.5;
-			const availableSpace = boardLeftEdge; // distance from left edge (0) to board
+			// Desktop/Landscape: centered between board and right edge
+			const boardRightEdge = boardLayout.x + boardLayout.width * 0.5;
+			const screenWidth = context.stateLayoutDerived.mainLayout().width;
+			const availableSpace = screenWidth - boardRightEdge; // distance from board to right edge
 			return {
-				x: availableSpace * 0.5 - panelSizes.width * 0.5,
+				x: boardRightEdge + availableSpace * 0.5 - panelSizes.width * 0.5,
 				y: boardLayout.y - boardLayout.height * 0.5,
 			};
 		}
