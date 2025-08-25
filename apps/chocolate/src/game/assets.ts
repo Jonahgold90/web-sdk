@@ -70,14 +70,6 @@ export default {
 			scale: 2,
 		},
 	},
-	globalMultiplier: {
-		type: 'spine',
-		src: {
-			atlas: new URL('../../assets/spines/globalMultiplier/multiframe.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/globalMultiplier/multiframe.json', import.meta.url).href,
-			scale: 2,
-		},
-	},
 	// foregroundAnimation: {
 	// 	type: 'spine',
 	// 	src: {
