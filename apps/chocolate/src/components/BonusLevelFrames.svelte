@@ -8,8 +8,19 @@
 
 	const context = getContext();
 	
-	// Frame dimensions (84x222) with scaling based on SYMBOL_SIZE
-	const frameScale = $derived(SYMBOL_SIZE / 150); // Adjust scaling factor as needed
+	// Frame dimensions (84x222) with scaling based on SYMBOL_SIZE and screen size
+	const frameScale = $derived.by(() => {
+		const layoutType = context.stateLayoutDerived.layoutType();
+		const screenWidth = context.stateLayoutDerived.mainLayout().width;
+		const baseScale = SYMBOL_SIZE / 150;
+		
+		// Make smaller on tablet screens (landscape but smaller width)
+		if (layoutType !== 'portrait' && screenWidth <= 1024) {
+			return baseScale * 0.8; // 20% smaller on tablet
+		}
+		
+		return baseScale;
+	});
 	const frameWidth = $derived(84 * frameScale);
 	const frameHeight = $derived(222 * frameScale);
 	const frameSpacing = $derived(frameWidth * 0.1); // Much smaller spacing
@@ -36,10 +47,10 @@
 		const boardLayout = context.stateGameDerived.boardLayout();
 		
 		if (layoutType === 'portrait') {
-			// Mobile: center below the free spin counter
+			// Mobile: center higher up, closer to the board
 			return {
 				x: boardLayout.x - (frameWidth * 3 + frameSpacing * 2) * 0.5,
-				y: boardLayout.y + boardLayout.height * 0.5 + frameHeight + SYMBOL_SIZE * 0.3,
+				y: boardLayout.y + boardLayout.height * 0.5 + SYMBOL_SIZE * 0.2,
 			};
 		} else {
 			// Desktop/Landscape: positioned to the left of the board

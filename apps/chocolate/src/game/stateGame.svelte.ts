@@ -80,13 +80,24 @@ export const stateGame = $state({
 	retrigCount: 0,
 });
 
-const boardLayout = () => ({
-	x: stateLayoutDerived.mainLayout().width * 0.5,
-	y: stateLayoutDerived.mainLayout().height * 0.5,
-	anchor: { x: 0.5, y: 0.5 },
-	pivot: { x: BOARD_SIZES.width / 2, y: BOARD_SIZES.height / 2 },
-	...BOARD_SIZES,
-});
+const boardLayout = () => {
+	const layoutType = stateLayoutDerived.layoutType();
+	const mainLayout = stateLayoutDerived.mainLayout();
+	const isBonus = stateGame.gameType === 'freegame';
+	
+	// On tablet/laptop in bonus mode, shift board right to make room for level bars
+	const xPosition = (layoutType !== 'portrait' && isBonus)
+		? mainLayout.width * 0.58 // Tablet/Desktop in bonus: shifted right
+		: mainLayout.width * 0.5; // All other cases: centered
+	
+	return {
+		x: xPosition,
+		y: mainLayout.height * 0.5,
+		anchor: { x: 0.5, y: 0.5 },
+		pivot: { x: BOARD_SIZES.width / 2, y: BOARD_SIZES.height / 2 },
+		...BOARD_SIZES,
+	};
+};
 
 const boardRaw = () =>
 	board.map((reel) => reel.reelState.symbols.map((reelSymbol) => reelSymbol.rawSymbol));
