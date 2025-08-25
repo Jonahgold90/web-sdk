@@ -125,6 +125,13 @@ type BookEventCCCollectSequence = {
 };
 
 // customised
+type BookEventCwLanded = {
+	index: number;
+	type: 'cwLanded';
+	count: number;
+	totalCws: number;
+};
+
 type BookEventCreateBonusSnapshot = {
 	index: number;
 	type: 'createBonusSnapshot';
@@ -146,6 +153,7 @@ export type BookEvent =
 	| BookEventLevelAdvance
 	| BookEventCCCollectSequence
 	// customised
+	| BookEventCwLanded
 	| BookEventCreateBonusSnapshot;
 
 export type Bet = BetType<BookEvent>;

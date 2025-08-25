@@ -24,6 +24,7 @@
 	import FreeSpinIntro from './FreeSpinIntro.svelte';
 	import FreeSpinCounter from './FreeSpinCounter.svelte';
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
+	import BonusLevelFrames from './BonusLevelFrames.svelte';
 	import RetrigPopup from './RetrigPopup.svelte';
 	import Transition from './Transition.svelte';
 	import I18nTest from './I18nTest.svelte';
@@ -112,6 +113,7 @@
 		<FreeSpinIntro />
 		<RetrigPopup />
 		<FreeSpinCounter />
+		<BonusLevelFrames />
 		<FreeSpinOutro />
 		<Transition />
 		<BuyButton />

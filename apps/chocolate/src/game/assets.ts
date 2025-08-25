@@ -262,4 +262,64 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/freeSpinOutro/Bonus_Screen_Outro.png', import.meta.url).href,
 	},
+	// Bonus Level Frames
+	bonusLevelFrameX2: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelFrames/Bonus_Game_Frame_Level_x2_v07A.png', import.meta.url).href,
+	},
+	bonusLevelFrameX3: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelFrames/Bonus_Game_Frame_Level_x3_v07A.png', import.meta.url).href,
+	},
+	bonusLevelFrameX10: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelFrames/Bonus_Game_Frame_Level_x10_v07A.png', import.meta.url).href,
+	},
+	// Level Bar Headers
+	levelBarHeaderX2: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/levelBarHeaders/Bonus_Game_Level_x2_grey.png', import.meta.url).href,
+	},
+	levelBarHeaderX3: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/levelBarHeaders/Bonus_Game_Level_x3_grey.png', import.meta.url).href,
+	},
+	levelBarHeaderX10: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/levelBarHeaders/Bonus_Game_Level_x10_grey.png', import.meta.url).href,
+	},
+	levelBarHeaderX2Color: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/levelBarHeaders/Bonus_Game_Level_x2_color.png', import.meta.url).href,
+	},
+	levelBarHeaderX3Color: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/levelBarHeaders/Bonus_Game_Level_x3_color.png', import.meta.url).href,
+	},
+	levelBarHeaderX10Color: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/levelBarHeaders/Bonus_Game_Level_x10_color.png', import.meta.url).href,
+	},
+	// Bonus Level Characters
+	bonusLevelCharacterGrey: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelCharacters/Bonus_Game_CW_grey.png', import.meta.url).href,
+	},
+	bonusLevelCharacterColor: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelCharacters/Bonus_Game_CW_color.png', import.meta.url).href,
+	},
+	// Bonus Level Frame Backgrounds
+	bonusLevelFrameBackgroundX2: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelFrameBackgrounds/Bonus_Game_Frame_Level_x2_BG_v07A.png', import.meta.url).href,
+	},
+	bonusLevelFrameBackgroundX3: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelFrameBackgrounds/Bonus_Game_Frame_Level_x3_BG_v07A.png', import.meta.url).href,
+	},
+	bonusLevelFrameBackgroundX10: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/bonusLevelFrameBackgrounds/Bonus_Game_Frame_Level_x10_BG_v07A.png', import.meta.url).href,
+	},
 } as const;

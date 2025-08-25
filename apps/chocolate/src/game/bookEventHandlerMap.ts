@@ -49,10 +49,10 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	reveal: async (bookEvent: BookEventOfType<'reveal'>, { bookEvents }: BookEventContext) => {
 		// Check for spinWinTotal events in this book
 		const spinWinTotalEvents = bookEvents.filter(event => event.type === 'spinWinTotal');
-		console.log('🔍 REVEAL: Found', spinWinTotalEvents.length, 'spinWinTotal events in this book');
-		if (spinWinTotalEvents.length > 0) {
-			console.log('🔍 spinWinTotal events:', spinWinTotalEvents);
-		}
+		//console.log('🔍 REVEAL: Found', spinWinTotalEvents.length, 'spinWinTotal events in this book');
+		// if (spinWinTotalEvents.length > 0) {
+		// 	console.log('🔍 spinWinTotal events:', spinWinTotalEvents);
+		// }
 		
 		const isBonusGame = checkIsMultipleRevealEvents({ bookEvents });
 		if (isBonusGame) {
@@ -68,29 +68,29 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'soundScatterCounterClear' });
 	},
 	winInfo: async (bookEvent: BookEventOfType<'winInfo'>) => {
-		console.log('winInfo called at index:', bookEvent.index, 'totalWin:', bookEvent.totalWin, 'wins count:', bookEvent.wins.length);
+		// console.log('winInfo called at index:', bookEvent.index, 'totalWin:', bookEvent.totalWin, 'wins count:', bookEvent.wins.length);
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_winlevel_small' });
 		
 		// Process each line win sequentially
 		for (let i = 0; i < bookEvent.wins.length; i++) {
-			console.log(`Animating line ${i + 1} of ${bookEvent.wins.length}:`, bookEvent.wins[i].meta.lineIndex);
+			// console.log(`Animating line ${i + 1} of ${bookEvent.wins.length}:`, bookEvent.wins[i].meta.lineIndex);
 			await animateSymbols({ positions: bookEvent.wins[i].positions });
 		}
 	},
 	setTotalWin: async (bookEvent: BookEventOfType<'setTotalWin'>, { bookEvents }: BookEventContext) => {
-		console.log('📊 setTotalWin called with amount:', bookEvent.amount, 'at index:', bookEvent.index);
+		// console.log('📊 setTotalWin called with amount:', bookEvent.amount, 'at index:', bookEvent.index);
 		
 		// Check if there's a spinWinTotal event that will handle this win
 		const hasSpinWinTotal = bookEvents.some(event => event.type === 'spinWinTotal');
 		
 		if (hasSpinWinTotal) {
-			console.log('📊 spinWinTotal event exists, skipping setTotalWin - will be handled by spinWinTotal');
+			// console.log('📊 spinWinTotal event exists, skipping setTotalWin - will be handled by spinWinTotal');
 			return;
 		}
 		
 		// Only run if no spinWinTotal exists (fallback behavior)
 		stateBet.winBookEventAmount = bookEvent.amount;
-		console.log('📊 setTotalWin updated control bar to:', bookEvent.amount);
+		// console.log('📊 setTotalWin updated control bar to:', bookEvent.amount);
 	},
 	freeSpinTrigger: async (bookEvent: BookEventOfType<'freeSpinTrigger'>) => {
 		// animate scatters
@@ -158,30 +158,30 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'drawerButtonHide' });
 	},
 	setWin: async (bookEvent: BookEventOfType<'setWin'>, { bookEvents }: BookEventContext) => {
-		console.log('🎯 setWin called with amount:', bookEvent.amount, 'winLevel:', bookEvent.winLevel);
+		// console.log('🎯 setWin called with amount:', bookEvent.amount, 'winLevel:', bookEvent.winLevel);
 		
 		// Check if there's a spinWinTotal event that will handle this win
 		const hasSpinWinTotal = bookEvents.some(event => event.type === 'spinWinTotal');
 		
 		if (hasSpinWinTotal) {
-			console.log('🎯 spinWinTotal event exists, skipping setWin animation - will be handled by spinWinTotal');
+			// console.log('🎯 spinWinTotal event exists, skipping setWin animation - will be handled by spinWinTotal');
 			return;
 		}
 		
 		console.log('🎯 No spinWinTotal found - this should not happen with new math');
 	},
 	spinWinTotal: async (bookEvent: BookEventOfType<'spinWinTotal'>, { bookEvents }: BookEventContext) => {
-		console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
+		// console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
 		
 		// Always accumulate wins during bonus, replace in base game
 		if (stateGame.gameType === 'freegame') {
 			// During free spins/bonus rounds, always add to cumulative total
 			stateBet.winBookEventAmount += bookEvent.amount;
-			console.log('📊 [BONUS] Added', bookEvent.amount, 'to cumulative total, now:', stateBet.winBookEventAmount);
+			// console.log('📊 [BONUS] Added', bookEvent.amount, 'to cumulative total, now:', stateBet.winBookEventAmount);
 		} else {
 			// In base game, show current spin win only
 			stateBet.winBookEventAmount = bookEvent.amount;
-			console.log('📊 [BASE] Set control bar win amount to:', bookEvent.amount);
+			// console.log('📊 [BASE] Set control bar win amount to:', bookEvent.amount);
 		}
 		
 		// Skip animation if there's no win
@@ -196,8 +196,8 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		);
 		
 		if (collectionSequenceEvents.length > 0) {
-			console.log('✨ Collection sequences detected, waiting for them to complete before win animation');
-			console.log('✨ Collection events to wait for:', collectionSequenceEvents.map(e => e.index));
+			// console.log('✨ Collection sequences detected, waiting for them to complete before win animation');
+			// console.log('✨ Collection events to wait for:', collectionSequenceEvents.map(e => e.index));
 			
 			// The collection sequences should already be complete since they are handled 
 			// sequentially in the book event processing, but add a small buffer
@@ -238,6 +238,17 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		
 		// Note: Collection amounts now handled by spinWinTotal events and setTotalWin
 		// No manual addition to control bar needed
+	},
+	cwLanded: async (bookEvent: BookEventOfType<'cwLanded'>) => {
+		// Handle CW landing event for progression animation
+		console.log('🎊 CW Landed event triggered at index:', bookEvent.index, 'count:', bookEvent.count, 'totalCws:', bookEvent.totalCws);
+		
+		// Broadcast to components listening for CW events
+		eventEmitter.broadcast({ 
+			type: 'cwLanded',
+			count: bookEvent.count,
+			totalCws: bookEvent.totalCws
+		});
 	},
 	cc_collect_sequence: async (bookEvent: BookEventOfType<'cc_collect_sequence'>) => {
 		// Handle deterministic CC collection animation
