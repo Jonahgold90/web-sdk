@@ -312,14 +312,26 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 				| undefined;
 		}
 
+		function findAllBookEvents<T>(type: T) {
+			return bookEvents.filter((bookEvent) => bookEvent.type === type) as
+				| BookEventOfType<T>[]
+				| [];
+		}
+
 		const lastFreeSpinTriggerEvent = findLastBookEvent('freeSpinTrigger' as const);
 		const lastUpdateFreeSpinEvent = findLastBookEvent('updateFreeSpin' as const);
 		const lastSetTotalWinEvent = findLastBookEvent('setTotalWin' as const);
 		const lastUpdateGlobalMultEvent = findLastBookEvent('updateGlobalMult' as const);
+		const allCwLandedEvents = findAllBookEvents('cwLanded' as const);
 
 		if (lastFreeSpinTriggerEvent) await playBookEvent(lastFreeSpinTriggerEvent, { bookEvents });
 		if (lastUpdateFreeSpinEvent) playBookEvent(lastUpdateFreeSpinEvent, { bookEvents });
 		if (lastSetTotalWinEvent) playBookEvent(lastSetTotalWinEvent, { bookEvents });
 		if (lastUpdateGlobalMultEvent) playBookEvent(lastUpdateGlobalMultEvent, { bookEvents });
+		
+		// Replay all cwLanded events to rebuild CW progress
+		for (const cwLandedEvent of allCwLandedEvents) {
+			await playBookEvent(cwLandedEvent, { bookEvents });
+		}
 	},
 };

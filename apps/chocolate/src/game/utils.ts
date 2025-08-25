@@ -33,6 +33,7 @@ const BOOK_EVENT_TYPES_TO_RESERVE_FOR_SNAPSHOT = [
 	'freeSpinTrigger',
 	'updateFreeSpin',
 	'setTotalWin',
+	'cwLanded',
 ];
 
 export const convertTorResumableBet = (lastBetData: Bet) => {
