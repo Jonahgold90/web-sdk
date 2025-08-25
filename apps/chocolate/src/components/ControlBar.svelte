@@ -441,7 +441,6 @@
 		gap: 0.125rem;
 		flex: 1;
 		min-width: 0;
-		max-width: 35%;
 	}
 
 	.left-section {
@@ -456,7 +455,6 @@
 		.left-section,
 		.right-section {
 			gap: 0.5rem;
-			max-width: 40%;
 		}
 	}
 
@@ -465,7 +463,6 @@
 		.right-section {
 			gap: 1rem;
 			flex: initial;
-			max-width: none;
 		}
 	}
 
@@ -522,28 +519,6 @@
 		flex-direction: column;
 		min-width: 0;
 		flex-shrink: 1;
-		max-width: 5rem;
-	}
-
-	@media (min-width: 480px) {
-		.balance-section,
-		.win-section {
-			max-width: 6rem;
-		}
-	}
-
-	@media (min-width: 640px) {
-		.balance-section,
-		.win-section {
-			max-width: 8rem;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.balance-section,
-		.win-section {
-			max-width: 12rem;
-		}
 	}
 
 	.label {
@@ -571,8 +546,6 @@
 		color: white;
 		font-size: 0.875rem;
 		font-weight: 900;
-		overflow: hidden;
-		text-overflow: ellipsis;
 		white-space: nowrap;
 		line-height: 1.2;
 	}
