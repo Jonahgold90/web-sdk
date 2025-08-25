@@ -42,7 +42,10 @@
 		
 		// Mobile/Tablet: < 1024px - side by side above control bar, below board
 		if (width < 1024) {
-			return { x: 50, y: height - 180 }; // Above control bar (control bar is at bottom)
+			// Center both buttons horizontally
+			const totalWidth = 200 * 2 + 20; // Two 200px buttons plus 20px gap
+			const centerX = (width - totalWidth) / 2;
+			return { x: centerX, y: height - 280 }; // Centered, much closer to board
 		}
 		// Desktop: >= 1024px - stacked vertically on left side
 		else {

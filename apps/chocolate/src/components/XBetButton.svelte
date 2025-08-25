@@ -59,8 +59,10 @@
 		
 		// Mobile/Tablet: < 1024px - to the right of bonus buy, above control bar
 		if (width < 1024) {
-			const bonusBuyX = 50;
-			return { x: bonusBuyX + 220, y: height - 180 }; // Same height as bonus buy
+			// Center both buttons horizontally, position after first button
+			const totalWidth = 200 * 2 + 20; // Two 200px buttons plus 20px gap
+			const centerX = (width - totalWidth) / 2;
+			return { x: centerX + 200 + 20, y: height - 280 }; // Centered, much closer to board
 		}
 		// Desktop: >= 1024px - stacked below bonus buy button
 		else {
