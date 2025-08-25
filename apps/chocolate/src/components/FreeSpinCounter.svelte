@@ -27,6 +27,8 @@
 		const layoutType = context.stateLayoutDerived.layoutType();
 		const boardLayout = context.stateGameDerived.boardLayout();
 		const isBonus = context.stateGame.gameType === 'freegame';
+		const screenWidth = context.stateLayoutDerived.mainLayout().width;
+		const isTablet = layoutType !== 'portrait' && screenWidth <= 1024;
 		
 		if (layoutType === 'portrait') {
 			// Mobile: center above the board
@@ -35,17 +37,16 @@
 				y: boardLayout.y - boardLayout.height * 0.5 - panelSizes.height - SYMBOL_SIZE * 0.3,
 			};
 		} else {
-			// Tablet/Desktop: position based on game mode
-			if (isBonus) {
-				// Bonus mode: center above the board (since board shifted right)
+			// Tablet/Desktop: position based on screen size and game mode
+			if (isTablet && isBonus) {
+				// Tablet in bonus mode: center above the board (since board shifted right)
 				return {
 					x: boardLayout.x - panelSizes.width * 0.5,
 					y: boardLayout.y - boardLayout.height * 0.5 - panelSizes.height - SYMBOL_SIZE * 0.3,
 				};
 			} else {
-				// Base mode: original position to the right of board
+				// Desktop or tablet in base mode: original position to the right of board
 				const boardRightEdge = boardLayout.x + boardLayout.width * 0.5;
-				const screenWidth = context.stateLayoutDerived.mainLayout().width;
 				const availableSpace = screenWidth - boardRightEdge;
 				return {
 					x: boardRightEdge + availableSpace * 0.5 - panelSizes.width * 0.5,

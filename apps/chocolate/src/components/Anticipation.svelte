@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getContextParent, getContextApp } from 'pixi-svelte';
-	import { Sprite, Texture } from 'pixi.js';
+	import { getContextParent, getContextApp, PIXI } from 'pixi-svelte';
 	
 	import { getContext } from '../game/context';
 	import type { Reel } from '../game/stateGame.svelte';
@@ -103,8 +102,8 @@
 					ctx.drawImage(gifImage, 0, 0, gifCanvas.width, gifCanvas.height);
 					
 					// Create PIXI texture from canvas
-					const texture = Texture.from(gifCanvas);
-					anticipationSprite = new Sprite(texture);
+					const texture = PIXI.Texture.from(gifCanvas);
+					anticipationSprite = new PIXI.Sprite(texture);
 					
 					// Position and configure sprite
 					anticipationSprite.anchor.set(0.5);

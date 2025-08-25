@@ -54,13 +54,26 @@
 			};
 		} else {
 			// Desktop/Landscape: positioned to the left of the board
-			const boardLeftEdge = boardLayout.x - boardLayout.width * 0.5;
+			const screenWidth = context.stateLayoutDerived.mainLayout().width;
+			const isTablet = screenWidth <= 1024;
 			const totalWidth = frameWidth * 3 + frameSpacing * 2;
 			const totalHeight = headerHeight + headerSpacing + frameHeight;
-			return {
-				x: boardLeftEdge - totalWidth - SYMBOL_SIZE * 0.2,
-				y: boardLayout.y - totalHeight * 0.5,
-			};
+			
+			if (isTablet) {
+				// Tablet: position from left edge since board shifted right
+				const minMargin = SYMBOL_SIZE * 0.05;
+				return {
+					x: minMargin,
+					y: boardLayout.y - totalHeight * 0.5,
+				};
+			} else {
+				// Desktop: original positioning relative to board
+				const boardLeftEdge = boardLayout.x - boardLayout.width * 0.5;
+				return {
+					x: boardLeftEdge - totalWidth - SYMBOL_SIZE * 0.2,
+					y: boardLayout.y - totalHeight * 0.5,
+				};
+			}
 		}
 	});
 

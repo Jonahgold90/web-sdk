@@ -10,7 +10,9 @@
       "Bash(timeout 30 pnpm run build)",
       "Bash(rm:*)",
       "Bash(mv:*)",
-      "WebSearch"
+      "WebSearch",
+      "Read(/C:\\c\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps/**)",
+      "Read(/C:\\c\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps/**)"
     ],
     "deny": [],
     "ask": []

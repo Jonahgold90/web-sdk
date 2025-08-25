@@ -84,10 +84,12 @@ const boardLayout = () => {
 	const layoutType = stateLayoutDerived.layoutType();
 	const mainLayout = stateLayoutDerived.mainLayout();
 	const isBonus = stateGame.gameType === 'freegame';
+	const screenWidth = mainLayout.width;
 	
-	// On tablet/laptop in bonus mode, shift board right to make room for level bars
-	const xPosition = (layoutType !== 'portrait' && isBonus)
-		? mainLayout.width * 0.58 // Tablet/Desktop in bonus: shifted right
+	// Only shift on tablet screens (not large desktop) in bonus mode
+	const isTablet = layoutType !== 'portrait' && screenWidth <= 1024;
+	const xPosition = (isTablet && isBonus)
+		? mainLayout.width * 0.58 // Tablet in bonus: shifted right
 		: mainLayout.width * 0.5; // All other cases: centered
 	
 	return {
