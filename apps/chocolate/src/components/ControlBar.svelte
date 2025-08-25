@@ -399,14 +399,14 @@
 		backdrop-filter: blur(12px);
 		border-top: 1px solid rgba(100, 116, 139, 0.5);
 		border-radius: 0;
-		padding: 0.25rem;
+		padding: 0.125rem;
 		width: 100%;
 		max-width: none;
 		display: flex;
 		align-items: center;
-		gap: 0.125rem;
+		gap: 0.0625rem;
 		justify-content: space-between;
-		min-height: 3rem;
+		min-height: 2.5rem;
 		overflow: visible;
 	}
 
@@ -438,7 +438,7 @@
 	.right-section {
 		display: flex;
 		align-items: center;
-		gap: 0.125rem;
+		gap: 0.0625rem;
 		flex: 1;
 		min-width: 0;
 	}
@@ -467,10 +467,10 @@
 	}
 
 	.menu-button {
-		padding: 0.25rem;
+		padding: 0.125rem;
 		background: transparent;
 		border: none;
-		border-radius: 0.5rem;
+		border-radius: 0.375rem;
 		transition: background-color 0.2s;
 		cursor: pointer;
 		flex-shrink: 0;
@@ -487,8 +487,8 @@
 	}
 
 	.icon {
-		width: 1rem;
-		height: 1rem;
+		width: 0.875rem;
+		height: 0.875rem;
 		color: white;
 		transition: color 0.2s;
 		display: flex;
@@ -523,7 +523,7 @@
 
 	.label {
 		color: rgb(203, 213, 225);
-		font-size: 0.625rem;
+		font-size: 0.5rem;
 		font-weight: 900;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
@@ -544,10 +544,10 @@
 
 	.value {
 		color: white;
-		font-size: 0.875rem;
+		font-size: 0.75rem;
 		font-weight: 900;
 		white-space: nowrap;
-		line-height: 1.2;
+		line-height: 1.1;
 	}
 
 	@media (min-width: 480px) {
@@ -574,8 +574,8 @@
 
 	.play-button {
 		position: relative;
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 2.25rem;
+		height: 2.25rem;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
@@ -631,8 +631,8 @@
 	}
 
 	.play-icon {
-		width: 1rem;
-		height: 1rem;
+		width: 0.875rem;
+		height: 0.875rem;
 		color: white;
 		transition: color 0.2s;
 		display: flex;
@@ -670,11 +670,11 @@
 
 	.bet-controls {
 		background: rgba(15, 23, 42, 0.8);
-		border-radius: 0.5rem;
-		padding: 0.25rem;
+		border-radius: 0.375rem;
+		padding: 0.125rem;
 		display: flex;
 		align-items: center;
-		gap: 0.25rem;
+		gap: 0.125rem;
 		flex-shrink: 0;
 	}
 
@@ -704,11 +704,11 @@
 	}
 
 	.bet-button {
-		width: 1.5rem;
-		height: 1.25rem;
+		width: 1.25rem;
+		height: 1rem;
 		background: rgb(51, 65, 85);
 		border: none;
-		border-radius: 0.25rem;
+		border-radius: 0.125rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -733,8 +733,8 @@
 	}
 
 	.bet-icon {
-		width: 0.75rem;
-		height: 0.75rem;
+		width: 0.625rem;
+		height: 0.625rem;
 		color: white;
 		transition: color 0.2s;
 		display: flex;
@@ -766,7 +766,7 @@
 	.action-buttons {
 		display: flex;
 		align-items: center;
-		gap: 0.125rem;
+		gap: 0.0625rem;
 	}
 
 	@media (min-width: 640px) {
@@ -780,8 +780,8 @@
 	}
 
 	.action-button {
-		width: 2rem;
-		height: 2rem;
+		width: 1.75rem;
+		height: 1.75rem;
 		border-radius: 50%;
 		display: flex;
 		flex-direction: column;
@@ -823,8 +823,8 @@
 
 
 	.action-icon {
-		width: 0.875rem;
-		height: 0.875rem;
+		width: 0.75rem;
+		height: 0.75rem;
 		color: white;
 		transition: color 0.2s;
 		display: flex;
@@ -862,7 +862,7 @@
 	}
 
 	.auto-count {
-		font-size: 0.625rem;
+		font-size: 0.5rem;
 		font-weight: bold;
 		color: white;
 		line-height: 1;
