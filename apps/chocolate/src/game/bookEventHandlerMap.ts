@@ -168,7 +168,29 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			return;
 		}
 		
-		console.log('🎯 No spinWinTotal found - this should not happen with new math');
+		// Handle base game wins when no spinWinTotal exists
+		console.log('🎯 No spinWinTotal found - using setWin for base game win display');
+		
+		// Update control bar for base game wins
+		stateBet.winBookEventAmount = bookEvent.amount;
+		
+		// Skip animation if there's no win
+		if (bookEvent.amount == 0) {
+			console.log('🎯 No win (amount = 0), skipping animation');
+			return;
+		}
+		
+		const winLevelData = winLevelMap[bookEvent.winLevel as WinLevel];
+		
+		eventEmitter.broadcast({ type: 'winShow' });
+		winLevelSoundsPlay({ winLevelData });
+		await eventEmitter.broadcastAsync({
+			type: 'winUpdate',
+			amount: bookEvent.amount,
+			winLevelData,
+		});
+		winLevelSoundsStop();
+		eventEmitter.broadcast({ type: 'winHide' });
 	},
 	spinWinTotal: async (bookEvent: BookEventOfType<'spinWinTotal'>, { bookEvents }: BookEventContext) => {
 		// console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
