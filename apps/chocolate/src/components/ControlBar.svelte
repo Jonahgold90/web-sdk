@@ -152,7 +152,7 @@
 	const handleInfo = () => {
 		playClickSound();
 		isMenuOpen = false;
-		onGameInfo();
+		stateModal.modal = { name: 'payTable' };
 	};
 
 
