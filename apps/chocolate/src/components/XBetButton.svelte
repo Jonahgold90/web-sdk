@@ -74,10 +74,39 @@
 	const buttonWidth = 200; // Scale up from 174 for better visibility
 	const buttonHeight = 145; // Scale up from 126 to maintain aspect ratio
 	
+	// Format currency helper - just the number for non-USD
+	const formatCurrencyNumber = (amount: number) => {
+		if (stateBet.currency === 'USD') {
+			return numberToCurrencyString(amount);
+		} else {
+			return amount.toFixed(2);
+		}
+	};
+	
+	// Get currency symbol for display
+	const getCurrencySymbol = () => {
+		const currencySymbols: Record<string, string> = {
+			'EUR': '€',
+			'GBP': '£',
+			'CAD': 'C$',
+			'AUD': 'A$',
+			'JPY': '¥',
+			'CHF': 'CHF',
+			'SEK': 'kr',
+			'NOK': 'kr',
+			'DKK': 'kr',
+		};
+		return currencySymbols[stateBet.currency] || stateBet.currency;
+	};
+	
 	// Calculate bet amount to display - show the antibet cost regardless of current state
 	let betAmountText = $derived(
-		numberToCurrencyString(stateBet.betAmount * 1.5)
+		formatCurrencyNumber(stateBet.betAmount * 1.5)
 	);
+	
+	// Whether to show separate currency symbol
+	let showCurrencySymbol = $derived(stateBet.currency !== 'USD');
+	let currencySymbol = $derived(getCurrencySymbol());
 
 	context.eventEmitter.subscribeOnMount({
 		xBetButtonShow: () => (manualShow = true),
@@ -137,12 +166,27 @@
 			{#if betAmountText}
 				<BitmapText
 					text={betAmountText}
-					x={buttonWidth / 2}
+					x={showCurrencySymbol ? buttonWidth / 2 + 15 : buttonWidth / 2}
 					y={buttonHeight - 30}
 					anchor={{ x: 0.5, y: 0.5 }}
 					style={{
 						fontFamily: 'gold',
 						fontSize: 28,
+					}}
+				/>
+			{/if}
+			
+			<!-- Currency symbol for non-USD currencies -->
+			{#if showCurrencySymbol}
+				<BitmapText
+					text={currencySymbol}
+					x={buttonWidth / 2 - 20}
+					y={buttonHeight - 30}
+					anchor={{ x: 0.5, y: 0.5 }}
+					tint={0xFFD700}
+					style={{
+						fontFamily: 'yellowFont',
+						fontSize: 24,
 					}}
 				/>
 			{/if}
