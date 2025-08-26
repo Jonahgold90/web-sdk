@@ -51,28 +51,38 @@
 			: 'xBetButtonOff'
 	);
 
-	// Comprehensive responsive positioning to match BuyButton
-	const position = $derived(() => {
-		const layout = context.stateLayoutDerived.mainLayout();
-		const width = layout.width;
-		const height = layout.height;
+	// Comprehensive responsive positioning and sizing to match BuyButton
+	const layout = $derived(() => {
+		const layoutData = context.stateLayoutDerived.mainLayout();
+		const width = layoutData.width;
+		const height = layoutData.height;
+		const isMobile = width < 1024;
 		
-		// Mobile/Tablet: < 1024px - to the right of bonus buy, above control bar
-		if (width < 1024) {
-			// Center both buttons horizontally, position after first button
-			const totalWidth = 200 * 2 + 20; // Two 200px buttons plus 20px gap
+		// Button dimensions - bigger on mobile, maintain aspect ratio
+		const buttonWidth = isMobile ? 240 : 200;
+		const buttonHeight = isMobile ? 174 : 145;
+		
+		// Position calculation
+		if (isMobile) {
+			// Mobile/Tablet: to the right of bonus buy, above control bar
+			const totalWidth = buttonWidth * 2 + 20; // Two buttons plus 20px gap
 			const centerX = (width - totalWidth) / 2;
-			return { x: centerX + 200 + 20, y: height - 280 }; // Centered, much closer to board
-		}
-		// Desktop: >= 1024px - stacked below bonus buy button
-		else {
-			return { x: 100, y: 420 };
+			return { 
+				x: centerX + buttonWidth + 20, 
+				y: height - 320, // Moved up by 40px
+				width: buttonWidth,
+				height: buttonHeight
+			};
+		} else {
+			// Desktop: stacked below bonus buy button
+			return { 
+				x: 100, 
+				y: 420,
+				width: buttonWidth,
+				height: buttonHeight
+			};
 		}
 	});
-	
-	// Use original image dimensions scaled down appropriately
-	const buttonWidth = 200; // Scale up from 174 for better visibility
-	const buttonHeight = 145; // Scale up from 126 to maintain aspect ratio
 	
 	// Format currency helper - just the number for non-USD
 	const formatCurrencyNumber = (amount: number) => {
@@ -149,11 +159,11 @@
 
 {#if show}
 	<MainContainer>
-		<Container x={position().x} y={position().y}>
+		<Container x={layout().x} y={layout().y}>
 			<Sprite 
 				key={spriteKey} 
-				width={buttonWidth} 
-				height={buttonHeight}
+				width={layout().width} 
+				height={layout().height}
 				interactive={interactive}
 				cursor={interactive ? "pointer" : "default"}
 				alpha={interactive ? 1 : 0.5}
@@ -166,8 +176,8 @@
 			{#if betAmountText}
 				<BitmapText
 					text={betAmountText}
-					x={showCurrencySymbol ? buttonWidth / 2 + 15 : buttonWidth / 2}
-					y={buttonHeight - 30}
+					x={showCurrencySymbol ? layout().width / 2 + 15 : layout().width / 2}
+					y={layout().height - 30}
 					anchor={{ x: 0.5, y: 0.5 }}
 					style={{
 						fontFamily: 'gold',
@@ -180,8 +190,8 @@
 			{#if showCurrencySymbol}
 				<BitmapText
 					text={currencySymbol}
-					x={buttonWidth / 2 - 20}
-					y={buttonHeight - 30}
+					x={layout().width / 2 - 20}
+					y={layout().height - 30}
 					anchor={{ x: 0.5, y: 0.5 }}
 					tint={0xFFD700}
 					style={{

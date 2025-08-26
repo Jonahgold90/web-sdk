@@ -34,22 +34,36 @@
 	// Interactive only when showing and game is not spinning
 	let interactive = $derived(show && !isSpinning);
 
-	// Comprehensive responsive positioning
-	const position = $derived(() => {
-		const layout = context.stateLayoutDerived.mainLayout();
-		const width = layout.width;
-		const height = layout.height;
+	// Comprehensive responsive positioning and sizing
+	const layout = $derived(() => {
+		const layoutData = context.stateLayoutDerived.mainLayout();
+		const width = layoutData.width;
+		const height = layoutData.height;
+		const isMobile = width < 1024;
 		
-		// Mobile/Tablet: < 1024px - side by side above control bar, below board
-		if (width < 1024) {
-			// Center both buttons horizontally
-			const totalWidth = 200 * 2 + 20; // Two 200px buttons plus 20px gap
+		// Button dimensions - bigger on mobile
+		const buttonWidth = isMobile ? 240 : 200;
+		const buttonHeight = isMobile ? 126 : 105;
+		
+		// Position calculation
+		if (isMobile) {
+			// Mobile/Tablet: side by side above control bar, below board
+			const totalWidth = buttonWidth * 2 + 20; // Two buttons plus 20px gap
 			const centerX = (width - totalWidth) / 2;
-			return { x: centerX, y: height - 280 }; // Centered, much closer to board
-		}
-		// Desktop: >= 1024px - stacked vertically on left side
-		else {
-			return { x: 100, y: 300 };
+			return { 
+				x: centerX, 
+				y: height - 320, // Moved up by 40px
+				width: buttonWidth,
+				height: buttonHeight
+			};
+		} else {
+			// Desktop: stacked vertically on left side
+			return { 
+				x: 100, 
+				y: 300,
+				width: buttonWidth,
+				height: buttonHeight
+			};
 		}
 	});
 	
@@ -96,11 +110,11 @@
 
 {#if show}
 	<MainContainer>
-		<Container x={position().x} y={position().y}>
+		<Container x={layout().x} y={layout().y}>
 			<Sprite 
 				key="buyButton" 
-				width={200} 
-				height={105}
+				width={layout().width} 
+				height={layout().height}
 				interactive={interactive}
 				cursor={interactive ? "pointer" : "default"}
 				alpha={interactive ? 1 : 0.5}
