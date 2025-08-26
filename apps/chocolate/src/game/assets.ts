@@ -42,6 +42,11 @@ export default {
 		src: new URL('../../assets/sprites/anticipation/Candy_Crypt_anticipation_02_1.gif', import.meta.url).href,
 		preload: true,
 	},
+	anticipationBackground: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/anticipation/Base_Game_BG_Landscape_v02_light.png', import.meta.url).href,
+		preload: true,
+	},
 	goldFont: {
 		type: 'font',
 		src: new URL('../../assets/fonts/yellowFont/yellowFont.xml', import.meta.url).href,
