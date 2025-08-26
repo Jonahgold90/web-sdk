@@ -158,21 +158,16 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'drawerButtonHide' });
 	},
 	setWin: async (bookEvent: BookEventOfType<'setWin'>, { bookEvents }: BookEventContext) => {
-		// console.log('🎯 setWin called with amount:', bookEvent.amount, 'winLevel:', bookEvent.winLevel);
+		console.log('🎯 setWin called with amount:', bookEvent.amount, 'winLevel:', bookEvent.winLevel);
 		
-		// Check if there's a spinWinTotal event that will handle this win
-		const hasSpinWinTotal = bookEvents.some(event => event.type === 'spinWinTotal');
-		
-		if (hasSpinWinTotal) {
-			// console.log('🎯 spinWinTotal event exists, skipping setWin animation - will be handled by spinWinTotal');
-			return;
+		// Update control bar with win amount
+		if (stateGame.gameType === 'freegame') {
+			// During bonus rounds, add to cumulative total
+			stateBet.winBookEventAmount += bookEvent.amount;
+		} else {
+			// In base game, replace with current win
+			stateBet.winBookEventAmount = bookEvent.amount;
 		}
-		
-		// Handle base game wins when no spinWinTotal exists
-		console.log('🎯 No spinWinTotal found - using setWin for base game win display');
-		
-		// Update control bar for base game wins
-		stateBet.winBookEventAmount = bookEvent.amount;
 		
 		// Skip animation if there's no win
 		if (bookEvent.amount == 0) {
@@ -193,59 +188,12 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'winHide' });
 	},
 	spinWinTotal: async (bookEvent: BookEventOfType<'spinWinTotal'>, { bookEvents }: BookEventContext) => {
-		// console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
+		console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
 		
-		// Always accumulate wins during bonus, replace in base game
-		if (stateGame.gameType === 'freegame') {
-			// During free spins/bonus rounds, always add to cumulative total
-			stateBet.winBookEventAmount += bookEvent.amount;
-			// console.log('📊 [BONUS] Added', bookEvent.amount, 'to cumulative total, now:', stateBet.winBookEventAmount);
-		} else {
-			// In base game, show current spin win only
-			stateBet.winBookEventAmount = bookEvent.amount;
-			// console.log('📊 [BASE] Set control bar win amount to:', bookEvent.amount);
-		}
+		// spinWinTotal now only updates control bar - win animations handled by setWin
+		// No win animation logic needed here since setWin handles it with correct win levels
 		
-		// Skip animation if there's no win
-		if (bookEvent.amount <= 0) {
-			console.log('✨ No win (amount = 0), skipping animation');
-			return;
-		}
-		
-		// Check if there are any cc_collect_sequence events that should complete first
-		const collectionSequenceEvents = bookEvents.filter(event => 
-			event.type === 'cc_collect_sequence' && event.index < bookEvent.index
-		);
-		
-		if (collectionSequenceEvents.length > 0) {
-			// console.log('✨ Collection sequences detected, waiting for them to complete before win animation');
-			// console.log('✨ Collection events to wait for:', collectionSequenceEvents.map(e => e.index));
-			
-			// The collection sequences should already be complete since they are handled 
-			// sequentially in the book event processing, but add a small buffer
-			await new Promise(resolve => setTimeout(resolve, 100));
-		}
-		
-		// Find the setWin event to get the win level
-		const setWinEvent = bookEvents
-			.slice(0, bookEvent.index)
-			.reverse()
-			.find(event => event.type === 'setWin') as BookEventOfType<'setWin'> | undefined;
-		
-		const winLevel = setWinEvent?.winLevel || 2; // Default to level 2 if no setWin found
-		const winLevelData = winLevelMap[winLevel as WinLevel];
-
-		eventEmitter.broadcast({ type: 'winShow' });
-		winLevelSoundsPlay({ winLevelData });
-		await eventEmitter.broadcastAsync({
-			type: 'winUpdate',
-			amount: bookEvent.amount, // Use the complete total from spinWinTotal
-			winLevelData,
-		});
-		winLevelSoundsStop();
-		eventEmitter.broadcast({ type: 'winHide' });
-		
-		// Hide collection animations after win display
+		// Hide collection animations after spin completes
 		eventEmitter.broadcast({ type: 'collectionAnimationHide' });
 	},
 	finalWin: async (bookEvent: BookEventOfType<'finalWin'>) => {
