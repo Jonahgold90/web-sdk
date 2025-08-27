@@ -2,7 +2,7 @@
 	import SymbolSprite from './SymbolSprite.svelte';
 	import { getSymbolInfo } from '../game/utils';
 	import type { SymbolState, RawSymbol } from '../game/types';
-	import { BitmapText } from 'pixi-svelte';
+	import { BitmapText, Container } from 'pixi-svelte';
 	import { stateBet } from 'state-shared';
 	import { numberToCurrencyString } from 'utils-shared/amount';
 
@@ -17,33 +17,93 @@
 
 	const props: Props = $props();
 	const symbolInfo = $derived(getSymbolInfo({ rawSymbol: props.rawSymbol, state: props.state }));
+	
+	// Track animation scale for the entire symbol container
+	let containerScaleX = $state(1);
+	let containerScaleY = $state(1);
+
+	// Start animation when symbol enters win state
+	$effect(() => {
+		if (props.state === 'win') {
+			console.log('🎯 Starting symbol animation for', props.rawSymbol.name);
+			playSymbolAnimation();
+		} else {
+			containerScaleX = 1;
+			containerScaleY = 1;
+		}
+	});
+
+	function playSymbolAnimation() {
+		console.log('🎬 playSymbolAnimation called');
+		const duration = 800;
+		const intensity = 0.3;
+		const startTime = Date.now();
+
+		function animate() {
+			const elapsed = Date.now() - startTime;
+			const progress = Math.min(elapsed / duration, 1);
+			
+			const squish = Math.sin(progress * Math.PI * 3) * intensity * (1 - progress * 0.7);
+			
+			containerScaleX = 1 + squish;
+			containerScaleY = 1 - squish * 0.6;
+			
+			console.log('🎬 Container animation frame:', { progress, squish, scaleX: containerScaleX, scaleY: containerScaleY });
+
+			if (progress < 1) {
+				requestAnimationFrame(animate);
+			} else {
+				console.log('🎬 Container animation complete');
+				containerScaleX = 1;
+				containerScaleY = 1;
+				// Call oncomplete after animation finishes
+				setTimeout(() => {
+					props.oncomplete?.();
+				}, 300);
+			}
+		}
+
+		requestAnimationFrame(animate);
+	}
 </script>
 
-<SymbolSprite {symbolInfo} x={props.x} y={props.y} oncomplete={props.oncomplete} isWinning={props.state === 'win'} />
-
-{#if props.rawSymbol.name === 'CC' && props.rawSymbol.cash_value}
-	<BitmapText
-		anchor={0.5}
-		x={props.x}
-		y={(props.y || 0) + 10}
-		text={numberToCurrencyString(stateBet.betAmount * props.rawSymbol.cash_value)}
-		style={{
-			fontFamily: 'gold',
-			fontSize: 30,
-		}}
+<Container 
+	x={props.x} 
+	y={props.y} 
+	scale={{x: containerScaleX, y: containerScaleY}}
+>
+	<SymbolSprite 
+		{symbolInfo} 
+		x={0}
+		y={0}
+		oncomplete={() => {}} 
+		isWinning={false}
 	/>
-{/if}
 
-{#if props.rawSymbol.multiplier}
-	<BitmapText
-		anchor={0}
-		x={(props.x || 0) - 55}
-		y={(props.y || 0) - 60}
-		text={`${props.rawSymbol.multiplier}X`}
-		style={{
-			fontFamily: 'gold',
-			fontSize: 28,
-		}}
-	/>
-{/if}
+	{#if props.rawSymbol.name === 'CC' && props.rawSymbol.cash_value}
+		<BitmapText
+			anchor={0.5}
+			x={0}
+			y={10}
+			text={numberToCurrencyString(stateBet.betAmount * props.rawSymbol.cash_value)}
+			style={{
+				fontFamily: 'gold',
+				fontSize: 30,
+			}}
+		/>
+	{/if}
+
+	{#if props.rawSymbol.multiplier}
+		<BitmapText
+			anchor={0}
+			x={-55}
+			y={-60}
+			text={`${props.rawSymbol.multiplier}X`}
+			style={{
+				fontFamily: 'gold',
+				fontSize: 28,
+			}}
+		/>
+	{/if}
+</Container>
 
