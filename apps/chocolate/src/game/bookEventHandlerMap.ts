@@ -97,11 +97,11 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_scatter_win_v2' });
 		await animateSymbols({ positions: bookEvent.positions });
 		// show free spin intro
-		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
+		//eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
 		await eventEmitter.broadcastAsync({ type: 'transition' });
 		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
-		eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
+		//eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
 		eventEmitter.broadcast({ type: 'soundMusic', name: 'bgm_freespin' });
 		await eventEmitter.broadcastAsync({
 			type: 'freeSpinIntroUpdate',
@@ -110,7 +110,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		stateGame.gameType = 'freegame';
 		stateGame.retrigCount = 0; // Reset retrig counter for new free spin session
 		eventEmitter.broadcast({ type: 'freeSpinIntroHide' });
-		eventEmitter.broadcast({ type: 'boardFrameGlowShow' });
+		//eventEmitter.broadcast({ type: 'boardFrameGlowShow' });
 		eventEmitter.broadcast({ type: 'freeSpinCounterShow' });
 		stateUi.freeSpinCounterShow = true;
 		eventEmitter.broadcast({
@@ -247,7 +247,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			// Hide UI and show retrig popup
 			await eventEmitter.broadcastAsync({ type: 'uiHide' });
 			eventEmitter.broadcast({ type: 'retrigPopupShow' });
-			eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
+			//eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
 			await eventEmitter.broadcastAsync({
 				type: 'retrigPopupUpdate',
 				retrigCount: stateGame.retrigCount,

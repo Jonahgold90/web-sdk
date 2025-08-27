@@ -37,6 +37,7 @@
 		"constants-shared": "workspace:*",
 		"envs": "workspace:*",
 		"gsap": "^3.13.0",
+		"howler": "2.2.4",
 		"lodash": "4.17.16",
 		"pixi-svelte": "workspace:*",
 		"rgs-requests": "workspace:*",
