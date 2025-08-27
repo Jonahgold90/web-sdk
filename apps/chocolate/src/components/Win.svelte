@@ -27,9 +27,9 @@
 	let show = $state(false);
 	
 	// Debug show state
-	$effect(() => {
-		console.log('Win component show state changed:', show);
-	});
+	// $effect(() => {
+	// 	console.log('Win component show state changed:', show);
+	// });
 	let amount = $state(0);
 	let winLevelData = $state<WinLevelData>();
 	let oncomplete = $state(() => {});
@@ -56,22 +56,22 @@
 
 	context.eventEmitter.subscribeOnMount({
 		winShow: () => {
-			console.log('Win component: winShow received');
+			// console.log('Win component: winShow received');
 			show = true;
 			hasSkipped = false; // Reset skip state for new win
 		},
 		winHide: () => {
-			console.log('Win component: winHide received');
+			// console.log('Win component: winHide received');
 			show = false;
 		},
 		winUpdate: async (emitterEvent) => {
-			console.log('Win component: winUpdate received', emitterEvent);
-			console.log('Win component: winLevelData details:', {
-				winLevel: emitterEvent.winLevelData?.level,
-				type: emitterEvent.winLevelData?.type,
-				hasAnimation: !!emitterEvent.winLevelData?.animation,
-				animation: emitterEvent.winLevelData?.animation
-			});
+			// console.log('Win component: winUpdate received', emitterEvent);
+			// console.log('Win component: winLevelData details:', {
+			//	winLevel: emitterEvent.winLevelData?.level,
+			//	type: emitterEvent.winLevelData?.type,
+			//	hasAnimation: !!emitterEvent.winLevelData?.animation,
+			//	animation: emitterEvent.winLevelData?.animation
+			// });
 			amount = emitterEvent.amount;
 			winLevelData = emitterEvent.winLevelData;
 			await waitForResolve((resolve) => (oncomplete = resolve));
@@ -85,9 +85,9 @@
 		class="win-skip-overlay"
 		style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; cursor: pointer;"
 		onclick={() => {
-			console.log('Win: HTML overlay clicked, skipAnimation available:', !!skipAnimation, 'hasSkipped:', hasSkipped);
+			// console.log('Win: HTML overlay clicked, skipAnimation available:', !!skipAnimation, 'hasSkipped:', hasSkipped);
 			if (skipAnimation && !hasSkipped) {
-				console.log('Win: Skipping animation via HTML overlay click');
+				// console.log('Win: Skipping animation via HTML overlay click');
 				skipAnimation();
 			}
 		}}
@@ -106,9 +106,9 @@
 						backgroundAlpha={0.5}
 						interactive={true}
 						onclick={() => {
-							console.log('Win: Background clicked, skipAnimation available:', !!skipAnimation, 'hasSkipped:', hasSkipped);
+							// console.log('Win: Background clicked, skipAnimation available:', !!skipAnimation, 'hasSkipped:', hasSkipped);
 							if (skipAnimation && !hasSkipped) {
-								console.log('Win: Skipping animation via click on background');
+								// console.log('Win: Skipping animation via click on background');
 								skipAnimation();
 							}
 						}}
@@ -118,20 +118,20 @@
 				<OnMount
 					onmount={async () => {
 						// Set up skip function
-						console.log('Win: Setting up skip function');
+						// console.log('Win: Setting up skip function');
 						skipAnimation = () => {
 							if (hasSkipped) return; // Prevent double execution
 							hasSkipped = true;
-							console.log('Win: Fast-forwarding animation - calling finishCountUp and oncomplete');
+							// console.log('Win: Fast-forwarding animation - calling finishCountUp and oncomplete');
 							finishCountUp();
 							oncomplete();
 						};
 						
-						console.log('Win: Starting normal animation flow');
+						// console.log('Win: Starting normal animation flow');
 						await startCountUp();
-						console.log('Win: Count up completed, waiting 300ms');
+						// console.log('Win: Count up completed, waiting 300ms');
 						await waitForTimeout(300);
-						console.log('Win: Calling oncomplete after timeout');
+						// console.log('Win: Calling oncomplete after timeout');
 						oncomplete();
 					}}
 				/>
@@ -142,9 +142,9 @@
 						y={context.stateGameDerived.boardLayout().y}
 						interactive={true}
 						onclick={() => {
-							console.log('Win: Container clicked, skipAnimation available:', !!skipAnimation, 'hasSkipped:', hasSkipped);
+							// console.log('Win: Container clicked, skipAnimation available:', !!skipAnimation, 'hasSkipped:', hasSkipped);
 							if (skipAnimation && !hasSkipped) {
-								console.log('Win: Skipping animation via click on win text');
+								// console.log('Win: Skipping animation via click on win text');
 								skipAnimation();
 							}
 						}}

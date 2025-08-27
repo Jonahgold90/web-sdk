@@ -39,7 +39,7 @@
 		boardShow: () => (show = true),
 		boardHide: () => (show = false),
 		boardWithAnimateSymbols: async ({ symbolPositions }, resolve) => {
-			console.log('🎬 Board: Starting animation for', symbolPositions.length, 'symbols');
+			// console.log('🎬 Board: Starting animation for', symbolPositions.length, 'symbols');
 			
 			// Set all symbols in this line to 'win' state simultaneously
 			symbolPositions.forEach((position) => {
@@ -61,19 +61,19 @@
 				reelSymbol.symbolState = 'postWinStatic';
 			});
 
-			console.log('✅ Board: Animation complete for this line');
+			// console.log('✅ Board: Animation complete for this line');
 			resolve?.();
 		},
 		collectionAnimationShow: () => {
-			console.log('🎬 Board: Collection animation show');
+			// console.log('🎬 Board: Collection animation show');
 			collectionAnimationShow = true;
 		},
 		collectionAnimationHide: () => {
-			console.log('🎬 Board: Collection animation hide');
+			// console.log('🎬 Board: Collection animation hide');
 			collectionAnimationShow = false;
 		},
 		collectionAnimationPlay: async ({ event }, resolve) => {
-			console.log('🎬 Board: Playing collection animation', event);
+			// console.log('🎬 Board: Playing collection animation', event);
 			if (collectionAnimationRef) {
 				await collectionAnimationRef.playCollectSequence(event);
 			}
@@ -81,7 +81,7 @@
 		},
 		collectionAnimationToggleDebug: () => {
 			collectionAnimationDebug = !collectionAnimationDebug;
-			console.log('🎬 Board: Collection animation debug mode:', collectionAnimationDebug);
+			// console.log('🎬 Board: Collection animation debug mode:', collectionAnimationDebug);
 		},
 	});
 
@@ -105,7 +105,7 @@
 				show={collectionAnimationShow}
 				debugMode={collectionAnimationDebug}
 				onComplete={() => {
-					console.log('🎬 Board: Collection animation completed');
+					// console.log('🎬 Board: Collection animation completed');
 				}}
 			/>
 		</BoardContainer>

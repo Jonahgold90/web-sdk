@@ -29,9 +29,9 @@
 	let debugLabels = $state<Array<{ col: number; row: number; x: number; y: number }>>([]);
 
 	// Debug effect to monitor cwTotals changes
-	$effect(() => {
-		console.log(`🔍 CW Totals changed: ${cwTotals.size} entries`, [...cwTotals.entries()]);
-	});
+	// $effect(() => {
+	// 	console.log(`🔍 CW Totals changed: ${cwTotals.size} entries`, [...cwTotals.entries()]);
+	// });
 
 	// Debug effect to monitor floatingTexts changes
 	// $effect(() => {
@@ -46,8 +46,8 @@
 		const scaled_base_value = step.base_value * currentBet;
 		const scaled_credited_value = scaled_base_value * step.multiplier_used;
 		
-		console.log(`💰 Scaling calculation: base_value=${step.base_value} × currentBet=${currentBet} = scaled_base_value=${scaled_base_value}`);
-		console.log(`💰 Credit calculation: scaled_base_value=${scaled_base_value} × multiplier=${step.multiplier_used} = scaled_credited_value=${scaled_credited_value}`);
+		// console.log(`💰 Scaling calculation: base_value=${step.base_value} × currentBet=${currentBet} = scaled_base_value=${scaled_base_value}`);
+		// console.log(`💰 Credit calculation: scaled_base_value=${scaled_base_value} × multiplier=${step.multiplier_used} = scaled_credited_value=${scaled_credited_value}`);
 		
 		return {
 			scaled_base_value,
@@ -161,8 +161,8 @@
 		const { scaled_base_value, scaled_credited_value } = getScaledValues(step);
 		const hasMultiplier = step.multiplier_used > 1;
 
-		console.log(`🎯 Animation: CC(${step.cc.col},${step.cc.row}) at (${ccCenter.x},${ccCenter.y}) -> CW(${cw.col},${cw.row}) at (${cwCenter.x},${cwCenter.y})`);
-		console.log(`💰 Values: base=${scaled_base_value}, multiplied=${scaled_credited_value}, multiplier=${step.multiplier_used}`);
+		// console.log(`🎯 Animation: CC(${step.cc.col},${step.cc.row}) at (${ccCenter.x},${ccCenter.y}) -> CW(${cw.col},${cw.row}) at (${cwCenter.x},${cwCenter.y})`);
+		// console.log(`💰 Values: base=${scaled_base_value}, multiplied=${scaled_credited_value}, multiplier=${step.multiplier_used}`);
 
 		// Dim CW total immediately if this CC has a multiplier to avoid overlapping
 		if (hasMultiplier) {
@@ -171,7 +171,7 @@
 				const dimmedCwTotals = new Map(cwTotals);
 				dimmedCwTotals.set(cwKey, { ...cwTotal, alpha: 0.3 });
 				cwTotals = dimmedCwTotals;
-				console.log(`🌫️ Dimming CW total before CC animation starts (has multiplier)`);
+				// console.log(`🌫️ Dimming CW total before CC animation starts (has multiplier)`);
 			}
 		}
 
@@ -252,13 +252,13 @@
 		unsubscribeX();
 		unsubscribeY();
 
-		console.log(`✅ Animation complete for text "${floatingTextData.text}"`);
+		// console.log(`✅ Animation complete for text "${floatingTextData.text}"`);
 		
 		// Update CW total with SCALED value
 		const currentTotal = cwTotals.get(cwKey);
 		if (currentTotal) {
 			const newTotal = currentTotal.total + scaled_credited_value;
-			console.log(`💰 Updating CW total from ${currentTotal.total} to ${newTotal} (added scaled: ${scaled_credited_value})`);
+				// console.log(`💰 Updating CW total from ${currentTotal.total} to ${newTotal} (added scaled: ${scaled_credited_value})`);
 			
 			// Force reactivity by creating a new Map, preserve alpha state
 			const newCwTotals = new Map(cwTotals);
@@ -273,7 +273,7 @@
 
 		// Remove floating text from state
 		floatingTexts = floatingTexts.filter(ft => ft.id !== textId);
-		console.log(`🗑️ Removed floating text, array now has ${floatingTexts.length} items`);
+		// console.log(`🗑️ Removed floating text, array now has ${floatingTexts.length} items`);
 	}
 
 
@@ -281,12 +281,12 @@
 	 * Perform the slam effect where CW multiplier slams down on the CC value
 	 */
 	async function performSlamEffect(textIndex: number, textId: string, multipliedValue: number, cwKey: string): Promise<void> {
-		console.log(`🎯 Performing slam effect - textIndex: ${textIndex}, multiplier: ${floatingTexts[textIndex].multiplier}`);
+		// console.log(`🎯 Performing slam effect - textIndex: ${textIndex}, multiplier: ${floatingTexts[textIndex].multiplier}`);
 		
 		// Show slam effect
 		floatingTexts[textIndex].slamEffect!.show = true;
 		floatingTexts = [...floatingTexts];
-		console.log(`💥 Slam effect show set to true, y position: ${floatingTexts[textIndex].slamEffect!.y}`);
+		// console.log(`💥 Slam effect show set to true, y position: ${floatingTexts[textIndex].slamEffect!.y}`);
 		
 		// Animate slam down
 		const slamTween = tweened(floatingTexts[textIndex].slamEffect!.y, { duration: 300, easing: cubicOut });
@@ -333,7 +333,7 @@
 			const fullOpacityCwTotals = new Map(cwTotals);
 			fullOpacityCwTotals.set(cwKey, { ...finalCwTotal, alpha: 1.0 });
 			cwTotals = fullOpacityCwTotals;
-			console.log(`🌟 Restoring CW total to full opacity after slam effect`);
+			// console.log(`🌟 Restoring CW total to full opacity after slam effect`);
 		}
 		
 		unsubSlam();
