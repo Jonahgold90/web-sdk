@@ -25,7 +25,7 @@
 	let cwTotalsContainer: Container | undefined;
 
 	// State for CW totals display
-	let cwTotals = $state<Map<string, { x: number; y: number; total: number; visible: boolean }>>(new Map());
+	let cwTotals = $state<Map<string, { x: number; y: number; total: number; visible: boolean; alpha: number }>>(new Map());
 	let debugLabels = $state<Array<{ col: number; row: number; x: number; y: number }>>([]);
 
 	// Debug effect to monitor cwTotals changes
@@ -107,7 +107,8 @@
 			x: cwCenter.x,
 			y: cwCenter.y, // Position in center of the CW symbol
 			total: 0,
-			visible: true
+			visible: true,
+			alpha: 1.0
 		});
 		cwTotals = newCwTotals;
 
@@ -162,6 +163,17 @@
 
 		console.log(`🎯 Animation: CC(${step.cc.col},${step.cc.row}) at (${ccCenter.x},${ccCenter.y}) -> CW(${cw.col},${cw.row}) at (${cwCenter.x},${cwCenter.y})`);
 		console.log(`💰 Values: base=${scaled_base_value}, multiplied=${scaled_credited_value}, multiplier=${step.multiplier_used}`);
+
+		// Dim CW total immediately if this CC has a multiplier to avoid overlapping
+		if (hasMultiplier) {
+			const cwTotal = cwTotals.get(cwKey);
+			if (cwTotal) {
+				const dimmedCwTotals = new Map(cwTotals);
+				dimmedCwTotals.set(cwKey, { ...cwTotal, alpha: 0.3 });
+				cwTotals = dimmedCwTotals;
+				console.log(`🌫️ Dimming CW total before CC animation starts (has multiplier)`);
+			}
+		}
 
 		// Create unique ID for this floating text
 		const textId = `${step.cc.col}-${step.cc.row}-${Date.now()}`;
@@ -232,7 +244,7 @@
 			const textIndex = floatingTexts.findIndex(ft => ft.id === textId);
 			if (textIndex !== -1 && floatingTexts[textIndex].slamEffect) {
 				console.log(`💥 Starting slam effect for ${step.multiplier_used}x`);
-				await performSlamEffect(textIndex, textId, scaled_credited_value);
+				await performSlamEffect(textIndex, textId, scaled_credited_value, cwKey);
 			}
 		}
 
@@ -248,7 +260,7 @@
 			const newTotal = currentTotal.total + scaled_credited_value;
 			console.log(`💰 Updating CW total from ${currentTotal.total} to ${newTotal} (added scaled: ${scaled_credited_value})`);
 			
-			// Force reactivity by creating a new Map
+			// Force reactivity by creating a new Map, preserve alpha state
 			const newCwTotals = new Map(cwTotals);
 			newCwTotals.set(cwKey, {
 				...currentTotal,
@@ -268,7 +280,7 @@
 	/**
 	 * Perform the slam effect where CW multiplier slams down on the CC value
 	 */
-	async function performSlamEffect(textIndex: number, textId: string, multipliedValue: number): Promise<void> {
+	async function performSlamEffect(textIndex: number, textId: string, multipliedValue: number, cwKey: string): Promise<void> {
 		console.log(`🎯 Performing slam effect - textIndex: ${textIndex}, multiplier: ${floatingTexts[textIndex].multiplier}`);
 		
 		// Show slam effect
@@ -314,6 +326,15 @@
 		await scaleTween.set(0.8);
 		floatingTexts[textIndex].slamEffect!.show = false;
 		floatingTexts = [...floatingTexts];
+		
+		// Restore CW total to full opacity after slam effect completes
+		const finalCwTotal = cwTotals.get(cwKey);
+		if (finalCwTotal) {
+			const fullOpacityCwTotals = new Map(cwTotals);
+			fullOpacityCwTotals.set(cwKey, { ...finalCwTotal, alpha: 1.0 });
+			cwTotals = fullOpacityCwTotals;
+			console.log(`🌟 Restoring CW total to full opacity after slam effect`);
+		}
 		
 		unsubSlam();
 		unsubScale();
@@ -386,6 +407,7 @@
 						x={total.x}
 						y={total.y}
 						text={numberToCurrencyString(total.total)}
+						alpha={total.alpha}
 						style={{
 							fontFamily: 'gold',
 							fontSize: 36,
