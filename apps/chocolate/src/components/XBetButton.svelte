@@ -32,7 +32,7 @@
 		context.stateGame.board.some(reel => reel.reelState.motion === 'spinning' || reel.reelState.motion === 'bouncing')
 	);
 	
-	// Interactive only when showing and game is not spinning
+	// Interactive only when showing and game is not spinning (always allow clicks)
 	let interactive = $derived(show && !isSpinning);
 
 	// Check if antibet mode is active
@@ -110,9 +110,13 @@
 	};
 	
 	// Calculate bet amount to display - show the antibet cost regardless of current state
+	const xBetCostAmount = $derived(stateBet.betAmount * 1.5);
 	let betAmountText = $derived(
-		formatCurrencyNumber(stateBet.betAmount * 1.5)
+		formatCurrencyNumber(xBetCostAmount)
 	);
+	
+	// Check if player has enough balance for XBet
+	const canAffordXBet = $derived(xBetCostAmount <= stateBet.balanceAmount);
 	
 	// Whether to show separate currency symbol
 	let showCurrencySymbol = $derived(stateBet.currency !== 'USD');
@@ -130,7 +134,7 @@
 			setTimeout(() => (delayedShow = true), 500);
 		},
 		xBetButtonClick: () => {
-			// Toggle antibet mode
+			// Toggle antibet mode (balance check is done in handleClick)
 			console.log('xBet button clicked! Current mode:', stateBet.activeBetModeKey);
 			if (stateBet.activeBetModeKey === 'ANTIBET') {
 				stateBet.activeBetModeKey = 'BASE';
@@ -153,6 +157,14 @@
 	});
 
 	function handleClick() {
+		// Check if player can afford XBet, show notification if not
+		if (!canAffordXBet) {
+			// Trigger the balance notification
+			console.log('🚨 XBetButton: Player cannot afford XBet, broadcasting showInsufficientBalance');
+			context.eventEmitter.broadcast({ type: 'showInsufficientBalance' });
+			return;
+		}
+		
 		context.eventEmitter.broadcast({ type: 'xBetButtonClick' });
 	}
 </script>

@@ -19,7 +19,11 @@
 	let show = $derived(stateModal.modal?.name === 'buyBonus');
 	
 	// Calculate cost
-	const bonusCost = $derived(numberToCurrencyString(stateBet.betAmount * 100));
+	const bonusCostAmount = $derived(stateBet.betAmount * 100);
+	const bonusCost = $derived(numberToCurrencyString(bonusCostAmount));
+	
+	// Check if player has enough balance
+	const canAffordBonus = $derived(bonusCostAmount <= stateBet.balanceAmount);
 
 	// Center the confirmation on screen
 	const position = $derived(() => {
@@ -44,6 +48,9 @@
 	});
 
 	function handleConfirm() {
+		// Only proceed if player can afford the bonus
+		if (!canAffordBonus) return;
+		
 		stateBet.activeBetModeKey = 'BONUS';
 		context.eventEmitter.broadcast({ type: 'bet' });
 		stateModal.modal = null;
@@ -127,20 +134,21 @@
 			<Container 
 				x={60} 
 				y={40} 
-				interactive={true} 
-				cursor="pointer" 
+				interactive={canAffordBonus} 
+				cursor={canAffordBonus ? "pointer" : "not-allowed"} 
 				onpointertap={handleConfirm}
-				onpointerover={() => yesHover = true}
+				onpointerover={() => {if (canAffordBonus) yesHover = true}}
 				onpointerout={() => yesHover = false}
-				scale={yesHover ? 1.05 : 1.0}
+				scale={yesHover && canAffordBonus ? 1.05 : 1.0}
+				alpha={canAffordBonus ? 1.0 : 0.5}
 			>
-				<!-- Green background -->
+				<!-- Green background (greyed out if can't afford) -->
 				<Sprite 
 					key="payFrame" 
 					width={100}
 					height={50}
 					anchor={{ x: 0.5, y: 0.5 }}
-					tint={yesHover ? 0x00cc00 : 0x00ff00}
+					tint={canAffordBonus ? (yesHover ? 0x00cc00 : 0x00ff00) : 0x666666}
 				/>
 				<Text
 					text="YES"
@@ -148,7 +156,7 @@
 					style={{
 						fontFamily: 'Arial Black',
 						fontSize: 20,
-						fill: 'white',
+						fill: canAffordBonus ? 'white' : '#888888',
 						fontWeight: 'bold',
 					}}
 				/>

@@ -32,6 +32,7 @@
 	import BuyButton from './BuyButton.svelte';
 	import XBetButton from './XBetButton.svelte';
 	import BuyConfirmation from './BuyConfirmation.svelte';
+	import BalanceNotification from './BalanceNotification.svelte';
 
 	const context = getContext();
 
@@ -119,6 +120,7 @@
 		<BuyButton />
 		<XBetButton />
 		<BuyConfirmation />
+		<BalanceNotification />
 
 		<I18nTest />
 
