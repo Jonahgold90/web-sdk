@@ -159,14 +159,18 @@
 	});
 
 	$effect(() => {
-		// When reel stops, wait a moment then complete to ensure timing aligns
-		if (props.reel.reelState.motion === 'stopped' && show) {
-			console.log('🎬 Anticipation: Reel stopped, completing anticipation');
-			setTimeout(() => {
-				show = false;
-				cleanupSprite();
-				props.oncomplete();
-			}, 200); // Small delay to ensure anticipation shows until reel is fully stopped
+		// When reel stops bouncing or is fully stopped, complete immediately for better responsiveness
+		if ((props.reel.reelState.motion === 'bouncing' || props.reel.reelState.motion === 'stopped') && show) {
+			console.log('🎬 Anticipation: Reel bouncing/stopped, completing anticipation immediately');
+			
+			// Immediately hide the sprite visually to eliminate any cleanup delay
+			if (anticipationSprite && !isDestroyed) {
+				anticipationSprite.alpha = 0;
+			}
+			
+			show = false;
+			cleanupSprite();
+			props.oncomplete();
 		}
 	});
 
