@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { stateBet, stateBetDerived, stateUi, stateSound, stateConfig, stateModal } from 'state-shared';
+	import { i18nDerived } from 'components-ui-pixi/src/i18n/i18nDerived';
 	import { stateGame } from '../game/stateGame.svelte';
 	import { eventEmitter } from '../game/eventEmitter';
 	import { numberToCurrencyString, bookEventAmountToCurrencyString } from 'utils-shared/amount';
@@ -235,7 +236,7 @@
 			<!-- Bet Controls -->
 			<div class="bet-controls">
 				<div class="bet-display">
-					<span class="label">Bet</span>
+					<span class="label">{i18nDerived.bet()}</span>
 					<span class="value">{formatCurrency(stateBetDerived.betCost())}</span>
 				</div>
 				<div class="bet-buttons">
