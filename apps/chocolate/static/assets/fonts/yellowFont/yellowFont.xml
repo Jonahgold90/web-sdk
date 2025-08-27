@@ -9,7 +9,7 @@
     <char id="32" x="0" y="0" width="39.5" height="1" xoffset="0" yoffset="0" xadvance="39.5" yadvance="1"/>
     <char id="33" x="53" y="1310" width="48" height="74" xoffset="29" yoffset="17" xadvance="48" yadvance="74"/>
     <char id="43" x="1" y="1503" width="47" height="46" xoffset="24" yoffset="37" xadvance="47" yadvance="46"/>
-    <char id="44" x="98" y="1462" width="25" height="35" xoffset="34" yoffset="63" xadvance="25" yadvance="35"/>
+    <char id="44" x="98" y="1462" width="25" height="35" xoffset="0" yoffset="63" xadvance="25" yadvance="35"/>
     <char id="45" x="1" y="1551" width="46" height="24" xoffset="25" yoffset="49" xadvance="46" yadvance="24"/>
     <char id="46" x="103" y="1310" width="22" height="21" xoffset="0" yoffset="64" xadvance="22" yadvance="21"/>
     <char id="48" x="56" y="1083" width="50" height="74" xoffset="0" yoffset="17" xadvance="50" yadvance="74"/>
