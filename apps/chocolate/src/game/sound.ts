@@ -50,6 +50,7 @@ export type SoundEffectName =
 	| 'sfx_winlevel_standard'
 	| 'sfx_winlevel_substantial'
 	| 'sfx_youwon_panel'
+	| 'sfx_ui_click'
 	| 'tumble_win_1'
 	| 'tumble_win_2'
 	| 'tumble_win_3'

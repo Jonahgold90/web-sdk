@@ -156,6 +156,11 @@ export default {
 		src: new URL('../../assets/audio/sounds.json', import.meta.url).href,
 		preload: true,
 	},
+	clickSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/Candy_Crypt_click.mp3', import.meta.url).href,
+		preload: true,
+	},
 	// Base game backgrounds
 	backgroundImageBaseLandscape: {
 		type: 'sprite',

@@ -24,8 +24,9 @@
 	const context = getContext();
 
 	let candyCryptMusicHowl: Howl;
+	let clickSoundHowl: Howl;
 
-	// Create the music instance once when component loads
+	// Create the music and click sound instances once when component loads
 	onMount(() => {
 		candyCryptMusicHowl = new Howl({
 			src: ['./assets/audio/candy_crypt_bg_music.mp3'],
@@ -33,12 +34,20 @@
 			volume: stateSound.volumeValueMusic > 0 ? 0.2 : 0
 		});
 		candyCryptMusicHowl.play();
+
+		clickSoundHowl = new Howl({
+			src: ['./assets/audio/Candy_Crypt_click.mp3'],
+			volume: stateSound.volumeValueSoundEffect > 0 ? 0.2 : 0
+		});
 	});
 
 	// Simple volume control based on toggle state
 	$effect(() => {
 		if (candyCryptMusicHowl) {
 			candyCryptMusicHowl.volume(stateSound.volumeValueMusic > 0 ? 0.2 : 0);
+		}
+		if (clickSoundHowl) {
+			clickSoundHowl.volume(stateSound.volumeValueSoundEffect > 0 ? 0.2 : 0);
 		}
 	});
 
@@ -52,7 +61,11 @@
 			}
 			// Music is always playing, no need to start it
 		},
-		soundPressGeneral: () => sound.players.once.play({ name: 'sfx_btn_general' }),
+		soundPressGeneral: () => {
+			if (clickSoundHowl && stateSound.volumeValueSoundEffect > 0) {
+				clickSoundHowl.play();
+			}
+		},
 		soundPressBet: () => sound.players.once.play({ name: 'sfx_btn_spin' }),
 		// scatterCounter
 		soundScatterCounterIncrease: () => (context.stateGame.scatterCounter = context.stateGame.scatterCounter + 1), // prettier-ignore
@@ -64,7 +77,16 @@
 			}
 		},
 		soundLoop: ({ name }) => sound.players.loop.play({ name }),
-		soundOnce: ({ name, forcePlay }) => sound.players.once.play({ name, forcePlay }),
+		soundOnce: ({ name, forcePlay }) => {
+			if (name === 'sfx_ui_click') {
+				// Use custom click sound
+				if (clickSoundHowl && stateSound.volumeValueSoundEffect > 0) {
+					clickSoundHowl.play();
+				}
+			} else {
+				sound.players.once.play({ name, forcePlay });
+			}
+		},
 		soundStop: ({ name }) => sound.stop({ name }),
 		soundFade: async ({ name, duration, from, to }) => {
 			if (name !== 'bgm_main' && name !== 'bgm_freespin') {
