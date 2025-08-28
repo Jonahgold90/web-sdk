@@ -142,6 +142,11 @@ export default {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/symbolsStatic/symbolsStatic.json', import.meta.url).href,
 	},
+	symbolsStaticBackgrounds: {
+		type: 'sprites',
+		src: new URL('../../assets/sprites/symbolsStaticBackgrounds/symbolsStaticBackgrounds.json', import.meta.url).href,
+		preload: true,
+	},
 	coins: {
 		type: 'spriteSheet',
 		src: new URL('../../assets/sprites/coin/SD2_Coin.json', import.meta.url).href,

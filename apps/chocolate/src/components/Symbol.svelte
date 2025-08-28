@@ -2,9 +2,10 @@
 	import SymbolSprite from './SymbolSprite.svelte';
 	import { getSymbolInfo } from '../game/utils';
 	import type { SymbolState, RawSymbol } from '../game/types';
-	import { BitmapText, Container } from 'pixi-svelte';
+	import { BitmapText, Container, Sprite } from 'pixi-svelte';
 	import { stateBet } from 'state-shared';
 	import { numberToCurrencyString } from 'utils-shared/amount';
+	import { SYMBOL_SIZE } from '../game/constants';
 
 	type Props = {
 		x?: number;
@@ -72,6 +73,18 @@
 	y={props.y} 
 	scale={{x: containerScaleX, y: containerScaleY}}
 >
+	{#if props.state === 'win'}
+		<Sprite
+			key={`${props.rawSymbol.name}_BG.png`}
+			anchor={0.5}
+			x={0}
+			y={0}
+			width={SYMBOL_SIZE * symbolInfo.sizeRatios.width}
+			height={SYMBOL_SIZE * symbolInfo.sizeRatios.height}
+			zIndex={0}
+		/>
+	{/if}
+	
 	<SymbolSprite 
 		{symbolInfo} 
 		x={0}

@@ -76,4 +76,5 @@
 	key={props.symbolInfo.assetKey}
 	width={SYMBOL_SIZE * props.symbolInfo.sizeRatios.width * scaleX}
 	height={SYMBOL_SIZE * props.symbolInfo.sizeRatios.height * scaleY}
+	zIndex={1}
 />
