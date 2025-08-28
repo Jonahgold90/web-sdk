@@ -31,8 +31,8 @@
 		context.stateGame.board.some(reel => reel.reelState.motion === 'spinning' || reel.reelState.motion === 'bouncing')
 	);
 	
-	// Interactive only when showing and game is not spinning
-	let interactive = $derived(show && !isSpinning);
+	// Interactive only when showing, game is not spinning, and bet amount is greater than 0
+	let interactive = $derived(show && !isSpinning && stateBet.betAmount > 0);
 
 	// Comprehensive responsive positioning and sizing
 	const layout = $derived(() => {

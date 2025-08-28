@@ -1,5 +1,6 @@
 import type { BaseBet } from 'utils-bet';
 import { stateMeta } from './stateMeta.svelte';
+import { stateConfig } from './stateConfig.svelte';
 
 export type Currency = string;
 export type LastBet = BaseBet | null;
@@ -25,8 +26,19 @@ const correctBetAmount = (value: number) => {
 	if (value <= 0) return 0;
 	const costMultiplier = betCostMultiplier();
 	if (costMultiplier === 0) return 0;
-	const max = stateBet.balanceAmount / costMultiplier;
-	if (value >= max) return max;
+	const maxAffordableAmount = stateBet.balanceAmount / costMultiplier;
+	
+	// If the desired value exceeds what we can afford, find the highest affordable bet amount
+	// from the predefined options to maintain proper 1.5x intervals
+	if (value >= maxAffordableAmount) {
+		// Find the highest bet amount option that we can afford
+		const affordableBetAmounts = stateConfig.betAmountOptions.filter(
+			(betAmount) => betAmount * costMultiplier <= stateBet.balanceAmount
+		);
+		
+		if (affordableBetAmounts.length === 0) return 0;
+		return Math.max(...affordableBetAmounts);
+	}
 	return value;
 };
 
