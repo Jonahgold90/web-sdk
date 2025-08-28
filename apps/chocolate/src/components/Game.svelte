@@ -27,8 +27,7 @@
 	import BonusLevelFrames from './BonusLevelFrames.svelte';
 	import RetrigPopup from './RetrigPopup.svelte';
 	import Transition from './Transition.svelte';
-	import I18nTest from './I18nTest.svelte';
-	import ControlBar from './ControlBar.svelte';
+		import ControlBar from './ControlBar.svelte';
 	import BuyButton from './BuyButton.svelte';
 	import XBetButton from './XBetButton.svelte';
 	import BuyConfirmation from './BuyConfirmation.svelte';
@@ -122,7 +121,6 @@
 		<BuyConfirmation />
 		<BalanceNotification />
 
-		<I18nTest />
 
 		<!-- Control Bar -->
 		<ControlBar 
