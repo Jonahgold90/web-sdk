@@ -161,6 +161,11 @@ export default {
 		src: new URL('../../assets/audio/Candy_Crypt_click.mp3', import.meta.url).href,
 		preload: true,
 	},
+	cwLandingSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/Candy_Crypt_CW_landing02.mp3', import.meta.url).href,
+		preload: true,
+	},
 	// Base game backgrounds
 	backgroundImageBaseLandscape: {
 		type: 'sprite',

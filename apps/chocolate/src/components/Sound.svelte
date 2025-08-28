@@ -25,6 +25,7 @@
 
 	let candyCryptMusicHowl: Howl;
 	let clickSoundHowl: Howl;
+	let cwLandingSoundHowl: Howl;
 
 	// Create the music and click sound instances once when component loads
 	onMount(() => {
@@ -39,6 +40,11 @@
 			src: ['./assets/audio/Candy_Crypt_click.mp3'],
 			volume: stateSound.volumeValueSoundEffect > 0 ? 0.2 : 0
 		});
+
+		cwLandingSoundHowl = new Howl({
+			src: ['./assets/audio/Candy_Crypt_CW_landing02.mp3'],
+			volume: stateSound.volumeValueSoundEffect > 0 ? 0.3 : 0
+		});
 	});
 
 	// Simple volume control based on toggle state
@@ -48,6 +54,9 @@
 		}
 		if (clickSoundHowl) {
 			clickSoundHowl.volume(stateSound.volumeValueSoundEffect > 0 ? 0.2 : 0);
+		}
+		if (cwLandingSoundHowl) {
+			cwLandingSoundHowl.volume(stateSound.volumeValueSoundEffect > 0 ? 0.3 : 0);
 		}
 	});
 
@@ -91,6 +100,14 @@
 		soundFade: async ({ name, duration, from, to }) => {
 			if (name !== 'bgm_main' && name !== 'bgm_freespin') {
 				await sound.fade({ name, duration, from, to });
+			}
+		},
+		// CW landing sound - play when symbols are revealed on reels
+		boardReveal: ({ board }) => {
+			// Check if any CW symbols landed on the board
+			const hasCW = board.some(reel => reel.some(symbol => symbol.name === 'CW'));
+			if (hasCW && cwLandingSoundHowl && stateSound.volumeValueSoundEffect > 0) {
+				cwLandingSoundHowl.play();
 			}
 		},
 	});

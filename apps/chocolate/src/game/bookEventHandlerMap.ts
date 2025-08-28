@@ -65,6 +65,13 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			revealEvent: bookEvent,
 			paddingBoard: config.paddingReels[bookEvent.gameType],
 		});
+		
+		// Broadcast board reveal for sound system
+		eventEmitter.broadcast({ 
+			type: 'boardReveal', 
+			board: bookEvent.board 
+		});
+		
 		eventEmitter.broadcast({ type: 'soundScatterCounterClear' });
 	},
 	winInfo: async (bookEvent: BookEventOfType<'winInfo'>) => {
