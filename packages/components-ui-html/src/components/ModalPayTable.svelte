@@ -1,21 +1,26 @@
 <script lang="ts">
   import { Popup } from 'components-shared';
   import { zIndex } from 'constants-shared/zIndex';
-  import { stateModal } from 'state-shared';
+  import { stateModal, stateUrlDerived } from 'state-shared';
   import { stateBet } from 'state-shared';
 
   import BaseContent from './BaseContent.svelte';
   import BaseScrollable from './BaseScrollable.svelte';
 
   import { symbolPayouts } from '../paytableData'; // make sure path is correct
+  
+  // Helper function to get social-compatible text
+  const getSocialText = (regularText: string, socialText: string) => 
+    stateUrlDerived.social() ? socialText : regularText;
 
   const regularSymbols = symbolPayouts.filter((s) => !s.description && !s.isSpecial);
   const specialSymbols = symbolPayouts.filter((s) => s.isSpecial || s.description);
 
-  function formatPayout(payout, bet: number) {
+  function formatPayout(payout, playAmount: number) {
     if (payout?.multiplier && payout.multiplier > 0) {
-      const value = payout.multiplier * bet;
-      return `${payout.match} = $${value.toFixed(2)}`;
+      const value = payout.multiplier * playAmount;
+      const currency = getSocialText('$', '') + value.toFixed(2) + getSocialText('', ' coins');
+      return `${payout.match} = ${currency}`;
     } else if (payout?.description) {
       return `${payout.match} = ${payout.description}`;
     } else {
@@ -34,16 +39,16 @@
           <div style="margin-bottom: 40px; text-align: center;">
             <h2 style="font-size: 1.5rem; font-weight: bold;">CANDY CRYPT — RULES & INFO</h2>
             <p style="margin-top: 8px; font-size: 1rem; color: #ccc; max-width: 760px; margin-left: auto; margin-right: auto;">
-              Candy Crypt is a 5-reel, 3-row, <strong>20-line</strong> slot. In the base game, <strong>Chocolate Cash (CC)</strong> appears
+              Candy Crypt is a 5-reel, 3-row, <strong>20-line</strong> slot. In the base game, <strong>Chocolate {getSocialText('Cash', 'Coins')} (CC)</strong> appears
               as a <em>regular line symbol</em> (no collection). Trigger <strong>Free Spins</strong> to activate the
-              <strong>Collector Wild</strong>, which <em>collects</em> all on-screen Chocolate Cash values. Every <strong>4 Collectors</strong> award <strong>+10 spins</strong>
+              <strong>Collector Wild</strong>, which <em>collects</em> all on-screen Chocolate {getSocialText('Cash', 'Coins')} values. Every <strong>4 Collectors</strong> award <strong>+10 spins</strong>
               and step the collector multiplier <strong>×1 → ×2 → ×3 → ×10</strong>.
             </p>
           </div>
 
           <!-- Regular Symbols Grid -->
           <h3 style="font-size: 1.25rem; font-weight: bold; text-align: center; margin-bottom: 16px;">
-            PAYTABLE — LINE SYMBOLS (PAYS SHOWN AS CURRENCY)
+            PAYTABLE — LINE SYMBOLS ({getSocialText('PAYS SHOWN AS CURRENCY', 'WINS SHOWN AS COINS')})
           </h3>
 
           <div
@@ -58,7 +63,6 @@
             {#each regularSymbols as symbol}
               <div style="text-align: center;">
                 <img src={symbol.image} alt={symbol.name} width="120" height="120" />
-                <strong style="display: block; margin-top: 8px; font-size: 1.05rem;">{symbol.name}</strong>
                 <div style="margin-top: 6px;">
                   {#each symbol.payouts as payout}
                     {#if payout.multiplier > 0}
@@ -113,29 +117,29 @@
 <!-- RTP & Max Win Info -->
 <div style="margin-top: 40px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
   <h3 style="font-size: 1.25rem; font-weight: bold; text-align: center; margin-bottom: 16px;">
-    RTP & MAX WIN
+    RTP & MAX {getSocialText('WIN', 'PRIZE')}
   </h3>
   <ul style="list-style: disc; margin-left: 20px;">
     <li>Base Game RTP: <strong>96.00%</strong></li>
-    <li>Boost Bet Mode RTP (costs 1.5× bet): <strong>96.00%</strong></li>
+    <li>Boost {getSocialText('Bet', 'Play')} Mode RTP ({getSocialText('costs', 'for')} 1.5× {getSocialText('bet', 'play')}): <strong>96.00%</strong></li>
     <li>Bonus Game: <strong>96.00%</strong></li>
-    <li>Maximum win (all modes): <strong>10,000×</strong> total bet.</li>
+    <li>Maximum {getSocialText('win', 'prize')} (all modes): <strong>10,000×</strong> total {getSocialText('bet', 'play')}.</li>
   </ul>
 </div>
 
 <!-- Bet Modes / Costs -->
 <div style="margin-top: 28px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
-  <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">BET MODES</h3>
+  <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">{getSocialText('BET', 'PLAY')} MODES</h3>
   <p>
-    <strong>Base Game</strong> — <strong>Costs 1×</strong> the base bet. Standard play on 20 fixed lines.  
+    <strong>Base Game</strong> — <strong>{getSocialText('Costs', 'For')} 1×</strong> the base {getSocialText('bet', 'play')}. Standard play on 20 fixed lines.  
     Land 3 or more scatters to trigger free spins.
   </p>
   <p style="margin-top: 8px;">
-    <strong>Boost Bet</strong> — <strong>Costs 1.5×</strong> the base bet and <strong>raises Scatter frequency</strong> to increase
+    <strong>Boost {getSocialText('Bet', 'Play')}</strong> — <strong>{getSocialText('Costs', 'For')} 1.5×</strong> the base {getSocialText('bet', 'play')} and <strong>raises Scatter frequency</strong> to increase
     the chance of triggering Free Spins. 
   </p>
   <p style="margin-top: 8px;">
-    <strong>Bonus Buy</strong> — <strong>Costs 100×</strong> the base bet. Instantly triggers the Free Spins bonus at the cost of <strong>100× your bet</strong>.  
+    <strong>{getSocialText('Bonus Buy', 'Bonus Feature')}</strong> — <strong>{getSocialText('Costs', 'For')} 100×</strong> the base {getSocialText('bet', 'play')}. Instantly triggers the Free Spins bonus {getSocialText('at the cost of', 'for')} <strong>100× your {getSocialText('bet', 'play')}</strong>.  
     Collector Wilds and progression behave exactly as in naturally triggered Free Spins.
   </p>
 </div>
@@ -149,8 +153,8 @@
     <strong>3 Scatters = 10 spins</strong>, <strong>4 Scatters = 15 spins</strong>, <strong>5 Scatters = 20 spins</strong>.
   </p>
   <p style="margin-top: 8px;">
-    <strong>Collector Wild (bonus only):</strong> In Free Spins, Collector Wilds <strong>collect all on-screen Chocolate Cash</strong> values.  
-    Collection is paid immediately and is multiplied by the current <strong>Collector Multiplier</strong>.  
+    <strong>Collector Wild (bonus only):</strong> In Free Spins, Collector Wilds <strong>collect all on-screen Chocolate {getSocialText('Cash', 'Coins')}</strong> values.  
+    Collection is {getSocialText('paid', 'won')} immediately and is multiplied by the current <strong>Collector Multiplier</strong>.  
     Collector Wilds substitute for all symbols except Scatters.
   </p>
   <p style="margin-top: 8px;">
@@ -171,10 +175,10 @@
           <div style="margin-top: 28px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
             <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">LINE RULES</h3>
             <ul style="list-style: disc; margin-left: 20px;">
-              <li><strong>20 fixed paylines.</strong></li>
-              <li>All line pays are left-to-right on consecutive reels starting from reel 1.</li>
+              <li><strong>20 fixed {getSocialText('paylines', 'playlines')}.</strong></li>
+              <li>All line {getSocialText('pays', 'wins')} are left-to-right on consecutive reels starting from reel 1.</li>
               <li>Wins on different lines are added together.</li>
-              <li>In the base game, <strong>Chocolate Cash (CC)</strong> behaves as a <em>regular line symbol</em> (no collecting).</li>
+              <li>In the base game, <strong>Chocolate {getSocialText('Cash', 'Coins')} (CC)</strong> behaves as a <em>regular line symbol</em> (no collecting).</li>
             </ul>
           </div>
 
@@ -182,7 +186,7 @@
           <div style="margin-top: 28px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
             <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">OBTAINABLE SPECIAL VALUES</h3>
             <p>
-              <strong>Chocolate Cash (CC) Values in Free Spins:</strong>
+              <strong>Chocolate {getSocialText('Cash', 'Coins')} (CC) Values in Free Spins:</strong>
               <strong>2×, 5×, 10×, 15×, 20×, 25×, 50×, 2000×</strong>.
             </p>
           </div>
