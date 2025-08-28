@@ -142,7 +142,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		stateBet.activeBetModeKey = 'BASE';
 		eventEmitter.broadcast({ type: 'boardFrameGlowHide' });
 		eventEmitter.broadcast({ type: 'freeSpinOutroShow' });
-		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_youwon_panel' });
+		//eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_youwon_panel' });
 		winLevelSoundsPlay({ winLevelData });
 		await eventEmitter.broadcastAsync({
 			type: 'freeSpinOutroCountUp',
@@ -159,7 +159,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'drawerButtonHide' });
 	},
 	setWin: async (bookEvent: BookEventOfType<'setWin'>, { bookEvents }: BookEventContext) => {
-		console.log('🎯 setWin called with amount:', bookEvent.amount, 'winLevel:', bookEvent.winLevel);
+		//console.log('🎯 setWin called with amount:', bookEvent.amount, 'winLevel:', bookEvent.winLevel);
 		
 		// Update control bar with win amount
 		if (stateGame.gameType === 'freegame') {
@@ -189,7 +189,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'winHide' });
 	},
 	spinWinTotal: async (bookEvent: BookEventOfType<'spinWinTotal'>, { bookEvents }: BookEventContext) => {
-		console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
+		//console.log('✨ spinWinTotal called with total:', bookEvent.amount, 'breakdown:', { lineWins: bookEvent.lineWins, collections: bookEvent.collections });
 		
 		// spinWinTotal now only updates control bar - win animations handled by setWin
 		// No win animation logic needed here since setWin handles it with correct win levels
@@ -212,7 +212,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	cwLanded: async (bookEvent: BookEventOfType<'cwLanded'>) => {
 		// Handle CW landing event for progression animation
-		console.log('🎊 CW Landed event triggered at index:', bookEvent.index, 'count:', bookEvent.count, 'totalCws:', bookEvent.totalCws);
+		//console.log('🎊 CW Landed event triggered at index:', bookEvent.index, 'count:', bookEvent.count, 'totalCws:', bookEvent.totalCws);
 		
 		// Broadcast to components listening for CW events
 		eventEmitter.broadcast({ 
@@ -223,7 +223,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	cc_collect_sequence: async (bookEvent: BookEventOfType<'cc_collect_sequence'>) => {
 		// Handle deterministic CC collection animation
-		console.log('🎬 CC Collect Sequence event triggered at index:', bookEvent.index, 'collections:', bookEvent.collections.length);
+		//console.log('🎬 CC Collect Sequence event triggered at index:', bookEvent.index, 'collections:', bookEvent.collections.length);
 		
 		// Show collection animation and wait for completion
 		eventEmitter.broadcast({ type: 'collectionAnimationShow' });
@@ -231,7 +231,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			type: 'collectionAnimationPlay',
 			event: bookEvent
 		});
-		console.log('✅ CC collection sequence animation completed at index:', bookEvent.index);
+		//console.log('✅ CC collection sequence animation completed at index:', bookEvent.index);
 		// Keep animation visible for remainder of spin
 	},
 	level_advance: async (bookEvent: BookEventOfType<'level_advance'>) => {
