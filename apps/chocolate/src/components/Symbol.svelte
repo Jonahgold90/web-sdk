@@ -99,6 +99,7 @@
 			x={0}
 			y={10}
 			text={numberToCurrencyString(stateBet.betAmount * props.rawSymbol.cash_value)}
+			zIndex={2}
 			style={{
 				fontFamily: 'gold',
 				fontSize: 30,
