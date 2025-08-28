@@ -149,8 +149,8 @@
 			<Sprite 
 				key="loader" 
 				anchor={0.5} 
-				width={800 * scale} 
-				height={600 * scale}
+				width={600 * scale} 
+				height={564 * scale}
 			/>
 			{#if !context.stateApp.loaded}
 				<LoadingProgress y={250} width={1967 * 0.2} height={346 * 0.2}>

@@ -1,7 +1,7 @@
 export default {
 	loader: {
 		type: 'sprite',
-		src: new URL('../../assets/sprites/loaderImg/intro_screen_v02.png', import.meta.url).href,
+		src: new URL('../../assets/sprites/loaderImg/intro_screen_v03.png', import.meta.url).href,
 		preload: true,
 	},
 	pressToContinueText: {
