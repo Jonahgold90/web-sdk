@@ -42,7 +42,7 @@
 		const handleKeyPress = (event: KeyboardEvent) => {
 			if ((event.code === 'Space' || event.key === ' ') && show && skipAnimation && !hasSkipped) {
 				event.preventDefault();
-				console.log('Win: Skipping animation via spacebar');
+				// console.log('Win: Skipping animation via spacebar');
 				skipAnimation();
 			}
 		};

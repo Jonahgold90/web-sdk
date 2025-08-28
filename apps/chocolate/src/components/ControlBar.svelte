@@ -41,19 +41,19 @@
 	const autoSpinRemaining = $derived(stateBet.autoSpinsCounter);
 	const isAutoSpinning = $derived(stateBet.autoSpinsCounter > 0);
 
-	// Debug logging
-	$effect(() => {
-		console.log('Control Bar State:', {
-			isGameActive,
-			canPlay,
-			betAmount: stateBet.betAmount,
-			betCost: stateBetDerived.betCost(),
-			activeBetModeKey: stateBet.activeBetModeKey,
-			balanceAmount: stateBet.balanceAmount,
-			gameType: stateGame.gameType,
-			autoSpinsCounter: stateBet.autoSpinsCounter
-		});
-	});
+	// // Debug logging
+	// $effect(() => {
+	// 	console.log('Control Bar State:', {
+	// 		isGameActive,
+	// 		canPlay,
+	// 		betAmount: stateBet.betAmount,
+	// 		betCost: stateBetDerived.betCost(),
+	// 		activeBetModeKey: stateBet.activeBetModeKey,
+	// 		balanceAmount: stateBet.balanceAmount,
+	// 		gameType: stateGame.gameType,
+	// 		autoSpinsCounter: stateBet.autoSpinsCounter
+	// 	});
+	// });
 
 	// Sound click handler
 	const playClickSound = () => {
@@ -75,7 +75,7 @@
 	};
 
 	const increaseBet = () => {
-		console.log('Increase bet clicked!', { isGameActive, currentBet: stateBet.betAmount });
+		// console.log('Increase bet clicked!', { isGameActive, currentBet: stateBet.betAmount });
 		if (isGameActive) return;
 		playClickSound();
 		
@@ -89,7 +89,7 @@
 		}
 		
 		if (nextBet && nextBet <= stateBet.balanceAmount) {
-			console.log('Setting bet to:', nextBet);
+			// console.log('Setting bet to:', nextBet);
 			stateBetDerived.setBetAmount(nextBet);
 		}
 	};
@@ -116,7 +116,7 @@
 	};
 
 	const toggleAutoSpin = () => {
-		console.log('Toggle auto-spin clicked', { isAutoSpinning });
+		// console.log('Toggle auto-spin clicked', { isAutoSpinning });
 		playClickSound();
 		if (isAutoSpinning) {
 			stateBet.autoSpinsCounter = 0;
@@ -126,7 +126,7 @@
 	};
 
 	const handleAutoSpinSelect = (count: number) => {
-		console.log('Auto-spin count selected:', count);
+		// console.log('Auto-spin count selected:', count);
 		playClickSound();
 		stateBet.autoSpinsCounter = count;
 		isAutoSpinMenuOpen = false;
@@ -135,7 +135,7 @@
 	};
 
 	const toggleMenu = () => {
-		console.log('Menu button clicked!');
+		// console.log('Menu button clicked!');
 		playClickSound();
 		isMenuOpen = !isMenuOpen;
 	};
@@ -158,7 +158,7 @@
 
 
 	const handlePlayClick = () => {
-		console.log('Play button clicked!', { canPlay, isGameActive });
+		// console.log('Play button clicked!', { canPlay, isGameActive });
 		playClickSound();
 		onPlay();
 	};

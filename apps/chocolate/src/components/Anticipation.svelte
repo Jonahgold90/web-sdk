@@ -38,7 +38,7 @@
 	// Simple cleanup for canvas-based GIF rendering
 	const cleanupSprite = () => {
 		if (!isDestroyed) {
-			console.log('🗑️ Anticipation: Starting cleanup');
+			//console.log('🗑️ Anticipation: Starting cleanup');
 			
 			try {
 				// Cancel animation frame
@@ -62,20 +62,20 @@
 					gifCanvas.height = 1;
 				}
 				
-				console.log('🗑️ Anticipation: Cleanup completed successfully');
+				// console.log('🗑️ Anticipation: Cleanup completed successfully');
 				isDestroyed = true;
 				anticipationSprite = null;
 				gifCanvas = null;
 				gifImage = null;
 			} catch (error) {
-				console.error('❌ Anticipation: Error during cleanup:', error);
+				// console.error('❌ Anticipation: Error during cleanup:', error);
 				isDestroyed = true;
 			}
 		}
 	};
 
 	onMount(() => {
-		console.log('🎬 Anticipation: Component mounted, loading GIF with canvas');
+		// console.log('🎬 Anticipation: Component mounted, loading GIF with canvas');
 
 		const loadGif = async () => {
 			try {
@@ -94,7 +94,7 @@
 				gifImage.onload = () => {
 					if (!gifCanvas || !gifImage || isDestroyed) return;
 					
-					console.log('🎬 Anticipation: GIF loaded, creating texture');
+					// console.log('🎬 Anticipation: GIF loaded, creating texture');
 					
 					// Draw GIF to canvas (this captures the first frame or current frame)
 					ctx.clearRect(0, 0, gifCanvas.width, gifCanvas.height);
@@ -113,11 +113,11 @@
 					// Set loaded flag
 					isLoaded = true;
 					
-					console.log('🎬 Anticipation: Canvas-based sprite created');
+					// console.log('🎬 Anticipation: Canvas-based sprite created');
 				};
 				
 				gifImage.onerror = () => {
-					console.error('🎬 Anticipation: Failed to load GIF image');
+					// console.error('🎬 Anticipation: Failed to load GIF image');
 					props.oncomplete();
 				};
 				
@@ -125,7 +125,7 @@
 				gifImage.src = assets.anticipation.src;
 				
 			} catch (error) {
-				console.error('🎬 Anticipation: Error setting up canvas GIF:', error);
+				// console.error('🎬 Anticipation: Error setting up canvas GIF:', error);
 				props.oncomplete();
 			}
 		};
@@ -161,7 +161,7 @@
 	$effect(() => {
 		// When reel stops bouncing or is fully stopped, complete immediately for better responsiveness
 		if ((props.reel.reelState.motion === 'bouncing' || props.reel.reelState.motion === 'stopped') && show) {
-			console.log('🎬 Anticipation: Reel bouncing/stopped, completing anticipation immediately');
+			// console.log('🎬 Anticipation: Reel bouncing/stopped, completing anticipation immediately');
 			
 			// Immediately hide the sprite visually to eliminate any cleanup delay
 			if (anticipationSprite && !isDestroyed) {

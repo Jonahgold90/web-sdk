@@ -86,11 +86,11 @@
 	// Listen for cwLanded events from math
 	context.eventEmitter.subscribeOnMount({
 		cwLanded: (event) => {
-			console.log(`🎊 cwLanded event received: ${event.count} CWs landed, total: ${event.totalCws}`);
+			// console.log(`🎊 cwLanded event received: ${event.count} CWs landed, total: ${event.totalCws}`);
 			
 			// Update progress based on the count from math
 			cwProgress = Math.min(cwProgress + event.count, 12);
-			console.log(`Updated progress to: ${cwProgress}`);
+			// console.log(`Updated progress to: ${cwProgress}`);
 		},
 	});
 	
@@ -105,7 +105,7 @@
 	// Helper functions to determine sprite keys based on progress
 	const getCharacterSpriteKey = (position: number) => {
 		const key = cwProgress >= position ? 'bonusLevelCharacterColor' : 'bonusLevelCharacterGrey';
-		console.log(`Character position ${position}: progress=${cwProgress}, key=${key}`);
+		// console.log(`Character position ${position}: progress=${cwProgress}, key=${key}`);
 		return key;
 	};
 	
@@ -114,7 +114,7 @@
 		const greyKey = `levelBarHeader${frameType.replace('x', 'X')}`;
 		const colorKey = `levelBarHeader${frameType.replace('x', 'X')}Color`;
 		const key = cwProgress >= headerPosition ? colorKey : greyKey;
-		console.log(`Header ${frameType}: progress=${cwProgress}, headerPos=${headerPosition}, key=${key}`);
+		// console.log(`Header ${frameType}: progress=${cwProgress}, headerPos=${headerPosition}, key=${key}`);
 		return key;
 	};
 

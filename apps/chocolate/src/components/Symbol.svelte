@@ -26,7 +26,7 @@
 	// Start animation when symbol enters win state
 	$effect(() => {
 		if (props.state === 'win') {
-			console.log('🎯 Starting symbol animation for', props.rawSymbol.name);
+			// console.log('🎯 Starting symbol animation for', props.rawSymbol.name);
 			playSymbolAnimation();
 		} else {
 			containerScaleX = 1;
@@ -35,7 +35,7 @@
 	});
 
 	function playSymbolAnimation() {
-		console.log('🎬 playSymbolAnimation called');
+		// console.log('🎬 playSymbolAnimation called');
 		const duration = 800;
 		const intensity = 0.3;
 		const startTime = Date.now();
@@ -49,12 +49,12 @@
 			containerScaleX = 1 + squish;
 			containerScaleY = 1 - squish * 0.6;
 			
-			console.log('🎬 Container animation frame:', { progress, squish, scaleX: containerScaleX, scaleY: containerScaleY });
+			// console.log('🎬 Container animation frame:', { progress, squish, scaleX: containerScaleX, scaleY: containerScaleY });
 
 			if (progress < 1) {
 				requestAnimationFrame(animate);
 			} else {
-				console.log('🎬 Container animation complete');
+				// console.log('🎬 Container animation complete');
 				containerScaleX = 1;
 				containerScaleY = 1;
 				// Call oncomplete after animation finishes
@@ -73,7 +73,7 @@
 	y={props.y} 
 	scale={{x: containerScaleX, y: containerScaleY}}
 >
-	{#if props.state === 'win'}
+	{#if props.state === 'win' && !['JAR', 'CC', 'S', 'CW'].includes(props.rawSymbol.name)}
 		<Sprite
 			key={`${props.rawSymbol.name}_BG.png`}
 			anchor={0.5}

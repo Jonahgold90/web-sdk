@@ -6,7 +6,7 @@ import { eventEmitter } from './eventEmitter';
  * This can be called directly from the console or other components
  */
 export async function playCollectSequence(event: BookEventOfType<'cc_collect_sequence'>): Promise<void> {
-	console.log('🎬 Playing collection sequence from utility function', event);
+	// console.log('🎬 Playing collection sequence from utility function', event);
 	
 	// Show collection animation
 	eventEmitter.broadcast({ type: 'collectionAnimationShow' });
@@ -17,7 +17,7 @@ export async function playCollectSequence(event: BookEventOfType<'cc_collect_seq
 		event: event
 	});
 	
-	console.log('✅ Collection sequence animation completed from utility');
+	// console.log('✅ Collection sequence animation completed from utility');
 }
 
 /**
@@ -39,9 +39,9 @@ export function hideCollectionAnimations(): void {
  */
 export function showCurrentBet(): void {
 	const { stateBet } = require('state-shared');
-	console.log(`💰 Current bet: ${stateBet.wageredBetAmount}`);
-	console.log(`💰 Currency: ${stateBet.currency}`);
-	console.log(`💰 Example scaling: base_value=10 would display as ${10 * stateBet.wageredBetAmount} in bet currency`);
+	// console.log(`💰 Current bet: ${stateBet.wageredBetAmount}`);
+	// console.log(`💰 Currency: ${stateBet.currency}`);
+	// console.log(`💰 Example scaling: base_value=10 would display as ${10 * stateBet.wageredBetAmount} in bet currency`);
 }
 
 /**

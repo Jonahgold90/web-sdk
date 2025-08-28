@@ -75,7 +75,7 @@
 	 * Play the full collection sequence animation
 	 */
 	export async function playCollectSequence(event: BookEventOfType<'cc_collect_sequence'>): Promise<void> {
-		console.log('🎬 Starting collection sequence animation', event);
+		// console.log('🎬 Starting collection sequence animation', event);
 		
 		// Clear any existing CW totals
 		cwTotals.clear();
@@ -83,12 +83,12 @@
 		// Process each CW collection sequentially
 		for (let i = 0; i < event.collections.length; i++) {
 			const collection = event.collections[i];
-			console.log(`🎬 Processing CW ${i + 1}/${event.collections.length} at (${collection.cw.col}, ${collection.cw.row})`);
+			// console.log(`🎬 Processing CW ${i + 1}/${event.collections.length} at (${collection.cw.col}, ${collection.cw.row})`);
 			
 			await playCollectionForCW(collection);
 		}
 		
-		console.log('✅ Collection sequence animation complete');
+		// console.log('✅ Collection sequence animation complete');
 		props.onComplete?.();
 	}
 
@@ -99,7 +99,7 @@
 		const cwKey = `${collection.cw.col}-${collection.cw.row}`;
 		const cwCenter = getCellCenter(collection.cw.col, collection.cw.row);
 		
-		console.log(`🎬 Setting up CW at (${collection.cw.col}, ${collection.cw.row}) with ${collection.steps.length} steps`);
+		// console.log(`🎬 Setting up CW at (${collection.cw.col}, ${collection.cw.row}) with ${collection.steps.length} steps`);
 		
 		// Initialize CW total display - force reactivity with new Map
 		const newCwTotals = new Map(cwTotals);
@@ -112,20 +112,20 @@
 		});
 		cwTotals = newCwTotals;
 
-		console.log(`🎬 CW totals map now has ${cwTotals.size} entries`);
+		// console.log(`🎬 CW totals map now has ${cwTotals.size} entries`);
 
 		// Animate each CC collection step
 		for (let i = 0; i < collection.steps.length; i++) {
 			const step = collection.steps[i];
 			const { scaled_credited_value } = getScaledValues(step);
-			console.log(`🎬 Starting step ${i + 1}/${collection.steps.length}: CC(${step.cc.col},${step.cc.row}) -> CW(${collection.cw.col},${collection.cw.row}) raw_value=${step.credited_value} scaled_value=${scaled_credited_value}`);
+			// console.log(`🎬 Starting step ${i + 1}/${collection.steps.length}: CC(${step.cc.col},${step.cc.row}) -> CW(${collection.cw.col},${collection.cw.row}) raw_value=${step.credited_value} scaled_value=${scaled_credited_value}`);
 			await animateStepCollection(step, collection.cw, cwKey);
-			console.log(`✅ Step ${i + 1} completed`);
+			// console.log(`✅ Step ${i + 1} completed`);
 		}
 
 		// Pulse the CW symbol when complete
 		await pulseCW(collection.cw);
-		console.log(`✅ CW collection complete for (${collection.cw.col}, ${collection.cw.row})`);
+		// console.log(`✅ CW collection complete for (${collection.cw.col}, ${collection.cw.row})`);
 	}
 
 	// State for dynamic floating texts with reactive positions
@@ -243,7 +243,7 @@
 		if (hasMultiplier) {
 			const textIndex = floatingTexts.findIndex(ft => ft.id === textId);
 			if (textIndex !== -1 && floatingTexts[textIndex].slamEffect) {
-				console.log(`💥 Starting slam effect for ${step.multiplier_used}x`);
+				// console.log(`💥 Starting slam effect for ${step.multiplier_used}x`);
 				await performSlamEffect(textIndex, textId, scaled_credited_value, cwKey);
 			}
 		}

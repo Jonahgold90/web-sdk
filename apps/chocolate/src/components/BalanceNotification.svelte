@@ -47,13 +47,13 @@
 		},
 		showInsufficientBalance: () => {
 			// Direct request to show insufficient balance notification
-			console.log('🚨 BalanceNotification: Received showInsufficientBalance event');
+			// console.log('🚨 BalanceNotification: Received showInsufficientBalance event');
 			showNotification('INSUFFICIENT BALANCE');
 		}
 	});
 
 	async function showNotification(text: string) {
-		console.log('🚨 BalanceNotification: showNotification called with:', text);
+		// console.log('🚨 BalanceNotification: showNotification called with:', text);
 		message = text;
 		show = true;
 		

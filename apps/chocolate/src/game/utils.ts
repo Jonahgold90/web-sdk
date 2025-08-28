@@ -18,9 +18,7 @@ export const playBet = async (bet: Bet) => {
 	
 	if (stateGame.gameType !== 'freegame') {
 		stateBet.winBookEventAmount = 0;
-		console.log('🔄 [BASE] Reset win amount for base game spin');
-	} else {
-		console.log('🔄 [BONUS] Preserving cumulative win amount:', stateBet.winBookEventAmount);
+		// console.log('🔄 [BASE] Reset win amount for base game spin');
 	}
 	
 	await playBookEvents(bet.state);

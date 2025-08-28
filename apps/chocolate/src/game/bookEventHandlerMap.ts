@@ -179,7 +179,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		
 		// Skip animation if there's no win
 		if (bookEvent.amount == 0) {
-			console.log('🎯 No win (amount = 0), skipping animation');
+			// console.log('🎯 No win (amount = 0), skipping animation');
 			return;
 		}
 		
@@ -209,7 +209,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	collection: async (bookEvent: BookEventOfType<'collection'>) => {
 		// Handle Big-Bass collection mechanic
-		console.log('💰 Collection event triggered at index:', bookEvent.index, 'amount:', bookEvent.collected_amount);
+		// console.log('💰 Collection event triggered at index:', bookEvent.index, 'amount:', bookEvent.collected_amount);
 		
 		// Play collection sound
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_wild_explode' });
@@ -243,7 +243,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	level_advance: async (bookEvent: BookEventOfType<'level_advance'>) => {
 		// Handle Big-Bass level advancement with retrigger
-		console.log('Level advance event:', bookEvent);
+		// console.log('Level advance event:', bookEvent);
 		
 		// Show retrigger intro when extra spins are granted
 		if (bookEvent.extra_spins_granted > 0) {

@@ -38,11 +38,11 @@
 	// Check if antibet mode is active
 	let isAntibetActive = $derived(stateBet.activeBetModeKey === 'ANTIBET');
 	
-	// Debug logging
-	$effect(() => {
-		console.log('XBet Button - Bet mode key changed to:', stateBet.activeBetModeKey, 'Active:', isAntibetActive);
-		console.log('XBet Button - Sprite key:', spriteKey);
-	});
+	// // Debug logging
+	// $effect(() => {
+	// 	console.log('XBet Button - Bet mode key changed to:', stateBet.activeBetModeKey, 'Active:', isAntibetActive);
+	// 	console.log('XBet Button - Sprite key:', spriteKey);
+	// });
 	
 	// Choose the correct sprite key based on antibet state
 	let spriteKey = $derived(
@@ -135,15 +135,15 @@
 		},
 		xBetButtonClick: () => {
 			// Toggle antibet mode (balance check is done in handleClick)
-			console.log('xBet button clicked! Current mode:', stateBet.activeBetModeKey);
+			// console.log('xBet button clicked! Current mode:', stateBet.activeBetModeKey);
 			if (stateBet.activeBetModeKey === 'ANTIBET') {
 				stateBet.activeBetModeKey = 'BASE';
-				console.log('Switched to base mode');
+				// console.log('Switched to base mode');
 			} else {
 				stateBet.activeBetModeKey = 'ANTIBET';
-				console.log('Switched to antibet mode');
+				// console.log('Switched to antibet mode');
 			}
-			console.log('New bet mode:', stateBet.activeBetModeKey);
+			// console.log('New bet mode:', stateBet.activeBetModeKey);
 		},
 	});
 	
@@ -160,7 +160,7 @@
 		// Check if player can afford XBet, show notification if not
 		if (!canAffordXBet) {
 			// Trigger the balance notification
-			console.log('🚨 XBetButton: Player cannot afford XBet, broadcasting showInsufficientBalance');
+			// console.log('🚨 XBetButton: Player cannot afford XBet, broadcasting showInsufficientBalance');
 			context.eventEmitter.broadcast({ type: 'showInsufficientBalance' });
 			return;
 		}

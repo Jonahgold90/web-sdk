@@ -44,7 +44,7 @@
 		},
 		hotKey: (event) => {
 			if (event.key === 'Space' && event.action === 'keyDown') {
-				console.log('Spacebar pressed - triggering spin');
+				// console.log('Spacebar pressed - triggering spin');
 				// Use the same handlePlay function
 				handlePlay();
 			}
@@ -53,7 +53,7 @@
 
 	// Control bar handlers
 	const handlePlay = () => {
-		console.log('Broadcasting bet event');
+		// console.log('Broadcasting bet event');
 		context.eventEmitter.broadcast({ type: 'bet' });
 	};
 
