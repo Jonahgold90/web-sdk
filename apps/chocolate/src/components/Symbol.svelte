@@ -113,6 +113,7 @@
 			x={-55}
 			y={-60}
 			text={`${props.rawSymbol.multiplier}X`}
+			zIndex={2}
 			style={{
 				fontFamily: 'gold',
 				fontSize: 28,
