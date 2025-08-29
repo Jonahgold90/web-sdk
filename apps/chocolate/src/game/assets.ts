@@ -22,6 +22,11 @@ export default {
 		src: new URL('../../assets/sprites/buyButton/Bonus_buy_v03.png', import.meta.url).href,
 		preload: true,
 	},
+	buyButtonSocial: {
+		type: 'sprite',
+		src: new URL('../../static/assets/sprites/buyButton/Bonus_buy_v05_social.png', import.meta.url).href,
+		preload: true,
+	},
 	xBetButtonOff: {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/buyButton/xBet_off_v04.png', import.meta.url).href,

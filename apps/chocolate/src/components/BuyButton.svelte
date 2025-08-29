@@ -9,12 +9,15 @@
 	import { MainContainer } from 'components-layout';
 	import { Sprite, Container } from 'pixi-svelte';
 	import { getContext } from '../game/context';
-	import { stateModal, stateBet } from 'state-shared';
+	import { stateModal, stateBet, stateUrlDerived } from 'state-shared';
 	import { stateGame } from '../game/stateGame.svelte';
 	import { stateSlots } from 'utils-slots/src/stateSlots.svelte';
 	import { SYMBOL_SIZE } from '../game/constants';
 	
 	const context = getContext();
+
+	// Determine which button asset to use based on social mode
+	const buttonAssetKey = $derived(stateUrlDerived.social() ? 'buyButtonSocial' : 'buyButton');
 
 	// Only show in base game, hide during bonus features and outro modals
 	let manualShow = $state(true);
@@ -112,7 +115,7 @@
 	<MainContainer>
 		<Container x={layout().x} y={layout().y}>
 			<Sprite 
-				key="buyButton" 
+				key={buttonAssetKey} 
 				width={layout().width} 
 				height={layout().height}
 				interactive={interactive}
