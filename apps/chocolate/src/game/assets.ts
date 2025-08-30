@@ -135,14 +135,6 @@ export default {
 			scale: 2,
 		},
 	},
-	transition: {
-		type: 'spine',
-		src: {
-			atlas: new URL('../../assets/spines/transition/transition.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/transition/transition.json', import.meta.url).href,
-			scale: 2,
-		},
-	},
 	symbolsStatic: {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/symbolsStatic/symbolsStatic.json', import.meta.url).href,
@@ -151,10 +143,6 @@ export default {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/symbolsStaticBackgrounds/symbolsStaticBackgrounds.json', import.meta.url).href,
 		preload: true,
-	},
-	coins: {
-		type: 'spriteSheet',
-		src: new URL('../../assets/sprites/coin/SD2_Coin.json', import.meta.url).href,
 	},
 	sound: {
 		type: 'audio',

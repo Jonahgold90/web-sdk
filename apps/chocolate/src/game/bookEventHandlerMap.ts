@@ -21,13 +21,9 @@ const winLevelSoundsPlay = ({ winLevelData }: { winLevelData: WinLevelData }) =>
 	if (winLevelData?.sound?.bgm) {
 		eventEmitter.broadcast({ type: 'soundMusic', name: winLevelData.sound.bgm });
 	}
-	if (winLevelData?.type === 'big') {
-		eventEmitter.broadcast({ type: 'soundLoop', name: 'sfx_bigwin_coinloop' });
-	}
 };
 
 const winLevelSoundsStop = () => {
-	eventEmitter.broadcast({ type: 'soundStop', name: 'sfx_bigwin_coinloop' });
 	if (stateBet.activeBetModeKey === 'SUPERSPIN' || stateGame.gameType === 'freegame') {
 		// check if SUPERSPIN, when finishing a bet.
 		eventEmitter.broadcast({ type: 'soundMusic', name: 'bgm_freespin' });

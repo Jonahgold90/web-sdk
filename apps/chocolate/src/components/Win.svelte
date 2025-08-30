@@ -16,7 +16,6 @@
 	import { OnMount } from 'components-shared';
 	import { onMount } from 'svelte';
 
-	import WinCoins from './WinCoins.svelte';
 	import WinAnimation from './WinAnimation.svelte';
 	import PressToContinue from './PressToContinue.svelte';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -184,7 +183,6 @@
 					</Container>
 				</MainContainer>
 
-				<WinCoins emit={!countUpCompleted} levelAlias={winLevelData?.alias} />
 			{/snippet}
 		</WinCountUpProvider>
 	{/if}
