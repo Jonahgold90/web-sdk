@@ -60,23 +60,8 @@ export function detectWebGL() {
 
 export const preloadFont = () =>
 	new Promise<void>((resolve) => {
-		try {
-			WebFont.load({
-				typekit: {
-					id: 'aba0ebl',
-				},
-				active: () => {
-					resolve();
-				},
-				inactive: () => {
-					console.error('Web font load inactive');
-					resolve();
-				},
-			});
-		} catch (error) {
-			console.error(error);
-			resolve();
-		}
+		// Font loading removed
+		resolve();
 	});
 
 export function propsSyncEffect<TProps extends object, TTarget>({
