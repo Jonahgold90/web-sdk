@@ -158,7 +158,7 @@
 {#if isSpinActive}
 	<div 
 		class="spin-animation-skip-overlay"
-		style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; cursor: pointer;"
+		style="position: fixed; top: 0; left: 0; width: 100%; height: calc(100% - 4rem); z-index: 40; cursor: pointer;"
 		onclick={() => {
 			context.stateGameDerived.enhancedBoard.stop();
 		}}
