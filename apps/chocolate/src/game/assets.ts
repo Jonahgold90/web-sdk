@@ -24,7 +24,7 @@ export default {
 	},
 	buyButtonSocial: {
 		type: 'sprite',
-		src: new URL('../../static/assets/sprites/buyButton/Bonus_buy_v05_social.png', import.meta.url).href,
+		src: new URL('../../assets/sprites/buyButton/Bonus_buy_v05_social.png', import.meta.url).href,
 		preload: true,
 	},
 	xBetButtonOff: {
