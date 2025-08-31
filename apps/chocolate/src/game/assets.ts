@@ -45,8 +45,8 @@ export default {
 	anticipation: {
 		type: 'spine',
 		src: {
-			atlas: new URL('../../static/assets/sprites/anticipation/skeleton.atlas', import.meta.url).href,
-			skeleton: new URL('../../static/assets/sprites/anticipation/skeleton.json', import.meta.url).href,
+			atlas: new URL('../../assets/sprites/anticipation/skeleton.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/sprites/anticipation/skeleton.json', import.meta.url).href,
 			scale: 2,
 		},
 		preload: true,
