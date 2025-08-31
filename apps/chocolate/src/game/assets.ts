@@ -43,8 +43,12 @@ export default {
 		preload: true,
 	},
 	anticipation: {
-		type: 'gif',
-		src: new URL('../../assets/sprites/anticipation/Candy_Crypt_anticipation_02_1.gif', import.meta.url).href,
+		type: 'spine',
+		src: {
+			atlas: new URL('../../static/assets/sprites/anticipation/skeleton.atlas', import.meta.url).href,
+			skeleton: new URL('../../static/assets/sprites/anticipation/skeleton.json', import.meta.url).href,
+			scale: 2,
+		},
 		preload: true,
 	},
 	anticipationBackground: {
