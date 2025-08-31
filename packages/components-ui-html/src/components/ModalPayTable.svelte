@@ -48,7 +48,7 @@
 
           <!-- Regular Symbols Grid -->
           <h3 style="font-size: 1.25rem; font-weight: bold; text-align: center; margin-bottom: 16px;">
-            PAYTABLE — LINE SYMBOLS ({getSocialText('PAYS SHOWN AS CURRENCY', 'WINS SHOWN AS COINS')})
+            {getSocialText('PAYTABLE', 'WIN TABLE')} — LINE SYMBOLS ({getSocialText('PAYS SHOWN AS CURRENCY', 'WINS SHOWN AS COINS')})
           </h3>
 
           <div
