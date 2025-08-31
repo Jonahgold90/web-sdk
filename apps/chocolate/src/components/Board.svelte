@@ -37,13 +37,23 @@
 	// State for line animation skipping
 	let isLineAnimationActive = $state(false);
 	let skipLineAnimation = $state<(() => void) | null>(null);
+	
+	// State for spin animation skipping - derived from actual reel motion states
+	const isSpinActive = $derived(
+		context.stateGame.board.some(reel => reel.reelState.motion === 'spinning')
+	);
 
-	// Add keyboard listener for spacebar to skip line animations
+	// Add keyboard listener for spacebar to skip line animations and spin
 	onMount(() => {
 		const handleKeyPress = (event: KeyboardEvent) => {
-			if ((event.code === 'Space' || event.key === ' ') && isLineAnimationActive && skipLineAnimation) {
-				event.preventDefault();
-				skipLineAnimation();
+			if ((event.code === 'Space' || event.key === ' ')) {
+				if (isLineAnimationActive && skipLineAnimation) {
+					event.preventDefault();
+					skipLineAnimation();
+				} else if (isSpinActive) {
+					event.preventDefault();
+					context.stateGameDerived.enhancedBoard.stop();
+				}
 			}
 		};
 
@@ -140,6 +150,17 @@
 			if (skipLineAnimation) {
 				skipLineAnimation();
 			}
+		}}
+	></div>
+{/if}
+
+<!-- Click overlay for spin animation skipping -->
+{#if isSpinActive}
+	<div 
+		class="spin-animation-skip-overlay"
+		style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; cursor: pointer;"
+		onclick={() => {
+			context.stateGameDerived.enhancedBoard.stop();
 		}}
 	></div>
 {/if}
