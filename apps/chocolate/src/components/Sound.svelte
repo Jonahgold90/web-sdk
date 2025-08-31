@@ -23,18 +23,29 @@
 
 	const context = getContext();
 
-	let candyCryptMusicHowl: Howl;
+	let baseMusicHowl: Howl;
+	let bonusMusicHowl: Howl;
 	let clickSoundHowl: Howl;
 	let cwLandingSoundHowl: Howl;
+	let currentMusicHowl: Howl | null = null;
 
 	// Create the music and click sound instances once when component loads
 	onMount(() => {
-		candyCryptMusicHowl = new Howl({
+		baseMusicHowl = new Howl({
+			src: ['./assets/audio/candy_crypt_base_bg_music.mp3'],
+			loop: true,
+			volume: stateSound.volumeValueMusic > 0 ? 0.2 : 0
+		});
+
+		bonusMusicHowl = new Howl({
 			src: ['./assets/audio/candy_crypt_bg_music.mp3'],
 			loop: true,
 			volume: stateSound.volumeValueMusic > 0 ? 0.2 : 0
 		});
-		candyCryptMusicHowl.play();
+
+		// Start with base game music
+		currentMusicHowl = baseMusicHowl;
+		baseMusicHowl.play();
 
 		clickSoundHowl = new Howl({
 			src: ['./assets/audio/Candy_Crypt_click.mp3'],
@@ -49,14 +60,36 @@
 
 	// Simple volume control based on toggle state
 	$effect(() => {
-		if (candyCryptMusicHowl) {
-			candyCryptMusicHowl.volume(stateSound.volumeValueMusic > 0 ? 0.2 : 0);
+		if (baseMusicHowl) {
+			baseMusicHowl.volume(stateSound.volumeValueMusic > 0 ? 0.2 : 0);
+		}
+		if (bonusMusicHowl) {
+			bonusMusicHowl.volume(stateSound.volumeValueMusic > 0 ? 0.2 : 0);
 		}
 		if (clickSoundHowl) {
 			clickSoundHowl.volume(stateSound.volumeValueSoundEffect > 0 ? 0.2 : 0);
 		}
 		if (cwLandingSoundHowl) {
 			cwLandingSoundHowl.volume(stateSound.volumeValueSoundEffect > 0 ? 0.3 : 0);
+		}
+	});
+
+	// Switch music based on game type
+	$effect(() => {
+		if (!baseMusicHowl || !bonusMusicHowl) return;
+		
+		const shouldPlayBonus = context.stateGame.gameType === 'freegame';
+		const targetMusic = shouldPlayBonus ? bonusMusicHowl : baseMusicHowl;
+		
+		if (currentMusicHowl !== targetMusic) {
+			// Stop current music
+			if (currentMusicHowl) {
+				currentMusicHowl.stop();
+			}
+			
+			// Start new music
+			currentMusicHowl = targetMusic;
+			currentMusicHowl.play();
 		}
 	});
 
