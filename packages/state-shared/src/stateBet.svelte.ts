@@ -9,8 +9,8 @@ export type BetModeKey = string;
 export const stateBet = $state({
 	currency: 'USD' as Currency,
 	balanceAmount: 0,
-	betAmount: 1,
-	wageredBetAmount: 1,
+	betAmount: 0.1, // Will be overridden by RGS defaultBetLevel during authentication
+	wageredBetAmount: 0.1,
 	lastBet: null as LastBet,
 	activeBetModeKey: 'BASE' as BetModeKey,
 	winBookEventAmount: 0,

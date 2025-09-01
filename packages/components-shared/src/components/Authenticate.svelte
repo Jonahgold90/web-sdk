@@ -66,6 +66,13 @@
 				stateConfig.betMenuOptions = stateConfig.betAmountOptions.filter((_, index) =>
 					MOST_USED_BET_INDEXES.includes(index),
 				);
+
+				// Set default bet amount from RGS defaultBetLevel if no active round
+				if (authenticateData.config?.defaultBetLevel && !authenticateData?.round?.amount) {
+					const defaultBetAmount = authenticateData.config.defaultBetLevel / API_AMOUNT_MULTIPLIER;
+					stateBet.betAmount = defaultBetAmount;
+					stateBet.wageredBetAmount = defaultBetAmount;
+				}
 			}
 
 			// round
