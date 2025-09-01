@@ -93,20 +93,23 @@
 		}
 	};
 	
-	// Get currency symbol for display
-	const getCurrencySymbol = () => {
-		const currencySymbols: Record<string, string> = {
-			'EUR': '€',
-			'GBP': '£',
-			'CAD': 'C$',
-			'AUD': 'A$',
-			'JPY': '¥',
+	// Get currency abbreviation for display
+	const getCurrencyAbbreviation = () => {
+		const currencyAbbreviations: Record<string, string> = {
+			'EUR': 'EUR',
+			'GBP': 'GBP',
+			'CAD': 'CAD',
+			'AUD': 'AUD',
+			'JPY': 'JPY',
 			'CHF': 'CHF',
-			'SEK': 'kr',
-			'NOK': 'kr',
-			'DKK': 'kr',
+			'SEK': 'SEK',
+			'NOK': 'NOK',
+			'DKK': 'DKK',
+			'MXN': 'MXN',
+			'XGC': 'GC',
+			'XSC': 'SC',
 		};
-		return currencySymbols[stateBet.currency] || stateBet.currency;
+		return currencyAbbreviations[stateBet.currency] || stateBet.currency;
 	};
 	
 	// Calculate bet amount to display - show the antibet cost regardless of current state
@@ -118,9 +121,9 @@
 	// Check if player has enough balance for XBet
 	const canAffordXBet = $derived(xBetCostAmount <= stateBet.balanceAmount);
 	
-	// Whether to show separate currency symbol
-	let showCurrencySymbol = $derived(stateBet.currency !== 'USD');
-	let currencySymbol = $derived(getCurrencySymbol());
+	// Whether to show separate currency abbreviation
+	let showCurrencyAbbreviation = $derived(stateBet.currency !== 'USD');
+	let currencyAbbreviation = $derived(getCurrencyAbbreviation());
 
 	context.eventEmitter.subscribeOnMount({
 		xBetButtonShow: () => (manualShow = true),
@@ -184,31 +187,30 @@
 				onpointerout={interactive ? (e) => e.currentTarget.alpha = (interactive ? 1 : 0.5) : undefined}
 			/>
 			
-			<!-- Bet amount text overlay - always show the antibet cost -->
-			{#if betAmountText}
+			<!-- Currency abbreviation for non-USD currencies -->
+			{#if showCurrencyAbbreviation}
 				<BitmapText
-					text={betAmountText}
-					x={showCurrencySymbol ? layout().width / 2 + 15 : layout().width / 2}
+					text={currencyAbbreviation}
+					x={layout().width / 2 - 25}
 					y={layout().height - 30}
 					anchor={{ x: 0.5, y: 0.5 }}
 					style={{
 						fontFamily: 'gold',
-						fontSize: 28,
+						fontSize: 20,
 					}}
 				/>
 			{/if}
 			
-			<!-- Currency symbol for non-USD currencies -->
-			{#if showCurrencySymbol}
+			<!-- Bet amount text overlay - always show the antibet cost -->
+			{#if betAmountText}
 				<BitmapText
-					text={currencySymbol}
-					x={layout().width / 2 - 20}
+					text={betAmountText}
+					x={showCurrencyAbbreviation ? layout().width / 2 + 25 : layout().width / 2}
 					y={layout().height - 30}
 					anchor={{ x: 0.5, y: 0.5 }}
-					tint={0xFFD700}
 					style={{
-						fontFamily: 'yellowFont',
-						fontSize: 24,
+						fontFamily: 'gold',
+						fontSize: 22,
 					}}
 				/>
 			{/if}

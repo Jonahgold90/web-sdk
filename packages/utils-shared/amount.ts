@@ -30,17 +30,32 @@ export const bookEventAmountToNormalisedAmount = (bookEventAmount: number) => {
 export const numberToFloat = (value: number) => Number.parseFloat(`${value}`);
 
 export const numberToCurrencyString = (value: number) => {
+	// Handle special stake currencies that should show as abbreviations
 	if (stateBet.currency in NO_LOCALISATION_CURRENCY_MAP) {
 		return `${NO_LOCALISATION_CURRENCY_MAP[stateBet.currency]} ${numberToFloat(value).toFixed(2)}`;
 	}
 
-	return stateI18n.i18n.number(value, {
-		minimumFractionDigits: 2,
-		maximumFractionDigits: 2,
-		style: 'currency',
-		currency: stateBet.currency,
-		// numberingSystem: 'latn',
-	});
+	// For all currencies, use the browser's currency formatting
+	try {
+		const formatted = stateI18n.i18n.number(value, {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+			style: 'currency',
+			currency: stateBet.currency,
+			currencyDisplay: 'symbol',
+		});
+
+		// Fix USD display - replace "US$" with "$" if it appears
+		if (stateBet.currency === 'USD') {
+			return formatted.replace('US$', '$');
+		}
+
+		return formatted;
+	} catch (error) {
+		// Fallback if currency formatting fails
+		console.warn(`Failed to format currency ${stateBet.currency}:`, error);
+		return `${stateBet.currency} ${numberToFloat(value).toFixed(2)}`;
+	}
 };
 
 export const bookEventAmountToCurrencyString = (bookEventAmount: number) => {
