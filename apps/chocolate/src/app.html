@@ -3,10 +3,34 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		%sveltekit.head%
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				let lastTouchEnd = 0;
+				document.addEventListener('touchend', function(event) {
+					const now = (new Date()).getTime();
+					if (now - lastTouchEnd <= 300) {
+						event.preventDefault();
+					}
+					lastTouchEnd = now;
+				}, false);
+				
+				document.addEventListener('gesturestart', function(e) {
+					e.preventDefault();
+				});
+				
+				document.addEventListener('gesturechange', function(e) {
+					e.preventDefault();
+				});
+				
+				document.addEventListener('gestureend', function(e) {
+					e.preventDefault();
+				});
+			});
+		</script>
 	</head>
-    <body style="margin: 0; padding: 0; overflow: hidden; background-color: black; height: 100vh; width: 100vw;">
+    <body style="margin: 0; padding: 0; overflow: hidden; background-color: black; height: 100vh; width: 100vw; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;">
 		<div>%sveltekit.body%</div>
 	</body>
 </html>

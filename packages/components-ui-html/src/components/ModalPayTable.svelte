@@ -7,7 +7,7 @@
   import BaseContent from './BaseContent.svelte';
   import BaseScrollable from './BaseScrollable.svelte';
 
-  import { symbolPayouts } from '../paytableData'; // make sure path is correct
+  import { symbolPayouts, paylines } from '../paytableData'; // make sure path is correct
   
   // Helper function to get social-compatible text
   const getSocialText = (regularText: string, socialText: string) => 
@@ -180,6 +180,44 @@
               <li>Wins on different lines are added together.</li>
               <li>In the base game, <strong>Chocolate {getSocialText('Cash', 'Coins')} (CC)</strong> behaves as a <em>regular line symbol</em> (no collecting).</li>
             </ul>
+          </div>
+
+          <!-- Paylines Section -->
+          <div style="margin-top: 28px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
+            <h3 style="font-size: 1.25rem; font-weight: bold; text-align: center; margin-bottom: 24px;">{getSocialText('PAYLINES', 'PLAYLINES')}</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; justify-items: center;">
+              {#each Object.entries(paylines) as [lineNumber, positions]}
+                <div style="text-align: center; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px; min-width: 180px;">
+                  <div style="font-weight: bold; color: #ffcc00; margin-bottom: 8px;">Line {lineNumber}</div>
+                  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; justify-items: center; margin-bottom: 8px;">
+                    {#each Array(3) as _, row}
+                      {#each Array(5) as _, col}
+                        <div 
+                          style="
+                            width: 20px; 
+                            height: 20px; 
+                            border: 2px solid {positions[col] === row ? '#ffcc00' : '#333'}; 
+                            background: {positions[col] === row ? '#ffcc00' : 'transparent'};
+                            border-radius: 3px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 10px;
+                            font-weight: bold;
+                            color: {positions[col] === row ? '#000' : '#666'};
+                          "
+                        >
+                          {positions[col] === row ? '●' : ''}
+                        </div>
+                      {/each}
+                    {/each}
+                  </div>
+                  <div style="font-size: 0.8rem; color: #ccc;">
+                    Pattern: {positions.join('-')}
+                  </div>
+                </div>
+              {/each}
+            </div>
           </div>
 
           <!-- Obtainable Values (Special) -->
