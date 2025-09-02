@@ -17,6 +17,23 @@
 	const initialiseApplication = async () => {
 		PIXI.Assets.reset();
 
+		// Add simple audio parser to prevent warnings
+		PIXI.Assets.loader.parsers.push({
+			name: 'loadAudio',
+			extension: {
+				type: 'loadParser',
+				priority: 1
+			},
+			test: (asset: any) => {
+				const url = typeof asset === 'string' ? asset : asset.src;
+				return url && /\.(mp3|wav|ogg|webm|m4a|aac)$/i.test(url);
+			},
+			load: async (url: string) => {
+				// Just return the URL - actual audio loading is handled by the sound system
+				return url;
+			}
+		});
+
 		await preloadFont();
 		context.stateApp.pixiApplication = new PIXI.Application<PIXI.Renderer<HTMLCanvasElement>>();
 		await context.stateApp.pixiApplication.init({
