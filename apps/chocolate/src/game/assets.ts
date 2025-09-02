@@ -127,10 +127,10 @@ export default {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/freeSpins/freeSpins.json', import.meta.url).href,
 	},
-	winSmall: {
-		type: 'sprites',
-		src: new URL('../../assets/sprites/winSmall/MM_Localisation_winsmall.json', import.meta.url).href,
-	},
+	// winSmall: {
+	// 	type: 'sprites',
+	// 	src: new URL('../../assets/sprites/winSmall/MM_Localisation_winsmall.json', import.meta.url).href,
+	// },
 	clusterWin: {
 		type: 'spine',
 		src: {
