@@ -29,11 +29,60 @@
   }
 </script>
 
+<style>
+  /* Mobile-specific styles for small devices */
+  @media (max-width: 480px) {
+    .paytable-content {
+      padding: 12px !important;
+      font-size: 0.85rem !important;
+    }
+    
+    .paytable-content h2 {
+      font-size: 1.2rem !important;
+    }
+    
+    .paytable-content h3 {
+      font-size: 1rem !important;
+    }
+    
+    .symbols-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+      gap: 16px !important;
+      margin-bottom: 24px !important;
+    }
+    
+    .symbols-grid img {
+      width: 80px !important;
+      height: 80px !important;
+    }
+    
+    .symbols-grid div[style*="font-size: 1rem"] {
+      font-size: 0.8rem !important;
+    }
+    
+    .paylines-grid {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+      gap: 8px !important;
+    }
+    
+    .paylines-grid > div {
+      padding: 8px !important;
+      min-width: 120px !important;
+    }
+    
+    .paylines-grid div[style*="width: 20px"] {
+      width: 14px !important;
+      height: 14px !important;
+      font-size: 8px !important;
+    }
+  }
+</style>
+
 {#if stateModal.modal?.name === 'payTable'}
   <Popup zIndex={zIndex.modal} onclose={() => (stateModal.modal = null)}>
     <BaseContent maxWidth="100%">
       <BaseScrollable type="column">
-        <div style="padding: 24px; color: white; font-family: sans-serif; max-height: 70vh; overflow-y: auto;">
+        <div style="padding: 24px; color: white; font-family: sans-serif; max-height: 70vh; overflow-y: auto;" class="paytable-content">
 
           <!-- About the Game -->
           <div style="margin-bottom: 40px; text-align: center;">
@@ -52,6 +101,7 @@
           </h3>
 
           <div
+            class="symbols-grid"
             style="
               display: grid;
               grid-template-columns: repeat(3, 1fr);
@@ -175,7 +225,7 @@
           <div style="margin-top: 28px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
             <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">LINE RULES</h3>
             <ul style="list-style: disc; margin-left: 20px;">
-              <li><strong>20 fixed {getSocialText('paylines', 'playlines')}.</strong></li>
+              <li><strong>20 fixed {getSocialText('paylines', 'win lines')}.</strong></li>
               <li>All line {getSocialText('pays', 'wins')} are left-to-right on consecutive reels starting from reel 1.</li>
               <li>Wins on different lines are added together.</li>
               <li>In the base game, <strong>Chocolate {getSocialText('Cash', 'Coins')} (CC)</strong> behaves as a <em>regular line symbol</em> (no collecting).</li>
@@ -184,8 +234,8 @@
 
           <!-- Paylines Section -->
           <div style="margin-top: 28px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
-            <h3 style="font-size: 1.25rem; font-weight: bold; text-align: center; margin-bottom: 24px;">{getSocialText('PAYLINES', 'PLAYLINES')}</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; justify-items: center;">
+            <h3 style="font-size: 1.25rem; font-weight: bold; text-align: center; margin-bottom: 24px;">{getSocialText('PAYLINES', 'WIN LINES')}</h3>
+            <div class="paylines-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; justify-items: center;">
               {#each Object.entries(paylines) as [lineNumber, positions]}
                 <div style="text-align: center; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 12px; min-width: 180px;">
                   <div style="font-weight: bold; color: #ffcc00; margin-bottom: 8px;">Line {lineNumber}</div>
