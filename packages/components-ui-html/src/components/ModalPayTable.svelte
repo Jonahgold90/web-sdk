@@ -6,6 +6,7 @@
 
   import BaseContent from './BaseContent.svelte';
   import BaseScrollable from './BaseScrollable.svelte';
+  import { i18nDerived } from '../i18n/i18nDerived';
 
   import { symbolPayouts, paylines } from '../paytableData'; // make sure path is correct
   
@@ -179,7 +180,7 @@
 
 <!-- Bet Modes / Costs -->
 <div style="margin-top: 28px; padding: 0 16px; color: white; font-size: 1rem; line-height: 1.6;">
-  <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">{getSocialText('BET', 'PLAY')} MODES</h3>
+  <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 8px;">{getSocialText(i18nDerived.bet(), 'PLAY')} MODES</h3>
   <p>
     <strong>Base Game</strong> — <strong>{getSocialText('Costs', 'For')} 1×</strong> the base {getSocialText('bet', 'play')}. Standard play on 20 fixed lines.  
     Land 3 or more scatters to trigger free spins.
