@@ -58,25 +58,28 @@
 		const height = layoutData.height;
 		const isMobile = width < 1024;
 		
-		// Button dimensions - bigger on mobile, maintain aspect ratio
-		const buttonWidth = isMobile ? 240 : 200;
-		const buttonHeight = isMobile ? 174 : 145;
+		// Button dimensions - slightly bigger than BuyButton but maintain 871:630 aspect ratio
+		const buttonWidth = isMobile ? 280 : 240;
+		const buttonHeight = Math.round(buttonWidth * (630 / 871));
 		
 		// Position calculation
 		if (isMobile) {
 			// Mobile/Tablet: to the right of bonus buy, above control bar
-			const totalWidth = buttonWidth * 2 + 20; // Two buttons plus 20px gap
+			const buyButtonWidth = 240; // BuyButton width on mobile
+			const totalWidth = buyButtonWidth + buttonWidth + 20; // Two buttons plus 20px gap
 			const centerX = (width - totalWidth) / 2;
 			return { 
-				x: centerX + buttonWidth + 20, 
-				y: height - 320, // Moved up by 40px
+				x: centerX + buyButtonWidth + 20, 
+				y: height - 340, // Moved up to align with BuyButton
 				width: buttonWidth,
 				height: buttonHeight
 			};
 		} else {
-			// Desktop: stacked below bonus buy button
+			// Desktop: centered below bonus buy button
+			const buyButtonWidth = 200; // BuyButton width on desktop
+			const centerX = 100 + (buyButtonWidth - buttonWidth) / 2; // Center under BuyButton
 			return { 
-				x: 100, 
+				x: centerX, 
 				y: 420,
 				width: buttonWidth,
 				height: buttonHeight
@@ -192,7 +195,7 @@
 				<BitmapText
 					text={currencyAbbreviation}
 					x={layout().width / 2 - 25}
-					y={layout().height - 30}
+					y={layout().height - 35}
 					anchor={{ x: 0.5, y: 0.5 }}
 					style={{
 						fontFamily: 'gold',
@@ -206,7 +209,7 @@
 				<BitmapText
 					text={betAmountText}
 					x={showCurrencyAbbreviation ? layout().width / 2 + 25 : layout().width / 2}
-					y={layout().height - 30}
+					y={layout().height - 35}
 					anchor={{ x: 0.5, y: 0.5 }}
 					style={{
 						fontFamily: 'gold',
