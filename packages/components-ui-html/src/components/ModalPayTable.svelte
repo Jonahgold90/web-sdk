@@ -205,7 +205,7 @@
   </p>
   <p style="margin-top: 8px;">
     <strong>Collector Wild (bonus only):</strong> In Free Spins, Collector Wilds <strong>collect all on-screen Chocolate {getSocialText('Cash', 'Coins')}</strong> values.  
-    Collection is {getSocialText('paid', 'won')} immediately and is multiplied by the current <strong>Collector Multiplier</strong>.  
+    Collection is {getSocialText('paid', 'awarded')} immediately and is multiplied by the current <strong>Collector Multiplier</strong>.  
     Collector Wilds substitute for all symbols except Scatters.
   </p>
   <p style="margin-top: 8px;">
