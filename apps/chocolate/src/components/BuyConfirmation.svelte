@@ -10,13 +10,16 @@
 	import { MainContainer } from 'components-layout';
 	import { Sprite, Container, BitmapText, Text, Graphics } from 'pixi-svelte';
 	import { getContext } from '../game/context';
-	import { stateBet, stateModal } from 'state-shared';
+	import { stateBet, stateModal, stateUrlDerived } from 'state-shared';
 	import { numberToCurrencyString } from 'utils-shared/amount';
 	
 	const context = getContext();
 
 	// Show when buyBonus modal is active
 	let show = $derived(stateModal.modal?.name === 'buyBonus');
+	
+	// Determine which sprite to use based on social mode
+	const buyConfirmationSprite = $derived(stateUrlDerived.social() ? 'buyFreeSpinsSocial' : 'buyFreeSpins');
 	
 	// Calculate cost
 	const bonusCostAmount = $derived(stateBet.betAmount * 100);
@@ -83,7 +86,7 @@
 		<Container x={position().x} y={position().y} scale={scale()}>
 			<!-- Background confirmation image -->
 			<Sprite 
-				key="buyFreeSpins" 
+				key={buyConfirmationSprite} 
 				anchor={{ x: 0.5, y: 0.5 }}
 			/>
 			

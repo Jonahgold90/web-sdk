@@ -42,6 +42,11 @@ export default {
 		src: new URL('../../assets/sprites/buyConfirmation/BUY_FREE_SPINS.png', import.meta.url).href,
 		preload: true,
 	},
+	buyFreeSpinsSocial: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/buyConfirmation/BUY_FREE_SPINS_SOCIAL.png', import.meta.url).href,
+		preload: true,
+	},
 	anticipation: {
 		type: 'spine',
 		src: {
