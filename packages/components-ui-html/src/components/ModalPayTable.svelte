@@ -158,7 +158,9 @@
                 {/if}
                 {#if symbol.description}
                   <div style="font-size: 0.9rem; color: #ccc; margin-top: 8px; text-align: left;">
-                    {@html symbol.description}
+                    {@html symbol.description
+                      .replace('{{PAYS_AWARDS}}', getSocialText('pays', 'awards'))
+                      .replace('{{PAYING_AWARDING}}', getSocialText('paying', 'awarding'))}
                   </div>
                 {/if}
               </div>

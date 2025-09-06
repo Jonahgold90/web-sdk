@@ -29,7 +29,7 @@ export const symbolPayouts = [
     payouts: [],
     description:
       '<strong>Bonus only.</strong> Substitutes for all symbols except Scatter.<br/>' +
-      `When it lands in Free Spins, it <strong>collects all on-screen CC values</strong> and ${getSocialText('pays', 'awards')} them immediately. ` +
+      'When it lands in Free Spins, it <strong>collects all on-screen CC values</strong> and {{PAYS_AWARDS}} them immediately. ' +
       'Every <strong>4</strong> Collectors award <strong>+10</strong> spins and step the Collector Multiplier ' +
       '<strong>×1 → ×2 → ×3 → ×10</strong>, which applies to subsequent collections.',
   },
@@ -56,8 +56,8 @@ export const symbolPayouts = [
       { match: '3x', multiplier: 0.5 },
     ],
     description:
-      `In the base game, CC acts as a regular line symbol with the ${getSocialText('pays', 'awards')} above. In Free Spins, CC shows prize values (1×–2000x) ` +
-      `that are collected by Collector Wilds instead of ${getSocialText('paying', 'awarding')} as a line symbol.`,
+      'In the base game, CC acts as a regular line symbol with the {{PAYS_AWARDS}} above. In Free Spins, CC shows prize values (1×–2000x) ' +
+      'that are collected by Collector Wilds instead of {{PAYING_AWARDING}} as a line symbol.',
   },
 
   // HIGHS
