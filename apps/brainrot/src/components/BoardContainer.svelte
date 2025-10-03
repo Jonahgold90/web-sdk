@@ -12,11 +12,12 @@
 	const props: Props = $props();
 
 	const context = getContext();
+	const VERTICAL_OFFSET = -20; // Match the board frame offset
 </script>
 
 <Container
 	x={context.stateGameDerived.boardLayout().x}
-	y={context.stateGameDerived.boardLayout().y}
+	y={context.stateGameDerived.boardLayout().y + VERTICAL_OFFSET}
 	pivot={context.stateGameDerived.boardLayout().pivot}
 >
 	{@render props.children()}

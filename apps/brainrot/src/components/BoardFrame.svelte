@@ -8,12 +8,17 @@
 	import { Sprite, SpineProvider, SpineTrack } from 'pixi-svelte';
 
 	import { getContext } from '../game/context';
+	import { SYMBOL_SIZE } from '../game/constants';
 
 	const context = getContext();
 	const SPINE_SCALE = { width: 0.6, height: 0.6 };
-	const SPRITE_SCALE = { width: 1.07, height: 1.19 };
+	const SPRITE_SCALE = { width: 0.95, height: 0.9 };
 	const BG_RATIO = 937 / 806;
 	const POSITION_ADJUSTMENT = 1.01;
+	const VERTICAL_OFFSET = -20; // Move board up by 20 pixels
+	const NUM_REELS = 6;
+	const NUM_ROWS = 5;
+	// The divider image should be sized to match the exact reel grid dimensions
 
 	type AnimationName = 'reelhouse_glow_start' | 'reelhouse_glow_idle' | 'reelhouse_glow_exit';
 
@@ -36,7 +41,7 @@
 		zIndex={-1}
 		key="reelhouse"
 		x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
-		y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}
+		y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET}
 		width={context.stateGameDerived.boardLayout().width * SPINE_SCALE.width}
 		height={context.stateGameDerived.boardLayout().height * SPINE_SCALE.height}
 	>
@@ -63,20 +68,46 @@
 	</SpineProvider>
 {/if}
 
+<!-- Reel background behind everything -->
 <Sprite
-	key="frame_bg.png"
+	key="reelBackground"
 	anchor={0.5}
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
-	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}
-	width={context.stateGameDerived.boardLayout().width * BG_RATIO * SPRITE_SCALE.width}
-	height={context.stateGameDerived.boardLayout().width * SPRITE_SCALE.height}
+	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET}
+	width={context.stateGameDerived.boardLayout().width * BG_RATIO * SPRITE_SCALE.width * 1.0}
+	height={context.stateGameDerived.boardLayout().width * SPRITE_SCALE.height * 0.95}
+	zIndex={-2}
 />
 
+<!-- Reel glow effect -->
 <Sprite
-	key="frame_edge.png"
+	key="reelGlow"
 	anchor={0.5}
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
-	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT}
+	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET}
+	width={context.stateGameDerived.boardLayout().width * 1.2}
+	height={context.stateGameDerived.boardLayout().height * 1.2}
+	zIndex={-1}
+	blendMode="add"
+/>
+
+<!-- Top banner above the frame -->
+<Sprite
+	key="topBanner"
+	anchor={0.5}
+	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
+	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) - 50}
+	width={context.stateGameDerived.boardLayout().width * 1.2}
+	height={100}
+	zIndex={2}
+/>
+
+<!-- Reel frame on top -->
+<Sprite
+	key="reelFrame"
+	anchor={0.5}
+	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
+	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET}
 	width={context.stateGameDerived.boardLayout().width * BG_RATIO * SPRITE_SCALE.width}
 	height={context.stateGameDerived.boardLayout().width * SPRITE_SCALE.height}
 />

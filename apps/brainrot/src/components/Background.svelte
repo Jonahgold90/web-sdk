@@ -17,10 +17,9 @@
 
 <FadeContainer show={showBaseBackground} duration={SECOND} zIndex={-2}>
 	<SpineProvider key="foregroundAnimation" {...backgroundProps}>
-		<SpineTrack trackIndex={0} animationName={'idle'} loop />
-	</SpineProvider>
-	<SpineProvider key="foregroundAnimation" {...backgroundProps}>
-		<SpineTrack trackIndex={0} animationName={'dust'} loop />
+		<SpineTrack trackIndex={0} animationName={'basegame'} loop />
+		<SpineTrack trackIndex={1} animationName={'basegame'} loop />
+		<SpineTrack trackIndex={2} animationName={'basegame'} loop />
 	</SpineProvider>
 </FadeContainer>
 

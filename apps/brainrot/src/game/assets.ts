@@ -121,9 +121,25 @@ export default {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/reelsFrame/reels_frame.json', import.meta.url).href,
 	},
-	payFrame: {
+	reelFrame: {
 		type: 'sprite',
-		src: new URL('../../assets/sprites/payFrame/payFrame.png', import.meta.url).href,
+		src: new URL('../../assets/sprites/reelFrame/reelFrame.png', import.meta.url).href,
+	},
+	reelBackground: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/reel/reel.png', import.meta.url).href,
+	},
+	reelDivider: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/divider/divider.png', import.meta.url).href,
+	},
+	topBanner: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/topBanner/brainrotTopBanner.png', import.meta.url).href,
+	},
+	reelGlow: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/reelGlow/reel_glow.png', import.meta.url).href,
 	},
 	anticipation: {
 		type: 'spine',
@@ -192,9 +208,15 @@ export default {
 	foregroundAnimation: {
 		type: 'spine',
 		src: {
-			atlas: new URL('../../assets/spines/foregroundAnimation/mm_bg.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/foregroundAnimation/mm_bg.json', import.meta.url).href,
-			scale: 2,
+			atlas: new URL('../../assets/spines/foregroundAnimation/basegame.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/foregroundAnimation/basegame.json', import.meta.url).href,
+			images: [
+				new URL('../../assets/spines/foregroundAnimation/basegame.png', import.meta.url).href,
+				new URL('../../assets/spines/foregroundAnimation/basegame2.png', import.meta.url).href,
+				new URL('../../assets/spines/foregroundAnimation/basegame3.png', import.meta.url).href,
+				new URL('../../assets/spines/foregroundAnimation/basegame4.png', import.meta.url).href,
+			],
+			scale: 2.3,
 		},
 		preload: true,
 	},

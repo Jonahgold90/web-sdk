@@ -1,5 +1,5 @@
 import { createAsset } from 'pixi-svelte';
 
-import img from './payFrame.png';
+import img from './reelFrame.png';
 
 export default createAsset({ img });
