@@ -1,9 +1,53 @@
 <script lang="ts">
-	import { Sprite } from 'pixi-svelte';
+	import { Sprite, Text } from 'pixi-svelte';
+	import { stateBet, stateBetDerived, stateModal } from 'state-shared';
+	import { numberToCurrencyString, bookEventAmountToCurrencyString } from 'utils-shared/amount';
+	import { onMount } from 'svelte';
 
 	import { getContext } from '../game/context';
 
 	const context = getContext();
+
+	// Get balance, bet, and win amounts
+	const balanceAmount = $derived(numberToCurrencyString(stateBet.balanceAmount));
+	const betAmount = $derived(numberToCurrencyString(stateBetDerived.betCost()));
+	const winAmount = $derived(bookEventAmountToCurrencyString(stateBet.winBookEventAmount));
+
+	// Font loading state
+	let fontLoaded = $state(false);
+
+	onMount(async () => {
+		// Force load the Darling Coffee font
+		try {
+			// Create a FontFace object and load it explicitly
+			const fontFace = new FontFace('Darling Coffee', "url('/assets/fonts/brainrotBonanza/Darling%20Coffee.ttf')");
+			await fontFace.load();
+			document.fonts.add(fontFace);
+			fontLoaded = true;
+		} catch (error) {
+			console.warn('Failed to load Darling Coffee font, trying alternate method:', error);
+			// Try checking if font is already loaded
+			await document.fonts.ready;
+			// Small delay to ensure Pixi recognizes the font
+			await new Promise(resolve => setTimeout(resolve, 100));
+			fontLoaded = true;
+		}
+
+		// Add spacebar listener for spin
+		const handleKeydown = (event: KeyboardEvent) => {
+			if (event.code === 'Space') {
+				event.preventDefault(); // Prevent page scroll
+				onSpinPress();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeydown);
+
+		// Cleanup on unmount
+		return () => {
+			window.removeEventListener('keydown', handleKeydown);
+		};
+	});
 
 	// Get canvas dimensions
 	const canvasSize = $derived(context.stateLayoutDerived.canvasSizes());
@@ -55,8 +99,37 @@
 	// Autoplay button - slightly overlapping bottom of spin button
 	const autoplayWidth = 229;
 	const autoplayHeight = 34;
-	const autoplayX = spinX; // Same X position as spin button
+	const autoplayX = $derived(spinX); // Same X position as spin button
 	const autoplayY = $derived(spinY + spinButtonSize/2 - 10); // Slightly overlapping spin button
+
+	// Spin button functionality
+	const isSpinning = $derived(!context.stateXstateDerived.isIdle());
+
+	const onSpinPress = () => {
+		if (isSpinning) {
+			// Stop spinning if already spinning
+			if (stateBetDerived.hasAutoBetCounter()) stateBet.autoSpinsCounter = 0;
+			context.eventEmitter.broadcast({ type: 'stopButtonClick' });
+		} else {
+			// Start spinning
+			context.eventEmitter.broadcast({ type: 'soundPressBet' });
+			context.eventEmitter.broadcast({ type: 'bet' });
+		}
+	};
+
+	// Autoplay button functionality
+	const hasAutoSpins = $derived(stateBetDerived.hasAutoBetCounter());
+
+	const onAutoplayPress = () => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		if (hasAutoSpins) {
+			// Stop auto spins if already running
+			stateBet.autoSpinsCounter = 0;
+		} else {
+			// Open autoplay modal
+			stateModal.modal = { name: 'autoSpin' };
+		}
+	};
 </script>
 
 <!-- Bottom Overlay - base layer for UI -->
@@ -81,6 +154,23 @@
 	height={winHeight}
 	zIndex={101}
 />
+
+<!-- Win amount text below WIN label -->
+{#if fontLoaded}
+<Text
+	text={winAmount}
+	x={winX}
+	y={winY + winHeight / 2 + 5}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 48,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
 
 <!-- Left side buttons -->
 <!-- Spek button (top) -->
@@ -134,6 +224,23 @@
 	zIndex={101}
 />
 
+<!-- Balance amount text next to credit label -->
+{#if fontLoaded}
+<Text
+	text={balanceAmount}
+	x={creditX + creditWidth / 2 + 65}
+	y={creditY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 28,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
+
 <!-- Bet display (bottom) -->
 <Sprite
 	key="uiBet"
@@ -144,6 +251,23 @@
 	height={betHeight}
 	zIndex={101}
 />
+
+<!-- Bet amount text next to bet label -->
+{#if fontLoaded}
+<Text
+	text={betAmount}
+	x={betX + betWidth / 2 + 50}
+	y={betY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 28,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
 
 <!-- Spin outline button on the right side -->
 <Sprite
@@ -156,6 +280,7 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={onSpinPress}
 />
 
 <!-- Spin button inside the outline -->
@@ -169,6 +294,7 @@
 	zIndex={102}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={onSpinPress}
 />
 
 <!-- Autoplay outline overlapping bottom of spin button -->
@@ -182,6 +308,7 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={onAutoplayPress}
 />
 
 <!-- Autoplay button text inside the outline -->
@@ -195,4 +322,5 @@
 	zIndex={102}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={onAutoplayPress}
 />

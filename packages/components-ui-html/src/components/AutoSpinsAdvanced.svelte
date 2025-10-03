@@ -6,6 +6,7 @@
 
 	import AutoSpinsLossLimit from './AutoSpinsLossLimit.svelte';
 	import AutoSpinsSingleWinLimit from './AutoSpinsSingleWinLimit.svelte';
+	import AutoSpinsTurbo from './AutoSpinsTurbo.svelte';
 	import type { EmitterEventModal } from '../types';
 	import { i18nDerived } from '../i18n/i18nDerived';
 
@@ -42,5 +43,6 @@
 	>
 		<AutoSpinsLossLimit />
 		<AutoSpinsSingleWinLimit />
+		<AutoSpinsTurbo />
 	</div>
 {/if}
