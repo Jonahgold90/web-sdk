@@ -29,7 +29,6 @@
 	import FreeSpinCounter from './FreeSpinCounter.svelte';
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
 	import Transition from './Transition.svelte';
-	import I18nTest from './I18nTest.svelte';
 	import UIOverlay from './UIOverlay.svelte';
 
 	const context = getContext();
@@ -92,8 +91,6 @@
 
 		<!-- Custom UI Overlay -->
 		<UIOverlay />
-
-		<I18nTest />
 	{/if}
 </App>
 

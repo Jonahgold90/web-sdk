@@ -14,11 +14,12 @@
 	key="transition"
 	x={context.stateLayoutDerived.canvasSizes().width * 0.5}
 	y={context.stateLayoutDerived.canvasSizes().height * 0.5}
-	height={context.stateLayoutDerived.canvasSizes().height * 1.7}
+	width={context.stateLayoutDerived.canvasSizes().width}
+	height={context.stateLayoutDerived.canvasSizes().height}
 >
 	<SpineTrack
 		trackIndex={0}
-		animationName={'animation'}
+		animationName={'brbo_transition'}
 		listener={{
 			complete: props.oncomplete,
 		}}

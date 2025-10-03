@@ -330,9 +330,9 @@ export default {
 	transition: {
 		type: 'spine',
 		src: {
-			atlas: new URL('../../assets/spines/transition/transition.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/transition/transition.json', import.meta.url).href,
-			scale: 2,
+			atlas: new URL('../../assets/spines/transition/brbo_transition.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/transition/brbo_transition.json', import.meta.url).href,
+			scale: 1.2,
 		},
 	},
 	symbolsStatic: {
