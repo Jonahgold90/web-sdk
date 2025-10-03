@@ -141,6 +141,59 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/reelGlow/reel_glow.png', import.meta.url).href,
 	},
+	// UI Bespoke Assets
+	uiBottomOverlay: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/bottomOverlay.png', import.meta.url).href,
+	},
+	uiAutoplay: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/AUTOPLAY.png', import.meta.url).href,
+	},
+	uiAutoplayOutline: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/autoplayOutline.png', import.meta.url).href,
+	},
+	uiBet: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/BET.png', import.meta.url).href,
+	},
+	uiCredit: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/CREDIT.png', import.meta.url).href,
+	},
+	uiInfo: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/info.png', import.meta.url).href,
+	},
+	uiPays: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/PAYS.png', import.meta.url).href,
+	},
+	uiSettings: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/settings.png', import.meta.url).href,
+	},
+	uiSpek: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/spek.png', import.meta.url).href,
+	},
+	uiMain: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/UI.png', import.meta.url).href,
+	},
+	uiWin: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/WIN.png', import.meta.url).href,
+	},
+	uiSpin: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/Spin.png', import.meta.url).href,
+	},
+	uiSpinOutline: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/spinOutline.png', import.meta.url).href,
+	},
 	anticipation: {
 		type: 'spine',
 		src: {
