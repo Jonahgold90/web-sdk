@@ -242,7 +242,7 @@ const sStatic = { type: 'sprite', assetKey: 's.png', sizeRatios: { width: 1.243,
 const m2Static = { type: 'sprite', assetKey: 'm1_2x.png', sizeRatios: { width: 0.88, height: 0.88 } };
 
 const mSizeRatios = { width: 1, height: 1 };
-const sSizeRatios = { width: 2.5, height: SPECIAL_SYMBOL_SIZE * 2.3 };
+const sSizeRatios = { width: 1.243, height: 1.243 };
 
 export const SYMBOL_INFO_MAP = {
 	H1: {
@@ -251,7 +251,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H1Animated',
 			animationName: 'brbo_67_win',
-			sizeRatios: { width: 0.5 * 1.15, height: HIGH_SYMBOL_SIZE * 0.57 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: h1Static,
 		static: h1Static,
@@ -260,7 +260,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H1Animated',
 			animationName: 'brbo_67_landing',
-			sizeRatios: { width: 0.5 * 1.15, height: HIGH_SYMBOL_SIZE * 0.57 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	H2: {
@@ -269,7 +269,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H2Animated',
 			animationName: 'baby_oil_win',
-			sizeRatios: { width: 0.5, height: HIGH_SYMBOL_SIZE * 0.57 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: h2Static,
 		static: h2Static,
@@ -278,7 +278,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H2Animated',
 			animationName: 'baby_oil_landing',
-			sizeRatios: { width: 0.5, height: HIGH_SYMBOL_SIZE * 0.57 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	H3: {
@@ -287,7 +287,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H3Animated',
 			animationName: 'giga_chad_win',
-			sizeRatios: { width: 0.5 * 0.9, height: HIGH_SYMBOL_SIZE * 0.53 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: h3Static,
 		static: h3Static,
@@ -296,7 +296,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H3Animated',
 			animationName: 'giga_chad_landing',
-			sizeRatios: { width: 0.5 * 0.9, height: HIGH_SYMBOL_SIZE * 0.53 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	H4: {
@@ -305,7 +305,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H4Animated',
 			animationName: 'troll_face_win',
-			sizeRatios: { width: 0.5 * 0.9, height: HIGH_SYMBOL_SIZE * 0.53 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: h4Static,
 		static: h4Static,
@@ -314,7 +314,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'H4Animated',
 			animationName: 'troll_face_landing',
-			sizeRatios: { width: 0.5 * 0.9, height: HIGH_SYMBOL_SIZE * 0.53 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	L1: {
@@ -323,7 +323,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L1Animated',
 			animationName: 'brbo_watermelon_win',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.65 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: l1Static,
 		static: l1Static,
@@ -332,7 +332,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L1Animated',
 			animationName: 'brbo_watermelon_landing',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.65 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	L2: {
@@ -341,7 +341,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L2Animated',
 			animationName: 'brbo_plum_win',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.65 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: l2Static,
 		static: l2Static,
@@ -350,7 +350,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L2Animated',
 			animationName: 'brbo_plum_landing',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.65 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	L3: {
@@ -359,7 +359,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L3Animated',
 			animationName: 'brbo_mango_win',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.63 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: l3Static,
 		static: l3Static,
@@ -368,7 +368,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L3Animated',
 			animationName: 'brbo_mango_landing',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.63 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	L4: {
@@ -377,7 +377,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L4Animated',
 			animationName: 'brbo_grapes_win',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.63 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 		postWinStatic: l4Static,
 		static: l4Static,
@@ -386,7 +386,7 @@ export const SYMBOL_INFO_MAP = {
 			type: 'spine',
 			assetKey: 'L4Animated',
 			animationName: 'brbo_grapes_landing',
-			sizeRatios: { width: 0.5 * 0.75, height: LOW_SYMBOL_SIZE * 0.63 },
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	M: {
@@ -394,12 +394,17 @@ export const SYMBOL_INFO_MAP = {
 		postWinStatic: m2Static,
 		static: m2Static,
 		spin: m2Static,
-		win: { type: 'spine', assetKey: 'MAnimated', animationName: 'brain_win_1', sizeRatios: mSizeRatios },
+		win: {
+			type: 'spine',
+			assetKey: 'MAnimated',
+			animationName: 'brain_win_1',
+			sizeRatios: { width: 1, height: 1 },
+		},
 		land: {
 			type: 'spine',
 			assetKey: 'MAnimated',
 			animationName: 'brain_landing_1',
-			sizeRatios: mSizeRatios,
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 	S: {
@@ -407,12 +412,17 @@ export const SYMBOL_INFO_MAP = {
 		postWinStatic: sStatic,
 		static: sStatic,
 		spin: sStatic,
-		win: { type: 'spine', assetKey: 'SAnimated', animationName: 'mustard_bottle_win', sizeRatios: sSizeRatios },
+		win: {
+			type: 'spine',
+			assetKey: 'SAnimated',
+			animationName: 'mustard_bottle_win',
+			sizeRatios: { width: 1, height: 1 },
+		},
 		land: {
 			type: 'spine',
 			assetKey: 'SAnimated',
 			animationName: 'mustard_bottle_landing',
-			sizeRatios: sSizeRatios,
+			sizeRatios: { width: 1, height: 1 },
 		},
 	},
 } as const;
