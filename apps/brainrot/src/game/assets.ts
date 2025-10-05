@@ -281,15 +281,6 @@ export default {
 		},
 		preload: true,
 	},
-	foregroundFeatureAnimation: {
-		type: 'spine',
-		src: {
-			atlas: new URL('../../assets/spines/foregroundFeatureAnimation/mm_bg_feature.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/foregroundFeatureAnimation/mm_bg_feature.json', import.meta.url).href,
-			scale: 2,
-		},
-		preload: true,
-	},
 	tumble_multiplier: {
 		type: 'spine',
 		src: {
@@ -341,6 +332,22 @@ export default {
 			atlas: new URL('../../assets/spines/transition/brbo_transition.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/transition/brbo_transition.json', import.meta.url).href,
 			scale: 1.2,
+		},
+	},
+	skibidiToilet: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/characters/skibidiToilet/skibidi_toilet.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/characters/skibidiToilet/skibidi_toilet.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
+	tungtung: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/characters/tungtung/sahur.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/characters/tungtung/sahur.json', import.meta.url).href,
+			scale: 2,
 		},
 	},
 	symbolsStatic: {

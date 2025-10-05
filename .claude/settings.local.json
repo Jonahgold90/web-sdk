@@ -13,7 +13,8 @@
       "WebSearch",
       "Read(/C:\\c\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps/**)",
       "Read(/C:\\c\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps/**)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(identify:*)"
     ],
     "deny": [],
     "ask": []
