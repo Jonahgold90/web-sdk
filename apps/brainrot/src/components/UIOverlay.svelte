@@ -13,6 +13,25 @@
 	const betAmount = $derived(numberToCurrencyString(stateBetDerived.betCost()));
 	const winAmount = $derived(bookEventAmountToCurrencyString(stateBet.winBookEventAmount));
 
+	// Tumble win amount state
+	let tumbleWinAmount = $state(0);
+	let showTumbleWin = $state(false);
+
+	context.eventEmitter.subscribeOnMount({
+		tumbleWinAmountShow: () => (showTumbleWin = true),
+		tumbleWinAmountHide: () => (showTumbleWin = false),
+		tumbleWinAmountReset: () => {
+			tumbleWinAmount = 0;
+		},
+		tumbleWinAmountUpdate: async (emitterEvent) => {
+			if (tumbleWinAmount !== emitterEvent.amount) {
+				tumbleWinAmount = emitterEvent.amount;
+			}
+		},
+	});
+
+	const tumbleWinAmountFormatted = $derived(bookEventAmountToCurrencyString(tumbleWinAmount));
+
 	// Font loading state
 	let fontLoaded = $state(false);
 
@@ -59,7 +78,7 @@
 
 	// Mobile-specific settings
 	const mobileOverlayHeight = 70; // Thinner control bar for mobile
-	const mobileButtonSize = 40; // Smaller buttons for mobile
+	const mobileButtonSize = 35; // Smaller buttons for mobile
 	const mobileHorizontalSpacing = 15; // Spacing between elements
 	const mobileSidePadding = 20; // Padding from screen edges
 
@@ -102,6 +121,13 @@
 	const winHeight = 98.5;   // Half of 197
 	const winX = $derived(canvasSize.width / 2); // Centered horizontally
 	const winY = $derived(bottomOverlayY - bottomOverlayHeight + winHeight/2 - 18); // Higher position, more of it hangs above overlay
+
+	// PAYS display - between WIN and spin button
+	const paysWidth = 100;
+	const paysHeight = 50;
+	const paysLabelX = $derived(winX + winWidth / 2 + 150); // Label position - further to the right
+	const paysAmountX = $derived(paysLabelX + paysWidth / 2 + 50); // Amount to the right of label
+	const paysY = $derived(bottomOverlayY - bottomOverlayHeight / 2);
 
 	// Spin button - positioned on the right side
 	// Spine dimensions from JSON: width:619, height:359, aspect ratio ~1.72
@@ -263,7 +289,14 @@
 	const mobileWinWidth = 100;
 	const mobileWinHeight = 50;
 	const mobileWinX = $derived(canvasSize.width / 2);
-	const mobileWinY = $derived(mobileCenterY - mobileSpinButtonHeight / 2 - 60);
+	const mobileWinY = $derived(mobileCenterY - mobileSpinButtonHeight / 2 -  80);
+
+	// PAYS display - under spin button on mobile
+	const mobilePaysWidth = 60;
+	const mobilePaysHeight = 30;
+	const mobilePaysLabelX = $derived(canvasSize.width / 2 - 40); // Label to the left
+	const mobilePaysAmountX = $derived(canvasSize.width / 2 + 40); // Amount to the right
+	const mobilePaysY = $derived(mobileCenterY + mobileSpinButtonHeight / 2 + 45);
 
 	// Buy frame - doubled spacing
 	const mobileBuyFrameWidth = 80;
@@ -291,27 +324,26 @@
 	const mobileCreditX = $derived(mobileInfoNextX + mobileCreditWidth / 2);
 	const mobileCreditY = $derived(mobileY);
 
-	// Credit amount position
-	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + 38);
-	const mobileCreditNextX = $derived(mobileCreditAmountX + 35);
+	// Credit amount position - more space to prevent overlap
+	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + 55);
+	const mobileCreditNextX = $derived(mobileCreditAmountX + 40);
 
 	// Bet label
 	const mobileBetWidth = 40;
 	const mobileBetHeight = 25;
-	const mobileBetX = $derived(mobileCreditNextX + 6 + mobileBetWidth / 2);
+	const mobileBetX = $derived(mobileCreditNextX + 18 + mobileBetWidth / 2);
 	const mobileBetY = $derived(mobileY);
 
-	// Bet amount position (space for 4-digit amounts like 1000)
-	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + 50);
-	const mobileBetNextX = $derived(mobileBetAmountX + 55);
+	// Bet amount position (space for 4-digit amounts like 1000) - more space to prevent overlap
+	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + 45);
+	const mobileBetNextX = $derived(mobileBetAmountX + 60);
 
 	// Volume button (using spek sprite)
-	const mobileVolumeX = $derived(mobileBetNextX + 5 + mobileButtonSize / 2);
+	const mobileVolumeX = $derived(canvasSize.width - mobileButtonSize / 2 - 50); // From right edge
 	const mobileVolumeY = $derived(mobileY);
-	const mobileVolumeNextX = $derived(mobileVolumeX + mobileButtonSize / 2 + 4);
 
 	// Settings button
-	const mobileSettingsX = $derived(mobileVolumeNextX + mobileButtonSize / 2);
+	const mobileSettingsX = $derived(canvasSize.width - mobileButtonSize / 2 - 5); // From right edge
 	const mobileSettingsY = $derived(mobileY);
 </script>
 
@@ -349,6 +381,39 @@
 	style={{
 		fontFamily: 'Darling Coffee',
 		fontSize: 48,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
+
+<!-- PAYS display - between WIN and spin button -->
+{#if showTumbleWin && fontLoaded}
+<!-- PAYS label text -->
+<Text
+	text="PAYS:"
+	x={paysLabelX}
+	y={paysY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 24,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+
+<!-- PAYS amount text - to the right of label -->
+<Text
+	text={tumbleWinAmountFormatted}
+	x={paysAmountX}
+	y={paysY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 24,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -501,6 +566,39 @@
 />
 {/if}
 
+<!-- PAYS display on mobile - between WIN and spin button -->
+{#if showTumbleWin && fontLoaded}
+<!-- PAYS label text -->
+<Text
+	text="PAYS:"
+	x={mobilePaysLabelX}
+	y={mobilePaysY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 16,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+
+<!-- PAYS amount text - to the right of label -->
+<Text
+	text={tumbleWinAmountFormatted}
+	x={mobilePaysAmountX}
+	y={mobilePaysY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 16,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
+
 <!-- Spin button spine - centered between board and control bar -->
 <SpineProvider
 	key="spinButton"
@@ -573,7 +671,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 20,
+		fontSize: 16,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -601,7 +699,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 20,
+		fontSize: 16,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}

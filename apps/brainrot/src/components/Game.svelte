@@ -72,7 +72,7 @@
 		<MainContainer>
 			<Board />
 			<Anticipations />
-			<TumbleWinAmount />
+			<!-- TumbleWinAmount moved to UIOverlay control bar -->
 			<GlobalMultiplier />
 		</MainContainer>
 
