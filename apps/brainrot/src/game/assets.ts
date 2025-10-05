@@ -21,11 +21,27 @@ export default {
 			scale: 2,
 		},
 	},
+	H1Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/h1/brbo_67/brbo_67.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/h1/brbo_67/brbo_67.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
 	H2: {
 		type: 'spine',
 		src: {
 			atlas: new URL('../../assets/spines/symbols/symbols.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/symbols/h2.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
+	H2Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/h2/brbo_baby_oil/baby_oil.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/h2/brbo_baby_oil/baby_oil.json', import.meta.url).href,
 			scale: 2,
 		},
 	},
@@ -37,11 +53,27 @@ export default {
 			scale: 2,
 		},
 	},
+	H3Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/h3/brbo_giga_chad/giga_chad.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/h3/brbo_giga_chad/giga_chad.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
 	H4: {
 		type: 'spine',
 		src: {
 			atlas: new URL('../../assets/spines/symbols/symbols.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/symbols/h4.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
+	H4Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/h4/brbo_troll_face/troll_face.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/h4/brbo_troll_face/troll_face.json', import.meta.url).href,
 			scale: 2,
 		},
 	},
@@ -61,11 +93,27 @@ export default {
 			scale: 2,
 		},
 	},
+	L1Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/l1/brbo_watermelon/watermelon.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/l1/brbo_watermelon/watermelon.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
 	L2: {
 		type: 'spine',
 		src: {
 			atlas: new URL('../../assets/spines/symbols/symbols.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/symbols/l2.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
+	L2Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/l2/brbo_plum/brbo_plum.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/l2/brbo_plum/brbo_plum.json', import.meta.url).href,
 			scale: 2,
 		},
 	},
@@ -77,11 +125,43 @@ export default {
 			scale: 2,
 		},
 	},
+	L3Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/l3/brbo_mango_soft/mango_soft.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/l3/brbo_mango_soft/mango_soft.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
 	L4: {
 		type: 'spine',
 		src: {
 			atlas: new URL('../../assets/spines/symbols/symbols.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/symbols/l4.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
+	L4Animated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/l4/brbo_grapes/brbo_grapes.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/l4/brbo_grapes/brbo_grapes.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
+	MAnimated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/m/brbo_brain/brain.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/m/brbo_brain/brain.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
+	SAnimated: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/symbolsAnimated/s/brbo_mustard_bottle/mustard_bottle.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolsAnimated/s/brbo_mustard_bottle/mustard_bottle.json', import.meta.url).href,
 			scale: 2,
 		},
 	},
