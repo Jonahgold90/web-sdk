@@ -14,7 +14,8 @@
       "Read(/C:\\c\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps/**)",
       "Read(/C:\\c\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps/**)",
       "Bash(grep:*)",
-      "Bash(identify:*)"
+      "Bash(identify:*)",
+      "Read(//tmp/1e9ae07e-3205-4539-85f2-fe7232630999_brbo_spin_button (1).rar.999/brbo_spin_button/**)"
     ],
     "deny": [],
     "ask": []

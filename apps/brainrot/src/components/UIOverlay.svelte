@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Sprite, Text } from 'pixi-svelte';
-	import { stateBet, stateBetDerived, stateModal } from 'state-shared';
+	import { Sprite, Text, SpineProvider, SpineTrack } from 'pixi-svelte';
+	import { stateBet, stateBetDerived, stateModal, stateConfig } from 'state-shared';
 	import { numberToCurrencyString, bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { onMount } from 'svelte';
 
@@ -93,14 +93,20 @@
 	const betX = textStartX + betWidth / 2; // Center point for bet (left-aligned with credit)
 	const betY = $derived(bottomOverlayY - bottomOverlayHeight / 2 + 20); // Bottom position
 
+	// Amount text positions - moved to the right
+	const creditAmountX = creditX + creditWidth / 2 + 80; // Further to the right
+	const betAmountX = betX + betWidth / 2 + 85; // Further to the right
+
 	// WIN display - centered horizontally, positioned near bottom of reel frame
 	const winWidth = 195.5;  // Half of 391
 	const winHeight = 98.5;   // Half of 197
 	const winX = $derived(canvasSize.width / 2); // Centered horizontally
 	const winY = $derived(bottomOverlayY - bottomOverlayHeight + winHeight/2 - 18); // Higher position, more of it hangs above overlay
 
-	// Spin outline button - positioned on the right side
-	const spinButtonSize = 180; // Large but not too big
+	// Spin button - positioned on the right side
+	// Spine dimensions from JSON: width:619, height:359, aspect ratio ~1.72
+	const spinButtonWidth = 186; // 155 * 1.2 (20% bigger)
+	const spinButtonHeight = 108; // 90 * 1.2 to maintain aspect ratio
 	const spinX = $derived(canvasSize.width - 250); // Further to the left from right edge
 	const spinY = $derived(bottomOverlayY - bottomOverlayHeight / 2 - 60); // Higher to make room for autoplay
 
@@ -108,10 +114,29 @@
 	const autoplayWidth = 229;
 	const autoplayHeight = 34;
 	const autoplayX = $derived(spinX); // Same X position as spin button
-	const autoplayY = $derived(spinY + spinButtonSize/2 - 10); // Slightly overlapping spin button
+	const autoplayY = $derived(spinY + spinButtonHeight/2 - 10); // Slightly overlapping spin button
 
 	// Spin button functionality
 	const isSpinning = $derived(!context.stateXstateDerived.isIdle());
+
+	// Spine button animation state
+	let spinButtonAnimation = $state('spin_button_idle');
+	let isHoveringButton = $state<'plus' | 'minus' | 'spin' | null>(null);
+
+	// Update animation based on spinning state and hover
+	$effect(() => {
+		if (isSpinning) {
+			spinButtonAnimation = 'spin_pause_idle';
+		} else if (isHoveringButton === 'plus') {
+			spinButtonAnimation = 'plus_hover';
+		} else if (isHoveringButton === 'minus') {
+			spinButtonAnimation = 'minus_hover';
+		} else if (isHoveringButton === 'spin') {
+			spinButtonAnimation = 'spin_hover';
+		} else {
+			spinButtonAnimation = 'spin_button_idle';
+		}
+	});
 
 	const onSpinPress = () => {
 		if (isSpinning) {
@@ -120,8 +145,87 @@
 			context.eventEmitter.broadcast({ type: 'stopButtonClick' });
 		} else {
 			// Start spinning
+			spinButtonAnimation = 'spin_click';
 			context.eventEmitter.broadcast({ type: 'soundPressBet' });
 			context.eventEmitter.broadcast({ type: 'bet' });
+		}
+	};
+
+	// Handle hover detection on spine button regions
+	const handleSpineButtonHover = (event: any) => {
+		const spine = event.currentTarget;
+		if (!spine) return;
+
+		const localPos = spine.toLocal(event.global);
+
+		// Determine which button is being hovered - only update if changed
+		let newHoverState: 'plus' | 'minus' | 'spin' | null = null;
+
+		if (localPos.y > 100) {
+			newHoverState = null; // Autoplay area - no specific hover
+		} else if (localPos.x > 150) {
+			newHoverState = 'plus';
+		} else if (localPos.x < -150) {
+			newHoverState = 'minus';
+		} else {
+			newHoverState = 'spin';
+		}
+
+		// Only update if state changed to prevent flickering
+		if (newHoverState !== isHoveringButton) {
+			isHoveringButton = newHoverState;
+		}
+	};
+
+	const handleSpineButtonLeave = () => {
+		isHoveringButton = null;
+	};
+
+	// Handle click detection on spine button regions
+	const handleSpineButtonClick = (event: any) => {
+		const spine = event.currentTarget;
+		if (!spine) return;
+
+		// Get local position
+		const localPos = spine.toLocal(event.global);
+
+		// Determine which button was clicked based on position
+		// Plus button: right side (x > 150)
+		// Minus button: left side (x < -150)
+		// Autoplay: bottom (y > 100)
+		// Spin: center
+
+		if (localPos.y > 100) {
+			// Autoplay clicked
+			onAutoplayPress();
+		} else if (localPos.x > 150) {
+			// Plus clicked - increase bet to next interval
+			spinButtonAnimation = 'plus_click';
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+
+			const currentBetAmount = stateBet.betAmount;
+			const betOptions = stateConfig.betAmountOptions;
+			const currentIndex = betOptions.findIndex(amount => amount >= currentBetAmount);
+			const nextIndex = Math.min(currentIndex + 1, betOptions.length - 1);
+			stateBetDerived.setBetAmount(betOptions[nextIndex]);
+
+			setTimeout(() => isHoveringButton = null, 300);
+		} else if (localPos.x < -150) {
+			// Minus clicked - decrease bet to previous interval
+			spinButtonAnimation = 'minus_click';
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+
+			const currentBetAmount = stateBet.betAmount;
+			const betOptions = stateConfig.betAmountOptions;
+			const currentIndex = betOptions.findIndex(amount => amount >= currentBetAmount);
+			const prevIndex = Math.max(currentIndex - 1, 0);
+			stateBetDerived.setBetAmount(betOptions[prevIndex]);
+
+			setTimeout(() => isHoveringButton = null, 300);
+		} else {
+			// Spin clicked
+			onSpinPress();
+			setTimeout(() => isHoveringButton = null, 300);
 		}
 	};
 
@@ -144,13 +248,14 @@
 	const mobileY = $derived(bottomOverlayY - mobileOverlayHeight / 2);
 
 	// Mobile elements - centered between board bottom and overlay top
-	const mobileSpinButtonSize = 80;
 	const boardLayout = $derived(context.stateGameDerived.boardLayout());
 	const boardBottomY = $derived(boardLayout.y + boardLayout.height / 2);
 	const overlayTopY = $derived(bottomOverlayY - mobileOverlayHeight);
 	const mobileCenterY = $derived((boardBottomY + overlayTopY) / 2 - 175);
 
-	// Spin button - centered
+	// Mobile spin button - maintain aspect ratio (619x359 from spine)
+	const mobileSpinButtonWidth = 94; // 78 * 1.2 (20% bigger)
+	const mobileSpinButtonHeight = 54; // 45 * 1.2 to maintain aspect ratio
 	const mobileSpinX = $derived(canvasSize.width / 2);
 	const mobileSpinY = $derived(mobileCenterY);
 
@@ -158,27 +263,27 @@
 	const mobileWinWidth = 100;
 	const mobileWinHeight = 50;
 	const mobileWinX = $derived(canvasSize.width / 2);
-	const mobileWinY = $derived(mobileCenterY - mobileSpinButtonSize / 2 - 60);
+	const mobileWinY = $derived(mobileCenterY - mobileSpinButtonHeight / 2 - 60);
 
 	// Buy frame - doubled spacing
 	const mobileBuyFrameWidth = 80;
 	const mobileBuyFrameHeight = 45;
-	const mobileBuyFrameX = $derived(mobileSpinX - mobileSpinButtonSize / 2 - 60 - mobileBuyFrameWidth / 2);
+	const mobileBuyFrameX = $derived(mobileSpinX - mobileSpinButtonWidth / 2 - 60 - mobileBuyFrameWidth / 2);
 	const mobileBuyFrameY = $derived(mobileCenterY - 15);
 
 	// Bet frame - doubled spacing
 	const mobileBetFrameWidth = 80;
 	const mobileBetFrameHeight = 99;
-	const mobileBetFrameX = $derived(mobileSpinX + mobileSpinButtonSize / 2 + 60 + mobileBetFrameWidth / 2);
+	const mobileBetFrameX = $derived(mobileSpinX + mobileSpinButtonWidth / 2 + 60 + mobileBetFrameWidth / 2);
 	const mobileBetFrameY = $derived(mobileCenterY - 15);
 
-	// Calculate horizontal positions for mobile (left to right)
-	let currentMobileX = 10; // Less padding on left
+	// Calculate horizontal positions for mobile (left to right) - tightly packed
+	let currentMobileX = 5; // Minimal padding on left
 
 	// Info button (small)
 	const mobileInfoX = $derived(currentMobileX + mobileButtonSize / 2);
 	const mobileInfoY = $derived(mobileY);
-	const mobileInfoNextX = $derived(mobileInfoX + mobileButtonSize / 2 + mobileHorizontalSpacing);
+	const mobileInfoNextX = $derived(mobileInfoX + mobileButtonSize / 2 + 5);
 
 	// Credit label dimensions (smaller for mobile)
 	const mobileCreditWidth = 60;
@@ -186,24 +291,24 @@
 	const mobileCreditX = $derived(mobileInfoNextX + mobileCreditWidth / 2);
 	const mobileCreditY = $derived(mobileY);
 
-	// Credit amount position (more space after credit label)
-	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + 45);
-	const mobileCreditNextX = $derived(mobileCreditAmountX + 40);
+	// Credit amount position
+	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + 38);
+	const mobileCreditNextX = $derived(mobileCreditAmountX + 35);
 
 	// Bet label
 	const mobileBetWidth = 40;
 	const mobileBetHeight = 25;
-	const mobileBetX = $derived(mobileCreditNextX + 10 + mobileBetWidth / 2);
+	const mobileBetX = $derived(mobileCreditNextX + 6 + mobileBetWidth / 2);
 	const mobileBetY = $derived(mobileY);
 
-	// Bet amount position (less space after bet label)
-	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + 25);
-	const mobileBetNextX = $derived(mobileBetAmountX + 30);
+	// Bet amount position (space for 4-digit amounts like 1000)
+	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + 50);
+	const mobileBetNextX = $derived(mobileBetAmountX + 55);
 
 	// Volume button (using spek sprite)
-	const mobileVolumeX = $derived(mobileBetNextX + 10 + mobileButtonSize / 2);
+	const mobileVolumeX = $derived(mobileBetNextX + 5 + mobileButtonSize / 2);
 	const mobileVolumeY = $derived(mobileY);
-	const mobileVolumeNextX = $derived(mobileVolumeX + mobileButtonSize / 2 + 8);
+	const mobileVolumeNextX = $derived(mobileVolumeX + mobileButtonSize / 2 + 4);
 
 	// Settings button
 	const mobileSettingsX = $derived(mobileVolumeNextX + mobileButtonSize / 2);
@@ -307,7 +412,7 @@
 {#if fontLoaded}
 <Text
 	text={balanceAmount}
-	x={creditX + creditWidth / 2 + 65}
+	x={creditAmountX}
 	y={creditY}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
@@ -335,7 +440,7 @@
 {#if fontLoaded}
 <Text
 	text={betAmount}
-	x={betX + betWidth / 2 + 50}
+	x={betAmountX}
 	y={betY}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
@@ -348,61 +453,22 @@
 />
 {/if}
 
-<!-- Spin outline button on the right side -->
-<Sprite
-	key="uiSpinOutline"
-	anchor={{ x: 0.5, y: 0.5 }}
+<!-- Spin button spine -->
+<SpineProvider
+	key="spinButton"
 	x={spinX}
 	y={spinY}
-	width={spinButtonSize}
-	height={spinButtonSize}
+	width={spinButtonWidth}
+	height={spinButtonHeight}
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
-	onpointerup={onSpinPress}
-/>
-
-<!-- Spin button inside the outline -->
-<Sprite
-	key="uiSpin"
-	anchor={{ x: 0.5, y: 0.5 }}
-	x={spinX}
-	y={spinY}
-	width={64.35}
-	height={64.9}
-	zIndex={102}
-	interactive={true}
-	cursor="pointer"
-	onpointerup={onSpinPress}
-/>
-
-<!-- Autoplay outline overlapping bottom of spin button -->
-<Sprite
-	key="uiAutoplayOutline"
-	anchor={{ x: 0.5, y: 0.5 }}
-	x={autoplayX}
-	y={autoplayY}
-	width={160}
-	height={55}
-	zIndex={101}
-	interactive={true}
-	cursor="pointer"
-	onpointerup={onAutoplayPress}
-/>
-
-<!-- Autoplay button text inside the outline -->
-<Sprite
-	key="uiAutoplay"
-	anchor={{ x: 0.5, y: 0.5 }}
-	x={autoplayX}
-	y={autoplayY}
-	width={137}
-	height={20}
-	zIndex={102}
-	interactive={true}
-	cursor="pointer"
-	onpointerup={onAutoplayPress}
-/>
+	onpointerup={handleSpineButtonClick}
+	onpointermove={handleSpineButtonHover}
+	onpointerleave={handleSpineButtonLeave}
+>
+	<SpineTrack trackIndex={0} animationName={spinButtonAnimation} loop={spinButtonAnimation === 'spin_button_idle' || spinButtonAnimation === 'spin_pause_idle' || spinButtonAnimation.includes('hover')} />
+</SpineProvider>
 {/if}
 
 <!-- Mobile UI - horizontal layout at bottom -->
@@ -435,32 +501,22 @@
 />
 {/if}
 
-<!-- Spin button - centered between board and control bar -->
-<Sprite
-	key="uiSpinOutline"
-	anchor={{ x: 0.5, y: 0.5 }}
+<!-- Spin button spine - centered between board and control bar -->
+<SpineProvider
+	key="spinButton"
 	x={mobileSpinX}
 	y={mobileSpinY}
-	width={mobileSpinButtonSize}
-	height={mobileSpinButtonSize}
+	width={mobileSpinButtonWidth}
+	height={mobileSpinButtonHeight}
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
-	onpointerup={onSpinPress}
-/>
-
-<Sprite
-	key="uiSpin"
-	anchor={{ x: 0.5, y: 0.5 }}
-	x={mobileSpinX}
-	y={mobileSpinY}
-	width={29}
-	height={29.2}
-	zIndex={102}
-	interactive={true}
-	cursor="pointer"
-	onpointerup={onSpinPress}
-/>
+	onpointerup={handleSpineButtonClick}
+	onpointermove={handleSpineButtonHover}
+	onpointerleave={handleSpineButtonLeave}
+>
+	<SpineTrack trackIndex={0} animationName={spinButtonAnimation} loop={spinButtonAnimation === 'spin_button_idle' || spinButtonAnimation === 'spin_pause_idle' || spinButtonAnimation.includes('hover')} />
+</SpineProvider>
 
 <!-- Buy frame - left of spin button -->
 <Sprite

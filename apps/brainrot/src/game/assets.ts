@@ -202,6 +202,14 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/spinOutline.png', import.meta.url).href,
 	},
+	spinButton: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/spinButton/spin_button.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/spinButton/spin_button.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
 	anticipation: {
 		type: 'spine',
 		src: {
