@@ -116,6 +116,7 @@
 	height={context.stateGameDerived.boardLayout().width * SPRITE_SCALE.height}
 />
 
+{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
 <!-- Buy frame - vertically level with board frame, to the left -->
 <Sprite
 	key="buyFrame"
@@ -137,8 +138,6 @@
 	height={243.5}
 	zIndex={1}
 />
-
-{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
 	{@const betFrameCenterY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
 	{@const betFrameBottomY = betFrameCenterY + (243.5 / 2)}
 	<!-- Skibidi Toilet character - 20px to the right of board, bottom aligned -->
