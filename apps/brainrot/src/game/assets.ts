@@ -141,6 +141,14 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/reelGlow/reel_glow.png', import.meta.url).href,
 	},
+	betFrame: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/betFrame/bet_frame.png', import.meta.url).href,
+	},
+	buyFrame: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/buyFrame/buy_frame.png', import.meta.url).href,
+	},
 	// UI Bespoke Assets
 	uiBottomOverlay: {
 		type: 'sprite',

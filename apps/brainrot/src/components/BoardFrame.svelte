@@ -111,3 +111,25 @@
 	width={context.stateGameDerived.boardLayout().width * BG_RATIO * SPRITE_SCALE.width}
 	height={context.stateGameDerived.boardLayout().width * SPRITE_SCALE.height}
 />
+
+<!-- Buy frame - vertically level with board frame, to the left -->
+<Sprite
+	key="buyFrame"
+	anchor={0.5}
+	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
+	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + (135.5 / 2) - 10}
+	width={197}
+	height={135.5}
+	zIndex={1}
+/>
+
+<!-- Bet frame - right under buy frame with vertical margin -->
+<Sprite
+	key="betFrame"
+	anchor={0.5}
+	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
+	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
+	width={197}
+	height={243.5}
+	zIndex={1}
+/>

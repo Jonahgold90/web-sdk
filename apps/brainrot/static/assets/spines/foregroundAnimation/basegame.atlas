@@ -1,226 +1,77 @@
 basegame.png
-size: 1933,1921
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-cloud1
-  rotate: false
-  xy: 524, 1826
-  size: 263, 93
-  orig: 263, 93
-  offset: 0, 0
-  index: -1
-cloud2
-  rotate: false
-  xy: 2, 1846
-  size: 520, 73
-  orig: 520, 73
-  offset: 0, 0
-  index: -1
-cloud3
-  rotate: false
-  xy: 509, 1464
-  size: 854, 263
-  orig: 854, 263
-  offset: 0, 0
-  index: -1
-cloud4
-  rotate: false
-  xy: 1063, 1729
-  size: 543, 190
-  orig: 543, 190
-  offset: 0, 0
-  index: -1
-fg
-  rotate: false
-  xy: 2, 1244
-  size: 1641, 218
-  orig: 1641, 218
-  offset: 0, 0
-  index: -1
-plants1
-  rotate: false
-  xy: 789, 1756
-  size: 272, 163
-  orig: 272, 163
-  offset: 0, 0
-  index: -1
-plants2
-  rotate: true
-  xy: 2, 1567
-  size: 277, 505
-  orig: 277, 505
-  offset: 0, 0
-  index: -1
-skull
-  rotate: false
-  xy: 1608, 1644
-  size: 283, 275
-  orig: 283, 275
-  offset: 0, 0
-  index: -1
-water_00000
-  rotate: false
-  xy: 2, 956
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-water_00030
-  rotate: false
-  xy: 2, 956
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-water_00002
-  rotate: false
-  xy: 2, 668
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-water_00004
-  rotate: false
-  xy: 2, 380
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-water_00006
-  rotate: false
-  xy: 2, 92
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-water_00008
-  rotate: true
-  xy: 1645, 2
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-
-basegame2.png
-size: 1933,1932
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-mg
-  rotate: false
-  xy: 2, 419
-  size: 1641, 585
-  orig: 1641, 585
-  offset: 0, 0
-  index: -1
-sky
-  rotate: false
-  xy: 2, 1006
-  size: 1641, 924
-  orig: 1641, 924
-  offset: 0, 0
-  index: -1
-water_00010
-  rotate: true
-  xy: 1645, 290
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-water_00012
-  rotate: false
-  xy: 2, 2
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-
-basegame3.png
-size: 1922,1933
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-mg2
-  rotate: true
-  xy: 1108, 290
-  size: 1641, 524
-  orig: 1641, 524
-  offset: 0, 0
-  index: -1
-slime
-  rotate: false
-  xy: 2, 1017
-  size: 1104, 914
-  orig: 3112, 1099
-  offset: 0, 185
-  index: -1
-water_00014
-  rotate: false
-  xy: 2, 2
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-water_00016
-  rotate: true
-  xy: 1634, 291
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
-
-basegame4.png
-size: 1985,1932
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
+size:2475,2215
+filter:Linear,Linear
+pma:true
 bg1
-  rotate: true
-  xy: 1442, 789
-  size: 1141, 541
-  orig: 1141, 541
-  offset: 0, 0
-  index: -1
+bounds:1644,587,1141,541
+rotate:90
+cloud1
+bounds:524,2120,263,93
+cloud2
+bounds:2,2140,520,73
+cloud3
+bounds:1608,1950,854,263
+cloud4
+bounds:1063,2023,543,190
+fg
+bounds:794,1730,1641,218
+plants1
+bounds:789,2050,272,163
+plants2
+bounds:287,1771,277,505
+rotate:90
+skull
+bounds:2,1863,283,275
+water_00000
+bounds:2,1442,1640,286
+water_00030
+bounds:2,1442,1640,286
+water_00002
+bounds:2,1154,1640,286
+water_00004
+bounds:2,866,1640,286
+water_00006
+bounds:2,578,1640,286
+water_00008
+bounds:2,290,1640,286
+water_00010
+bounds:2187,88,1640,286
+rotate:90
+water_00012
+bounds:2,2,1640,286
+
+basegame_2.png
+size:2220,2256
+filter:Linear,Linear
+pma:true
+mg2
+bounds:2,2,1641,524
+water_00014
+bounds:2,1968,1640,286
+water_00016
+bounds:2,1680,1640,286
 water_00018
-  rotate: true
-  xy: 2, 290
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
+bounds:2,1392,1640,286
 water_00020
-  rotate: false
-  xy: 2, 2
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
+bounds:2,1104,1640,286
 water_00022
-  rotate: true
-  xy: 290, 290
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
+bounds:2,816,1640,286
 water_00024
-  rotate: true
-  xy: 578, 290
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
+bounds:1644,614,1640,286
+rotate:90
 water_00026
-  rotate: true
-  xy: 866, 290
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
+bounds:1932,614,1640,286
+rotate:90
 water_00028
-  rotate: true
-  xy: 1154, 290
-  size: 1640, 286
-  orig: 1640, 286
-  offset: 0, 0
-  index: -1
+bounds:2,528,1640,286
+
+basegame_3.png
+size:2338,2341
+filter:Linear,Linear
+pma:true
+mg
+bounds:2,2,1641,585
+sky
+bounds:2,589,1641,924
+slime
+bounds:2,1515,2334,824
