@@ -138,35 +138,38 @@
 	zIndex={1}
 />
 
-<!-- Skibidi Toilet character - 20px to the right of board, bottom aligned -->
-<SpineProvider
-	key="skibidiToilet"
-	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT + (context.stateGameDerived.boardLayout().width / 2) + 20 + 110}
-	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET + (context.stateGameDerived.boardLayout().height / 2) - 50}
-	width={150}
-	height={150}
-	zIndex={3}
->
-	<SpineTrack
-		trackIndex={0}
-		animationName={skibidiAnimationName}
-		loop={true}
-	/>
-</SpineProvider>
+{#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
+	{@const betFrameCenterY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
+	{@const betFrameBottomY = betFrameCenterY + (243.5 / 2)}
+	<!-- Skibidi Toilet character - 20px to the right of board, bottom aligned -->
+	<SpineProvider
+		key="skibidiToilet"
+		x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT + (context.stateGameDerived.boardLayout().width / 2) + 20 + 110}
+		y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET + (context.stateGameDerived.boardLayout().height / 2) - 50}
+		width={150}
+		height={150}
+		zIndex={3}
+	>
+		<SpineTrack
+			trackIndex={0}
+			animationName={skibidiAnimationName}
+			loop={true}
+		/>
+	</SpineProvider>
 
-
-<!-- TungTung character - 20px left of bottom board edge, above control bar -->
-<SpineProvider
-	key="tungtung"
-	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 20 - 136}
-	y={context.stateLayoutDerived.canvasSizes().height - 355}
-	width={100}
-	height={177}
-	zIndex={3}
->
-	<SpineTrack
-		trackIndex={0}
-		animationName={tungtungAnimationName}
-		loop={true}
-	/>
-</SpineProvider>
+	<!-- TungTung character - 20px left of bottom board edge, below bet frame -->
+	<SpineProvider
+		key="tungtung"
+		x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 20 - 136}
+		y={betFrameBottomY + 190}
+		width={95}
+		height={168}
+		zIndex={3}
+	>
+		<SpineTrack
+			trackIndex={0}
+			animationName={tungtungAnimationName}
+			loop={true}
+		/>
+	</SpineProvider>
+{/if}
