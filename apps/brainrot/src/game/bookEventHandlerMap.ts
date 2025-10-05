@@ -51,6 +51,9 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			recordBookEvent({ bookEvent });
 		}
 
+		// TungTung celebrates on every spin
+		eventEmitter.broadcast({ type: 'tungtungWinSpin' });
+
 		stateGame.gameType = bookEvent.gameType;
 		await stateGameDerived.enhancedBoard.spin({ revealEvent: bookEvent });
 		eventEmitter.broadcast({ type: 'soundScatterCounterClear' });
@@ -98,6 +101,10 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		// show free spin intro
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
+
+		// Skibidi appears during transition to free spins
+		eventEmitter.broadcast({ type: 'skibidiAppear' });
+
 		await eventEmitter.broadcastAsync({ type: 'transition' });
 		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
@@ -131,6 +138,10 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		// show free spin intro
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
+
+		// Skibidi celebrates retrigger with head swing
+		eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
+
 		await eventEmitter.broadcastAsync({ type: 'transition' });
 		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'jng_intro_fs' });
@@ -168,6 +179,15 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		if (bookEvent.globalMult === 1) {
 			eventEmitter.broadcast({ type: 'tumbleWinAmountReset' });
 		}
+
+		// Skibidi shoots laser eyes when multiplier increases (not on reset)
+		if (bookEvent.globalMult > 1) {
+			eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
+		}
+
+		// TungTung celebrates multiplier
+		eventEmitter.broadcast({ type: 'tungtungWinMultiplier' });
+
 		await eventEmitter.broadcastAsync({
 			type: 'globalMultiplierUpdate',
 			multiplier: bookEvent.globalMult, // resets when multiplier === 1
@@ -180,6 +200,10 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		stateGame.gameType = 'basegame';
 		eventEmitter.broadcast({ type: 'boardFrameGlowHide' });
 		eventEmitter.broadcast({ type: 'globalMultiplierHide' });
+
+		// Skibidi disappears when free spins end
+		eventEmitter.broadcast({ type: 'skibidiDisappear' });
+
 		eventEmitter.broadcast({ type: 'freeSpinOutroShow' });
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_youwon_panel' });
 		winLevelSoundsPlay({ winLevelData });
@@ -194,6 +218,10 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'globalMultiplierHide' });
 		eventEmitter.broadcast({ type: 'tumbleWinAmountHide' });
 		await eventEmitter.broadcastAsync({ type: 'transition' });
+
+		// Return Skibidi to idle after disappear animation
+		eventEmitter.broadcast({ type: 'skibidiIdle' });
+
 		await eventEmitter.broadcastAsync({ type: 'uiShow' });
 		await eventEmitter.broadcastAsync({ type: 'drawerUnfold' });
 		eventEmitter.broadcast({ type: 'drawerButtonHide' });
@@ -221,6 +249,9 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	setWin: async (bookEvent: BookEventOfType<'setWin'>) => {
 		const winLevelData = winLevelMap[bookEvent.winLevel as WinLevel];
+
+		// TungTung big celebration on wins
+		eventEmitter.broadcast({ type: 'tungtungWinBig' });
 
 		eventEmitter.broadcast({ type: 'winShow' });
 		winLevelSoundsPlay({ winLevelData });

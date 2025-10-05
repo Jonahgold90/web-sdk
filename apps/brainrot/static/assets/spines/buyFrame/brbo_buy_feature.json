@@ -1,0 +1,2258 @@
+{
+	"skeleton": {
+		"hash": "lpiu1/GW1Qo",
+		"spine": "4.2.43",
+		"x": -1471.63,
+		"y": -772,
+		"width": 2473.63,
+		"height": 1600,
+		"images": "./images/",
+		"audio": "E:/WORK/SPINE/BRAINROT BONANZA/30_SEP_2025/buy_for_animation_samll"
+	},
+	"bones": [
+		{
+			"name": "root"
+		},
+		{
+			"name": "master",
+			"parent": "root"
+		},
+		{
+			"name": "main",
+			"parent": "master",
+			"scaleX": 2,
+			"scaleY": 2
+		},
+		{
+			"name": "small_buy",
+			"parent": "main",
+			"x": -641.85,
+			"y": 320.97,
+			"color": "e9ff00ff",
+			"icon": "arrows"
+		},
+		{
+			"name": "big_buy",
+			"parent": "main",
+			"y": 20,
+			"color": "fdff00ff",
+			"icon": "arrows"
+		},
+		{
+			"name": "no",
+			"parent": "big_buy",
+			"x": -164.05,
+			"y": -151,
+			"color": "fdff00ff",
+			"icon": "arrows"
+		},
+		{
+			"name": "yes",
+			"parent": "big_buy",
+			"x": 151.73,
+			"y": -151,
+			"color": "fdff00ff",
+			"icon": "arrows"
+		},
+		{
+			"name": "upper_cross",
+			"parent": "big_buy",
+			"x": 317.93,
+			"y": 206.33,
+			"color": "fdff00ff",
+			"icon": "arrows"
+		},
+		{
+			"name": "buy",
+			"parent": "big_buy",
+			"x": -4.5,
+			"y": 119.91,
+			"color": "fdff00ff",
+			"icon": "arrows"
+		},
+		{
+			"name": "amount",
+			"parent": "big_buy",
+			"x": 3.81,
+			"y": -6.41,
+			"color": "fdff00ff",
+			"icon": "arrows"
+		},
+		{
+			"name": "particles",
+			"parent": "main",
+			"x": -2.84,
+			"y": 23.57,
+			"color": "2bff00ff",
+			"icon": "gear"
+		},
+		{
+			"name": "particles2",
+			"parent": "main",
+			"x": -2.84,
+			"y": 23.57,
+			"color": "2bff00ff",
+			"icon": "gear"
+		}
+	],
+	"slots": [
+		{
+			"name": "frame",
+			"bone": "small_buy",
+			"attachment": "frame"
+		},
+		{
+			"name": "frame2",
+			"bone": "small_buy",
+			"color": "ffffff00",
+			"attachment": "frame",
+			"blend": "additive"
+		},
+		{
+			"name": "buy",
+			"bone": "small_buy",
+			"attachment": "buy"
+		},
+		{
+			"name": "buy2",
+			"bone": "small_buy",
+			"color": "ffffff00",
+			"attachment": "buy",
+			"blend": "additive"
+		},
+		{
+			"name": "glow",
+			"bone": "big_buy",
+			"attachment": "glow"
+		},
+		{
+			"name": "glow2",
+			"bone": "big_buy",
+			"color": "ffffff00",
+			"attachment": "glow",
+			"blend": "additive"
+		},
+		{
+			"name": "parti",
+			"bone": "particles",
+			"attachment": "parti",
+			"blend": "additive"
+		},
+		{
+			"name": "parti2",
+			"bone": "particles2",
+			"attachment": "parti",
+			"blend": "additive"
+		},
+		{
+			"name": "frame_big",
+			"bone": "big_buy",
+			"attachment": "frame_big"
+		},
+		{
+			"name": "frame_big2",
+			"bone": "big_buy",
+			"color": "ffffff00",
+			"attachment": "frame_big",
+			"blend": "additive"
+		},
+		{
+			"name": "buy_text",
+			"bone": "buy",
+			"attachment": "buy_text"
+		},
+		{
+			"name": "buy_text2",
+			"bone": "buy",
+			"color": "ffffff00",
+			"attachment": "buy_text",
+			"blend": "additive"
+		},
+		{
+			"name": "x",
+			"bone": "upper_cross",
+			"attachment": "x"
+		},
+		{
+			"name": "red_button",
+			"bone": "no",
+			"attachment": "red_button"
+		},
+		{
+			"name": "red_button2",
+			"bone": "no",
+			"color": "ffffff00",
+			"attachment": "red_button",
+			"blend": "additive"
+		},
+		{
+			"name": "green_button",
+			"bone": "yes",
+			"attachment": "green_button"
+		},
+		{
+			"name": "green_button2",
+			"bone": "yes",
+			"color": "ffffff00",
+			"attachment": "green_button",
+			"blend": "additive"
+		},
+		{
+			"name": "right",
+			"bone": "yes",
+			"attachment": "right"
+		},
+		{
+			"name": "right2",
+			"bone": "yes",
+			"color": "ffffff00",
+			"attachment": "right",
+			"blend": "additive"
+		},
+		{
+			"name": "cross",
+			"bone": "no",
+			"attachment": "cross"
+		},
+		{
+			"name": "cross2",
+			"bone": "no",
+			"color": "ffffff00",
+			"attachment": "cross",
+			"blend": "additive"
+		}
+	],
+	"skins": [
+		{
+			"name": "default",
+			"attachments": {
+				"buy": {
+					"buy": {
+						"x": 6.03,
+						"y": 15.53,
+						"width": 198,
+						"height": 44
+					}
+				},
+				"buy2": {
+					"buy": {
+						"x": 6.03,
+						"y": 15.53,
+						"width": 198,
+						"height": 44
+					}
+				},
+				"buy_text": {
+					"buy_text": {
+						"x": 0.5,
+						"y": 5.09,
+						"width": 638,
+						"height": 108
+					}
+				},
+				"buy_text2": {
+					"buy_text": {
+						"x": 0.5,
+						"y": 5.09,
+						"width": 638,
+						"height": 108
+					}
+				},
+				"cross": {
+					"cross": {
+						"x": 2.55,
+						"y": -2,
+						"width": 63,
+						"height": 66
+					}
+				},
+				"cross2": {
+					"cross": {
+						"x": 2.55,
+						"y": -2,
+						"width": 63,
+						"height": 66
+					}
+				},
+				"frame": {
+					"frame": {
+						"x": 6.03,
+						"y": -9.47,
+						"width": 200,
+						"height": 138
+					}
+				},
+				"frame2": {
+					"frame": {
+						"x": 6.03,
+						"y": -9.47,
+						"width": 200,
+						"height": 138
+					}
+				},
+				"frame_big": {
+					"frame_big": {
+						"x": -4.99,
+						"y": -7.87,
+						"width": 706,
+						"height": 493
+					}
+				},
+				"frame_big2": {
+					"frame_big": {
+						"x": -4.99,
+						"y": -7.87,
+						"width": 706,
+						"height": 493
+					}
+				},
+				"glow": {
+					"glow": {
+						"x": -13,
+						"y": -6,
+						"width": 1028,
+						"height": 800
+					}
+				},
+				"glow2": {
+					"glow": {
+						"x": -13,
+						"y": -6,
+						"width": 1028,
+						"height": 800
+					}
+				},
+				"green_button": {
+					"green_button": {
+						"x": 1.77,
+						"y": -0.5,
+						"width": 135,
+						"height": 97
+					}
+				},
+				"green_button2": {
+					"green_button": {
+						"x": 1.77,
+						"y": -0.5,
+						"width": 135,
+						"height": 97
+					}
+				},
+				"parti": {
+					"parti": {
+						"x": 19.84,
+						"y": 0.43,
+						"width": 816,
+						"height": 572
+					}
+				},
+				"parti2": {
+					"parti": {
+						"x": 19.84,
+						"y": 0.43,
+						"width": 816,
+						"height": 572
+					}
+				},
+				"red_button": {
+					"red_button": {
+						"x": 3.55,
+						"y": -0.5,
+						"width": 135,
+						"height": 97
+					}
+				},
+				"red_button2": {
+					"red_button": {
+						"x": 3.55,
+						"y": -0.5,
+						"width": 135,
+						"height": 97
+					}
+				},
+				"right": {
+					"right": {
+						"x": 1.27,
+						"y": -3,
+						"width": 82,
+						"height": 66
+					}
+				},
+				"right2": {
+					"right": {
+						"x": 1.27,
+						"y": -3,
+						"width": 82,
+						"height": 66
+					}
+				},
+				"x": {
+					"x": {
+						"x": 0.07,
+						"y": 0.67,
+						"width": 56,
+						"height": 56
+					}
+				}
+			}
+		}
+	],
+	"animations": {
+		"big_buy_in": {
+			"slots": {
+				"buy": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"buy_text2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00",
+							"curve": [
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								0,
+								0.292,
+								1
+							]
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"cross2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame_big2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"glow2": {
+					"rgba": [
+						{
+							"time": 0.1333,
+							"color": "ffffff00",
+							"curve": [
+								0.183,
+								1,
+								0.283,
+								1,
+								0.183,
+								1,
+								0.283,
+								1,
+								0.183,
+								1,
+								0.283,
+								1,
+								0.183,
+								0,
+								0.283,
+								1
+							]
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": [
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								0
+							]
+						},
+						{
+							"time": 0.6667,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"green_button2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 0.7,
+							"color": "ffffffff"
+						},
+						{
+							"time": 1,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						}
+					]
+				},
+				"red_button2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"right2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				}
+			},
+			"bones": {
+				"big_buy": {
+					"scale": [
+						{
+							"x": 0,
+							"y": 0,
+							"curve": [
+								0,
+								1.124,
+								0.25,
+								1.124,
+								0,
+								1.124,
+								0.25,
+								1.124
+							]
+						},
+						{
+							"time": 0.3333,
+							"x": 1.124,
+							"y": 1.124,
+							"curve": [
+								0.383,
+								1.124,
+								0.52,
+								1.018,
+								0.383,
+								1.124,
+								0.52,
+								1.018
+							]
+						},
+						{
+							"time": 0.5333,
+							"x": 0.854,
+							"y": 0.854,
+							"curve": [
+								0.6,
+								0.854,
+								0.733,
+								1.082,
+								0.6,
+								0.854,
+								0.733,
+								1.082
+							]
+						},
+						{
+							"time": 0.8,
+							"x": 1.082,
+							"y": 1.082,
+							"curve": [
+								0.85,
+								1.082,
+								0.95,
+								1,
+								0.85,
+								1.082,
+								0.95,
+								1
+							]
+						},
+						{
+							"time": 1
+						}
+					]
+				},
+				"amount": {
+					"scale": [
+						{
+							"time": 0.0667,
+							"curve": [
+								0.125,
+								1,
+								0.242,
+								1.271,
+								0.125,
+								1,
+								0.242,
+								1.271
+							]
+						},
+						{
+							"time": 0.3,
+							"x": 1.271,
+							"y": 1.271,
+							"curve": [
+								0.392,
+								1.271,
+								0.575,
+								0.897,
+								0.392,
+								1.271,
+								0.575,
+								0.897
+							]
+						},
+						{
+							"time": 0.6667,
+							"x": 0.897,
+							"y": 0.897,
+							"curve": [
+								0.75,
+								0.897,
+								0.917,
+								1,
+								0.75,
+								0.897,
+								0.917,
+								1
+							]
+						},
+						{
+							"time": 1
+						}
+					]
+				},
+				"buy": {
+					"scale": [
+						{
+							"time": 0.0667,
+							"curve": [
+								0.125,
+								1,
+								0.242,
+								1.271,
+								0.125,
+								1,
+								0.242,
+								1.271
+							]
+						},
+						{
+							"time": 0.3,
+							"x": 1.271,
+							"y": 1.271,
+							"curve": [
+								0.392,
+								1.271,
+								0.575,
+								0.897,
+								0.392,
+								1.271,
+								0.575,
+								0.897
+							]
+						},
+						{
+							"time": 0.6667,
+							"x": 0.897,
+							"y": 0.897,
+							"curve": [
+								0.75,
+								0.897,
+								0.917,
+								1,
+								0.75,
+								0.897,
+								0.917,
+								1
+							]
+						},
+						{
+							"time": 1
+						}
+					]
+				},
+				"particles": {
+					"scale": [
+						{},
+						{
+							"time": 1,
+							"x": 1.515,
+							"y": 1.515
+						}
+					]
+				},
+				"particles2": {
+					"scale": [
+						{
+							"x": 0.485,
+							"y": 0.485
+						},
+						{
+							"time": 1
+						}
+					]
+				}
+			}
+		},
+		"big_buy_loop": {
+			"slots": {
+				"buy": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame_big2": {
+					"rgba": [
+						{
+							"color": "ffffff00",
+							"curve": [
+								0.083,
+								1,
+								0.25,
+								1,
+								0.083,
+								1,
+								0.25,
+								1,
+								0.083,
+								1,
+								0.25,
+								1,
+								0.083,
+								0,
+								0.25,
+								0.66
+							]
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffa9",
+							"curve": [
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								0.66,
+								0.583,
+								0
+							]
+						},
+						{
+							"time": 0.6667,
+							"color": "ffffff00",
+							"curve": [
+								0.75,
+								1,
+								0.917,
+								1,
+								0.75,
+								1,
+								0.917,
+								1,
+								0.75,
+								1,
+								0.917,
+								1,
+								0.75,
+								0,
+								0.917,
+								0.66
+							]
+						},
+						{
+							"time": 1,
+							"color": "ffffffa9",
+							"curve": [
+								1.083,
+								1,
+								1.25,
+								1,
+								1.083,
+								1,
+								1.25,
+								1,
+								1.083,
+								1,
+								1.25,
+								1,
+								1.083,
+								0.66,
+								1.25,
+								0
+							]
+						},
+						{
+							"time": 1.3333,
+							"color": "ffffff00",
+							"curve": [
+								1.417,
+								1,
+								1.583,
+								1,
+								1.417,
+								1,
+								1.583,
+								1,
+								1.417,
+								1,
+								1.583,
+								1,
+								1.417,
+								0,
+								1.583,
+								0.66
+							]
+						},
+						{
+							"time": 1.6667,
+							"color": "ffffffa9",
+							"curve": [
+								1.75,
+								1,
+								1.917,
+								1,
+								1.75,
+								1,
+								1.917,
+								1,
+								1.75,
+								1,
+								1.917,
+								1,
+								1.75,
+								0.66,
+								1.917,
+								0
+							]
+						},
+						{
+							"time": 2,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"glow2": {
+					"rgba": [
+						{
+							"color": "ffffff00",
+							"curve": [
+								0.083,
+								1,
+								0.25,
+								1,
+								0.083,
+								1,
+								0.25,
+								1,
+								0.083,
+								1,
+								0.25,
+								1,
+								0.083,
+								0,
+								0.25,
+								1
+							]
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": [
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								0
+							]
+						},
+						{
+							"time": 0.6667,
+							"color": "ffffff00",
+							"curve": [
+								0.75,
+								1,
+								0.917,
+								1,
+								0.75,
+								1,
+								0.917,
+								1,
+								0.75,
+								1,
+								0.917,
+								1,
+								0.75,
+								0,
+								0.917,
+								1
+							]
+						},
+						{
+							"time": 1,
+							"color": "ffffffff",
+							"curve": [
+								1.083,
+								1,
+								1.25,
+								1,
+								1.083,
+								1,
+								1.25,
+								1,
+								1.083,
+								1,
+								1.25,
+								1,
+								1.083,
+								1,
+								1.25,
+								0
+							]
+						},
+						{
+							"time": 1.3333,
+							"color": "ffffff00",
+							"curve": [
+								1.417,
+								1,
+								1.583,
+								1,
+								1.417,
+								1,
+								1.583,
+								1,
+								1.417,
+								1,
+								1.583,
+								1,
+								1.417,
+								0,
+								1.583,
+								1
+							]
+						},
+						{
+							"time": 1.6667,
+							"color": "ffffffff",
+							"curve": [
+								1.75,
+								1,
+								1.917,
+								1,
+								1.75,
+								1,
+								1.917,
+								1,
+								1.75,
+								1,
+								1.917,
+								1,
+								1.75,
+								1,
+								1.917,
+								0
+							]
+						},
+						{
+							"time": 2,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti": {
+					"rgba": [
+						{
+							"time": 0.7,
+							"color": "ffffffff"
+						},
+						{
+							"time": 1,
+							"color": "ffffff00",
+							"curve": "stepped"
+						},
+						{
+							"time": 1.0333,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 1.7333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 2,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 1,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 1.0333,
+							"color": "ffffff00"
+						},
+						{
+							"time": 1.3667,
+							"color": "ffffffff"
+						}
+					]
+				}
+			},
+			"bones": {
+				"particles": {
+					"scale": [
+						{},
+						{
+							"time": 1,
+							"x": 1.515,
+							"y": 1.515,
+							"curve": "stepped"
+						},
+						{
+							"time": 1.0333
+						},
+						{
+							"time": 2,
+							"x": 1.515,
+							"y": 1.515
+						}
+					]
+				},
+				"particles2": {
+					"scale": [
+						{
+							"x": 0.485,
+							"y": 0.485
+						},
+						{
+							"time": 1,
+							"curve": "stepped"
+						},
+						{
+							"time": 1.0333,
+							"x": 0.485,
+							"y": 0.485
+						},
+						{
+							"time": 2
+						}
+					]
+				},
+				"big_buy": {
+					"scale": [
+						{
+							"curve": [
+								0.125,
+								1,
+								0.375,
+								1.1,
+								0.125,
+								1,
+								0.375,
+								1.1
+							]
+						},
+						{
+							"time": 0.5,
+							"x": 1.1,
+							"y": 1.1,
+							"curve": [
+								0.625,
+								1.1,
+								0.875,
+								1,
+								0.625,
+								1.1,
+								0.875,
+								1
+							]
+						},
+						{
+							"time": 1,
+							"curve": [
+								1.125,
+								1,
+								1.375,
+								1.1,
+								1.125,
+								1,
+								1.375,
+								1.1
+							]
+						},
+						{
+							"time": 1.5,
+							"x": 1.1,
+							"y": 1.1,
+							"curve": [
+								1.625,
+								1.1,
+								1.875,
+								1,
+								1.625,
+								1.1,
+								1.875,
+								1
+							]
+						},
+						{
+							"time": 2
+						}
+					]
+				}
+			}
+		},
+		"big_buy_no_out": {
+			"slots": {
+				"buy": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"cross2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.1,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 0.2333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.5,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame_big2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00",
+							"curve": [
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								0,
+								0.292,
+								1
+							]
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": [
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								0
+							]
+						},
+						{
+							"time": 0.6667,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"glow2": {
+					"rgba": [
+						{
+							"time": 0.3333,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.5,
+							"color": "ffffffff"
+						},
+						{
+							"time": 1,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti": {
+					"rgba": [
+						{
+							"time": 0.7,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.9,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 0.7,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.9,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"red_button2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.1,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 0.2333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.5,
+							"color": "ffffff00"
+						}
+					]
+				}
+			},
+			"bones": {
+				"particles2": {
+					"scale": [
+						{
+							"x": 0.485,
+							"y": 0.485
+						},
+						{
+							"time": 1
+						}
+					]
+				},
+				"particles": {
+					"scale": [
+						{},
+						{
+							"time": 1,
+							"x": 1.515,
+							"y": 1.515
+						}
+					]
+				},
+				"big_buy": {
+					"scale": [
+						{
+							"time": 0.5,
+							"curve": [
+								0.542,
+								1,
+								0.625,
+								1.222,
+								0.542,
+								1,
+								0.625,
+								1.222
+							]
+						},
+						{
+							"time": 0.6667,
+							"x": 1.222,
+							"y": 1.222,
+							"curve": [
+								0.75,
+								1.222,
+								0.917,
+								0,
+								0.75,
+								1.222,
+								0.917,
+								0
+							]
+						},
+						{
+							"time": 1,
+							"x": 0,
+							"y": 0
+						}
+					]
+				},
+				"no": {
+					"scale": [
+						{
+							"curve": [
+								0.025,
+								1,
+								0.075,
+								0.685,
+								0.025,
+								1,
+								0.075,
+								0.685
+							]
+						},
+						{
+							"time": 0.1,
+							"x": 0.685,
+							"y": 0.685,
+							"curve": [
+								0.158,
+								0.685,
+								0.275,
+								1.288,
+								0.158,
+								0.685,
+								0.275,
+								1.288
+							]
+						},
+						{
+							"time": 0.3333,
+							"x": 1.288,
+							"y": 1.288,
+							"curve": [
+								0.417,
+								1.288,
+								0.583,
+								1,
+								0.417,
+								1.288,
+								0.583,
+								1
+							]
+						},
+						{
+							"time": 0.6667
+						}
+					]
+				}
+			}
+		},
+		"big_buy_upper_cross_out": {
+			"slots": {
+				"buy": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame_big2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00",
+							"curve": [
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								0,
+								0.292,
+								1
+							]
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": [
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								0
+							]
+						},
+						{
+							"time": 0.6667,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"glow2": {
+					"rgba": [
+						{
+							"time": 0.3333,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.5,
+							"color": "ffffffff"
+						},
+						{
+							"time": 1,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti": {
+					"rgba": [
+						{
+							"time": 0.7,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": "stepped"
+						},
+						{
+							"time": 0.6667,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.8333,
+							"color": "ffffff00"
+						}
+					]
+				}
+			},
+			"bones": {
+				"big_buy": {
+					"scale": [
+						{
+							"time": 0.5,
+							"curve": [
+								0.542,
+								1,
+								0.625,
+								1.222,
+								0.542,
+								1,
+								0.625,
+								1.222
+							]
+						},
+						{
+							"time": 0.6667,
+							"x": 1.222,
+							"y": 1.222,
+							"curve": [
+								0.75,
+								1.222,
+								0.917,
+								0,
+								0.75,
+								1.222,
+								0.917,
+								0
+							]
+						},
+						{
+							"time": 1,
+							"x": 0,
+							"y": 0
+						}
+					]
+				},
+				"particles": {
+					"scale": [
+						{},
+						{
+							"time": 1,
+							"x": 1.515,
+							"y": 1.515
+						}
+					]
+				},
+				"particles2": {
+					"scale": [
+						{
+							"x": 0.485,
+							"y": 0.485
+						},
+						{
+							"time": 1
+						}
+					]
+				},
+				"root": {
+					"scale": [
+						{
+							"x": 0.971,
+							"y": 0.971
+						}
+					]
+				},
+				"upper_cross": {
+					"scale": [
+						{
+							"curve": [
+								0.025,
+								1,
+								0.075,
+								0.685,
+								0.025,
+								1,
+								0.075,
+								0.685
+							]
+						},
+						{
+							"time": 0.1,
+							"x": 0.685,
+							"y": 0.685,
+							"curve": [
+								0.158,
+								0.685,
+								0.275,
+								1.288,
+								0.158,
+								0.685,
+								0.275,
+								1.288
+							]
+						},
+						{
+							"time": 0.3333,
+							"x": 1.288,
+							"y": 1.288,
+							"curve": [
+								0.417,
+								1.288,
+								0.583,
+								1,
+								0.417,
+								1.288,
+								0.583,
+								1
+							]
+						},
+						{
+							"time": 0.6667
+						}
+					]
+				}
+			}
+		},
+		"big_buy_yes_out": {
+			"slots": {
+				"buy": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame_big2": {
+					"rgba": [
+						{
+							"time": 0.1667,
+							"color": "ffffff00",
+							"curve": [
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								1,
+								0.292,
+								1,
+								0.208,
+								0,
+								0.292,
+								1
+							]
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff",
+							"curve": [
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								1,
+								0.417,
+								1,
+								0.583,
+								0
+							]
+						},
+						{
+							"time": 0.6667,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"glow2": {
+					"rgba": [
+						{
+							"time": 0.3333,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.5,
+							"color": "ffffffff"
+						},
+						{
+							"time": 1,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"green_button2": {
+					"rgba": [
+						{
+							"color": "ffffff00",
+							"curve": [
+								0.025,
+								1,
+								0.075,
+								1,
+								0.025,
+								1,
+								0.075,
+								1,
+								0.025,
+								1,
+								0.075,
+								1,
+								0.025,
+								0,
+								0.075,
+								1
+							]
+						},
+						{
+							"time": 0.1,
+							"color": "ffffffff",
+							"curve": [
+								0.2,
+								1,
+								0.4,
+								1,
+								0.2,
+								1,
+								0.4,
+								1,
+								0.2,
+								1,
+								0.4,
+								1,
+								0.2,
+								1,
+								0.4,
+								0
+							]
+						},
+						{
+							"time": 0.5,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti": {
+					"rgba": [
+						{
+							"time": 0.7,
+							"color": "ffffffff"
+						},
+						{
+							"time": 1,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.3333,
+							"color": "ffffffff"
+						}
+					]
+				},
+				"right2": {
+					"rgba": [
+						{
+							"color": "ffffff00",
+							"curve": [
+								0.025,
+								1,
+								0.075,
+								1,
+								0.025,
+								1,
+								0.075,
+								1,
+								0.025,
+								1,
+								0.075,
+								1,
+								0.025,
+								0,
+								0.075,
+								1
+							]
+						},
+						{
+							"time": 0.1,
+							"color": "ffffffff",
+							"curve": [
+								0.2,
+								1,
+								0.4,
+								1,
+								0.2,
+								1,
+								0.4,
+								1,
+								0.2,
+								1,
+								0.4,
+								1,
+								0.2,
+								1,
+								0.4,
+								0
+							]
+						},
+						{
+							"time": 0.5,
+							"color": "ffffff00"
+						}
+					]
+				}
+			},
+			"bones": {
+				"particles2": {
+					"scale": [
+						{
+							"x": 0.485,
+							"y": 0.485
+						},
+						{
+							"time": 1
+						}
+					]
+				},
+				"particles": {
+					"scale": [
+						{},
+						{
+							"time": 1,
+							"x": 1.515,
+							"y": 1.515
+						}
+					]
+				},
+				"big_buy": {
+					"scale": [
+						{
+							"time": 0.5,
+							"curve": [
+								0.542,
+								1,
+								0.625,
+								1.222,
+								0.542,
+								1,
+								0.625,
+								1.222
+							]
+						},
+						{
+							"time": 0.6667,
+							"x": 1.222,
+							"y": 1.222,
+							"curve": [
+								0.75,
+								1.222,
+								0.917,
+								0,
+								0.75,
+								1.222,
+								0.917,
+								0
+							]
+						},
+						{
+							"time": 1,
+							"x": 0,
+							"y": 0
+						}
+					]
+				},
+				"yes": {
+					"scale": [
+						{
+							"curve": [
+								0.025,
+								1,
+								0.075,
+								0.685,
+								0.025,
+								1,
+								0.075,
+								0.685
+							]
+						},
+						{
+							"time": 0.1,
+							"x": 0.685,
+							"y": 0.685,
+							"curve": [
+								0.158,
+								0.685,
+								0.275,
+								1.288,
+								0.158,
+								0.685,
+								0.275,
+								1.288
+							]
+						},
+						{
+							"time": 0.3333,
+							"x": 1.288,
+							"y": 1.288,
+							"curve": [
+								0.417,
+								1.288,
+								0.583,
+								1,
+								0.417,
+								1.288,
+								0.583,
+								1
+							]
+						},
+						{
+							"time": 0.6667
+						}
+					]
+				},
+				"root": {
+					"scale": [
+						{
+							"x": 0.971,
+							"y": 0.971
+						}
+					]
+				}
+			}
+		},
+		"small_buy_click": {
+			"slots": {
+				"buy2": {
+					"rgba": [
+						{
+							"time": 0.1,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.2333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.5333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"buy_text": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"cross": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame2": {
+					"rgba": [
+						{
+							"time": 0.1,
+							"color": "ffffff00"
+						},
+						{
+							"time": 0.2333,
+							"color": "ffffffff"
+						},
+						{
+							"time": 0.5333,
+							"color": "ffffff00"
+						}
+					]
+				},
+				"frame_big": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"glow": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"green_button": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"parti2": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"red_button": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"right": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				},
+				"x": {
+					"rgba": [
+						{
+							"color": "ffffff00"
+						}
+					]
+				}
+			},
+			"bones": {
+				"small_buy": {
+					"scale": [
+						{
+							"curve": [
+								0.025,
+								1,
+								0.075,
+								0.834,
+								0.025,
+								1,
+								0.075,
+								0.834
+							]
+						},
+						{
+							"time": 0.1,
+							"x": 0.834,
+							"y": 0.834,
+							"curve": [
+								0.158,
+								0.834,
+								0.275,
+								1.097,
+								0.158,
+								0.834,
+								0.275,
+								1.097
+							]
+						},
+						{
+							"time": 0.3333,
+							"x": 1.097,
+							"y": 1.097,
+							"curve": [
+								0.375,
+								1.097,
+								0.458,
+								0.981,
+								0.375,
+								1.097,
+								0.458,
+								0.981
+							]
+						},
+						{
+							"time": 0.5,
+							"x": 0.981,
+							"y": 0.981,
+							"curve": [
+								0.542,
+								0.981,
+								0.625,
+								1,
+								0.542,
+								0.981,
+								0.625,
+								1
+							]
+						},
+						{
+							"time": 0.6667
+						}
+					]
+				}
+			}
+		}
+	}
+}

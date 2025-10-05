@@ -1,7 +1,15 @@
 <script lang="ts" module>
 	export type EmitterEventBoardFrame =
 		| { type: 'boardFrameGlowShow' }
-		| { type: 'boardFrameGlowHide' };
+		| { type: 'boardFrameGlowHide' }
+		| { type: 'skibidiAppear' }
+		| { type: 'skibidiDisappear' }
+		| { type: 'skibidiLaserEyes' }
+		| { type: 'skibidiIdle' }
+		| { type: 'tungtungWinSpin' }
+		| { type: 'tungtungWinMultiplier' }
+		| { type: 'tungtungWinBig' }
+		| { type: 'tungtungIdle' };
 </script>
 
 <script lang="ts">
@@ -13,8 +21,28 @@
 	const context = getContext();
 
 	// Character animation states
-	let skibidiAnimationName = $state<string>('idle');
-	let tungtungAnimationName = $state<string>('sahur_idle');
+	type SkibidiAnimation = 'idle' | 'idle_break' | 'head swirling_in_new' | 'head swirling_out_new' | 'head_swing_new' | 'laser_eyes_zapping_the_board';
+	type TungtungAnimation = 'sahur_idle' | 'sahur_win1' | 'sahur_win2' | 'sahur_win3';
+
+	let skibidiAnimationName = $state<SkibidiAnimation>('idle');
+	let skibidiLoop = $state(true);
+	let tungtungAnimationName = $state<TungtungAnimation>('sahur_idle');
+	let tungtungLoop = $state(true);
+
+	// Idle variation timer for Skibidi
+	let idleBreakTimer: ReturnType<typeof setTimeout> | null = null;
+	const scheduleIdleBreak = () => {
+		if (idleBreakTimer) clearTimeout(idleBreakTimer);
+		// Random interval between 5-15 seconds for idle_break
+		const delay = 5000 + Math.random() * 10000;
+		idleBreakTimer = setTimeout(() => {
+			if (skibidiAnimationName === 'idle') {
+				skibidiAnimationName = 'idle_break';
+				skibidiLoop = false;
+			}
+		}, delay);
+	};
+
 	const SPINE_SCALE = { width: 0.6, height: 0.6 };
 	const SPRITE_SCALE = { width: 0.95, height: 0.9 };
 	const BG_RATIO = 937 / 806;
@@ -37,7 +65,45 @@
 		boardFrameGlowHide: () => {
 			if (animationName) animationName = 'reelhouse_glow_exit';
 		},
+		// Skibidi animations
+		skibidiAppear: () => {
+			skibidiAnimationName = 'head swirling_in_new';
+			skibidiLoop = false;
+		},
+		skibidiDisappear: () => {
+			skibidiAnimationName = 'head swirling_out_new';
+			skibidiLoop = false;
+		},
+		skibidiLaserEyes: () => {
+			skibidiAnimationName = 'laser_eyes_zapping_the_board';
+			skibidiLoop = false;
+		},
+		skibidiIdle: () => {
+			skibidiAnimationName = 'idle';
+			skibidiLoop = true;
+			scheduleIdleBreak();
+		},
+		// TungTung animations
+		tungtungWinSpin: () => {
+			tungtungAnimationName = 'sahur_win1';
+			tungtungLoop = false;
+		},
+		tungtungWinMultiplier: () => {
+			tungtungAnimationName = 'sahur_win2';
+			tungtungLoop = false;
+		},
+		tungtungWinBig: () => {
+			tungtungAnimationName = 'sahur_win3';
+			tungtungLoop = false;
+		},
+		tungtungIdle: () => {
+			tungtungAnimationName = 'sahur_idle';
+			tungtungLoop = true;
+		},
 	});
+
+	// Start idle break scheduling
+	scheduleIdleBreak();
 </script>
 
 {#if animationName}
@@ -152,7 +218,37 @@
 		<SpineTrack
 			trackIndex={0}
 			animationName={skibidiAnimationName}
-			loop={true}
+			loop={skibidiLoop}
+			listener={{
+				complete: (entry) => {
+					if (entry.animation) {
+						// After idle_break, return to idle
+						if (entry.animation.name === 'idle_break') {
+							skibidiAnimationName = 'idle';
+							skibidiLoop = true;
+							scheduleIdleBreak();
+						}
+						// After appearing, go to idle
+						else if (entry.animation.name === 'head swirling_in_new') {
+							skibidiAnimationName = 'idle';
+							skibidiLoop = true;
+							scheduleIdleBreak();
+						}
+						// After head swing, return to idle
+						else if (entry.animation.name === 'head_swing_new') {
+							skibidiAnimationName = 'idle';
+							skibidiLoop = true;
+							scheduleIdleBreak();
+						}
+						// After laser eyes, return to idle
+						else if (entry.animation.name === 'laser_eyes_zapping_the_board') {
+							skibidiAnimationName = 'idle';
+							skibidiLoop = true;
+							scheduleIdleBreak();
+						}
+					}
+				},
+			}}
 		/>
 	</SpineProvider>
 
@@ -168,7 +264,20 @@
 		<SpineTrack
 			trackIndex={0}
 			animationName={tungtungAnimationName}
-			loop={true}
+			loop={tungtungLoop}
+			listener={{
+				complete: (entry) => {
+					if (entry.animation) {
+						// After any win animation, return to idle
+						if (entry.animation.name === 'sahur_win1' ||
+						    entry.animation.name === 'sahur_win2' ||
+						    entry.animation.name === 'sahur_win3') {
+							tungtungAnimationName = 'sahur_idle';
+							tungtungLoop = true;
+						}
+					}
+				},
+			}}
 		/>
 	</SpineProvider>
 {/if}
