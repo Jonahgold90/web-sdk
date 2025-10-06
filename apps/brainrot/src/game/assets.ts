@@ -317,8 +317,12 @@ export default {
 	bigwin: {
 		type: 'spine',
 		src: {
-			atlas: new URL('../../assets/spines/bigwin/big_wins.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/bigwin/mm_bigwin.json', import.meta.url).href,
+			atlas: new URL('../../assets/spines/bigwin/brbo_bigwin.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/bigwin/brbo_bigwin.json', import.meta.url).href,
+			images: [
+				new URL('../../assets/spines/bigwin/brbo_bigwin.png', import.meta.url).href,
+				new URL('../../assets/spines/bigwin/brbo_bigwin_2.png', import.meta.url).href,
+			],
 			scale: 2,
 		},
 	},
