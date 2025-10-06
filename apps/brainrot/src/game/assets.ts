@@ -229,6 +229,18 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/buyFrame/buy_frame.png', import.meta.url).href,
 	},
+	buyText: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/buyFrame/buy.png', import.meta.url).href,
+	},
+	buyButtonSpine: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/buyFrame/brbo_buy_feature.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/buyFrame/brbo_buy_feature.json', import.meta.url).href,
+			scale: 1,
+		},
+	},
 	// UI Bespoke Assets
 	uiBottomOverlay: {
 		type: 'sprite',

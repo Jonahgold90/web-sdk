@@ -10,10 +10,21 @@
 		| { type: 'tungtungWinMultiplier' }
 		| { type: 'tungtungWinBig' }
 		| { type: 'tungtungIdle' };
+
+	export type BuyButtonAnimation = 'small_buy_click' | 'big_buy_in' | 'big_buy_loop';
+
+	export const stateBuyButton = $state<{
+		animationName: BuyButtonAnimation;
+		loop: boolean;
+	}>({
+		animationName: 'small_buy_click',
+		loop: true,
+	});
 </script>
 
 <script lang="ts">
-	import { Sprite, SpineProvider, SpineTrack } from 'pixi-svelte';
+	import { Sprite, SpineProvider, SpineTrack, Text } from 'pixi-svelte';
+	import { stateBetDerived, stateModal } from 'state-shared';
 
 	import { getContext } from '../game/context';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -183,15 +194,51 @@
 />
 
 {#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
-<!-- Buy frame - vertically level with board frame, to the left -->
+	{@const buyButtonX = context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
+	{@const buyButtonY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + (135.5 / 2) - 10}
+	{@const bonusBuyCost = stateBetDerived.betCost() * 100}
+
+<!-- Buy frame sprite - vertically level with board frame, to the left -->
 <Sprite
 	key="buyFrame"
 	anchor={0.5}
-	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
-	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + (135.5 / 2) - 10}
+	x={buyButtonX}
+	y={buyButtonY}
 	width={197}
 	height={135.5}
 	zIndex={1}
+	interactive={true}
+	cursor="pointer"
+	onpointerup={() => {
+		stateBuyButton.animationName = 'big_buy_in';
+		stateBuyButton.loop = false;
+	}}
+/>
+
+<!-- "BUY FEATURE" text on the button -->
+<Sprite
+	key="buyText"
+	anchor={0.5}
+	x={buyButtonX}
+	y={buyButtonY - 20}
+	width={198}
+	height={44}
+	zIndex={2}
+/>
+
+<!-- Bonus buy cost text -->
+<Text
+	text={`$${bonusBuyCost.toString()}`}
+	x={buyButtonX}
+	y={buyButtonY + 30}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 32,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={2}
 />
 
 <!-- Bet frame - right under buy frame with vertical margin -->

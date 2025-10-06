@@ -24,6 +24,7 @@
 	import TumbleBoard from './TumbleBoard.svelte';
 	import TumbleWinAmount from './TumbleWinAmount.svelte';
 	import GlobalMultiplier from './GlobalMultiplier.svelte';
+	import BuyButtonPopup from './BuyButtonPopup.svelte';
 	import Win from './Win.svelte';
 	import FreeSpinIntro from './FreeSpinIntro.svelte';
 	import FreeSpinCounter from './FreeSpinCounter.svelte';
@@ -79,6 +80,10 @@
 		<MainContainer>
 			<TumbleBoard />
 			<ClusterWinAmounts />
+		</MainContainer>
+
+		<MainContainer>
+			<BuyButtonPopup />
 		</MainContainer>
 
 		<Win />
