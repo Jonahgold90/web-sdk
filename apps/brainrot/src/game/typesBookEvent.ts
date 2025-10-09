@@ -101,6 +101,27 @@ type BookEventFreeSpinRetrigger = {
 	positions: Position[];
 };
 
+type BookEventMultiplierLanded = {
+	index: number;
+	type: 'multiplierLanded';
+	multipliers: Array<{ reel: number; row: number; value: number }>;
+	totalMultipliers: number;
+	boardMultiplierSum: number;
+};
+
+type BookEventBoardMultiplierInfo = {
+	index: number;
+	type: 'boardMultiplierInfo';
+	multInfo: {
+		positions: Array<{ reel: number; row: number; multiplier: number }>;
+	};
+	winInfo: {
+		tumbleWin: number;
+		boardMult: number;
+		totalWin: number;
+	};
+};
+
 // customised
 type BookEventCreateBonusSnapshot = {
 	index: number;
@@ -124,6 +145,8 @@ export type BookEvent =
 	// new
 	| BookEventUpdateGrid
 	| BookEventFreeSpinRetrigger
+	| BookEventMultiplierLanded
+	| BookEventBoardMultiplierInfo
 	// customised
 	| BookEventCreateBonusSnapshot;
 

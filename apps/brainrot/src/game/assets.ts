@@ -377,9 +377,20 @@ export default {
 			skeleton: new URL('../../assets/spines/foregroundAnimation/basegame.json', import.meta.url).href,
 			images: [
 				new URL('../../assets/spines/foregroundAnimation/basegame.png', import.meta.url).href,
-				new URL('../../assets/spines/foregroundAnimation/basegame2.png', import.meta.url).href,
-				new URL('../../assets/spines/foregroundAnimation/basegame3.png', import.meta.url).href,
-				new URL('../../assets/spines/foregroundAnimation/basegame4.png', import.meta.url).href,
+				new URL('../../assets/spines/foregroundAnimation/basegame_2.png', import.meta.url).href,
+				new URL('../../assets/spines/foregroundAnimation/basegame_3.png', import.meta.url).href,
+			],
+			scale: 2.3,
+		},
+		preload: true,
+	},
+	foregroundFeatureAnimation: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/foregroundFeatureAnimation/freegame.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/foregroundFeatureAnimation/freegame.json', import.meta.url).href,
+			images: [
+				new URL('../../assets/spines/foregroundFeatureAnimation/freegame.png', import.meta.url).href,
 			],
 			scale: 2.3,
 		},

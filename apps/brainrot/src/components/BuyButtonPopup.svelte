@@ -2,6 +2,7 @@
 	import { SpineProvider, SpineTrack } from 'pixi-svelte';
 	import { stateBuyButton } from './BoardFrame.svelte';
 	import { getContext } from '../game/context';
+	import BuyButtonBoundingBoxesWrapper from './BuyButtonBoundingBoxesWrapper.svelte';
 
 	const context = getContext();
 	const POSITION_ADJUSTMENT = 1.01;
@@ -39,5 +40,8 @@
 			},
 		}}
 	/>
+
+	<!-- Add interactive bounding boxes wrapper -->
+	<BuyButtonBoundingBoxesWrapper />
 </SpineProvider>
 {/if}

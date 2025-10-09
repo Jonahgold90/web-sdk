@@ -1,11 +1,11 @@
 {
 	"skeleton": {
-		"hash": "lpiu1/GW1Qo",
+		"hash": "VHLCn8bVtL0",
 		"spine": "4.2.43",
-		"x": -1471.63,
+		"x": -1560.69,
 		"y": -772,
-		"width": 2473.63,
-		"height": 1600,
+		"width": 2562.69,
+		"height": 1690.94,
 		"images": "./images/",
 		"audio": "E:/WORK/SPINE/BRAINROT BONANZA/30_SEP_2025/buy_for_animation_samll"
 	},
@@ -71,7 +71,7 @@
 			"icon": "arrows"
 		},
 		{
-			"name": "amount",
+			"name": "place_holder",
 			"parent": "big_buy",
 			"x": 3.81,
 			"y": -6.41,
@@ -93,6 +93,33 @@
 			"y": 23.57,
 			"color": "2bff00ff",
 			"icon": "gear"
+		},
+		{
+			"name": "small_buy_place_holder",
+			"parent": "small_buy",
+			"length": 134.82,
+			"rotation": -0.47,
+			"x": 5.44,
+			"y": 0.76,
+			"color": "e9ff00ff"
+		},
+		{
+			"name": "yes_place_holder",
+			"parent": "yes",
+			"length": 143.29,
+			"rotation": 1.51,
+			"x": -3.39,
+			"y": 3.34,
+			"color": "fdff00ff"
+		},
+		{
+			"name": "x_place_holder",
+			"parent": "no",
+			"length": 137.7,
+			"rotation": 2.35,
+			"x": -2.36,
+			"y": -0.43,
+			"color": "fdff00ff"
 		}
 	],
 	"slots": [
@@ -220,6 +247,55 @@
 			"color": "ffffff00",
 			"attachment": "cross",
 			"blend": "additive"
+		},
+		{
+			"name": "place_holder",
+			"bone": "place_holder",
+			"color": "ffffff00",
+			"attachment": "place_holder"
+		},
+		{
+			"name": "x_place_holder",
+			"bone": "x_place_holder",
+			"color": "ffffff00",
+			"attachment": "place_holder"
+		},
+		{
+			"name": "yes_place_holder",
+			"bone": "yes_place_holder",
+			"color": "ffffff00",
+			"attachment": "place_holder"
+		},
+		{
+			"name": "small_buy_place_holder",
+			"bone": "small_buy_place_holder",
+			"color": "ffffff00",
+			"attachment": "place_holder"
+		},
+		{
+			"name": "yes_place_holder2",
+			"bone": "yes_place_holder",
+			"attachment": "yes_place_holder2"
+		},
+		{
+			"name": "x_place_holder2",
+			"bone": "x_place_holder",
+			"attachment": "x_place_holder2"
+		},
+		{
+			"name": "small_buy_place_holder2",
+			"bone": "small_buy_place_holder",
+			"attachment": "small_buy_place_holder2"
+		},
+		{
+			"name": "upper_cross",
+			"bone": "upper_cross",
+			"attachment": "upper_cross"
+		},
+		{
+			"name": "place_holder2",
+			"bone": "place_holder",
+			"attachment": "place_holder2"
 		}
 	],
 	"skins": [
@@ -354,6 +430,40 @@
 						"height": 572
 					}
 				},
+				"place_holder": {
+					"place_holder": {
+						"width": 139,
+						"height": 139
+					}
+				},
+				"place_holder2": {
+					"place_holder2": {
+						"type": "boundingbox",
+						"vertexCount": 4,
+						"vertices": [
+							1,
+							9,
+							-115.91,
+							48.44,
+							1,
+							1,
+							9,
+							94.38,
+							48.44,
+							1,
+							1,
+							9,
+							95.61,
+							-49.37,
+							1,
+							1,
+							9,
+							-115.91,
+							-48.15,
+							1
+						]
+					}
+				},
 				"red_button": {
 					"red_button": {
 						"x": 3.55,
@@ -386,12 +496,151 @@
 						"height": 66
 					}
 				},
+				"small_buy_place_holder": {
+					"place_holder": {
+						"x": -5.43,
+						"y": -0.8,
+						"rotation": 0.47,
+						"width": 139,
+						"height": 139
+					}
+				},
+				"small_buy_place_holder2": {
+					"small_buy_place_holder2": {
+						"type": "boundingbox",
+						"vertexCount": 4,
+						"vertices": [
+							1,
+							12,
+							-101.17,
+							61.77,
+							1,
+							1,
+							12,
+							107.61,
+							63.46,
+							1,
+							1,
+							12,
+							108.13,
+							-79.79,
+							1,
+							1,
+							12,
+							-100.64,
+							-82.78,
+							1
+						]
+					}
+				},
+				"upper_cross": {
+					"upper_cross": {
+						"type": "boundingbox",
+						"vertexCount": 4,
+						"vertices": [
+							1,
+							7,
+							-28.32,
+							31.99,
+							1,
+							1,
+							7,
+							29.39,
+							31.07,
+							1,
+							1,
+							7,
+							30.31,
+							-27.56,
+							1,
+							1,
+							7,
+							-28.32,
+							-26.64,
+							1
+						]
+					}
+				},
 				"x": {
 					"x": {
 						"x": 0.07,
 						"y": 0.67,
 						"width": 56,
 						"height": 56
+					}
+				},
+				"x_place_holder": {
+					"place_holder": {
+						"x": 2.37,
+						"y": 0.33,
+						"rotation": -2.35,
+						"width": 139,
+						"height": 139
+					}
+				},
+				"x_place_holder2": {
+					"x_place_holder2": {
+						"type": "boundingbox",
+						"vertexCount": 4,
+						"vertices": [
+							1,
+							14,
+							-64.6,
+							57.82,
+							1,
+							1,
+							14,
+							80.97,
+							52.69,
+							1,
+							1,
+							14,
+							78.99,
+							-57.42,
+							1,
+							1,
+							14,
+							-70.07,
+							-54.68,
+							1
+						]
+					}
+				},
+				"yes_place_holder": {
+					"place_holder": {
+						"x": 3.3,
+						"y": -3.43,
+						"rotation": -1.51,
+						"width": 139,
+						"height": 139
+					}
+				},
+				"yes_place_holder2": {
+					"yes_place_holder2": {
+						"type": "boundingbox",
+						"vertexCount": 4,
+						"vertices": [
+							1,
+							13,
+							-66.95,
+							53.13,
+							1,
+							1,
+							13,
+							80.38,
+							50.1,
+							1,
+							1,
+							13,
+							78.37,
+							-58.28,
+							1,
+							1,
+							13,
+							-71.52,
+							-56.03,
+							1
+						]
 					}
 				}
 			}
@@ -679,7 +928,7 @@
 						}
 					]
 				},
-				"amount": {
+				"place_holder": {
 					"scale": [
 						{
 							"time": 0.0667,

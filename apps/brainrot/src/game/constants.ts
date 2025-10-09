@@ -239,7 +239,7 @@ const l3Static = { type: 'sprite', assetKey: 'l3.png', sizeRatios: { width: 1, h
 const l4Static = { type: 'sprite', assetKey: 'l4.png', sizeRatios: { width: 1, height: 1 } };
 
 const sStatic = { type: 'sprite', assetKey: 's.png', sizeRatios: { width: 1.243, height: 1.243 } };
-const m2Static = { type: 'sprite', assetKey: 'm1_2x.png', sizeRatios: { width: 0.88, height: 0.88 } };
+const mStatic = { type: 'sprite', assetKey: 'm.png', sizeRatios: { width: 1, height: 1 } };
 
 const mSizeRatios = { width: 1, height: 1 };
 const sSizeRatios = { width: 1.243, height: 1.243 };
@@ -391,9 +391,9 @@ export const SYMBOL_INFO_MAP = {
 	},
 	M: {
 		explosion,
-		postWinStatic: m2Static,
-		static: m2Static,
-		spin: m2Static,
+		postWinStatic: mStatic,
+		static: mStatic,
+		spin: mStatic,
 		win: {
 			type: 'spine',
 			assetKey: 'MAnimated',

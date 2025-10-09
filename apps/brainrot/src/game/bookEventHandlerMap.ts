@@ -198,6 +198,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
 		stateGame.gameType = 'basegame';
+		stateBet.activeBetModeKey = 'BASE';
 		eventEmitter.broadcast({ type: 'boardFrameGlowHide' });
 		eventEmitter.broadcast({ type: 'globalMultiplierHide' });
 
@@ -292,5 +293,16 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		if (lastUpdateFreeSpinEvent) playBookEvent(lastUpdateFreeSpinEvent, { bookEvents });
 		if (lastSetTotalWinEvent) playBookEvent(lastSetTotalWinEvent, { bookEvents });
 		if (lastUpdateGlobalMultEvent) playBookEvent(lastUpdateGlobalMultEvent, { bookEvents });
+	},
+	multiplierLanded: async (bookEvent: BookEventOfType<'multiplierLanded'>) => {
+		// Display multiplier values on top of M symbols
+		eventEmitter.broadcast({
+			type: 'showMultiplierValues',
+			multipliers: bookEvent.multipliers,
+		});
+	},
+	boardMultiplierInfo: async (bookEvent: BookEventOfType<'boardMultiplierInfo'>) => {
+		// Handle board multiplier info - this shows the combined multiplier effect on wins
+		// You can add visual effects here if needed
 	},
 };

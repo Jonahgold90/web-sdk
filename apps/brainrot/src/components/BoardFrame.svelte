@@ -24,7 +24,7 @@
 
 <script lang="ts">
 	import { Sprite, SpineProvider, SpineTrack, Text } from 'pixi-svelte';
-	import { stateBetDerived, stateModal } from 'state-shared';
+	import { stateBet, stateBetDerived, stateModal } from 'state-shared';
 
 	import { getContext } from '../game/context';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -196,7 +196,7 @@
 {#if ['desktop', 'landscape'].includes(context.stateLayoutDerived.layoutType())}
 	{@const buyButtonX = context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
 	{@const buyButtonY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + (135.5 / 2) - 10}
-	{@const bonusBuyCost = stateBetDerived.betCost() * 100}
+	{@const bonusBuyCost = stateBet.betAmount * 100}
 
 <!-- Buy frame sprite - vertically level with board frame, to the left -->
 <Sprite
