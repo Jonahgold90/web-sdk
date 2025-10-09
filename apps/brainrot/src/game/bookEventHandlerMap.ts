@@ -178,6 +178,8 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'globalMultiplierShow' });
 		if (bookEvent.globalMult === 1) {
 			eventEmitter.broadcast({ type: 'tumbleWinAmountReset' });
+			// Clear multipliers at the start of each new free spin
+			stateGame.multiplierValues = [];
 		}
 
 		// Skibidi shoots laser eyes when multiplier increases (not on reset)
@@ -295,11 +297,10 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		if (lastUpdateGlobalMultEvent) playBookEvent(lastUpdateGlobalMultEvent, { bookEvents });
 	},
 	multiplierLanded: async (bookEvent: BookEventOfType<'multiplierLanded'>) => {
-		// Display multiplier values on top of M symbols
-		eventEmitter.broadcast({
-			type: 'showMultiplierValues',
-			multipliers: bookEvent.multipliers,
-		});
+		// Store multiplier values in state for display on M symbols
+		console.log('multiplierLanded event:', bookEvent);
+		stateGame.multiplierValues = bookEvent.multipliers;
+		console.log('stateGame.multiplierValues set to:', stateGame.multiplierValues);
 	},
 	boardMultiplierInfo: async (bookEvent: BookEventOfType<'boardMultiplierInfo'>) => {
 		// Handle board multiplier info - this shows the combined multiplier effect on wins

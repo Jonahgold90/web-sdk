@@ -391,9 +391,24 @@ export const SYMBOL_INFO_MAP = {
 	},
 	M: {
 		explosion,
-		postWinStatic: mStatic,
-		static: mStatic,
-		spin: mStatic,
+		postWinStatic: {
+			type: 'spine',
+			assetKey: 'MAnimated',
+			animationName: 'brain_idle_1',
+			sizeRatios: { width: 1, height: 1 },
+		},
+		static: {
+			type: 'spine',
+			assetKey: 'MAnimated',
+			animationName: 'brain_idle_1',
+			sizeRatios: { width: 1, height: 1 },
+		},
+		spin: {
+			type: 'spine',
+			assetKey: 'MAnimated',
+			animationName: 'brain_idle_1',
+			sizeRatios: { width: 1, height: 1 },
+		},
 		win: {
 			type: 'spine',
 			assetKey: 'MAnimated',

@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { SpineProvider, SpineTrack, type SpineTrackProps } from 'pixi-svelte';
+	import { SpineProvider, SpineTrack, type SpineTrackProps, Container } from 'pixi-svelte';
 	import { stateBetDerived } from 'state-shared';
 
 	import { getSymbolInfo } from '../game/utils';
 	import { SYMBOL_SIZE } from '../game/constants';
+	import SymbolMultiplierText from './SymbolMultiplierText.svelte';
 
 	type Props = {
 		symbolInfo: ReturnType<typeof getSymbolInfo>;
@@ -11,6 +12,7 @@
 		y?: number;
 		listener: SpineTrackProps['listener'];
 		loop?: boolean;
+		multiplierValue?: number;
 	};
 
 	const props: Props = $props();
@@ -29,4 +31,9 @@
 		timeScale={stateBetDerived.timeScale()}
 		listener={props.listener}
 	/>
+	{#if props.multiplierValue}
+		<Container zIndex={1000}>
+			<SymbolMultiplierText value={props.multiplierValue} />
+		</Container>
+	{/if}
 </SpineProvider>

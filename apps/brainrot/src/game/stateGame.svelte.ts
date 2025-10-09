@@ -86,6 +86,7 @@ export const stateGame = $state({
 	tumbleBoardBase: [] as TumbleSymbol[][],
 	multiplierBoard: [] as (MultiplierSymbol | undefined)[][],
 	scatterCounter: 0,
+	multiplierValues: [] as Array<{ reel: number; row: number; value: number }>,
 });
 
 const boardLayout = () => ({

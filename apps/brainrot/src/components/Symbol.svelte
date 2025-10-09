@@ -35,6 +35,7 @@
 		{symbolInfo}
 		x={props.x}
 		y={props.y}
+		multiplierValue={props.rawSymbol.name === 'M' ? props.rawSymbol.multiplier : undefined}
 		listener={{
 			complete: props.oncomplete,
 			event: (_, event) => {

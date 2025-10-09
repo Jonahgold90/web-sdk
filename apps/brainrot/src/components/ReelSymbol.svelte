@@ -2,14 +2,17 @@
 	import Symbol from './Symbol.svelte';
 	import SymbolWrap from './SymbolWrap.svelte';
 	import { getSymbolInfo, getSymbolX } from '../game/utils';
+	import { getContext } from '../game/context';
 	import type { ReelSymbol } from '../game/stateGame.svelte';
 
 	type Props = {
 		reelIndex: number;
 		reelSymbol: ReelSymbol;
+		rowIndex: number;
 	};
 
 	const props: Props = $props();
+	const context = getContext();
 	const symbolInfo = $derived(
 		getSymbolInfo({ rawSymbol: props.reelSymbol.rawSymbol, state: props.reelSymbol.symbolState }),
 	);
