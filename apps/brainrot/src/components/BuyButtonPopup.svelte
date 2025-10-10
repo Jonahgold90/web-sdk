@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { SpineProvider, SpineTrack } from 'pixi-svelte';
+	import { SpineProvider, SpineTrack, Text, SpineEventEmitterProvider, SpineSlot } from 'pixi-svelte';
 	import { stateBuyButton } from './BoardFrame.svelte';
 	import { getContext } from '../game/context';
 	import BuyButtonBoundingBoxesWrapper from './BuyButtonBoundingBoxesWrapper.svelte';
+	import { stateBet, stateBetDerived } from 'state-shared';
+	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
 
 	const context = getContext();
 	const POSITION_ADJUSTMENT = 1.01;
@@ -40,6 +42,23 @@
 			},
 		}}
 	/>
+
+	<SpineEventEmitterProvider>
+		<!-- Buy cost text displayed in the frame_big slot -->
+		<SpineSlot slotName="frame_big">
+			{@const bonusBuyCost = stateBet.betAmount * 100}
+			<Text
+				text={`$${bonusBuyCost.toString()}`}
+				anchor={{ x: 0.5, y: 0.5 }}
+				style={{
+					fontFamily: 'Darling Coffee',
+					fontSize: 60,
+					fill: 0xFFFFFF,
+					align: 'center'
+				}}
+			/>
+		</SpineSlot>
+	</SpineEventEmitterProvider>
 
 	<!-- Add interactive bounding boxes wrapper -->
 	<BuyButtonBoundingBoxesWrapper />
