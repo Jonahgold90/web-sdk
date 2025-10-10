@@ -197,10 +197,7 @@ export default {
 			scale: 2,
 		},
 	},
-	reelsFrame: {
-		type: 'sprites',
-		src: new URL('../../assets/sprites/reelsFrame/reels_frame.json', import.meta.url).href,
-	},
+
 	reelFrame: {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/reelFrame/reelFrame.png', import.meta.url).href,
@@ -421,14 +418,6 @@ export default {
 		src: {
 			atlas: new URL('../../assets/spines/tumbleWin/tumble_win.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/tumbleWin/tumble_win.json', import.meta.url).href,
-			scale: 2,
-		},
-	},
-	reelhouse: {
-		type: 'spine',
-		src: {
-			atlas: new URL('../../assets/spines/reelhouse/reelhouse_glow.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/reelhouse/reelhouse_glow.json', import.meta.url).href,
 			scale: 2,
 		},
 	},

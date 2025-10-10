@@ -101,18 +101,12 @@
 	const NUM_ROWS = 5;
 	// The divider image should be sized to match the exact reel grid dimensions
 
-	type AnimationName = 'reelhouse_glow_start' | 'reelhouse_glow_idle' | 'reelhouse_glow_exit';
-
-	let animationName = $state<AnimationName | undefined>(undefined);
-	let loop = $state(false);
-
 	context.eventEmitter.subscribeOnMount({
 		boardFrameGlowShow: () => {
-			animationName = 'reelhouse_glow_start';
-			loop = false;
+			// Reelhouse glow removed
 		},
 		boardFrameGlowHide: () => {
-			if (animationName) animationName = 'reelhouse_glow_exit';
+			// Reelhouse glow removed
 		},
 		// Skibidi animations
 		skibidiAppear: () => {
@@ -154,38 +148,6 @@
 	// Start idle break scheduling
 	scheduleIdleBreak();
 </script>
-
-{#if animationName}
-	<SpineProvider
-		zIndex={-1}
-		key="reelhouse"
-		x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT}
-		y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET}
-		width={context.stateGameDerived.boardLayout().width * SPINE_SCALE.width}
-		height={context.stateGameDerived.boardLayout().height * SPINE_SCALE.height}
-	>
-		<SpineTrack
-			trackIndex={0}
-			{animationName}
-			{loop}
-			listener={{
-				complete: (entry) => {
-					if (entry.animation) {
-						if (entry.animation.name === 'reelhouse_glow_start') {
-							animationName = 'reelhouse_glow_idle';
-							loop = true;
-						}
-
-						if (entry.animation.name === 'reelhouse_glow_exit') {
-							animationName = undefined;
-							loop = false;
-						}
-					}
-				},
-			}}
-		/>
-	</SpineProvider>
-{/if}
 
 <!-- Reel background behind everything -->
 <Sprite
