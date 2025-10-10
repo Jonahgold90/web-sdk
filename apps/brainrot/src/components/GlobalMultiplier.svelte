@@ -48,7 +48,7 @@
 	let oncomplete = $state(() => {});
 
 	context.eventEmitter.subscribeOnMount({
-		globalMultiplierShow: () => (show = true),
+		globalMultiplierShow: () => (show = false), // Hidden for now
 		globalMultiplierHide: () => (show = false),
 		globalMultiplierUpdate: async (emitterEvent) => {
 			if (emitterEvent.multiplier === 1 && multiplier !== 1) {
