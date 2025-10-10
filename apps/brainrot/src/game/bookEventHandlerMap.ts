@@ -298,9 +298,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	multiplierLanded: async (bookEvent: BookEventOfType<'multiplierLanded'>) => {
 		// Store multiplier values in state for display on M symbols
-		console.log('multiplierLanded event:', bookEvent);
 		stateGame.multiplierValues = bookEvent.multipliers;
-		console.log('stateGame.multiplierValues set to:', stateGame.multiplierValues);
 	},
 	boardMultiplierInfo: async (bookEvent: BookEventOfType<'boardMultiplierInfo'>) => {
 		// Handle board multiplier info - this shows the combined multiplier effect on wins

@@ -35,7 +35,7 @@
 			},
 		}}
 	/>
-	<SpineSlot slotName="slot_win_count">
+	<SpineSlot slotName="frame">
 		{@render props.children()}
 	</SpineSlot>
 </SpineProvider>
