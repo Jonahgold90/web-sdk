@@ -222,8 +222,8 @@ export default {
 		src: new URL('../../assets/sprites/reelGlow/reel_glow.png', import.meta.url).href,
 	},
 	betFrame: {
-		type: 'sprite',
-		src: new URL('../../assets/sprites/betFrame/bet_frame.png', import.meta.url).href,
+		type: 'sprites',
+		src: new URL('../../assets/sprites/betFrame/bet.json', import.meta.url).href,
 	},
 	buyFrame: {
 		type: 'sprite',

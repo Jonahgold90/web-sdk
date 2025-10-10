@@ -20,7 +20,8 @@
       "Bash(done)",
       "Bash(do echo \"=== $dir ===\")",
       "Bash(ls \"c:\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps\\brainrot\\static\\assets\\spines\\symbolsAnimated$dir\"/*/)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

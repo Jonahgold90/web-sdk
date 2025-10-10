@@ -25,7 +25,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Sprite, SpineProvider, SpineTrack, Text } from 'pixi-svelte';
-	import { stateBet, stateBetDerived, stateModal } from 'state-shared';
+	import { stateBet, stateBetDerived, stateModal, stateConfig } from 'state-shared';
 
 	import { getContext } from '../game/context';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -61,6 +61,11 @@
 	let skibidiLoop = $state(true);
 	let tungtungAnimationName = $state<TungtungAnimation>('sahur_idle');
 	let tungtungLoop = $state(true);
+
+	// Toggle button state
+	let isToggleOn = $state(false);
+	const ARROW_OFF_POSITION = -30; // Current position
+	const ARROW_ON_POSITION = 35; // Right side position
 
 	// Idle variation timer for Skibidi
 	let idleBreakTimer: ReturnType<typeof setTimeout> | null = null;
@@ -266,14 +271,73 @@
 {/if}
 
 <!-- Bet frame - right under buy frame with vertical margin -->
+{@const betFrameX = context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
+{@const betFrameY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
+
 <Sprite
-	key="betFrame"
+	key="bet_frame.png"
 	anchor={0.5}
-	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
-	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
+	x={betFrameX}
+	y={betFrameY}
 	width={197}
 	height={243.5}
 	zIndex={1}
+/>
+
+<!-- Button 01 (toggle button) -->
+<Sprite
+	key="button_01.png"
+	anchor={0.5}
+	x={betFrameX}
+	y={betFrameY + 80}
+	width={179.5}
+	height={53}
+	zIndex={2}
+	interactive={true}
+	cursor="pointer"
+	onpointerup={() => {
+		isToggleOn = !isToggleOn;
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+	}}
+/>
+
+<!-- "On" text on left side of button -->
+<Sprite
+	key="on.png"
+	anchor={0.5}
+	x={betFrameX - 45}
+	y={betFrameY + 80}
+	width={47.5}
+	height={32}
+	zIndex={3}
+/>
+
+<!-- "Off" text on right side of button -->
+<Sprite
+	key="off.png"
+	anchor={0.5}
+	x={betFrameX + 45}
+	y={betFrameY + 80}
+	width={57}
+	height={32.5}
+	zIndex={3}
+/>
+
+<!-- Arrow toggle (moves left/right) -->
+<Sprite
+	key="arrow.png"
+	anchor={0.5}
+	x={betFrameX + (isToggleOn ? ARROW_ON_POSITION : ARROW_OFF_POSITION)}
+	y={betFrameY + 80}
+	width={86}
+	height={34}
+	zIndex={4}
+	interactive={true}
+	cursor="pointer"
+	onpointerup={() => {
+		isToggleOn = !isToggleOn;
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+	}}
 />
 	{@const betFrameCenterY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
 	{@const betFrameBottomY = betFrameCenterY + (243.5 / 2)}
