@@ -23,9 +23,9 @@ const DEFAULT_BET_MODE_META = {
 		},
 		maxWin: 8888,
 	},
-	ANTIBET: {
-		mode: 'ANTIBET',
-		costMultiplier: 1.5,
+	ANTE: {
+		mode: 'ANTE',
+		costMultiplier: 1.25,
 		type: 'activate',
 		parent: '',
 		children: '',
@@ -41,15 +41,15 @@ const DEFAULT_BET_MODE_META = {
 				'https://test-fart-cdn-bucket.s3.ap-southeast-2.amazonaws.com/1_9_97/betModes/button_activate.webp',
 		},
 		text: {
-			title: 'ANTIBET',
+			title: 'ANTE',
 			dialog:
-				'Activates the ANTIBET feature when selected for 1.5x the player bet amount. ANTIBET remains active until disabled by the player.',
-			description: 'Special antibet mode with enhanced gameplay mechanics.',
+				'Activates the ANTE feature when selected for 1.25x the player bet amount. ANTE remains active until disabled by the player.',
+			description: 'Special ante mode with enhanced gameplay mechanics.',
 			button: 'ACTIVATE',
-			betAmountLabel: 'ANTIBET',
-			tickerIdle: 'ANTIBET IS ACTIVE',
-			tickerSpin: 'ANTIBET ACTIVE',
-			bannerText: 'ANTIBET MODE',
+			betAmountLabel: 'ANTE',
+			tickerIdle: 'ANTE IS ACTIVE',
+			tickerSpin: 'ANTE ACTIVE',
+			bannerText: 'ANTE MODE',
 		},
 	},
 	BONUS: {

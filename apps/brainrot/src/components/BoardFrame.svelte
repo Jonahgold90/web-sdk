@@ -62,10 +62,21 @@
 	let tungtungAnimationName = $state<TungtungAnimation>('sahur_idle');
 	let tungtungLoop = $state(true);
 
-	// Toggle button state
-	let isToggleOn = $state(false);
-	const ARROW_OFF_POSITION = -30; // Current position
-	const ARROW_ON_POSITION = 35; // Right side position
+	// Toggle button state - tied to ANTE mode
+	const isToggleOn = $derived(stateBet.activeBetModeKey === 'ANTE');
+	const ARROW_OFF_POSITION = -30; // Off position (BASE mode)
+	const ARROW_ON_POSITION = 35; // On position (ANTE mode)
+
+	const toggleAnteBet = () => {
+		if (isToggleOn) {
+			// Turn off - go back to BASE mode
+			stateBet.activeBetModeKey = 'BASE';
+		} else {
+			// Turn on - activate ANTE mode
+			stateBet.activeBetModeKey = 'ANTE';
+		}
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+	};
 
 	// Idle variation timer for Skibidi
 	let idleBreakTimer: ReturnType<typeof setTimeout> | null = null;
@@ -295,10 +306,7 @@
 	zIndex={2}
 	interactive={true}
 	cursor="pointer"
-	onpointerup={() => {
-		isToggleOn = !isToggleOn;
-		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-	}}
+	onpointerup={toggleAnteBet}
 />
 
 <!-- "On" text on left side of button -->
@@ -334,10 +342,7 @@
 	zIndex={4}
 	interactive={true}
 	cursor="pointer"
-	onpointerup={() => {
-		isToggleOn = !isToggleOn;
-		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-	}}
+	onpointerup={toggleAnteBet}
 />
 	{@const betFrameCenterY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
 	{@const betFrameBottomY = betFrameCenterY + (243.5 / 2)}
