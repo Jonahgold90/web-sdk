@@ -238,6 +238,10 @@ export default {
 			scale: 1,
 		},
 	},
+	freeSpinCounterFrame: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/freeeSpinCounterFrame/freeSpinCounterFrame.png', import.meta.url).href,
+	},
 	// UI Bespoke Assets
 	uiBottomOverlay: {
 		type: 'sprite',

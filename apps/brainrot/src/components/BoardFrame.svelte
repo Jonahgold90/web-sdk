@@ -101,12 +101,26 @@
 	const NUM_ROWS = 5;
 	// The divider image should be sized to match the exact reel grid dimensions
 
+	let showFreeSpinCounter = $state(false);
+	let freeSpinCurrent = $state(0);
+	let freeSpinTotal = $state(0);
+
 	context.eventEmitter.subscribeOnMount({
 		boardFrameGlowShow: () => {
 			// Reelhouse glow removed
 		},
 		boardFrameGlowHide: () => {
 			// Reelhouse glow removed
+		},
+		freeSpinCounterShow: () => {
+			showFreeSpinCounter = true;
+		},
+		freeSpinCounterHide: () => {
+			showFreeSpinCounter = false;
+		},
+		freeSpinCounterUpdate: (emitterEvent) => {
+			if (emitterEvent.current !== undefined) freeSpinCurrent = emitterEvent.current;
+			if (emitterEvent.total !== undefined) freeSpinTotal = emitterEvent.total;
 		},
 		// Skibidi animations
 		skibidiAppear: () => {
@@ -198,7 +212,8 @@
 	{@const buyButtonY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + (135.5 / 2) - 10}
 	{@const bonusBuyCost = stateBet.betAmount * 100}
 
-<!-- Buy frame sprite - vertically level with board frame, to the left -->
+<!-- Buy frame sprite - only shown in base mode (not during free spins) -->
+{#if !showFreeSpinCounter}
 <Sprite
 	key="buyFrame"
 	anchor={0.5}
@@ -242,8 +257,53 @@
 	zIndex={2}
 />
 {/if}
+{/if}
 
-<!-- Bet frame - right under buy frame with vertical margin -->
+<!-- Free Spin Counter Frame - shown during free spins in same position as buy frame -->
+{#if showFreeSpinCounter}
+<Sprite
+	key="freeSpinCounterFrame"
+	anchor={0.5}
+	x={buyButtonX}
+	y={buyButtonY}
+	width={197}
+	height={135.5}
+	zIndex={1}
+/>
+
+{#if fontLoaded}
+<Text
+	text="FREE SPINS"
+	x={buyButtonX}
+	y={buyButtonY - 20}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 24,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={2}
+/>
+
+<Text
+	text={`${freeSpinCurrent} OF ${freeSpinTotal}`}
+	x={buyButtonX}
+	y={buyButtonY + 20}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 32,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={2}
+/>
+{/if}
+{/if}
+
+<!-- Bet frame - only shown in base mode (not during free spins) -->
+{#if !showFreeSpinCounter}
 {@const betFrameX = context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 197 / 2 - 60}
 {@const betFrameY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
 
@@ -306,6 +366,7 @@
 	cursor="pointer"
 	onpointerup={toggleAnteBet}
 />
+{/if}
 	{@const betFrameCenterY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
 	{@const betFrameBottomY = betFrameCenterY + (243.5 / 2)}
 	<!-- Skibidi Toilet character - 20px to the right of board, bottom aligned -->
