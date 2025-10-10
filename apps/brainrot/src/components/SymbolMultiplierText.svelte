@@ -13,11 +13,11 @@
 <BitmapText
 	text={`X${props.value}`}
 	x={SYMBOL_SIZE * 0 - 5}
-	y={0}
+	y={SYMBOL_SIZE * 0.5}
 	style={{
 		fontFamily: 'gold',
 		fontSize: SYMBOL_SIZE * 0.5,
 	}}
-	anchor={0.5}
+	anchor={{ x: 0.5, y: 1 }}
 	tint={0x90EE90}
 />
