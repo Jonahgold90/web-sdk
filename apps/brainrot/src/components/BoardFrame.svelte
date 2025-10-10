@@ -23,6 +23,7 @@
 </script>
 
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Sprite, SpineProvider, SpineTrack, Text } from 'pixi-svelte';
 	import { stateBet, stateBetDerived, stateModal } from 'state-shared';
 
@@ -30,6 +31,27 @@
 	import { SYMBOL_SIZE } from '../game/constants';
 
 	const context = getContext();
+
+	// Font loading state
+	let fontLoaded = $state(false);
+
+	onMount(async () => {
+		// Force load the Darling Coffee font
+		try {
+			// Create a FontFace object and load it explicitly
+			const fontFace = new FontFace('Darling Coffee', "url('/assets/fonts/brainrotBonanza/Darling%20Coffee.ttf')");
+			await fontFace.load();
+			document.fonts.add(fontFace);
+			fontLoaded = true;
+		} catch (error) {
+			console.warn('Failed to load Darling Coffee font, trying alternate method:', error);
+			// Try checking if font is already loaded
+			await document.fonts.ready;
+			// Small delay to ensure Pixi recognizes the font
+			await new Promise(resolve => setTimeout(resolve, 100));
+			fontLoaded = true;
+		}
+	});
 
 	// Character animation states
 	type SkibidiAnimation = 'idle' | 'idle_break' | 'head swirling_in_new' | 'head swirling_out_new' | 'head_swing_new' | 'laser_eyes_zapping_the_board';
@@ -227,6 +249,7 @@
 />
 
 <!-- Bonus buy cost text -->
+{#if fontLoaded}
 <Text
 	text={`$${bonusBuyCost.toString()}`}
 	x={buyButtonX}
@@ -240,6 +263,7 @@
 	}}
 	zIndex={2}
 />
+{/if}
 
 <!-- Bet frame - right under buy frame with vertical margin -->
 <Sprite
