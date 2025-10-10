@@ -8,14 +8,13 @@
 </script>
 
 <script lang="ts">
-	import { Container } from 'pixi-svelte';
-	import { FadeContainer, WinCountUpProvider, ResponsiveBitmapText } from 'components-pixi';
+	import { Container, Text } from 'pixi-svelte';
+	import { FadeContainer, WinCountUpProvider } from 'components-pixi';
 	import { waitForResolve, waitForTimeout } from 'utils-shared/wait';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { CanvasSizeRectangle, MainContainer } from 'components-layout';
 	import { OnMount } from 'components-shared';
 
-	import WinCoins from './WinCoins.svelte';
 	import WinAnimation from './WinAnimation.svelte';
 	import PressToContinue from './PressToContinue.svelte';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -65,38 +64,31 @@
 					>
 						{#if winLevelData?.animation}
 							<WinAnimation animationMap={winLevelData.animation}>
-								<ResponsiveBitmapText
-									anchor={0.5}
-									maxWidth={2130}
+								<Text
+									anchor={{ x: 0.5, y: 0.5 }}
 									text={bookEventAmountToCurrencyString(countUpAmount)}
 									style={{
-										fontFamily: 'gold',
+										fontFamily: 'Darling Coffee',
 										fontSize: SYMBOL_SIZE * 3.6,
-										align: 'center',
-										fontWeight: 'bold',
-										letterSpacing: 0,
+										fill: 0xFFFFFF,
+										align: 'center'
 									}}
 								/>
 							</WinAnimation>
 						{:else}
-							<ResponsiveBitmapText
-								anchor={0.5}
-								maxWidth={context.stateLayoutDerived.canvasSizes().width /
-									context.stateLayoutDerived.mainLayout().scale}
+							<Text
+								anchor={{ x: 0.5, y: 0.5 }}
 								text={bookEventAmountToCurrencyString(countUpAmount)}
 								style={{
-									fontFamily: 'gold',
+									fontFamily: 'Darling Coffee',
 									fontSize: SYMBOL_SIZE,
-									align: 'center',
-									fontWeight: 'bold',
-									letterSpacing: 0,
+									fill: 0xFFFFFF,
+									align: 'center'
 								}}
 							/>
 						{/if}
 					</Container>
 				</MainContainer>
-
-				<WinCoins emit={!countUpCompleted} levelAlias={winLevelData?.alias} />
 
 				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
 			{/snippet}

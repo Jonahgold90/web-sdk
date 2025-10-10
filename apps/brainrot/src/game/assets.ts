@@ -370,6 +370,18 @@ export default {
 			scale: 2,
 		},
 	},
+	freeSpinIntroOutro: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/freeSpinIntroOutro/brbo_banner.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/freeSpinIntroOutro/brbo_banner.json', import.meta.url).href,
+			images: [
+				new URL('../../assets/spines/freeSpinIntroOutro/brbo_banner.png', import.meta.url).href,
+				new URL('../../assets/spines/freeSpinIntroOutro/brbo_banner_2.png', import.meta.url).href,
+			],
+			scale: 2,
+		},
+	},
 	foregroundAnimation: {
 		type: 'spine',
 		src: {
@@ -468,10 +480,6 @@ export default {
 	symbolsStatic: {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/symbolsStatic/symbolsStatic.json', import.meta.url).href,
-	},
-	coins: {
-		type: 'spriteSheet',
-		src: new URL('../../assets/sprites/coin/SD2_Coin.json', import.meta.url).href,
 	},
 	sound: {
 		type: 'audio',

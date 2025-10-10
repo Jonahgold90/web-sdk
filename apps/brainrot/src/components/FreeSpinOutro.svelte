@@ -8,33 +8,36 @@
 </script>
 
 <script lang="ts">
-	import { Sprite, SpineProvider, SpineTrack, SpineSlot } from 'pixi-svelte';
-	import { FadeContainer, WinCountUpProvider, ResponsiveBitmapText } from 'components-pixi';
+	import { SpineProvider, SpineTrack, SpineSlot, SpineEventEmitterProvider, Container, Text } from 'pixi-svelte';
+	import { FadeContainer, WinCountUpProvider } from 'components-pixi';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { waitForResolve } from 'utils-shared/wait';
 	import { CanvasSizeRectangle } from 'components-layout';
 	import { OnMount } from 'components-shared';
-	import { stateUrlDerived } from 'state-shared';
 
 	import { getContext } from '../game/context';
-	import FreeSpinAnimation from './FreeSpinAnimation.svelte';
 	import PressToContinue from './PressToContinue.svelte';
-	import WinCoins from './WinCoins.svelte';
 
-	type AnimationName = 'intro' | 'idle';
+	type AnimationName = 'brbo_banner_in' | 'brbo_banner_loop' | 'brbo_banner_out';
 
 	const context = getContext();
+	const canvasSize = $derived(context.stateLayoutDerived.canvasSizes());
 
 	let show = $state(true);
-	let animationName = $state<AnimationName>('intro');
+	let animationName = $state<AnimationName>('brbo_banner_in');
 	let amount = $state(0);
 	let winLevelData = $state<WinLevelData>();
 	let oncomplete = $state(() => {});
 	let onCountUpComplete = $state(() => {});
 
 	context.eventEmitter.subscribeOnMount({
-		freeSpinOutroShow: () => (show = true),
-		freeSpinOutroHide: async () => (show = false),
+		freeSpinOutroShow: () => {
+			show = true;
+			animationName = 'brbo_banner_in';
+		},
+		freeSpinOutroHide: async () => {
+			animationName = 'brbo_banner_out';
+		},
 		freeSpinOutroCountUp: async (emitterEvent) => {
 			amount = emitterEvent.amount;
 			winLevelData = emitterEvent.winLevelData;
@@ -43,67 +46,47 @@
 	});
 </script>
 
-<FadeContainer {show}>
+<FadeContainer {show} oncomplete={() => { if (!show) animationName = 'brbo_banner_in'; }}>
 	{#if winLevelData}
 		{@const duration = winLevelData.presentDuration}
-		{@const isBigWin = winLevelData.type === 'big'}
 		<WinCountUpProvider {amount} {duration} oncomplete={() => onCountUpComplete()}>
 			{#snippet children({ countUpAmount, startCountUp, finishCountUp, countUpCompleted })}
 				<OnMount onmount={() => startCountUp()} />
 
 				<CanvasSizeRectangle backgroundColor={0x000000} backgroundAlpha={0.5} />
 
-				<FreeSpinAnimation>
-					{#snippet children({ sizes })}
-						{#if isBigWin}
-							<Sprite
-								anchor={{ x: 0.5, y: 1.2 }}
-								width={500 * 2.2}
-								height={156 * 2.2}
-								key="freespins_{stateUrlDerived.lang()}.png"
-							/>
-						{:else}
-							<Sprite
-								anchor={{ x: 0.5, y: 1.2 }}
-								width={500 * 4.5}
-								height={80 * 4.5}
-								key="winsmall_{stateUrlDerived.lang()}.png"
-							/>
-						{/if}
-
-						<SpineProvider key="fsOutroNumber" width={sizes.width * 0.4}>
-							<SpineTrack
-								trackIndex={0}
-								{animationName}
-								loop={animationName === 'idle'}
-								listener={{
-									complete: () => (animationName = 'idle'),
-								}}
-							/>
-							<SpineSlot slotName="slot_number">
-								<ResponsiveBitmapText
+				<Container x={canvasSize.width / 2} y={canvasSize.height / 2}>
+					<SpineProvider key="freeSpinIntroOutro" width={canvasSize.width * 0.25}>
+						<SpineTrack
+							trackIndex={0}
+							{animationName}
+							loop={animationName === 'brbo_banner_loop'}
+							listener={{
+								complete: (entry) => {
+									if (entry.animation?.name === 'brbo_banner_in') {
+										animationName = 'brbo_banner_loop';
+									} else if (entry.animation?.name === 'brbo_banner_out') {
+										show = false;
+									}
+								},
+							}}
+						/>
+						<SpineEventEmitterProvider>
+							<SpineSlot slotName="frame">
+								<Text
+									text={bookEventAmountToCurrencyString(countUpAmount)}
 									anchor={{ x: 0.5, y: 0.5 }}
 									style={{
-										fontFamily: 'gold',
-										fontSize: sizes.width * 0.15,
+										fontFamily: 'Darling Coffee',
+										fontSize: 200,
+										fill: 0xFFFFFF,
+										align: 'center'
 									}}
-									text={bookEventAmountToCurrencyString(countUpAmount)}
-									maxWidth={sizes.width}
 								/>
 							</SpineSlot>
-						</SpineProvider>
-
-						<Sprite
-							y={0}
-							anchor={{ x: 0.5, y: isBigWin ? -3.2 : -2 }}
-							width={177 * (isBigWin ? 2.2 : 3)}
-							height={42 * (isBigWin ? 2.2 : 3)}
-							key="totalwin.png"
-						/>
-					{/snippet}
-				</FreeSpinAnimation>
-
-				<WinCoins emit={!countUpCompleted} levelAlias={winLevelData?.alias} />
+						</SpineEventEmitterProvider>
+					</SpineProvider>
+				</Container>
 
 				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
 			{/snippet}
