@@ -7,6 +7,7 @@
 	import { SYMBOL_SIZE } from '../game/constants';
 	import { getSymbolInfo } from '../game/utils';
 	import { getContext } from '../game/context';
+	import { stateGame } from '../game/stateGame.svelte';
 
 	type Props = {
 		x?: number;
@@ -25,6 +26,22 @@
 		['win', 'postWinStatic', 'explosion'].includes(props.state) &&
 			!['S'].includes(props.rawSymbol.name),
 	);
+
+	// For M symbols, hide multiplier initially only if laser hasn't revealed yet
+	// Use a derived state that checks both the rawSymbol and a revealed flag
+	let multiplierRevealed = $state(false);
+
+	// Listen for laser reveal event to show multipliers
+	context.eventEmitter?.subscribeOnMount({
+		skibidiLaserReveal: () => {
+			if (props.rawSymbol.name === 'M') {
+				multiplierRevealed = true;
+			}
+		},
+	});
+
+	// Show multiplier if it's not an M symbol, OR if M symbol and (laser has revealed OR laser has already fired this spin)
+	const showMultiplier = $derived(props.rawSymbol.name !== 'M' || multiplierRevealed || stateGame.laserHasFired);
 </script>
 
 {#if isSprite}
@@ -35,7 +52,7 @@
 		{symbolInfo}
 		x={props.x}
 		y={props.y}
-		multiplierValue={props.rawSymbol.name === 'M' ? props.rawSymbol.multiplier : undefined}
+		multiplierValue={props.rawSymbol.name === 'M' && showMultiplier ? props.rawSymbol.multiplier : undefined}
 		listener={{
 			complete: props.oncomplete,
 			event: (_, event) => {

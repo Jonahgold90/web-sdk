@@ -5,6 +5,7 @@
 		| { type: 'skibidiAppear' }
 		| { type: 'skibidiDisappear' }
 		| { type: 'skibidiLaserEyes' }
+		| { type: 'skibidiLaserReveal' }
 		| { type: 'skibidiIdle' }
 		| { type: 'tungtungWinSpin' }
 		| { type: 'tungtungWinMultiplier' }
@@ -132,6 +133,8 @@
 			skibidiLoop = false;
 		},
 		skibidiLaserEyes: () => {
+			console.log('🎬 BoardFrame received skibidiLaserEyes, setting animation');
+			console.log('Current animation:', skibidiAnimationName, 'Setting to: laser_eyes_zapping_the_board');
 			skibidiAnimationName = 'laser_eyes_zapping_the_board';
 			skibidiLoop = false;
 		},
@@ -403,8 +406,9 @@
 							skibidiLoop = true;
 							scheduleIdleBreak();
 						}
-						// After laser eyes, return to idle
+						// After laser eyes, return to idle and reveal multiplier
 						else if (entry.animation.name === 'laser_eyes_zapping_the_board') {
+							context.eventEmitter.broadcast({ type: 'skibidiLaserReveal' });
 							skibidiAnimationName = 'idle';
 							skibidiLoop = true;
 							scheduleIdleBreak();

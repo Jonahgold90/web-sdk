@@ -87,6 +87,7 @@ export const stateGame = $state({
 	multiplierBoard: [] as (MultiplierSymbol | undefined)[][],
 	scatterCounter: 0,
 	multiplierValues: [] as Array<{ reel: number; row: number; value: number }>,
+	laserHasFired: false, // Track if laser has fired this spin
 });
 
 const boardLayout = () => ({

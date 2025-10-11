@@ -45,6 +45,8 @@ const animateSymbols = async ({ positions }: { positions: Position[] }) => {
 export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContext> = {
 	reveal: async (bookEvent: BookEventOfType<'reveal'>, { bookEvents }: BookEventContext) => {
 		eventEmitter.broadcast({ type: 'tumbleWinAmountReset' });
+		// Reset laser flag for new spin
+		stateGame.laserHasFired = false;
 		const isBonusGame = checkIsMultipleRevealEvents({ bookEvents });
 		if (isBonusGame) {
 			eventEmitter.broadcast({ type: 'stopButtonEnable' });
@@ -303,5 +305,18 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	boardMultiplierInfo: async (bookEvent: BookEventOfType<'boardMultiplierInfo'>) => {
 		// Handle board multiplier info - this shows the combined multiplier effect on wins
 		// You can add visual effects here if needed
+	},
+	skibidiLaser: async (bookEvent: BookEventOfType<'skibidiLaser'>) => {
+		console.log('🔫 skibidiLaser event received!', bookEvent);
+		// Play laser animation and wait for it to complete
+		console.log('📢 Broadcasting skibidiLaserEyes');
+		eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
+		// Wait for laser animation to complete before revealing multipliers
+		await new Promise(resolve => setTimeout(resolve, 1000)); // Adjust timing to match animation
+		// Mark that laser has fired for this spin
+		stateGame.laserHasFired = true;
+		// Reveal all M symbol multipliers
+		console.log('✨ Broadcasting skibidiLaserReveal');
+		eventEmitter.broadcast({ type: 'skibidiLaserReveal' });
 	},
 };

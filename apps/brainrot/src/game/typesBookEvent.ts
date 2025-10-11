@@ -122,6 +122,11 @@ type BookEventBoardMultiplierInfo = {
 	};
 };
 
+type BookEventSkibidiLaser = {
+	index: number;
+	type: 'skibidiLaser';
+};
+
 // customised
 type BookEventCreateBonusSnapshot = {
 	index: number;
@@ -147,6 +152,7 @@ export type BookEvent =
 	| BookEventFreeSpinRetrigger
 	| BookEventMultiplierLanded
 	| BookEventBoardMultiplierInfo
+	| BookEventSkibidiLaser
 	// customised
 	| BookEventCreateBonusSnapshot;
 
