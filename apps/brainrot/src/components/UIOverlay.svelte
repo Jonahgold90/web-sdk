@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 
 	import { getContext } from '../game/context';
+	import SpinButtonBoundingBoxesWrapper from './SpinButtonBoundingBoxesWrapper.svelte';
 
 	const context = getContext();
 
@@ -142,116 +143,17 @@
 	const autoplayX = $derived(spinX); // Same X position as spin button
 	const autoplayY = $derived(spinY + spinButtonHeight/2 - 10); // Slightly overlapping spin button
 
-	// Spin button functionality
-	const isSpinning = $derived(!context.stateXstateDerived.isIdle());
-
-	// Spine button animation state
-	let spinButtonAnimation = $state('spin_button_idle');
-	let isHoveringButton = $state<'plus' | 'minus' | 'spin' | null>(null);
-
-	// Update animation based on spinning state and hover
-	$effect(() => {
-		if (isSpinning) {
-			spinButtonAnimation = 'spin_pause_idle';
-		} else if (isHoveringButton === 'plus') {
-			spinButtonAnimation = 'plus_hover';
-		} else if (isHoveringButton === 'minus') {
-			spinButtonAnimation = 'minus_hover';
-		} else if (isHoveringButton === 'spin') {
-			spinButtonAnimation = 'spin_hover';
-		} else {
-			spinButtonAnimation = 'spin_button_idle';
-		}
-	});
-
+	// Spacebar listener for spin
 	const onSpinPress = () => {
+		const isSpinning = !context.stateXstateDerived.isIdle();
 		if (isSpinning) {
 			// Stop spinning if already spinning
 			if (stateBetDerived.hasAutoBetCounter()) stateBet.autoSpinsCounter = 0;
 			context.eventEmitter.broadcast({ type: 'stopButtonClick' });
 		} else {
 			// Start spinning
-			spinButtonAnimation = 'spin_click';
 			context.eventEmitter.broadcast({ type: 'soundPressBet' });
 			context.eventEmitter.broadcast({ type: 'bet' });
-		}
-	};
-
-	// Handle hover detection on spine button regions
-	const handleSpineButtonHover = (event: any) => {
-		const spine = event.currentTarget;
-		if (!spine) return;
-
-		const localPos = spine.toLocal(event.global);
-
-		// Determine which button is being hovered - only update if changed
-		let newHoverState: 'plus' | 'minus' | 'spin' | null = null;
-
-		if (localPos.y > 100) {
-			newHoverState = null; // Autoplay area - no specific hover
-		} else if (localPos.x > 150) {
-			newHoverState = 'plus';
-		} else if (localPos.x < -150) {
-			newHoverState = 'minus';
-		} else {
-			newHoverState = 'spin';
-		}
-
-		// Only update if state changed to prevent flickering
-		if (newHoverState !== isHoveringButton) {
-			isHoveringButton = newHoverState;
-		}
-	};
-
-	const handleSpineButtonLeave = () => {
-		isHoveringButton = null;
-	};
-
-	// Handle click detection on spine button regions
-	const handleSpineButtonClick = (event: any) => {
-		const spine = event.currentTarget;
-		if (!spine) return;
-
-		// Get local position
-		const localPos = spine.toLocal(event.global);
-
-		// Determine which button was clicked based on position
-		// Plus button: right side (x > 150)
-		// Minus button: left side (x < -150)
-		// Autoplay: bottom (y > 100)
-		// Spin: center
-
-		if (localPos.y > 100) {
-			// Autoplay clicked
-			onAutoplayPress();
-		} else if (localPos.x > 150) {
-			// Plus clicked - increase bet to next interval
-			spinButtonAnimation = 'plus_click';
-			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-
-			const currentBetAmount = stateBet.betAmount;
-			const betOptions = stateConfig.betAmountOptions;
-			const currentIndex = betOptions.findIndex(amount => amount >= currentBetAmount);
-			const nextIndex = Math.min(currentIndex + 1, betOptions.length - 1);
-			stateBetDerived.setBetAmount(betOptions[nextIndex]);
-
-			setTimeout(() => isHoveringButton = null, 300);
-		} else if (localPos.x < -150) {
-			// Minus clicked - decrease bet to previous interval
-			spinButtonAnimation = 'minus_click';
-			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-
-			const currentBetAmount = stateBet.betAmount;
-			const betOptions = stateConfig.betAmountOptions;
-			const currentIndex = betOptions.findIndex(amount => amount >= currentBetAmount);
-			const prevIndex = Math.max(currentIndex - 1, 0);
-			stateBetDerived.setBetAmount(betOptions[prevIndex]);
-
-			setTimeout(() => isHoveringButton = null, 300);
-		} else {
-			// Spin clicked
-			onSpinPress();
-			setTimeout(() => isHoveringButton = null, 300);
 		}
 	};
 
@@ -526,13 +428,9 @@
 	width={spinButtonWidth}
 	height={spinButtonHeight}
 	zIndex={101}
-	interactive={true}
-	cursor="pointer"
-	onpointerup={handleSpineButtonClick}
-	onpointermove={handleSpineButtonHover}
-	onpointerleave={handleSpineButtonLeave}
 >
-	<SpineTrack trackIndex={0} animationName={spinButtonAnimation} loop={spinButtonAnimation === 'spin_button_idle' || spinButtonAnimation === 'spin_pause_idle' || spinButtonAnimation.includes('hover')} />
+	<SpineTrack trackIndex={0} animationName="spin_button_idle" loop={true} />
+	<SpinButtonBoundingBoxesWrapper />
 </SpineProvider>
 {/if}
 
@@ -607,13 +505,9 @@
 	width={mobileSpinButtonWidth}
 	height={mobileSpinButtonHeight}
 	zIndex={101}
-	interactive={true}
-	cursor="pointer"
-	onpointerup={handleSpineButtonClick}
-	onpointermove={handleSpineButtonHover}
-	onpointerleave={handleSpineButtonLeave}
 >
-	<SpineTrack trackIndex={0} animationName={spinButtonAnimation} loop={spinButtonAnimation === 'spin_button_idle' || spinButtonAnimation === 'spin_pause_idle' || spinButtonAnimation.includes('hover')} />
+	<SpineTrack trackIndex={0} animationName="spin_button_idle" loop={true} />
+	<SpinButtonBoundingBoxesWrapper />
 </SpineProvider>
 
 <!-- Buy frame - left of spin button -->
