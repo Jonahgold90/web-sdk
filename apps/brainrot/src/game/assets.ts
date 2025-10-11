@@ -482,6 +482,11 @@ export default {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/symbolsStatic/symbolsStatic.json', import.meta.url).href,
 	},
+	multiplierTextAmounts: {
+		type: 'sprites',
+		src: new URL('../../assets/sprites/multiTextAmounts/multiplier_nu.json', import.meta.url).href,
+		preload: true,
+	},
 	sound: {
 		type: 'audio',
 		src: new URL('../../assets/audio/sounds.json', import.meta.url).href,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BitmapText } from 'pixi-svelte';
+	import { Sprite } from 'pixi-svelte';
 
 	import { SYMBOL_SIZE } from '../game/constants';
 
@@ -8,16 +8,17 @@
 	};
 
 	const props: Props = $props();
+
+	// Map multiplier value to sprite name from sprite sheet
+	const getSpriteName = (value: number): string => {
+		return `${value}X.png`;
+	};
 </script>
 
-<BitmapText
-	text={`X${props.value}`}
+<Sprite
+	key={getSpriteName(props.value)}
 	x={SYMBOL_SIZE * 0 - 5}
 	y={SYMBOL_SIZE * 0.5}
-	style={{
-		fontFamily: 'gold',
-		fontSize: SYMBOL_SIZE * 0.5,
-	}}
 	anchor={{ x: 0.5, y: 1 }}
-	tint={0x90EE90}
+	scale={{ x: 0.35, y: 0.35 }}
 />

@@ -21,7 +21,9 @@
       "Bash(do echo \"=== $dir ===\")",
       "Bash(ls \"c:\\Users\\jonah\\OneDrive\\Desktop\\CreepyChocolateWeb\\web-sdk\\apps\\brainrot\\static\\assets\\spines\\symbolsAnimated$dir\"/*/)",
       "Bash(python:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(npm run dev:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
