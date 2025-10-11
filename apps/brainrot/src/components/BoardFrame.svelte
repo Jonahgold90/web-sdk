@@ -274,35 +274,40 @@
 	zIndex={1}
 />
 
+<!-- Free spin counter text -->
 {#if fontLoaded}
 <Text
-	text="FREE SPINS"
+	text={`${freeSpinTotal - freeSpinCurrent}`}
 	x={buyButtonX}
-	y={buyButtonY - 20}
+	y={buyButtonY - 35}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 24,
-		fill: 0xFFFFFF,
-		align: 'center'
-	}}
-	zIndex={2}
-/>
-
-<Text
-	text={`${freeSpinCurrent} OF ${freeSpinTotal}`}
-	x={buyButtonX}
-	y={buyButtonY + 20}
-	anchor={{ x: 0.5, y: 0.5 }}
-	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: 32,
+		fontSize: 42,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
 	zIndex={2}
 />
 {/if}
+
+<Sprite
+	key="free_spins.png"
+	anchor={0.5}
+	x={buyButtonX}
+	y={buyButtonY + 5}
+	scale={{ x: 0.5, y: 0.5 }}
+	zIndex={2}
+/>
+
+<Sprite
+	key="left.png"
+	anchor={0.5}
+	x={buyButtonX}
+	y={buyButtonY + 40}
+	scale={{ x: 0.5, y: 0.5 }}
+	zIndex={2}
+/>
 {/if}
 
 <!-- Bet frame - only shown in base mode (not during free spins) -->

@@ -242,6 +242,10 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/freeeSpinCounterFrame/freeSpinCounterFrame.png', import.meta.url).href,
 	},
+	freeSpinCounterText: {
+		type: 'sprites',
+		src: new URL('../../assets/sprites/freeSpinCounterText/freespin_left.json', import.meta.url).href,
+	},
 	// UI Bespoke Assets
 	uiBottomOverlay: {
 		type: 'sprite',
