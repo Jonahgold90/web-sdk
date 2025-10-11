@@ -9,7 +9,7 @@
 	import { CanvasSizeRectangle } from 'components-layout';
 	import { FadeContainer } from 'components-pixi';
 	import { waitForResolve } from 'utils-shared/wait';
-	import { BitmapText, SpineProvider, SpineSlot, SpineTrack, SpineEventEmitterProvider, Container } from 'pixi-svelte';
+	import { Text, SpineProvider, SpineSlot, SpineTrack, SpineEventEmitterProvider, Container } from 'pixi-svelte';
 
 	import { getContext } from '../game/context';
 	import PressToContinue from './PressToContinue.svelte';
@@ -59,14 +59,15 @@
 				}}
 			/>
 			<SpineEventEmitterProvider>
-				<SpineSlot slotName="place_holder__free_spin">
-					<BitmapText
+				<SpineSlot slotName="frame">
+					<Text
 						anchor={{ x: 0.5, y: 0.5 }}
-						text={freeSpinsFromEvent}
+						text={`${freeSpinsFromEvent} FREE SPINS`}
 						style={{
-							fontFamily: 'gold',
-							fontSize: canvasSize.width * 0.05,
-							fontWeight: 'bold',
+							fontFamily: 'Darling Coffee',
+							fontSize: 150,
+							fill: 0xFFFFFF,
+							align: 'center'
 						}}
 					/>
 				</SpineSlot>
