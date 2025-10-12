@@ -92,8 +92,9 @@
 
 	// Ante bet toggle
 	const isToggleOn = $derived(stateBet.activeBetModeKey === 'ANTE');
-	const ARROW_OFF_POSITION = -30; // Off position (BASE mode)
-	const ARROW_ON_POSITION = 35; // On position (ANTE mode)
+	// Mobile arrow positions (scaled for 80px wide frame, desktop uses -30/35 for 197px frame)
+	const ARROW_OFF_POSITION_MOBILE = -12; // Off position (BASE mode)
+	const ARROW_ON_POSITION_MOBILE = 14; // On position (ANTE mode)
 
 	const toggleAnteBet = () => {
 		if (isToggleOn) {
@@ -636,7 +637,7 @@
 <Sprite
 	key="arrow.png"
 	anchor={{ x: 0.5, y: 0.5 }}
-	x={mobileBetFrameX + (isToggleOn ? ARROW_ON_POSITION : ARROW_OFF_POSITION)}
+	x={mobileBetFrameX + (isToggleOn ? ARROW_ON_POSITION_MOBILE : ARROW_OFF_POSITION_MOBILE)}
 	y={mobileBetFrameY + 32}
 	width={34.4}
 	height={13.6}
