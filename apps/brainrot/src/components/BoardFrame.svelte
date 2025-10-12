@@ -54,15 +54,6 @@
 		}
 	});
 
-	// Character animation states
-	type SkibidiAnimation = 'idle' | 'idle_break' | 'head swirling_in_new' | 'head swirling_out_new' | 'head_swing_new' | 'laser_eyes_zapping_the_board';
-	type TungtungAnimation = 'sahur_idle' | 'sahur_win1' | 'sahur_win2' | 'sahur_win3';
-
-	let skibidiAnimationName = $state<SkibidiAnimation>('idle');
-	let skibidiLoop = $state(true);
-	let tungtungAnimationName = $state<TungtungAnimation>('sahur_idle');
-	let tungtungLoop = $state(true);
-
 	// Toggle button state - tied to ANTE mode
 	const isToggleOn = $derived(stateBet.activeBetModeKey === 'ANTE');
 	const ARROW_OFF_POSITION = -30; // Off position (BASE mode)
@@ -77,20 +68,6 @@
 			stateBet.activeBetModeKey = 'ANTE';
 		}
 		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-	};
-
-	// Idle variation timer for Skibidi
-	let idleBreakTimer: ReturnType<typeof setTimeout> | null = null;
-	const scheduleIdleBreak = () => {
-		if (idleBreakTimer) clearTimeout(idleBreakTimer);
-		// Random interval between 5-15 seconds for idle_break
-		const delay = 5000 + Math.random() * 10000;
-		idleBreakTimer = setTimeout(() => {
-			if (skibidiAnimationName === 'idle') {
-				skibidiAnimationName = 'idle_break';
-				skibidiLoop = false;
-			}
-		}, delay);
 	};
 
 	const SPINE_SCALE = { width: 0.6, height: 0.6 };
@@ -123,47 +100,7 @@
 			if (emitterEvent.current !== undefined) freeSpinCurrent = emitterEvent.current;
 			if (emitterEvent.total !== undefined) freeSpinTotal = emitterEvent.total;
 		},
-		// Skibidi animations
-		skibidiAppear: () => {
-			skibidiAnimationName = 'head swirling_in_new';
-			skibidiLoop = false;
-		},
-		skibidiDisappear: () => {
-			skibidiAnimationName = 'head swirling_out_new';
-			skibidiLoop = false;
-		},
-		skibidiLaserEyes: () => {
-			console.log('🎬 BoardFrame received skibidiLaserEyes, setting animation');
-			console.log('Current animation:', skibidiAnimationName, 'Setting to: laser_eyes_zapping_the_board');
-			skibidiAnimationName = 'laser_eyes_zapping_the_board';
-			skibidiLoop = false;
-		},
-		skibidiIdle: () => {
-			skibidiAnimationName = 'idle';
-			skibidiLoop = true;
-			scheduleIdleBreak();
-		},
-		// TungTung animations
-		tungtungWinSpin: () => {
-			tungtungAnimationName = 'sahur_win1';
-			tungtungLoop = false;
-		},
-		tungtungWinMultiplier: () => {
-			tungtungAnimationName = 'sahur_win2';
-			tungtungLoop = false;
-		},
-		tungtungWinBig: () => {
-			tungtungAnimationName = 'sahur_win3';
-			tungtungLoop = false;
-		},
-		tungtungIdle: () => {
-			tungtungAnimationName = 'sahur_idle';
-			tungtungLoop = true;
-		},
 	});
-
-	// Start idle break scheduling
-	scheduleIdleBreak();
 </script>
 
 <!-- Reel background behind everything -->
@@ -375,81 +312,4 @@
 	onpointerup={toggleAnteBet}
 />
 {/if}
-	{@const betFrameCenterY = context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) + 135.5 + 10 + (243.5 / 2) - 10}
-	{@const betFrameBottomY = betFrameCenterY + (243.5 / 2)}
-	<!-- Skibidi Toilet character - 20px to the right of board, bottom aligned -->
-	<SpineProvider
-		key="skibidiToilet"
-		x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT + (context.stateGameDerived.boardLayout().width / 2) + 20 + 110}
-		y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET + (context.stateGameDerived.boardLayout().height / 2) - 50}
-		width={150}
-		height={150}
-		zIndex={3}
-	>
-		<SpineTrack
-			trackIndex={0}
-			animationName={skibidiAnimationName}
-			loop={skibidiLoop}
-			listener={{
-				complete: (entry) => {
-					if (entry.animation) {
-						// After idle_break, return to idle
-						if (entry.animation.name === 'idle_break') {
-							skibidiAnimationName = 'idle';
-							skibidiLoop = true;
-							scheduleIdleBreak();
-						}
-						// After appearing, go to idle
-						else if (entry.animation.name === 'head swirling_in_new') {
-							skibidiAnimationName = 'idle';
-							skibidiLoop = true;
-							scheduleIdleBreak();
-						}
-						// After head swing, return to idle
-						else if (entry.animation.name === 'head_swing_new') {
-							skibidiAnimationName = 'idle';
-							skibidiLoop = true;
-							scheduleIdleBreak();
-						}
-						// After laser eyes, return to idle and reveal multiplier
-						else if (entry.animation.name === 'laser_eyes_zapping_the_board') {
-							context.eventEmitter.broadcast({ type: 'skibidiLaserReveal' });
-							skibidiAnimationName = 'idle';
-							skibidiLoop = true;
-							scheduleIdleBreak();
-						}
-					}
-				},
-			}}
-		/>
-	</SpineProvider>
-
-	<!-- TungTung character - 20px left of bottom board edge, below bet frame -->
-	<SpineProvider
-		key="tungtung"
-		x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT - (context.stateGameDerived.boardLayout().width / 2) - 20 - 136}
-		y={betFrameBottomY + 190}
-		width={95}
-		height={168}
-		zIndex={3}
-	>
-		<SpineTrack
-			trackIndex={0}
-			animationName={tungtungAnimationName}
-			loop={tungtungLoop}
-			listener={{
-				complete: (entry) => {
-					if (entry.animation) {
-						// After any win animation, return to idle
-						if (entry.animation.name === 'sahur_win1' ||
-						    entry.animation.name === 'sahur_win2' ||
-						    entry.animation.name === 'sahur_win3') {
-							tungtungAnimationName = 'sahur_idle';
-							tungtungLoop = true;
-						}
-					}
-				},
-			}}
-		/>
-	</SpineProvider>
 {/if}
