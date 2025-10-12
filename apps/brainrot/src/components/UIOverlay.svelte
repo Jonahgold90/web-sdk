@@ -6,6 +6,7 @@
 
 	import { getContext } from '../game/context';
 	import SpinButtonBoundingBoxesWrapper from './SpinButtonBoundingBoxesWrapper.svelte';
+	import { stateBuyButton } from './BoardFrame.svelte';
 
 	const context = getContext();
 
@@ -18,6 +19,11 @@
 	let tumbleWinAmount = $state(0);
 	let showTumbleWin = $state(false);
 
+	// Free spin counter state
+	let showFreeSpinCounter = $state(false);
+	let freeSpinCurrent = $state(0);
+	let freeSpinTotal = $state(0);
+
 	context.eventEmitter.subscribeOnMount({
 		tumbleWinAmountShow: () => (showTumbleWin = true),
 		tumbleWinAmountHide: () => (showTumbleWin = false),
@@ -28,6 +34,16 @@
 			if (tumbleWinAmount !== emitterEvent.amount) {
 				tumbleWinAmount = emitterEvent.amount;
 			}
+		},
+		freeSpinCounterShow: () => {
+			showFreeSpinCounter = true;
+		},
+		freeSpinCounterHide: () => {
+			showFreeSpinCounter = false;
+		},
+		freeSpinCounterUpdate: (emitterEvent) => {
+			if (emitterEvent.current !== undefined) freeSpinCurrent = emitterEvent.current;
+			if (emitterEvent.total !== undefined) freeSpinTotal = emitterEvent.total;
 		},
 	});
 
@@ -73,6 +89,19 @@
 	const canvasSize = $derived(context.stateLayoutDerived.canvasSizes());
 	const layoutType = $derived(context.stateLayoutDerived.layoutType());
 	const isMobile = $derived(layoutType === 'portrait');
+
+	// Ante bet toggle
+	const isToggleOn = $derived(stateBet.activeBetModeKey === 'ANTE');
+	const ARROW_OFF_POSITION = -30; // Off position (BASE mode)
+	const ARROW_ON_POSITION = 35; // On position (ANTE mode)
+
+	const toggleAnteBet = () => {
+		if (isToggleOn) {
+			stateBet.activeBetModeKey = 'BASE';
+		} else {
+			stateBet.activeBetModeKey = 'ANTE';
+		}
+	};
 
 	// Calculate bottom overlay position
 	const bottomOverlayY = $derived(canvasSize.height); // Position at bottom edge
@@ -510,7 +539,8 @@
 	<SpinButtonBoundingBoxesWrapper />
 </SpineProvider>
 
-<!-- Buy frame - left of spin button -->
+<!-- Buy frame - left of spin button (only in base game) -->
+{#if !showFreeSpinCounter}
 <Sprite
 	key="buyFrame"
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -519,11 +549,45 @@
 	width={mobileBuyFrameWidth}
 	height={mobileBuyFrameHeight}
 	zIndex={101}
+	interactive={true}
+	cursor="pointer"
+	onpointerup={() => {
+		stateBuyButton.animationName = 'big_buy_in';
+		stateBuyButton.loop = false;
+	}}
 />
+
+<!-- "BUY FEATURE" text on the button -->
+<Sprite
+	key="buyText"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBuyFrameX}
+	y={mobileBuyFrameY - 8}
+	width={79.2}
+	height={17.6}
+	zIndex={102}
+/>
+
+<!-- Bonus buy cost text -->
+{#if fontLoaded}
+<Text
+	text={`$${(stateBet.betAmount * 100).toString()}`}
+	x={mobileBuyFrameX}
+	y={mobileBuyFrameY + 12}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 13,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={102}
+/>
+{/if}
 
 <!-- Bet frame - right of spin button -->
 <Sprite
-	key="betFrame"
+	key="bet_frame.png"
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileBetFrameX}
 	y={mobileBetFrameY}
@@ -531,6 +595,105 @@
 	height={mobileBetFrameHeight}
 	zIndex={101}
 />
+
+<!-- Button 01 (toggle button) -->
+<Sprite
+	key="button_01.png"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBetFrameX}
+	y={mobileBetFrameY + 32}
+	width={72}
+	height={21}
+	zIndex={102}
+	interactive={true}
+	cursor="pointer"
+	onpointerup={toggleAnteBet}
+/>
+
+<!-- "On" text on left side of button -->
+<Sprite
+	key="on.png"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBetFrameX - 18}
+	y={mobileBetFrameY + 32}
+	width={19}
+	height={12.8}
+	zIndex={103}
+/>
+
+<!-- "Off" text on right side of button -->
+<Sprite
+	key="off.png"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBetFrameX + 18}
+	y={mobileBetFrameY + 32}
+	width={22.8}
+	height={13}
+	zIndex={103}
+/>
+
+<!-- Arrow toggle (moves left/right) -->
+<Sprite
+	key="arrow.png"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBetFrameX + (isToggleOn ? ARROW_ON_POSITION : ARROW_OFF_POSITION)}
+	y={mobileBetFrameY + 32}
+	width={34.4}
+	height={13.6}
+	zIndex={104}
+	interactive={true}
+	cursor="pointer"
+	onpointerup={toggleAnteBet}
+/>
+{/if}
+
+<!-- Free Spin Counter Frame - shown during free spins in same position as buy frame -->
+{#if showFreeSpinCounter}
+<Sprite
+	key="freeSpinCounterFrame"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBuyFrameX}
+	y={mobileBuyFrameY}
+	width={mobileBuyFrameWidth}
+	height={mobileBuyFrameHeight}
+	zIndex={101}
+/>
+
+<!-- Free spin counter text -->
+{#if fontLoaded}
+<Text
+	text={`${freeSpinTotal - freeSpinCurrent}`}
+	x={mobileBuyFrameX}
+	y={mobileBuyFrameY - 14}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: 17,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={102}
+/>
+{/if}
+
+<Sprite
+	key="free_spins.png"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBuyFrameX}
+	y={mobileBuyFrameY + 2}
+	scale={{ x: 0.2, y: 0.2 }}
+	zIndex={102}
+/>
+
+<Sprite
+	key="left.png"
+	anchor={{ x: 0.5, y: 0.5 }}
+	x={mobileBuyFrameX}
+	y={mobileBuyFrameY + 16}
+	scale={{ x: 0.2, y: 0.2 }}
+	zIndex={102}
+/>
+{/if}
 
 <!-- Info button (small) -->
 <Sprite
