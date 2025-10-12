@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Sprite, Text, SpineProvider, SpineTrack } from 'pixi-svelte';
-	import { stateBet, stateBetDerived, stateModal, stateConfig } from 'state-shared';
+	import { Sprite, Text, SpineProvider, SpineTrack, Graphics } from 'pixi-svelte';
+	import { stateBet, stateBetDerived, stateModal, stateConfig, stateSound } from 'state-shared';
 	import { numberToCurrencyString, bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { onMount } from 'svelte';
 
@@ -18,6 +18,30 @@
 	// Tumble win amount state
 	let tumbleWinAmount = $state(0);
 	let showTumbleWin = $state(false);
+
+	// Volume slider state
+	let showVolumeSlider = $state(false);
+	let isDraggingVolume = $state(false);
+	let volumeSliderElement: { y: number; height: number } | null = null;
+
+	function handleVolumePointerMove(e: PointerEvent | TouchEvent) {
+		if (!isDraggingVolume || !volumeSliderElement) return;
+		const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+		const localY = clientY - (volumeSliderElement.y - volumeSliderElement.height / 2);
+		const newVolume = 1 - Math.max(0, Math.min(1, localY / volumeSliderElement.height));
+		stateSound.volumeValueMaster = Math.round(newVolume * 100);
+	}
+
+	function handleVolumePointerUp() {
+		isDraggingVolume = false;
+	}
+
+	function handleVolumeTrackClick(e: PointerEvent | TouchEvent, sliderY: number, trackHeight: number) {
+		const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+		const localY = clientY - (sliderY - trackHeight / 2);
+		const newVolume = 1 - Math.max(0, Math.min(1, localY / trackHeight));
+		stateSound.volumeValueMaster = Math.round(newVolume * 100);
+	}
 
 	// Free spin counter state
 	let showFreeSpinCounter = $state(false);
@@ -279,6 +303,21 @@
 	const mobileSettingsY = $derived(mobileY);
 </script>
 
+<svelte:window
+	on:pointermove={handleVolumePointerMove}
+	on:pointerup={handleVolumePointerUp}
+	on:touchmove={handleVolumePointerMove}
+	on:touchend={handleVolumePointerUp}
+	on:pointerdown={(e) => {
+		if (showVolumeSlider) {
+			const target = e.target as HTMLElement;
+			if (!target.closest('.volume-slider') && !target.closest('[data-volume-button]')) {
+				showVolumeSlider = false;
+			}
+		}
+	}}
+/>
+
 <!-- Bottom Overlay - base layer for UI -->
 <Sprite
 	key="uiBottomOverlay"
@@ -354,7 +393,7 @@
 {/if}
 
 <!-- Left side buttons -->
-<!-- Spek button (top) -->
+<!-- Spek button (top) - Volume button -->
 <Sprite
 	key="uiSpek"
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -365,6 +404,11 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	data-volume-button
+	onpointerup={() => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		showVolumeSlider = !showVolumeSlider;
+	}}
 />
 
 <!-- Settings button (bottom) -->
@@ -378,6 +422,10 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={() => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		stateModal.modal = { name: 'settings' };
+	}}
 />
 
 <!-- Info button (larger, to the right) -->
@@ -776,6 +824,11 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	data-volume-button
+	onpointerup={() => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		showVolumeSlider = !showVolumeSlider;
+	}}
 />
 
 <!-- Settings button -->
@@ -789,5 +842,145 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={() => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		stateModal.modal = { name: 'settings' };
+	}}
 />
 {/if}
+
+{#if showVolumeSlider}
+	{@const sliderHeight = isMobile ? 150 : 250}
+	{@const trackHeight = isMobile ? 120 : 200}
+	{@const sliderX = isMobile ? mobileVolumeX : spekX}
+	{@const sliderY = isMobile ? mobileVolumeY - mobileButtonSize / 2 - sliderHeight / 2 - 20 : spekY - buttonSize / 2 - sliderHeight / 2 - 20}
+	{@const padding = isMobile ? 8 : 10}
+	{@const gap = isMobile ? 5 : 10}
+	{@const textHeight = isMobile ? 20 : 25}
+	{@const trackY = sliderY - sliderHeight / 2 + padding + textHeight + gap + trackHeight / 2}
+	<div
+		class="volume-slider"
+		class:mobile={isMobile}
+		style="left: {sliderX}px; top: {sliderY}px; height: {sliderHeight}px;"
+	>
+		<div class="volume-percentage">{stateSound.volumeValueMaster}%</div>
+		<div class="volume-slider-container" style="height: {trackHeight}px;">
+			<div
+				class="volume-slider-track"
+				style="height: {trackHeight}px;"
+				onpointerdown={(e) => {
+					handleVolumeTrackClick(e, trackY, trackHeight);
+				}}
+				ontouchstart={(e) => {
+					handleVolumeTrackClick(e, trackY, trackHeight);
+				}}
+			>
+				<div class="volume-slider-fill" style="height: {stateSound.volumeValueMaster}%"></div>
+			</div>
+			<div
+				class="volume-slider-thumb"
+				style="top: {(1 - stateSound.volumeValueMaster / 100) * 100}%"
+				role="button"
+				tabindex="0"
+				onpointerdown={(e) => {
+					e.stopPropagation();
+					volumeSliderElement = { y: trackY, height: trackHeight };
+					isDraggingVolume = true;
+				}}
+				ontouchstart={(e) => {
+					e.stopPropagation();
+					volumeSliderElement = { y: trackY, height: trackHeight };
+					isDraggingVolume = true;
+				}}
+			></div>
+		</div>
+	</div>
+{/if}
+
+<style>
+	.volume-slider {
+		position: absolute;
+		width: 60px;
+		transform: translate(-50%, -50%);
+		background: rgba(0, 0, 0, 0.5);
+		border: 2px solid white;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		padding: 10px 0;
+		gap: 10px;
+		z-index: 1000;
+		pointer-events: auto;
+	}
+
+	.volume-slider.mobile {
+		width: 45px;
+		padding: 8px 0;
+		gap: 5px;
+	}
+
+	.volume-slider.mobile .volume-percentage {
+		font-size: 14px;
+	}
+
+	.volume-slider.mobile .volume-slider-track {
+		width: 6px;
+	}
+
+	.volume-slider.mobile .volume-slider-thumb {
+		width: 15px;
+		height: 15px;
+		border: 2px solid #00ff00;
+	}
+
+	.volume-slider-container {
+		position: relative;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.volume-slider-track {
+		position: relative;
+		width: 8px;
+		background: white;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		cursor: pointer;
+	}
+
+	.volume-slider-fill {
+		width: 100%;
+		background: #00ff00;
+	}
+
+	.volume-slider-thumb {
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		background: white;
+		border: 3px solid #00ff00;
+		border-radius: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		cursor: pointer;
+		pointer-events: auto;
+		z-index: 10;
+	}
+
+	.volume-slider-thumb:hover {
+		transform: translate(-50%, -50%) scale(1.1);
+	}
+
+	.volume-percentage {
+		color: white;
+		font-weight: 900;
+		font-size: 18px;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+		pointer-events: none;
+	}
+</style>
