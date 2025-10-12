@@ -318,5 +318,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		// Reveal all M symbol multipliers
 		console.log('✨ Broadcasting skibidiLaserReveal');
 		eventEmitter.broadcast({ type: 'skibidiLaserReveal' });
+		// Add delay after revealing so player can see what multipliers they missed
+		await new Promise(resolve => setTimeout(resolve, 800));
 	},
 };
