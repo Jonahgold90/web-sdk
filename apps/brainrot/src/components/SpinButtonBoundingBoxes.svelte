@@ -14,7 +14,7 @@
 
 	// Spin button animation state (passed from parent)
 	let spinButtonAnimation = $state('spin_button_idle');
-	let isHoveringButton = $state<'plus' | 'minus' | 'spin' | null>(null);
+	let isHoveringButton = $state<'plus' | 'minus' | 'spin' | 'autoplay' | null>(null);
 
 	const isSpinning = $derived(!context.stateXstateDerived.isIdle());
 
@@ -90,7 +90,7 @@
 	};
 
 	function onPointerDown(e: FederatedPointerEvent) {
-		if (hitBox('plus2', e)) {
+		if (hitBox('plus_box', e)) {
 			// Plus clicked - increase bet to next interval
 			spinButtonAnimation = 'plus_click';
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
@@ -102,7 +102,7 @@
 			stateBetDerived.setBetAmount(betOptions[nextIndex]);
 
 			setTimeout(() => (isHoveringButton = null), 300);
-		} else if (hitBox('minus2', e)) {
+		} else if (hitBox('minus_box', e)) {
 			// Minus clicked - decrease bet to previous interval
 			spinButtonAnimation = 'minus_click';
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
@@ -114,22 +114,29 @@
 			stateBetDerived.setBetAmount(betOptions[prevIndex]);
 
 			setTimeout(() => (isHoveringButton = null), 300);
-		} else if (hitBox('spin_bounding', e)) {
+		} else if (hitBox('spin_box', e)) {
 			// Spin clicked
 			onSpinPress();
+			setTimeout(() => (isHoveringButton = null), 300);
+		} else if (hitBox('autoplay_box', e)) {
+			// Autoplay clicked - open autoplay modal
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+			stateModal.modal = { name: 'autoSpin' };
 			setTimeout(() => (isHoveringButton = null), 300);
 		}
 	}
 
 	function onPointerMove(e: FederatedPointerEvent) {
-		let newHoverState: 'plus' | 'minus' | 'spin' | null = null;
+		let newHoverState: 'plus' | 'minus' | 'spin' | 'autoplay' | null = null;
 
-		if (hitBox('plus2', e)) {
+		if (hitBox('plus_box', e)) {
 			newHoverState = 'plus';
-		} else if (hitBox('minus2', e)) {
+		} else if (hitBox('minus_box', e)) {
 			newHoverState = 'minus';
-		} else if (hitBox('spin_bounding', e)) {
+		} else if (hitBox('spin_box', e)) {
 			newHoverState = 'spin';
+		} else if (hitBox('autoplay_box', e)) {
+			newHoverState = 'autoplay';
 		}
 
 		if (newHoverState !== isHoveringButton) {
