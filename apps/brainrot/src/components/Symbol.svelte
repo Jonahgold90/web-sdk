@@ -65,7 +65,7 @@
 {/if}
 
 {#if showWinFrame}
-	<SpineProvider x={props.x} y={props.y} key="payOutline" width={SYMBOL_SIZE * 0.19}>
-		<SpineTrack trackIndex={0} animationName={'payframe'} loop />
+	<SpineProvider x={props.x} y={props.y} key="payOutline" width={SYMBOL_SIZE}>
+		<SpineTrack trackIndex={0} animationName={'brbo_win_frame'} loop />
 	</SpineProvider>
 {/if}

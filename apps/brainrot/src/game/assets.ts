@@ -318,9 +318,9 @@ export default {
 	payOutline: {
 		type: 'spine',
 		src: {
-			atlas: new URL('../../assets/spines/anticipation/anticipation.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/anticipation/anticipation.json', import.meta.url).href,
-			scale: 2,
+			atlas: new URL('../../assets/spines/winFrame/brbo_win_frame6.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/winFrame/brbo_win_frame6.json', import.meta.url).href,
+			scale: 1.5,
 		},
 	},
 	goldFont: {
