@@ -1,0 +1,250 @@
+{
+	"skeleton": {
+		"hash": "RvW5LdGQavE",
+		"spine": "4.2.43",
+		"images": "./images/",
+		"audio": ""
+	},
+	"bones": [
+		{
+			"name": "root"
+		},
+		{
+			"name": "master",
+			"parent": "root"
+		},
+		{
+			"name": "overlay_opt2",
+			"parent": "master",
+			"color": "f3ff00ff",
+			"icon": "arrows"
+		}
+	],
+	"slots": [
+		{
+			"name": "overlay_opt2_00001",
+			"bone": "overlay_opt2"
+		}
+	],
+	"skins": [
+		{
+			"name": "default",
+			"attachments": {
+				"overlay_opt2_00001": {
+					"overlay_opt2_00001": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00002": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00003": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00004": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00005": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00006": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00007": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00008": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00009": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00010": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00011": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00012": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00013": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00014": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00015": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00016": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00017": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00018": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00019": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00020": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00021": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00022": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00023": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00024": {
+						"width": 648,
+						"height": 596
+					},
+					"overlay_opt2_00025": {
+						"width": 648,
+						"height": 596
+					}
+				}
+			}
+		}
+	],
+	"animations": {
+		"brbo_overlay": {
+			"slots": {
+				"overlay_opt2_00001": {
+					"attachment": [
+						{
+							"name": "overlay_opt2_00001"
+						},
+						{
+							"time": 0.0333,
+							"name": "overlay_opt2_00002"
+						},
+						{
+							"time": 0.0667,
+							"name": "overlay_opt2_00003"
+						},
+						{
+							"time": 0.1333,
+							"name": "overlay_opt2_00004"
+						},
+						{
+							"time": 0.1667,
+							"name": "overlay_opt2_00005"
+						},
+						{
+							"time": 0.2,
+							"name": "overlay_opt2_00006"
+						},
+						{
+							"time": 0.2333,
+							"name": "overlay_opt2_00007"
+						},
+						{
+							"time": 0.2667,
+							"name": "overlay_opt2_00008"
+						},
+						{
+							"time": 0.3333,
+							"name": "overlay_opt2_00009"
+						},
+						{
+							"time": 0.3667,
+							"name": "overlay_opt2_00010"
+						},
+						{
+							"time": 0.4,
+							"name": "overlay_opt2_00011"
+						},
+						{
+							"time": 0.4333,
+							"name": "overlay_opt2_00012"
+						},
+						{
+							"time": 0.4667,
+							"name": "overlay_opt2_00013"
+						},
+						{
+							"time": 0.5333,
+							"name": "overlay_opt2_00014"
+						},
+						{
+							"time": 0.5667,
+							"name": "overlay_opt2_00015"
+						},
+						{
+							"time": 0.6,
+							"name": "overlay_opt2_00016"
+						},
+						{
+							"time": 0.6333,
+							"name": "overlay_opt2_00017"
+						},
+						{
+							"time": 0.6667,
+							"name": "overlay_opt2_00018"
+						},
+						{
+							"time": 0.7333,
+							"name": "overlay_opt2_00019"
+						},
+						{
+							"time": 0.7667,
+							"name": "overlay_opt2_00020"
+						},
+						{
+							"time": 0.8,
+							"name": "overlay_opt2_00021"
+						},
+						{
+							"time": 0.8333,
+							"name": "overlay_opt2_00022"
+						},
+						{
+							"time": 0.9,
+							"name": "overlay_opt2_00023"
+						},
+						{
+							"time": 0.9333,
+							"name": "overlay_opt2_00024"
+						},
+						{
+							"time": 0.9667,
+							"name": "overlay_opt2_00025"
+						},
+						{
+							"time": 1
+						}
+					]
+				}
+			}
+		}
+	}
+}

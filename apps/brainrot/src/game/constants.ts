@@ -223,7 +223,7 @@ export const zIndexes = {
 const explosion = {
 	type: 'spine',
 	assetKey: 'explosion',
-	animationName: 'explosion',
+	animationName: 'brbo_overlay',
 	sizeRatios: { width: 1, height: 1 },
 };
 

@@ -184,9 +184,9 @@ export default {
 	explosion: {
 		type: 'spine',
 		src: {
-			atlas: new URL('../../assets/spines/symbols3/symbols3.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/symbols3/explosion.json', import.meta.url).href,
-			scale: 2,
+			atlas: new URL('../../assets/spines/symbolRemovalEffect/brbo_overlay_effects.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/symbolRemovalEffect/brbo_overlay_effects.json', import.meta.url).href,
+			scale: 0.25,
 		},
 	},
 	W: {

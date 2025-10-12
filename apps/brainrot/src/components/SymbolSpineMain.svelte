@@ -16,6 +16,10 @@
 	};
 
 	const props: Props = $props();
+
+	// Speed up explosion animation by 1.5x
+	const isExplosion = $derived(props.symbolInfo.animationName === 'brbo_overlay');
+	const effectiveTimeScale = $derived(stateBetDerived.timeScale() * (isExplosion ? 1.5 : 1));
 </script>
 
 <SpineProvider
@@ -28,7 +32,7 @@
 		loop={props.loop}
 		trackIndex={0}
 		animationName={props.symbolInfo.animationName}
-		timeScale={stateBetDerived.timeScale()}
+		timeScale={effectiveTimeScale}
 		listener={props.listener}
 	/>
 	{#if props.multiplierValue}
