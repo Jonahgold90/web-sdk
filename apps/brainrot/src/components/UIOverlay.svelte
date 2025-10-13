@@ -113,6 +113,7 @@
 	const canvasSize = $derived(context.stateLayoutDerived.canvasSizes());
 	const layoutType = $derived(context.stateLayoutDerived.layoutType());
 	const isMobile = $derived(layoutType === 'portrait');
+	const isLandscape = $derived(layoutType === 'landscape');
 
 	// Ante bet toggle
 	const isToggleOn = $derived(stateBet.activeBetModeKey === 'ANTE');
@@ -148,7 +149,7 @@
 		canvasSize.height < 750 ? 45 :
 		60
 	); // Smaller on very small screens (5% smaller: 40 -> 38)
-	const leftMargin = 60; // Distance from left edge
+	const leftMargin = $derived(isLandscape ? 25 : 60); // Distance from left edge
 	const buttonSpacing = $derived(
 		canvasSize.height < 600 ? 3 :
 		canvasSize.height < 750 ? 5 :
@@ -156,40 +157,65 @@
 	); // Even tighter spacing on very small screens
 
 	// Calculate button positions
-	const settingsX = leftMargin;
+	const settingsX = $derived(leftMargin);
 	const settingsY = $derived(bottomOverlayY - bottomOverlayHeight / 2 + buttonSize / 2 + (canvasSize.height < 600 ? 5 : 10)); // Higher position on very small screens
-	const spekX = leftMargin;
+	const spekX = $derived(leftMargin);
 	const spekY = $derived(settingsY - buttonSize - buttonSpacing); // Above settings
 
 	// Info button - larger and centered between the two buttons
 	const infoButtonSize = $derived(
+		isLandscape ? 80 :
 		canvasSize.height < 600 ? 65 :
 		canvasSize.height < 750 ? 80 :
 		100
-	); // Even smaller on very small screens
-	const infoX = $derived(leftMargin + buttonSize + (canvasSize.height < 600 ? 40 : 60)); // Closer on very small screens
+	); // Smaller in landscape (~20% reduction)
+	const infoX = $derived(leftMargin + buttonSize + (isLandscape ? 20 : canvasSize.height < 600 ? 40 : 60)); // Closer in landscape
 	const infoY = $derived(bottomOverlayY - bottomOverlayHeight / 2); // Centered vertically in overlay
 
 	// Credit and Bet text displays - to the right of info button
-	const creditWidth = $derived(canvasSize.height < 600 ? 95 : 118);  // Smaller on very small screens
-	const creditHeight = $derived(canvasSize.height < 600 ? 28 : 35);
-	const betWidth = $derived(canvasSize.height < 600 ? 53 : 66);
-	const betHeight = $derived(canvasSize.height < 600 ? 27 : 34);
+	const creditWidth = $derived(
+		isLandscape ? 94 :
+		canvasSize.height < 600 ? 95 :
+		118
+	);  // Smaller in landscape (~20% reduction)
+	const creditHeight = $derived(
+		isLandscape ? 28 :
+		canvasSize.height < 600 ? 28 :
+		35
+	);
+	const betWidth = $derived(
+		isLandscape ? 53 :
+		canvasSize.height < 600 ? 53 :
+		66
+	);
+	const betHeight = $derived(
+		isLandscape ? 27 :
+		canvasSize.height < 600 ? 27 :
+		34
+	);
 
 	// Position them left-aligned - adjusted for smaller screens
-	const textStartX = $derived(infoX + infoButtonSize / 2 + (canvasSize.height < 600 ? 15 : 30)); // Even tighter on very small screens
+	const textStartX = $derived(infoX + infoButtonSize / 2 + (isLandscape ? 10 : canvasSize.height < 600 ? 15 : 30)); // Tighter in landscape
 	const creditX = $derived(textStartX + creditWidth / 2); // Center point for credit
 	const creditY = $derived(bottomOverlayY - bottomOverlayHeight / 2 - (canvasSize.height < 600 ? 15 : 20)); // Closer to center on small screens
 	const betX = $derived(textStartX + betWidth / 2); // Center point for bet (left-aligned with credit)
 	const betY = $derived(bottomOverlayY - bottomOverlayHeight / 2 + (canvasSize.height < 600 ? 15 : 20)); // Closer to center on small screens
 
 	// Amount text positions - adjusted based on screen size
-	const creditAmountX = $derived(creditX + creditWidth / 2 + (canvasSize.width < 1400 ? 70 : 60)); // More space on smaller screens
-	const betAmountX = $derived(betX + betWidth / 2 + (canvasSize.width < 1400 ? 75 : 65)); // More space on smaller screens
+	const creditAmountX = $derived(creditX + creditWidth / 2 + (isLandscape ? 60 : canvasSize.width < 1400 ? 70 : 60)); // Tighter in landscape
+	const betAmountX = $derived(betX + betWidth / 2 + (isLandscape ? 55 : canvasSize.width < 1400 ? 75 : 65)); // Tighter in landscape
 
 	// WIN display - centered horizontally, positioned near bottom of reel frame
-	const winWidth = $derived(canvasSize.height < 600 ? 137.05 : 195.5);  // 70% size on very small screens (Half of 391 * 0.7)
-	const winHeight = $derived(canvasSize.height < 600 ? 68.95 : 98.5);   // 70% size on very small screens (Half of 197 * 0.7)
+	const winWidth = $derived(
+		isLandscape ? 117 :
+		canvasSize.height < 600 ? 137.05 :
+		195.5
+	);  // Scaled down ~40% in landscape (195.5 * 0.6)
+	const winHeight = $derived(
+		isLandscape ? 59 :
+		canvasSize.height < 600 ? 68.95 :
+		98.5
+	);   // Scaled down ~40% in landscape (98.5 * 0.6)
 	const winX = $derived(canvasSize.width / 2); // Centered horizontally
 	const winY = $derived(bottomOverlayY - bottomOverlayHeight + winHeight/2 - (canvasSize.height < 600 ? 12 : 18)); // Adjusted position for smaller size
 
@@ -212,14 +238,26 @@
 	const paysAmountX = $derived(paysLabelX + paysWidth / 2 + (canvasSize.width < 1400 ? 40 : 50)); // Tighter spacing on smaller screens
 	const paysY = $derived(canvasSize.width < 1400 ? bottomOverlayY - bottomOverlayHeight / 2 + 25 : bottomOverlayY - bottomOverlayHeight / 2); // Lower on smaller screens
 
-	// Spin button - positioned on the right side, scaled based on screen width
+	// Spin button - positioned on the right side, scaled based on screen width and layout
 	// Spine dimensions from JSON: width:619, height:359, aspect ratio ~1.72
-	// Scale down on smaller screens (< 1400px width)
-	const spinButtonScale = $derived(canvasSize.width < 1400 ? 0.65 : 1.0);
+	// Scale down on smaller screens (< 1400px width) and landscape mode
+	const spinButtonScale = $derived(
+		isLandscape ? 0.5 :
+		canvasSize.width < 1400 ? 0.65 :
+		1.0
+	);
 	const spinButtonWidth = $derived(186 * spinButtonScale); // 155 * 1.2 (20% bigger) * scale
 	const spinButtonHeight = $derived(108 * spinButtonScale); // 90 * 1.2 to maintain aspect ratio * scale
-	const spinX = $derived(canvasSize.width < 1400 ? canvasSize.width - 180 - (spinButtonWidth / 2) : canvasSize.width - 250); // Position based on size
-	const spinY = $derived(canvasSize.width < 1400 ? bottomOverlayY - bottomOverlayHeight / 2 - 40 : bottomOverlayY - bottomOverlayHeight / 2 - 60); // Height based on size
+	const spinX = $derived(
+		isLandscape ? canvasSize.width - 100 :
+		canvasSize.width < 1400 ? canvasSize.width - 180 - (spinButtonWidth / 2) :
+		canvasSize.width - 250
+	); // Position based on size
+	const spinY = $derived(
+		isLandscape ? bottomOverlayY - bottomOverlayHeight / 2 - 30 :
+		canvasSize.width < 1400 ? bottomOverlayY - bottomOverlayHeight / 2 - 40 :
+		bottomOverlayY - bottomOverlayHeight / 2 - 60
+	); // Height based on size
 
 	// Autoplay button - slightly overlapping bottom of spin button
 	const autoplayWidth = $derived(229 * spinButtonScale);
@@ -420,7 +458,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 600 ? 34 : 48,
+		fontSize: isLandscape ? 29 : canvasSize.height < 600 ? 34 : 48,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -531,7 +569,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 28,
+		fontSize: isLandscape ? 22 : 28,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -559,7 +597,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 28,
+		fontSize: isLandscape ? 22 : 28,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
