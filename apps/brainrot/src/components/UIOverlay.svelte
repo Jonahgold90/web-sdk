@@ -138,49 +138,77 @@
 	const mobileSidePadding = 20; // Padding from screen edges
 
 	// Desktop button sizes and positions - scale based on screen height
-	const bottomOverlayHeight = $derived(canvasSize.height < 750 ? 110 : 150); // Reduced height for smaller screens
-	const buttonSize = $derived(canvasSize.height < 750 ? 45 : 60); // 10% smaller on small screens (50 -> 45)
+	const bottomOverlayHeight = $derived(
+		canvasSize.height < 600 ? 90 :
+		canvasSize.height < 750 ? 110 :
+		150
+	); // Even more reduced for very small screens
+	const buttonSize = $derived(
+		canvasSize.height < 600 ? 38 :
+		canvasSize.height < 750 ? 45 :
+		60
+	); // Smaller on very small screens (5% smaller: 40 -> 38)
 	const leftMargin = 60; // Distance from left edge
-	const buttonSpacing = $derived(canvasSize.height < 750 ? 5 : 10); // Tighter spacing on small screens
+	const buttonSpacing = $derived(
+		canvasSize.height < 600 ? 3 :
+		canvasSize.height < 750 ? 5 :
+		10
+	); // Even tighter spacing on very small screens
 
 	// Calculate button positions
 	const settingsX = leftMargin;
-	const settingsY = $derived(bottomOverlayY - bottomOverlayHeight / 2 + buttonSize / 2 + 10); // Lower position
+	const settingsY = $derived(bottomOverlayY - bottomOverlayHeight / 2 + buttonSize / 2 + (canvasSize.height < 600 ? 5 : 10)); // Higher position on very small screens
 	const spekX = leftMargin;
 	const spekY = $derived(settingsY - buttonSize - buttonSpacing); // Above settings
 
 	// Info button - larger and centered between the two buttons
-	const infoButtonSize = $derived(canvasSize.height < 750 ? 80 : 100); // Smaller on small screens
-	const infoX = $derived(leftMargin + buttonSize + 60); // To the right of the other buttons
+	const infoButtonSize = $derived(
+		canvasSize.height < 600 ? 65 :
+		canvasSize.height < 750 ? 80 :
+		100
+	); // Even smaller on very small screens
+	const infoX = $derived(leftMargin + buttonSize + (canvasSize.height < 600 ? 40 : 60)); // Closer on very small screens
 	const infoY = $derived(bottomOverlayY - bottomOverlayHeight / 2); // Centered vertically in overlay
 
 	// Credit and Bet text displays - to the right of info button
-	const creditWidth = 118;  // Slightly bigger than half
-	const creditHeight = 35;  // Slightly bigger than half
-	const betWidth = 66;      // Slightly bigger than half
-	const betHeight = 34;     // Slightly bigger than half
+	const creditWidth = $derived(canvasSize.height < 600 ? 95 : 118);  // Smaller on very small screens
+	const creditHeight = $derived(canvasSize.height < 600 ? 28 : 35);
+	const betWidth = $derived(canvasSize.height < 600 ? 53 : 66);
+	const betHeight = $derived(canvasSize.height < 600 ? 27 : 34);
 
 	// Position them left-aligned - adjusted for smaller screens
-	const textStartX = $derived(infoX + infoButtonSize / 2 + 30); // Reduced gap from 60 to 30
+	const textStartX = $derived(infoX + infoButtonSize / 2 + (canvasSize.height < 600 ? 15 : 30)); // Even tighter on very small screens
 	const creditX = $derived(textStartX + creditWidth / 2); // Center point for credit
-	const creditY = $derived(bottomOverlayY - bottomOverlayHeight / 2 - 20); // Top position
+	const creditY = $derived(bottomOverlayY - bottomOverlayHeight / 2 - (canvasSize.height < 600 ? 15 : 20)); // Closer to center on small screens
 	const betX = $derived(textStartX + betWidth / 2); // Center point for bet (left-aligned with credit)
-	const betY = $derived(bottomOverlayY - bottomOverlayHeight / 2 + 20); // Bottom position
+	const betY = $derived(bottomOverlayY - bottomOverlayHeight / 2 + (canvasSize.height < 600 ? 15 : 20)); // Closer to center on small screens
 
 	// Amount text positions - adjusted based on screen size
 	const creditAmountX = $derived(creditX + creditWidth / 2 + (canvasSize.width < 1400 ? 70 : 60)); // More space on smaller screens
 	const betAmountX = $derived(betX + betWidth / 2 + (canvasSize.width < 1400 ? 75 : 65)); // More space on smaller screens
 
 	// WIN display - centered horizontally, positioned near bottom of reel frame
-	const winWidth = 195.5;  // Half of 391
-	const winHeight = 98.5;   // Half of 197
+	const winWidth = $derived(canvasSize.height < 600 ? 137.05 : 195.5);  // 70% size on very small screens (Half of 391 * 0.7)
+	const winHeight = $derived(canvasSize.height < 600 ? 68.95 : 98.5);   // 70% size on very small screens (Half of 197 * 0.7)
 	const winX = $derived(canvasSize.width / 2); // Centered horizontally
-	const winY = $derived(bottomOverlayY - bottomOverlayHeight + winHeight/2 - 18); // Higher position, more of it hangs above overlay
+	const winY = $derived(bottomOverlayY - bottomOverlayHeight + winHeight/2 - (canvasSize.height < 600 ? 12 : 18)); // Adjusted position for smaller size
 
 	// PAYS display - between WIN and spin button
-	const paysWidth = $derived(canvasSize.width < 1400 ? 80 : 100); // Smaller on smaller screens
-	const paysHeight = $derived(canvasSize.width < 1400 ? 40 : 50); // Smaller on smaller screens
-	const paysLabelX = $derived(winX + winWidth / 2 + (canvasSize.width < 1400 ? 70 : 150)); // Much closer on smaller screens
+	const paysWidth = $derived(
+		canvasSize.height < 600 ? 65 :
+		canvasSize.width < 1400 ? 80 :
+		100
+	); // Even smaller on very small screens
+	const paysHeight = $derived(
+		canvasSize.height < 600 ? 32 :
+		canvasSize.width < 1400 ? 40 :
+		50
+	); // Even smaller on very small screens
+	const paysLabelX = $derived(
+		canvasSize.height < 600 ? winX + winWidth / 2 + 50 :
+		canvasSize.width < 1400 ? winX + winWidth / 2 + 70 :
+		winX + winWidth / 2 + 150
+	); // Further left on very small screens
 	const paysAmountX = $derived(paysLabelX + paysWidth / 2 + (canvasSize.width < 1400 ? 40 : 50)); // Tighter spacing on smaller screens
 	const paysY = $derived(canvasSize.width < 1400 ? bottomOverlayY - bottomOverlayHeight / 2 + 25 : bottomOverlayY - bottomOverlayHeight / 2); // Lower on smaller screens
 
@@ -353,7 +381,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 48,
+		fontSize: canvasSize.height < 600 ? 34 : 48,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
