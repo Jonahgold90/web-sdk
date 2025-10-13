@@ -133,7 +133,7 @@
 
 	// Mobile-specific settings
 	const mobileOverlayHeight = 70; // Thinner control bar for mobile
-	const mobileButtonSize = 35; // Smaller buttons for mobile
+	const mobileButtonSize = $derived(canvasSize.height < 580 ? 28 : 35); // Even smaller buttons for small mobile
 	const mobileHorizontalSpacing = 15; // Spacing between elements
 	const mobileSidePadding = 20; // Padding from screen edges
 
@@ -264,39 +264,76 @@
 	const boardBottomY = $derived(boardLayout.y + boardLayout.height / 2);
 	const overlayTopY = $derived(bottomOverlayY - mobileOverlayHeight);
 	const mobileCenterY = $derived(
-		canvasSize.height < 700 ? (boardBottomY + overlayTopY) / 2 - 225 : (boardBottomY + overlayTopY) / 2 - 175
+		canvasSize.height < 580 ? (boardBottomY + overlayTopY) / 2 - 240 :
+		canvasSize.height < 700 ? (boardBottomY + overlayTopY) / 2 - 225 :
+		(boardBottomY + overlayTopY) / 2 - 175
 	); // Much higher on smaller screens
 
 	// Mobile spin button - maintain aspect ratio (619x359 from spine), scale based on screen height
-	const mobileSpinButtonWidth = $derived(canvasSize.height < 700 ? 70 : 94); // Smaller on medium mobile (25% reduction)
-	const mobileSpinButtonHeight = $derived(canvasSize.height < 700 ? 40 : 54); // Maintain aspect ratio
+	const mobileSpinButtonWidth = $derived(
+		canvasSize.height < 580 ? 60 :
+		canvasSize.height < 700 ? 70 :
+		94
+	); // Smaller on small mobile
+	const mobileSpinButtonHeight = $derived(
+		canvasSize.height < 580 ? 35 :
+		canvasSize.height < 700 ? 40 :
+		54
+	); // Maintain aspect ratio
 	const mobileSpinX = $derived(canvasSize.width / 2);
-	const mobileSpinY = $derived(canvasSize.height < 700 ? mobileCenterY - 8 : mobileCenterY);
+	const mobileSpinY = $derived(
+		canvasSize.height < 580 ? mobileCenterY - 32 :
+		canvasSize.height < 700 ? mobileCenterY - 8 :
+		mobileCenterY
+	);
 
 	// Win label and amount - higher above spin button
-	const mobileWinWidth = $derived(canvasSize.height < 700 ? 80 : 100);
-	const mobileWinHeight = $derived(canvasSize.height < 700 ? 40 : 50);
+	const mobileWinWidth = $derived(
+		canvasSize.height < 580 ? 68 :
+		canvasSize.height < 700 ? 80 :
+		100
+	);
+	const mobileWinHeight = $derived(
+		canvasSize.height < 580 ? 34 :
+		canvasSize.height < 700 ? 40 :
+		50
+	);
 	const mobileWinX = $derived(canvasSize.width / 2);
-	const mobileWinY = $derived(mobileCenterY - mobileSpinButtonHeight / 2 - (canvasSize.height < 700 ? 70 : 80));
+	const mobileWinY = $derived(
+		canvasSize.height < 580 ? mobileCenterY - 18 - mobileSpinButtonHeight / 2 - 60 :
+		mobileCenterY - mobileSpinButtonHeight / 2 - (canvasSize.height < 700 ? 70 : 80)
+	);
 
 	// PAYS display - under spin button on mobile
 	const mobilePaysWidth = 60;
 	const mobilePaysHeight = 30;
-	const mobilePaysLabelX = $derived(canvasSize.width / 2 - 40); // Label to the left
-	const mobilePaysAmountX = $derived(canvasSize.width / 2 + 40); // Amount to the right
-	const mobilePaysY = $derived(canvasSize.height < 700 ? mobileSpinY + mobileSpinButtonHeight / 2 + 35 : mobileCenterY + mobileSpinButtonHeight / 2 + 45);
+	const mobilePaysLabelX = $derived(canvasSize.width / 2 - (canvasSize.height < 580 ? 32 : 40)); // Label to the left
+	const mobilePaysAmountX = $derived(canvasSize.width / 2 + (canvasSize.height < 580 ? 32 : 40)); // Amount to the right
+	const mobilePaysY = $derived(
+		canvasSize.height < 580 ? mobileSpinY + mobileSpinButtonHeight / 2 + 22 :
+		canvasSize.height < 700 ? mobileSpinY + mobileSpinButtonHeight / 2 + 35 :
+		mobileCenterY + mobileSpinButtonHeight / 2 + 45
+	);
 
-	// Buy frame - same size on all mobile screens
-	const mobileBuyFrameWidth = 80;
-	const mobileBuyFrameHeight = 45;
-	const mobileBuyFrameX = $derived(mobileSpinX - mobileSpinButtonWidth / 2 - 60 - mobileBuyFrameWidth / 2);
-	const mobileBuyFrameY = $derived(canvasSize.height < 700 ? mobileSpinY - 15 : mobileCenterY - 15);
+	// Buy frame - scaled down on small mobile
+	const mobileBuyFrameWidth = $derived(canvasSize.height < 580 ? 65 : 80);
+	const mobileBuyFrameHeight = $derived(canvasSize.height < 580 ? 36 : 45);
+	const mobileBuyFrameX = $derived(mobileSpinX - mobileSpinButtonWidth / 2 - (canvasSize.height < 580 ? 50 : 60) - mobileBuyFrameWidth / 2);
+	const mobileBuyFrameY = $derived(
+		canvasSize.height < 580 ? mobileSpinY - 15 :
+		canvasSize.height < 700 ? mobileSpinY - 15 :
+		mobileCenterY - 15
+	);
 
-	// Bet frame - same size on all mobile screens
-	const mobileBetFrameWidth = 80;
-	const mobileBetFrameHeight = 99;
-	const mobileBetFrameX = $derived(mobileSpinX + mobileSpinButtonWidth / 2 + 60 + mobileBetFrameWidth / 2);
-	const mobileBetFrameY = $derived(canvasSize.height < 700 ? mobileSpinY - 15 : mobileCenterY - 15);
+	// Bet frame - scaled down on small mobile
+	const mobileBetFrameWidth = $derived(canvasSize.height < 580 ? 65 : 80);
+	const mobileBetFrameHeight = $derived(canvasSize.height < 580 ? 80 : 99);
+	const mobileBetFrameX = $derived(mobileSpinX + mobileSpinButtonWidth / 2 + (canvasSize.height < 580 ? 50 : 60) + mobileBetFrameWidth / 2);
+	const mobileBetFrameY = $derived(
+		canvasSize.height < 580 ? mobileSpinY - 15 :
+		canvasSize.height < 700 ? mobileSpinY - 15 :
+		mobileCenterY - 15
+	);
 
 	// Calculate horizontal positions for mobile (left to right) - tightly packed
 	let currentMobileX = 5; // Minimal padding on left
@@ -307,24 +344,24 @@
 	const mobileInfoNextX = $derived(mobileInfoX + mobileButtonSize / 2 + 5);
 
 	// Credit label dimensions (smaller for mobile)
-	const mobileCreditWidth = 60;
-	const mobileCreditHeight = 25;
+	const mobileCreditWidth = $derived(canvasSize.height < 580 ? 48 : 60);
+	const mobileCreditHeight = $derived(canvasSize.height < 580 ? 20 : 25);
 	const mobileCreditX = $derived(mobileInfoNextX + mobileCreditWidth / 2);
 	const mobileCreditY = $derived(mobileY);
 
 	// Credit amount position - more space to prevent overlap
-	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + 45);
-	const mobileCreditNextX = $derived(mobileCreditAmountX + 35);
+	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + (canvasSize.height < 580 ? 36 : 45));
+	const mobileCreditNextX = $derived(mobileCreditAmountX + (canvasSize.height < 580 ? 28 : 35));
 
 	// Bet label
-	const mobileBetWidth = 40;
-	const mobileBetHeight = 25;
-	const mobileBetX = $derived(mobileCreditNextX + 12 + mobileBetWidth / 2);
+	const mobileBetWidth = $derived(canvasSize.height < 580 ? 32 : 40);
+	const mobileBetHeight = $derived(canvasSize.height < 580 ? 20 : 25);
+	const mobileBetX = $derived(mobileCreditNextX + (canvasSize.height < 580 ? 10 : 12) + mobileBetWidth / 2);
 	const mobileBetY = $derived(mobileY);
 
 	// Bet amount position (space for 4-digit amounts like 1000) - more space to prevent overlap
-	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + 33);
-	const mobileBetNextX = $derived(mobileBetAmountX + 50);
+	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + (canvasSize.height < 580 ? 27 : 33));
+	const mobileBetNextX = $derived(mobileBetAmountX + (canvasSize.height < 580 ? 40 : 50));
 
 	// Volume button (using spek sprite)
 	const mobileVolumeX = $derived(canvasSize.width - mobileButtonSize / 2 - 43); // From right edge
@@ -566,7 +603,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 700 ? 20 : 24,
+		fontSize: canvasSize.height < 580 ? 17 : canvasSize.height < 700 ? 20 : 24,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -584,7 +621,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 16,
+		fontSize: canvasSize.height < 580 ? 13 : 16,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -599,7 +636,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 16,
+		fontSize: canvasSize.height < 580 ? 13 : 16,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -643,9 +680,9 @@
 	key="buyText"
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileBuyFrameX}
-	y={mobileBuyFrameY - 8}
-	width={79.2}
-	height={17.6}
+	y={mobileBuyFrameY - (canvasSize.height < 580 ? 6.5 : 8)}
+	width={canvasSize.height < 580 ? 64 : 79.2}
+	height={canvasSize.height < 580 ? 14.3 : 17.6}
 	zIndex={102}
 />
 
@@ -654,11 +691,11 @@
 <Text
 	text={`$${(stateBet.betAmount * 100).toString()}`}
 	x={mobileBuyFrameX}
-	y={mobileBuyFrameY + 12}
+	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 13,
+		fontSize: canvasSize.height < 580 ? 11 : 13,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -682,9 +719,9 @@
 	key="button_01.png"
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileBetFrameX}
-	y={mobileBetFrameY + 32}
-	width={72}
-	height={21}
+	y={mobileBetFrameY + (canvasSize.height < 580 ? 26 : 32)}
+	width={canvasSize.height < 580 ? 58 : 72}
+	height={canvasSize.height < 580 ? 17 : 21}
 	zIndex={102}
 	interactive={true}
 	cursor="pointer"
@@ -695,10 +732,10 @@
 <Sprite
 	key="on.png"
 	anchor={{ x: 0.5, y: 0.5 }}
-	x={mobileBetFrameX - 18}
-	y={mobileBetFrameY + 32}
-	width={19}
-	height={12.8}
+	x={mobileBetFrameX - (canvasSize.height < 580 ? 14.5 : 18)}
+	y={mobileBetFrameY + (canvasSize.height < 580 ? 26 : 32)}
+	width={canvasSize.height < 580 ? 15.4 : 19}
+	height={canvasSize.height < 580 ? 10.4 : 12.8}
 	zIndex={103}
 />
 
@@ -706,10 +743,10 @@
 <Sprite
 	key="off.png"
 	anchor={{ x: 0.5, y: 0.5 }}
-	x={mobileBetFrameX + 18}
-	y={mobileBetFrameY + 32}
-	width={22.8}
-	height={13}
+	x={mobileBetFrameX + (canvasSize.height < 580 ? 14.5 : 18)}
+	y={mobileBetFrameY + (canvasSize.height < 580 ? 26 : 32)}
+	width={canvasSize.height < 580 ? 18.5 : 22.8}
+	height={canvasSize.height < 580 ? 10.5 : 13}
 	zIndex={103}
 />
 
@@ -717,10 +754,10 @@
 <Sprite
 	key="arrow.png"
 	anchor={{ x: 0.5, y: 0.5 }}
-	x={mobileBetFrameX + (isToggleOn ? ARROW_ON_POSITION_MOBILE : ARROW_OFF_POSITION_MOBILE)}
-	y={mobileBetFrameY + 32}
-	width={34.4}
-	height={13.6}
+	x={mobileBetFrameX + (isToggleOn ? (canvasSize.height < 580 ? 11.3 : ARROW_ON_POSITION_MOBILE) : (canvasSize.height < 580 ? -9.8 : ARROW_OFF_POSITION_MOBILE))}
+	y={mobileBetFrameY + (canvasSize.height < 580 ? 26 : 32)}
+	width={canvasSize.height < 580 ? 27.9 : 34.4}
+	height={canvasSize.height < 580 ? 11 : 13.6}
 	zIndex={104}
 	interactive={true}
 	cursor="pointer"
@@ -745,11 +782,11 @@
 <Text
 	text={`${freeSpinTotal - freeSpinCurrent}`}
 	x={mobileBuyFrameX}
-	y={mobileBuyFrameY - 14}
+	y={mobileBuyFrameY - (canvasSize.height < 580 ? 11.3 : 14)}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 17,
+		fontSize: canvasSize.height < 580 ? 14 : 17,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -761,8 +798,8 @@
 	key="free_spins.png"
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileBuyFrameX}
-	y={mobileBuyFrameY + 2}
-	scale={{ x: 0.2, y: 0.2 }}
+	y={mobileBuyFrameY + (canvasSize.height < 580 ? 1.6 : 2)}
+	scale={{ x: canvasSize.height < 580 ? 0.162 : 0.2, y: canvasSize.height < 580 ? 0.162 : 0.2 }}
 	zIndex={102}
 />
 
@@ -770,8 +807,8 @@
 	key="left.png"
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileBuyFrameX}
-	y={mobileBuyFrameY + 16}
-	scale={{ x: 0.2, y: 0.2 }}
+	y={mobileBuyFrameY + (canvasSize.height < 580 ? 13 : 16)}
+	scale={{ x: canvasSize.height < 580 ? 0.162 : 0.2, y: canvasSize.height < 580 ? 0.162 : 0.2 }}
 	zIndex={102}
 />
 {/if}
@@ -809,7 +846,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 16,
+		fontSize: canvasSize.height < 580 ? 13 : 16,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
@@ -837,7 +874,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 16,
+		fontSize: canvasSize.height < 580 ? 13 : 16,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
