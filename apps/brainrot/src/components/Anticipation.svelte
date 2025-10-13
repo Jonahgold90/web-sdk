@@ -38,7 +38,7 @@
 		trackIndex={0}
 		{animationName}
 		loop={animationName === 'brbo_anticipation_loop'}
-		timeScale={stateBetDerived.timeScale()}
+		timeScale={stateBetDerived.timeScale() * 1.15}
 		listener={{
 			complete: () => {
 				if (animationName === 'brbo_anticipation_in') {
