@@ -25,7 +25,7 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Sprite, SpineProvider, SpineTrack, Text } from 'pixi-svelte';
+	import { Sprite, SpineProvider, SpineTrack, BitmapText } from 'pixi-svelte';
 	import { stateBet, stateBetDerived, stateModal, stateConfig } from 'state-shared';
 
 	import { getContext } from '../game/context';
@@ -182,21 +182,17 @@
 />
 
 <!-- Bonus buy cost text -->
-{#if fontLoaded}
-<Text
+<BitmapText
 	text={`$${bonusBuyCost.toString()}`}
-	x={buyButtonX}
+	x={buyButtonX - 15}
 	y={buyButtonY + 30}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: 32,
-		fill: 0xFFFFFF,
-		align: 'center'
+		fontFamily: 'pinkFont',
+		fontSize: 10.5,
 	}}
 	zIndex={2}
 />
-{/if}
 {/if}
 
 <!-- Free Spin Counter Frame - shown during free spins in same position as buy frame -->
@@ -212,21 +208,17 @@
 />
 
 <!-- Free spin counter text -->
-{#if fontLoaded}
-<Text
+<BitmapText
 	text={`${freeSpinTotal - freeSpinCurrent}`}
-	x={buyButtonX}
+	x={buyButtonX - 10}
 	y={buyButtonY - 35}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: 42,
-		fill: 0xFFFFFF,
-		align: 'center'
+		fontFamily: 'pinkFont',
+		fontSize: 10,
 	}}
 	zIndex={2}
 />
-{/if}
 
 <Sprite
 	key="free_spins.png"
@@ -260,6 +252,19 @@
 	width={197}
 	height={243.5}
 	zIndex={1}
+/>
+
+<!-- Bet amount text on bet frame -->
+<BitmapText
+	text={`$${(stateBet.betAmount * 1.25).toFixed(2)}`}
+	x={betFrameX - 17.5}
+	y={betFrameY - 40}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 9.5,
+	}}
+	zIndex={5}
 />
 
 <!-- Button 01 (toggle button) -->

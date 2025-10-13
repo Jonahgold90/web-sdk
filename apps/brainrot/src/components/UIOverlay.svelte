@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Sprite, Text, SpineProvider, SpineTrack, Graphics } from 'pixi-svelte';
+	import { Sprite, Text, BitmapText, SpineProvider, SpineTrack, Graphics } from 'pixi-svelte';
 	import { stateBet, stateBetDerived, stateModal, stateConfig, stateSound } from 'state-shared';
 	import { numberToCurrencyString, bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { onMount } from 'svelte';
@@ -748,21 +748,19 @@
 />
 
 <!-- Bonus buy cost text -->
-{#if fontLoaded}
-<Text
+{#key `${canvasSize.width}-${canvasSize.height}`}
+<BitmapText
 	text={`$${(stateBet.betAmount * 100).toString()}`}
-	x={mobileBuyFrameX}
+	x={mobileBuyFrameX - 6}
 	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 580 ? 11 : 13,
-		fill: 0xFFFFFF,
-		align: 'center'
+		fontFamily: 'pinkFont',
+		fontSize: canvasSize.height < 580 ? 3.5 : 4,
 	}}
-	zIndex={102}
+	zIndex={110}
 />
-{/if}
+{/key}
 
 <!-- Bet frame - right of spin button -->
 <Sprite
@@ -774,6 +772,21 @@
 	height={mobileBetFrameHeight}
 	zIndex={101}
 />
+
+<!-- Bet amount text on bet frame -->
+{#key `${canvasSize.width}-${canvasSize.height}`}
+<BitmapText
+	text={betAmount}
+	x={mobileBetFrameX - 5}
+	y={mobileBetFrameY - (canvasSize.height < 580 ? 20 : 25) + 12.5}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: canvasSize.height < 580 ? 3.5 : 4,
+	}}
+	zIndex={110}
+/>
+{/key}
 
 <!-- Button 01 (toggle button) -->
 <Sprite

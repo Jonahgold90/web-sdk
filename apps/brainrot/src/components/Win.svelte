@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { Container, Text } from 'pixi-svelte';
+	import { Container, BitmapText } from 'pixi-svelte';
 	import { FadeContainer, WinCountUpProvider } from 'components-pixi';
 	import { waitForResolve, waitForTimeout } from 'utils-shared/wait';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
@@ -64,26 +64,24 @@
 					>
 						{#if winLevelData?.animation}
 							<WinAnimation animationMap={winLevelData.animation}>
-								<Text
+								<BitmapText
+									x={-80}
 									anchor={{ x: 0.5, y: 0.5 }}
 									text={bookEventAmountToCurrencyString(countUpAmount)}
 									style={{
-										fontFamily: 'Darling Coffee',
-										fontSize: SYMBOL_SIZE * 3.6,
-										fill: 0xFFFFFF,
-										align: 'center'
+										fontFamily: 'pinkFont',
+										fontSize: 72,
 									}}
 								/>
 							</WinAnimation>
 						{:else}
-							<Text
+							<BitmapText
+								x={-15}
 								anchor={{ x: 0.5, y: 0.5 }}
 								text={bookEventAmountToCurrencyString(countUpAmount)}
 								style={{
-									fontFamily: 'Darling Coffee',
-									fontSize: SYMBOL_SIZE,
-									fill: 0xFFFFFF,
-									align: 'center'
+									fontFamily: 'pinkFont',
+									fontSize: 18,
 								}}
 							/>
 						{/if}

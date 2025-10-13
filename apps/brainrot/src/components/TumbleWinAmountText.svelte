@@ -49,8 +49,8 @@
 		<ResponsiveBitmapText
 			anchor={0.5}
 			style={{
-				fontFamily: 'gold',
-				fontSize: 0.65 * SYMBOL_SIZE,
+				fontFamily: 'pinkFont',
+				fontSize: 0.2 * SYMBOL_SIZE,
 			}}
 			text={bookEventAmountToCurrencyString(amount.current)}
 			maxWidth={props.width}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SpineProvider, SpineTrack, Text, SpineEventEmitterProvider, SpineSlot } from 'pixi-svelte';
+	import { SpineProvider, SpineTrack, BitmapText, SpineEventEmitterProvider, SpineSlot } from 'pixi-svelte';
 	import { stateBuyButton } from './BoardFrame.svelte';
 	import { getContext } from '../game/context';
 	import BuyButtonBoundingBoxesWrapper from './BuyButtonBoundingBoxesWrapper.svelte';
@@ -47,14 +47,13 @@
 		<!-- Buy cost text displayed in the frame_big slot -->
 		<SpineSlot slotName="frame_big">
 			{@const bonusBuyCost = stateBet.betAmount * 100}
-			<Text
+			<BitmapText
 				text={`$${bonusBuyCost.toString()}`}
+				x={-25}	
 				anchor={{ x: 0.5, y: 0.5 }}
 				style={{
-					fontFamily: 'Darling Coffee',
-					fontSize: 60,
-					fill: 0xFFFFFF,
-					align: 'center'
+					fontFamily: 'pinkFont',
+					fontSize: 20,
 				}}
 			/>
 		</SpineSlot>

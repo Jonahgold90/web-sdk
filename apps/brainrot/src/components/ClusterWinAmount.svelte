@@ -13,7 +13,7 @@
 	import { onMount } from 'svelte';
 	import { Tween } from 'svelte/motion';
 
-	import { Text } from 'pixi-svelte';
+	import { BitmapText } from 'pixi-svelte';
 	import { stateBetDerived } from 'state-shared';
 	import { SECOND } from 'constants-shared/time';
 	import { FadeContainer } from 'components-pixi';
@@ -62,7 +62,7 @@
 		if (!show) props.win.oncomplete();
 	}}
 >
-	<Text
+	<BitmapText
 		x={SYMBOL_SIZE * (props.win.reel + 0.5)}
 		y={SYMBOL_SIZE * (props.win.row - 0.5) + y.current}
 		scale={scale.current}
@@ -71,10 +71,8 @@
 			: bookEventAmountToCurrencyString(props.win.result)}
 		anchor={{ x: 0.5, y: 0.5 }}
 		style={{
-			fontFamily: 'Darling Coffee',
-			fontSize: SYMBOL_SIZE * 0.5,
-			fill: 0xFFFFFF,
-			align: 'center'
+			fontFamily: 'pinkFont',
+			fontSize: 9,
 		}}
 	/>
 </FadeContainer>

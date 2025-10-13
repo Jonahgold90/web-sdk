@@ -339,6 +339,11 @@ export default {
 		type: 'font',
 		src: new URL('../../assets/fonts/purpleFont/mm_purple.xml', import.meta.url).href,
 	},
+	pinkFont: {
+		type: 'font',
+		src: new URL('../../assets/fonts/pinkFont/pinkFont.xml', import.meta.url).href,
+		preload: true,
+	},
 	bigwin: {
 		type: 'spine',
 		src: {
