@@ -263,38 +263,40 @@
 	const boardLayout = $derived(context.stateGameDerived.boardLayout());
 	const boardBottomY = $derived(boardLayout.y + boardLayout.height / 2);
 	const overlayTopY = $derived(bottomOverlayY - mobileOverlayHeight);
-	const mobileCenterY = $derived((boardBottomY + overlayTopY) / 2 - 175);
+	const mobileCenterY = $derived(
+		canvasSize.height < 700 ? (boardBottomY + overlayTopY) / 2 - 225 : (boardBottomY + overlayTopY) / 2 - 175
+	); // Much higher on smaller screens
 
-	// Mobile spin button - maintain aspect ratio (619x359 from spine)
-	const mobileSpinButtonWidth = 94; // 78 * 1.2 (20% bigger)
-	const mobileSpinButtonHeight = 54; // 45 * 1.2 to maintain aspect ratio
+	// Mobile spin button - maintain aspect ratio (619x359 from spine), scale based on screen height
+	const mobileSpinButtonWidth = $derived(canvasSize.height < 700 ? 70 : 94); // Smaller on medium mobile (25% reduction)
+	const mobileSpinButtonHeight = $derived(canvasSize.height < 700 ? 40 : 54); // Maintain aspect ratio
 	const mobileSpinX = $derived(canvasSize.width / 2);
-	const mobileSpinY = $derived(mobileCenterY);
+	const mobileSpinY = $derived(canvasSize.height < 700 ? mobileCenterY - 8 : mobileCenterY);
 
 	// Win label and amount - higher above spin button
-	const mobileWinWidth = 100;
-	const mobileWinHeight = 50;
+	const mobileWinWidth = $derived(canvasSize.height < 700 ? 80 : 100);
+	const mobileWinHeight = $derived(canvasSize.height < 700 ? 40 : 50);
 	const mobileWinX = $derived(canvasSize.width / 2);
-	const mobileWinY = $derived(mobileCenterY - mobileSpinButtonHeight / 2 -  80);
+	const mobileWinY = $derived(mobileCenterY - mobileSpinButtonHeight / 2 - (canvasSize.height < 700 ? 70 : 80));
 
 	// PAYS display - under spin button on mobile
 	const mobilePaysWidth = 60;
 	const mobilePaysHeight = 30;
 	const mobilePaysLabelX = $derived(canvasSize.width / 2 - 40); // Label to the left
 	const mobilePaysAmountX = $derived(canvasSize.width / 2 + 40); // Amount to the right
-	const mobilePaysY = $derived(mobileCenterY + mobileSpinButtonHeight / 2 + 45);
+	const mobilePaysY = $derived(canvasSize.height < 700 ? mobileSpinY + mobileSpinButtonHeight / 2 + 35 : mobileCenterY + mobileSpinButtonHeight / 2 + 45);
 
-	// Buy frame - doubled spacing
+	// Buy frame - same size on all mobile screens
 	const mobileBuyFrameWidth = 80;
 	const mobileBuyFrameHeight = 45;
 	const mobileBuyFrameX = $derived(mobileSpinX - mobileSpinButtonWidth / 2 - 60 - mobileBuyFrameWidth / 2);
-	const mobileBuyFrameY = $derived(mobileCenterY - 15);
+	const mobileBuyFrameY = $derived(canvasSize.height < 700 ? mobileSpinY - 15 : mobileCenterY - 15);
 
-	// Bet frame - doubled spacing
+	// Bet frame - same size on all mobile screens
 	const mobileBetFrameWidth = 80;
 	const mobileBetFrameHeight = 99;
 	const mobileBetFrameX = $derived(mobileSpinX + mobileSpinButtonWidth / 2 + 60 + mobileBetFrameWidth / 2);
-	const mobileBetFrameY = $derived(mobileCenterY - 15);
+	const mobileBetFrameY = $derived(canvasSize.height < 700 ? mobileSpinY - 15 : mobileCenterY - 15);
 
 	// Calculate horizontal positions for mobile (left to right) - tightly packed
 	let currentMobileX = 5; // Minimal padding on left
@@ -311,21 +313,21 @@
 	const mobileCreditY = $derived(mobileY);
 
 	// Credit amount position - more space to prevent overlap
-	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + 55);
-	const mobileCreditNextX = $derived(mobileCreditAmountX + 40);
+	const mobileCreditAmountX = $derived(mobileCreditX + mobileCreditWidth / 2 + 45);
+	const mobileCreditNextX = $derived(mobileCreditAmountX + 35);
 
 	// Bet label
 	const mobileBetWidth = 40;
 	const mobileBetHeight = 25;
-	const mobileBetX = $derived(mobileCreditNextX + 18 + mobileBetWidth / 2);
+	const mobileBetX = $derived(mobileCreditNextX + 12 + mobileBetWidth / 2);
 	const mobileBetY = $derived(mobileY);
 
 	// Bet amount position (space for 4-digit amounts like 1000) - more space to prevent overlap
-	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + 45);
-	const mobileBetNextX = $derived(mobileBetAmountX + 60);
+	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + 33);
+	const mobileBetNextX = $derived(mobileBetAmountX + 50);
 
 	// Volume button (using spek sprite)
-	const mobileVolumeX = $derived(canvasSize.width - mobileButtonSize / 2 - 50); // From right edge
+	const mobileVolumeX = $derived(canvasSize.width - mobileButtonSize / 2 - 43); // From right edge
 	const mobileVolumeY = $derived(mobileY);
 
 	// Settings button
@@ -564,7 +566,7 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: 24,
+		fontSize: canvasSize.height < 700 ? 20 : 24,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
