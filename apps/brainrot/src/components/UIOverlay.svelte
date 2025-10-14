@@ -773,21 +773,6 @@
 	zIndex={101}
 />
 
-<!-- BET label text on bet frame -->
-{#key `${canvasSize.width}-${canvasSize.height}`}
-<BitmapText
-	text={stateUrlDerived.social() ? "PLAY" : "BET"}
-	x={mobileBetFrameX}
-	y={mobileBetFrameY - (canvasSize.height < 580 ? 48 : 60)}
-	anchor={{ x: 0.5, y: 0.5 }}
-	style={{
-		fontFamily: 'greenFont',
-		fontSize: canvasSize.height < 580 ? 1.7 : 2.2,
-	}}
-	zIndex={110}
-/>
-{/key}
-
 <!-- Bet amount text on bet frame -->
 {#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
