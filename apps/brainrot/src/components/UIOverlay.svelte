@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Sprite, Text, BitmapText, SpineProvider, SpineTrack, Graphics } from 'pixi-svelte';
-	import { stateBet, stateBetDerived, stateModal, stateConfig, stateSound } from 'state-shared';
+	import { stateBet, stateBetDerived, stateModal, stateConfig, stateSound, stateUrlDerived } from 'state-shared';
 	import { numberToCurrencyString, bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { onMount } from 'svelte';
 
@@ -212,7 +212,7 @@
 	// Amount text positions - adjusted based on screen size
 	const creditAmountX = $derived(
 		isLandscape && canvasSize.width < 500 ? creditX + 10 :
-		creditX + creditWidth / 2 + (isLandscape ? 60 : canvasSize.width < 1400 ? 70 : 60)
+		creditX + creditWidth / 2 + (isLandscape ? 60 : canvasSize.width < 1400 ? 70 : 70)
 	); // Under label for small landscape, next to label otherwise
 	const creditAmountY = $derived(
 		isLandscape && canvasSize.width < 500 ? creditY + creditHeight / 2 + 7 : creditY
@@ -773,7 +773,20 @@
 	zIndex={101}
 />
 
-
+<!-- BET label text on bet frame -->
+{#key `${canvasSize.width}-${canvasSize.height}`}
+<BitmapText
+	text={stateUrlDerived.social() ? "PLAY" : "BET"}
+	x={mobileBetFrameX}
+	y={mobileBetFrameY - (canvasSize.height < 580 ? 48 : 60)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: canvasSize.height < 580 ? 1.7 : 2.2,
+	}}
+	zIndex={110}
+/>
+{/key}
 
 <!-- Bet amount text on bet frame -->
 {#key `${canvasSize.width}-${canvasSize.height}`}
@@ -823,7 +836,7 @@
 <!-- WIN FEATURE label text on bet frame -->
 {#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
-	text="WIN FEATURE"
+	text={stateUrlDerived.social() ? "PLAY FEATURE" : "WIN FEATURE"}
 	x={mobileBetFrameX}
 	y={mobileBetFrameY + (canvasSize.height < 580 ? 13 : 16)}
 	anchor={{ x: 0.5, y: 0.5 }}

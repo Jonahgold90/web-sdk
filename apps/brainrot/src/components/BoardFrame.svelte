@@ -26,7 +26,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { Sprite, SpineProvider, SpineTrack, BitmapText } from 'pixi-svelte';
-	import { stateBet, stateBetDerived, stateModal, stateConfig } from 'state-shared';
+	import { stateBet, stateBetDerived, stateModal, stateConfig, stateUrlDerived } from 'state-shared';
 
 	import { getContext } from '../game/context';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -256,7 +256,7 @@
 
 <!-- BET label text on bet frame -->
 <BitmapText
-	text="BET"
+	text={stateUrlDerived.social() ? "PLAY" : "BET"}
 	x={betFrameX}
 	y={betFrameY - 100}
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -306,7 +306,7 @@
 />
 
 <BitmapText
-	text="WIN FEATURE"
+	text={stateUrlDerived.social() ? "PLAY FEATURE" : "WIN FEATURE"}
 	x={betFrameX}
 	y={betFrameY + 35}
 	anchor={{ x: 0.5, y: 0.5 }}

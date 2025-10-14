@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { SpineProvider, SpineTrack, SpineSlot, SpineEventEmitterProvider, Container, Text } from 'pixi-svelte';
+	import { SpineProvider, SpineTrack, SpineSlot, SpineEventEmitterProvider, Container, BitmapText } from 'pixi-svelte';
 	import { FadeContainer, WinCountUpProvider } from 'components-pixi';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { waitForResolve } from 'utils-shared/wait';
@@ -73,14 +73,13 @@
 						/>
 						<SpineEventEmitterProvider>
 							<SpineSlot slotName="frame">
-								<Text
+								<BitmapText
 									text={bookEventAmountToCurrencyString(countUpAmount)}
+									x={-60}
 									anchor={{ x: 0.5, y: 0.5 }}
 									style={{
-										fontFamily: 'Darling Coffee',
-										fontSize: 200,
-										fill: 0xFFFFFF,
-										align: 'center'
+										fontFamily: 'pinkFont',
+										fontSize: 60,
 									}}
 								/>
 							</SpineSlot>
