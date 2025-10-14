@@ -554,7 +554,7 @@
 	cursor="pointer"
 	onpointerup={() => {
 		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-		stateModal.modal = { name: 'settings' };
+		context.eventEmitter.broadcast({ type: 'volumeControlShow' });
 	}}
 />
 
@@ -1032,7 +1032,7 @@
 	cursor="pointer"
 	onpointerup={() => {
 		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-		stateModal.modal = { name: 'settings' };
+		context.eventEmitter.broadcast({ type: 'volumeControlShow' });
 	}}
 />
 {/if}

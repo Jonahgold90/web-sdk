@@ -331,14 +331,6 @@ export default {
 		type: 'font',
 		src: new URL('../../assets/fonts/goldBlur/miningfont_gold_blur.xml', import.meta.url).href,
 	},
-	silverFont: {
-		type: 'font',
-		src: new URL('../../assets/fonts/silverFont/mm_silver.xml', import.meta.url).href,
-	},
-	purpleFont: {
-		type: 'font',
-		src: new URL('../../assets/fonts/purpleFont/mm_purple.xml', import.meta.url).href,
-	},
 	pinkFont: {
 		type: 'font',
 		src: new URL('../../assets/fonts/pinkFont/pinkFont.xml', import.meta.url).href,

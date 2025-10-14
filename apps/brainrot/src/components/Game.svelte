@@ -32,6 +32,7 @@
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
 	import Transition from './Transition.svelte';
 	import UIOverlay from './UIOverlay.svelte';
+	import VolumeControl from './VolumeControl.svelte';
 
 	const context = getContext();
 
@@ -99,6 +100,9 @@
 
 		<!-- Custom UI Overlay -->
 		<UIOverlay />
+
+		<!-- Volume Control Panel -->
+		<VolumeControl />
 	{/if}
 </App>
 
