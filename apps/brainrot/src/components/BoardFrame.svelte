@@ -254,15 +254,65 @@
 	zIndex={1}
 />
 
+<!-- BET label text on bet frame -->
+<BitmapText
+	text="BET"
+	x={betFrameX}
+	y={betFrameY - 100}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: 4,
+	}}
+	zIndex={5}
+/>
+
 <!-- Bet amount text on bet frame -->
 <BitmapText
 	text={`$${(stateBet.betAmount * 1.25).toFixed(2)}`}
-	x={betFrameX - 17.5}
-	y={betFrameY - 40}
+	x={betFrameX - 10}
+	y={betFrameY - 60}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: 9.5,
+		fontSize: 7.5,
+	}}
+	zIndex={5}
+/>
+
+<!-- BET label text on bet frame -->
+<BitmapText
+	text="DOUBLE"
+	x={betFrameX}
+	y={betFrameY - 26}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: 3,
+	}}
+	zIndex={5}
+/>
+
+<BitmapText
+	text="CHANCE TO"
+	x={betFrameX}
+	y={betFrameY + 5}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: 2.5,
+	}}
+	zIndex={5}
+/>
+
+<BitmapText
+	text="WIN FEATURE"
+	x={betFrameX}
+	y={betFrameY + 35}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: 2.5,
 	}}
 	zIndex={5}
 />

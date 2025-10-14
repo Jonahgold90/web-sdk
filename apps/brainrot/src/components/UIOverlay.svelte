@@ -773,16 +773,63 @@
 	zIndex={101}
 />
 
+
+
 <!-- Bet amount text on bet frame -->
 {#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
-	text={betAmount}
-	x={mobileBetFrameX - 5}
-	y={mobileBetFrameY - (canvasSize.height < 580 ? 20 : 25) + 12.5}
+	text={`$${(stateBet.betAmount * 1.25).toFixed(2)}`}
+	x={mobileBetFrameX - 5 - 2.5}
+	y={mobileBetFrameY - (canvasSize.height < 580 ? 30 : 37)}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: canvasSize.height < 580 ? 3.5 : 4,
+		fontSize: canvasSize.height < 580 ? 2.5 : 3.5,
+	}}
+	zIndex={110}
+/>
+{/key}
+
+<!-- DOUBLE label text on bet frame -->
+{#key `${canvasSize.width}-${canvasSize.height}`}
+<BitmapText
+	text="DOUBLE"
+	x={mobileBetFrameX}
+	y={mobileBetFrameY - (canvasSize.height < 580 ? 15 : 18)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: canvasSize.height < 580 ? 1 : 1.3,
+	}}
+	zIndex={110}
+/>
+{/key}
+
+<!-- CHANCE TO label text on bet frame -->
+{#key `${canvasSize.width}-${canvasSize.height}`}
+<BitmapText
+	text="CHANCE TO"
+	x={mobileBetFrameX}
+	y={mobileBetFrameY + (canvasSize.height < 580 ? 0 : 0)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: canvasSize.height < 580 ? 0.8 : 1.1,
+	}}
+	zIndex={110}
+/>
+{/key}
+
+<!-- WIN FEATURE label text on bet frame -->
+{#key `${canvasSize.width}-${canvasSize.height}`}
+<BitmapText
+	text="WIN FEATURE"
+	x={mobileBetFrameX}
+	y={mobileBetFrameY + (canvasSize.height < 580 ? 13 : 16)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'greenFont',
+		fontSize: canvasSize.height < 580 ? 0.8 : 1.1,
 	}}
 	zIndex={110}
 />
