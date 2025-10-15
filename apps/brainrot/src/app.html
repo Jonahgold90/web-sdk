@@ -5,6 +5,8 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<link rel="stylesheet" href="https://use.typekit.net/aba0ebl.css" />
 		<meta name="viewport" content="width=device-width" />
+		<!-- Preload the Darling Coffee font -->
+		<link rel="preload" href="%sveltekit.assets%/assets/fonts/brainrotBonanza/Darling%20Coffee.otf" as="font" type="font/otf" crossorigin="anonymous" />
 		<style>
 			@font-face {
 				font-family: 'Darling Coffee';
@@ -12,6 +14,7 @@
 					 url('%sveltekit.assets%/assets/fonts/brainrotBonanza/Darling%20Coffee.ttf') format('truetype');
 				font-weight: normal;
 				font-style: normal;
+				font-display: block;
 			}
 		</style>
 		%sveltekit.head%
