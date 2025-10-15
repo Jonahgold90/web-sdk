@@ -263,9 +263,17 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/BET.png', import.meta.url).href,
 	},
+	uiPlay: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/play.png', import.meta.url).href,
+	},
 	uiCredit: {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/CREDIT.png', import.meta.url).href,
+	},
+	uiCoins: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/coins.png', import.meta.url).href,
 	},
 	uiInfo: {
 		type: 'sprite',

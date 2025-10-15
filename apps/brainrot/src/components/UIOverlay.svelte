@@ -574,7 +574,7 @@
 <!-- Text displays - vertically stacked, left aligned -->
 <!-- Credit display (top) -->
 <Sprite
-	key="uiCredit"
+	key={stateUrlDerived.social() ? "uiCoins" : "uiCredit"}
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={creditX}
 	y={creditY}
@@ -602,7 +602,7 @@
 
 <!-- Bet display (bottom) -->
 <Sprite
-	key="uiBet"
+	key={stateUrlDerived.social() ? "uiPlay" : "uiBet"}
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={betX}
 	y={betY}
@@ -947,7 +947,7 @@
 
 <!-- Credit label -->
 <Sprite
-	key="uiCredit"
+	key={stateUrlDerived.social() ? "uiCoins" : "uiCredit"}
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileCreditX}
 	y={mobileCreditY}
@@ -975,7 +975,7 @@
 
 <!-- Bet label -->
 <Sprite
-	key="uiBet"
+	key={stateUrlDerived.social() ? "uiPlay" : "uiBet"}
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileBetX}
 	y={mobileBetY}
