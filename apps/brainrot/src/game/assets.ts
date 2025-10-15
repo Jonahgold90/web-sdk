@@ -506,4 +506,14 @@ export default {
 		src: new URL('../../assets/audio/sounds.json', import.meta.url).href,
 		preload: true,
 	},
+	mainGameLoopMusic: {
+		type: 'audio',
+		src: new URL('../../assets/audio/music/Main game loop.mp3', import.meta.url).href,
+		preload: true,
+	},
+	bonusGameLoopMusic: {
+		type: 'audio',
+		src: new URL('../../assets/audio/music/Bonus game loop 1.mp3', import.meta.url).href,
+		preload: true,
+	},
 } as const;
