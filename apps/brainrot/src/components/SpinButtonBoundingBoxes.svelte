@@ -14,7 +14,7 @@
 
 	// Spin button animation state (passed from parent)
 	let spinButtonAnimation = $state('spin_button_idle');
-	let isHoveringButton = $state<'plus' | 'minus' | 'spin' | 'autoplay' | null>(null);
+	let isHoveringButton = $state<'plus' | 'minus' | 'spin' | 'autoplay' | 'turbo' | null>(null);
 
 	const isSpinning = $derived(!context.stateXstateDerived.isIdle());
 
@@ -90,7 +90,18 @@
 	};
 
 	function onPointerDown(e: FederatedPointerEvent) {
-		if (hitBox('plus_box', e)) {
+		// Check turbo and autoplay FIRST before spin button to avoid overlap
+		if (hitBox('aarow_button2', e)) {
+			// Turbo mode button clicked - toggle turbo mode
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+			stateBetDerived.updateIsTurbo(!stateBet.isTurbo, { persistent: true });
+			setTimeout(() => (isHoveringButton = null), 300);
+		} else if (hitBox('autoplay_button2', e)) {
+			// Autoplay clicked - open autoplay modal
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+			stateModal.modal = { name: 'autoSpin' };
+			setTimeout(() => (isHoveringButton = null), 300);
+		} else if (hitBox('plus2', e)) {
 			// Plus clicked - increase bet to next interval
 			spinButtonAnimation = 'plus_click';
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
@@ -102,7 +113,7 @@
 			stateBetDerived.setBetAmount(betOptions[nextIndex]);
 
 			setTimeout(() => (isHoveringButton = null), 300);
-		} else if (hitBox('minus_box', e)) {
+		} else if (hitBox('minus2', e)) {
 			// Minus clicked - decrease bet to previous interval
 			spinButtonAnimation = 'minus_click';
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
@@ -114,29 +125,27 @@
 			stateBetDerived.setBetAmount(betOptions[prevIndex]);
 
 			setTimeout(() => (isHoveringButton = null), 300);
-		} else if (hitBox('spin_box', e)) {
+		} else if (hitBox('spin_bounding', e)) {
 			// Spin clicked
 			onSpinPress();
-			setTimeout(() => (isHoveringButton = null), 300);
-		} else if (hitBox('autoplay_box', e)) {
-			// Autoplay clicked - open autoplay modal
-			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-			stateModal.modal = { name: 'autoSpin' };
 			setTimeout(() => (isHoveringButton = null), 300);
 		}
 	}
 
 	function onPointerMove(e: FederatedPointerEvent) {
-		let newHoverState: 'plus' | 'minus' | 'spin' | 'autoplay' | null = null;
+		let newHoverState: 'plus' | 'minus' | 'spin' | 'autoplay' | 'turbo' | null = null;
 
-		if (hitBox('plus_box', e)) {
-			newHoverState = 'plus';
-		} else if (hitBox('minus_box', e)) {
-			newHoverState = 'minus';
-		} else if (hitBox('spin_box', e)) {
-			newHoverState = 'spin';
-		} else if (hitBox('autoplay_box', e)) {
+		// Check turbo and autoplay FIRST before spin button to avoid overlap
+		if (hitBox('aarow_button2', e)) {
+			newHoverState = 'turbo';
+		} else if (hitBox('autoplay_button2', e)) {
 			newHoverState = 'autoplay';
+		} else if (hitBox('plus2', e)) {
+			newHoverState = 'plus';
+		} else if (hitBox('minus2', e)) {
+			newHoverState = 'minus';
+		} else if (hitBox('spin_bounding', e)) {
+			newHoverState = 'spin';
 		}
 
 		if (newHoverState !== isHoveringButton) {
@@ -172,6 +181,41 @@
 				spinButtonAnimation === 'spin_pause_idle' ||
 				spinButtonAnimation.includes('hover');
 			spineInstance.state.setAnimation(0, spinButtonAnimation, loop);
+		}
+	});
+
+	// Control turbo mode arrow visibility and color
+	$effect(() => {
+		const skeleton = spineInstance.skeleton;
+		const aarow01Slot = skeleton.findSlot('aarow_01');
+		const aarow02Slot = skeleton.findSlot('aarow_02');
+		const aarow03Slot = skeleton.findSlot('aarow_03');
+
+		// Show all 3 arrows based on turbo mode state
+		// Off state: show all arrows in grey (dimmed)
+		// On state: show all arrows in white (bright)
+		if (stateBet.isTurbo) {
+			// Turbo mode ON - show all 3 arrows in bright white
+			if (aarow01Slot) {
+				aarow01Slot.color.set(1, 1, 1, 1); // White
+			}
+			if (aarow02Slot) {
+				aarow02Slot.color.set(1, 1, 1, 1); // White
+			}
+			if (aarow03Slot) {
+				aarow03Slot.color.set(1, 1, 1, 1); // White
+			}
+		} else {
+			// Turbo mode OFF - show all 3 arrows in grey (dimmed)
+			if (aarow01Slot) {
+				aarow01Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
+			}
+			if (aarow02Slot) {
+				aarow02Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
+			}
+			if (aarow03Slot) {
+				aarow03Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
+			}
 		}
 	});
 </script>
