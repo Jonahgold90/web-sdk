@@ -32,6 +32,7 @@ export type SoundEffectName =
 	| 'sfx_reel_stop_3'
 	| 'sfx_reel_stop_4'
 	| 'sfx_reel_stop_5'
+	| 'sfx_reel_stop_6'
 	| 'sfx_royals_landing'
 	| 'sfx_scatter_reveal'
 	| 'sfx_scatter_stop_1'

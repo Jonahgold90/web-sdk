@@ -44,9 +44,11 @@ const board = _.range(BOARD_DIMENSIONS.x).map((reelIndex) => {
 		initialSymbols: INITIAL_BOARD[reelIndex],
 		initialSymbolState: INITIAL_SYMBOL_STATE,
 		onReelStopping: () => {
+			// Play the corresponding reel land sound for each reel (1-6)
+			const soundName = `sfx_reel_stop_${reelIndex + 1}` as const;
 			eventEmitter.broadcast({
 				type: 'soundOnce',
-				name: 'sfx_reel_stop_1',
+				name: soundName,
 				forcePlay: !stateBet.isTurbo,
 			});
 		},

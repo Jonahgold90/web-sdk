@@ -567,4 +567,34 @@ export default {
 		src: new URL('../../assets/audio/sfx/Bonus trigger.mp3', import.meta.url).href,
 		preload: true,
 	},
+	reelLand1Sound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/reelLands/Single_land_1.mp3', import.meta.url).href,
+		preload: true,
+	},
+	reelLand2Sound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/reelLands/Single_land_2.mp3', import.meta.url).href,
+		preload: true,
+	},
+	reelLand3Sound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/reelLands/Single_land_3.mp3', import.meta.url).href,
+		preload: true,
+	},
+	reelLand4Sound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/reelLands/Single_land_4.mp3', import.meta.url).href,
+		preload: true,
+	},
+	reelLand5Sound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/reelLands/Single_land_5.mp3', import.meta.url).href,
+		preload: true,
+	},
+	reelLand6Sound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/reelLands/Single_land_6.mp3', import.meta.url).href,
+		preload: true,
+	},
 } as const;

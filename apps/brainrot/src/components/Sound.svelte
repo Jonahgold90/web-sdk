@@ -32,6 +32,7 @@
 	let skibidiToiletLaserHowl: Howl;
 	let smallWinHowl: Howl;
 	let bonusTriggerHowl: Howl;
+	let reelLandHowls: Howl[] = [];
 
 	// Calculate actual volume based on master and music settings
 	const calculateMusicVolume = (baseMultiplier: number = 0.3) => {
@@ -81,6 +82,16 @@
 			volume: calculateSfxVolume(0.3) // 0.3 base volume for bonus trigger (quieter)
 		});
 
+		// Initialize reel land sounds
+		reelLandHowls = [
+			new Howl({ src: ['./assets/audio/sfx/reelLands/Single_land_1.mp3'], volume: calculateSfxVolume(1.0) }),
+			new Howl({ src: ['./assets/audio/sfx/reelLands/Single_land_2.mp3'], volume: calculateSfxVolume(1.0) }),
+			new Howl({ src: ['./assets/audio/sfx/reelLands/Single_land_3.mp3'], volume: calculateSfxVolume(1.0) }),
+			new Howl({ src: ['./assets/audio/sfx/reelLands/Single_land_4.mp3'], volume: calculateSfxVolume(1.0) }),
+			new Howl({ src: ['./assets/audio/sfx/reelLands/Single_land_5.mp3'], volume: calculateSfxVolume(1.0) }),
+			new Howl({ src: ['./assets/audio/sfx/reelLands/Single_land_6.mp3'], volume: calculateSfxVolume(1.0) })
+		];
+
 		// Start with base game music
 		currentMusicHowl = baseMusicHowl;
 		baseMusicHowl.play();
@@ -109,6 +120,9 @@
 		}
 		if (bonusTriggerHowl) {
 			bonusTriggerHowl.volume(calculateSfxVolume(0.3)); // 0.3 base volume for bonus trigger (quieter)
+		}
+		if (reelLandHowls.length > 0) {
+			reelLandHowls.forEach(howl => howl.volume(calculateSfxVolume(1.0)));
 		}
 	});
 
@@ -186,6 +200,17 @@
 			} else if (name === 'jng_intro_fs') {
 				// Block this sound - we're using custom bonus trigger instead
 				return;
+			} else if (name.startsWith('sfx_reel_stop_')) {
+				// Replace template reel stop sounds with custom reel land sounds
+				if (reelLandHowls.length > 0 && stateSound.volumeValueSoundEffect > 0) {
+					// Get the reel number from the sound name (sfx_reel_stop_1 -> 0, etc)
+					const reelIndex = parseInt(name.replace('sfx_reel_stop_', '')) - 1;
+					// Use the corresponding reel land sound, or random if index is out of bounds
+					const soundIndex = reelIndex >= 0 && reelIndex < reelLandHowls.length
+						? reelIndex
+						: Math.floor(Math.random() * reelLandHowls.length);
+					reelLandHowls[soundIndex].play();
+				}
 			} else {
 				// Let all other sounds play from audio sprite
 				sound.players.once.play({ name, forcePlay });
