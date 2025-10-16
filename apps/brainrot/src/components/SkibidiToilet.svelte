@@ -45,6 +45,8 @@
 		skibidiLaserEyes: () => {
 			skibidiAnimationName = 'laser_eyes_zapping_the_board';
 			skibidiLoop = false;
+			// Trigger laser sound effect
+			context.eventEmitter.broadcast({ type: 'soundSkibidiLaser' });
 		},
 		skibidiIdle: () => {
 			skibidiAnimationName = 'idle';

@@ -516,4 +516,24 @@ export default {
 		src: new URL('../../assets/audio/music/Bonus game loop 1.mp3', import.meta.url).href,
 		preload: true,
 	},
+	spinButtonClickSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/Spin button click.mp3', import.meta.url).href,
+		preload: true,
+	},
+	skibidiToiletLaserSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/Skibbidy toilet eye laser.wav', import.meta.url).href,
+		preload: true,
+	},
+	smallWinSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/Small Win 1.mp3', import.meta.url).href,
+		preload: true,
+	},
+	bonusTriggerSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/Bonus trigger.mp3', import.meta.url).href,
+		preload: true,
+	},
 } as const;

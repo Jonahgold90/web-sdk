@@ -8,7 +8,9 @@
 		| { type: 'soundStop'; name: SoundName }
 		| { type: 'soundFade'; name: SoundName; from: number; to: number; duration: number }
 		| { type: 'soundScatterCounterIncrease' }
-		| { type: 'soundScatterCounterClear' };
+		| { type: 'soundScatterCounterClear' }
+		| { type: 'soundSkibidiLaser' }
+		| { type: 'soundSmallWin' };
 </script>
 
 <script lang="ts">
@@ -26,26 +28,57 @@
 	let baseMusicHowl: Howl;
 	let bonusMusicHowl: Howl;
 	let currentMusicHowl: Howl | null = null;
+	let spinButtonClickHowl: Howl;
+	let skibidiToiletLaserHowl: Howl;
+	let smallWinHowl: Howl;
+	let bonusTriggerHowl: Howl;
 
 	// Calculate actual volume based on master and music settings
-	const calculateVolume = () => {
+	const calculateMusicVolume = (baseMultiplier: number = 0.3) => {
 		const masterVolume = stateSound.volumeValueMaster / 100; // 0-1
 		const musicVolume = stateSound.volumeValueMusic / 100; // 0-1
-		return masterVolume * musicVolume * 0.3; // 0.3 base volume for music
+		return masterVolume * musicVolume * baseMultiplier;
 	};
 
-	// Create the music instances once when component loads
+	// Calculate actual volume for sound effects
+	const calculateSfxVolume = (baseMultiplier: number = 0.5) => {
+		const masterVolume = stateSound.volumeValueMaster / 100; // 0-1
+		const sfxVolume = stateSound.volumeValueSoundEffect / 100; // 0-1
+		return masterVolume * sfxVolume * baseMultiplier;
+	};
+
+	// Create the music and SFX instances once when component loads
 	onMount(() => {
 		baseMusicHowl = new Howl({
 			src: ['./assets/audio/music/Main game loop.mp3'],
 			loop: true,
-			volume: calculateVolume()
+			volume: calculateMusicVolume(0.2) // 0.2 base volume for main game
 		});
 
 		bonusMusicHowl = new Howl({
 			src: ['./assets/audio/music/Bonus game loop 1.mp3'],
 			loop: true,
-			volume: calculateVolume()
+			volume: calculateMusicVolume(0.3) // 0.3 base volume for bonus game
+		});
+
+		spinButtonClickHowl = new Howl({
+			src: ['./assets/audio/sfx/Spin button click.mp3'],
+			volume: calculateSfxVolume()
+		});
+
+		skibidiToiletLaserHowl = new Howl({
+			src: ['./assets/audio/sfx/Skibbidy toilet eye laser.wav'],
+			volume: calculateSfxVolume()
+		});
+
+		smallWinHowl = new Howl({
+			src: ['./assets/audio/sfx/Small Win 1.mp3'],
+			volume: calculateSfxVolume()
+		});
+
+		bonusTriggerHowl = new Howl({
+			src: ['./assets/audio/sfx/Bonus trigger.mp3'],
+			volume: calculateSfxVolume(0.3) // 0.3 base volume for bonus trigger (quieter)
 		});
 
 		// Start with base game music
@@ -53,14 +86,29 @@
 		baseMusicHowl.play();
 	});
 
-	// Volume control based on master volume and music toggle
+	// Volume control for music based on master volume and music toggle
 	$effect(() => {
-		const volume = calculateVolume();
 		if (baseMusicHowl) {
-			baseMusicHowl.volume(volume);
+			baseMusicHowl.volume(calculateMusicVolume(0.2)); // 0.2 base volume for main game
 		}
 		if (bonusMusicHowl) {
-			bonusMusicHowl.volume(volume);
+			bonusMusicHowl.volume(calculateMusicVolume(0.3)); // 0.3 base volume for bonus game
+		}
+	});
+
+	// Volume control for SFX based on master volume and SFX toggle
+	$effect(() => {
+		if (spinButtonClickHowl) {
+			spinButtonClickHowl.volume(calculateSfxVolume());
+		}
+		if (skibidiToiletLaserHowl) {
+			skibidiToiletLaserHowl.volume(calculateSfxVolume());
+		}
+		if (smallWinHowl) {
+			smallWinHowl.volume(calculateSfxVolume());
+		}
+		if (bonusTriggerHowl) {
+			bonusTriggerHowl.volume(calculateSfxVolume(0.3)); // 0.3 base volume for bonus trigger (quieter)
 		}
 	});
 
@@ -94,7 +142,12 @@
 			// Music is always playing, no need to start it
 		},
 		soundPressGeneral: () => sound.players.once.play({ name: 'sfx_btn_general' }),
-		soundPressBet: () => sound.players.once.play({ name: 'sfx_btn_spin' }),
+		soundPressBet: () => {
+			// Use custom spin button click sound
+			if (spinButtonClickHowl && stateSound.volumeValueSoundEffect > 0) {
+				spinButtonClickHowl.play();
+			}
+		},
 		// scatterCounter
 		soundScatterCounterIncrease: () => (context.stateGame.scatterCounter = context.stateGame.scatterCounter + 1), // prettier-ignore
 		soundScatterCounterClear: () => (context.stateGame.scatterCounter = 0),
@@ -105,11 +158,33 @@
 			}
 		},
 		soundLoop: ({ name }) => sound.players.loop.play({ name }),
-		soundOnce: ({ name, forcePlay }) => sound.players.once.play({ name, forcePlay }),
+		soundOnce: ({ name, forcePlay }) => {
+			// Intercept small win sound and use custom sound
+			if (name === 'sfx_winlevel_small') {
+				if (smallWinHowl && stateSound.volumeValueSoundEffect > 0) {
+					smallWinHowl.play();
+				}
+			}
+			// Intercept bonus trigger sound (scatter win) and use custom sound
+			else if (name === 'sfx_scatter_win_v2') {
+				if (bonusTriggerHowl && stateSound.volumeValueSoundEffect > 0) {
+					bonusTriggerHowl.play();
+				}
+			}
+			else {
+				sound.players.once.play({ name, forcePlay });
+			}
+		},
 		soundStop: ({ name }) => sound.stop({ name }),
 		soundFade: async ({ name, duration, from, to }) => {
 			if (name !== 'bgm_main' && name !== 'bgm_freespin') {
 				await sound.fade({ name, duration, from, to });
+			}
+		},
+		soundSkibidiLaser: () => {
+			// Play skibidi toilet laser sound
+			if (skibidiToiletLaserHowl && stateSound.volumeValueSoundEffect > 0) {
+				skibidiToiletLaserHowl.play();
 			}
 		},
 	});
