@@ -1,0 +1,193 @@
+{
+	"skeleton": {
+		"hash": "jcIt7aBBFj0",
+		"spine": "4.2.43",
+		"x": -428,
+		"y": -32.5,
+		"width": 856,
+		"height": 65,
+		"images": "./images/",
+		"audio": "E:/#hidden studios/Brainrot_Bonanaza/brbo_pressanywhere"
+	},
+	"bones": [
+		{
+			"name": "root"
+		},
+		{
+			"name": "press",
+			"parent": "root"
+		}
+	],
+	"slots": [
+		{
+			"name": "Layer 1",
+			"bone": "press",
+			"attachment": "Layer 1"
+		}
+	],
+	"skins": [
+		{
+			"name": "default",
+			"attachments": {
+				"Layer 1": {
+					"Layer 1": {
+						"width": 856,
+						"height": 65
+					}
+				}
+			}
+		}
+	],
+	"animations": {
+		"in": {
+			"slots": {
+				"Layer 1": {
+					"rgba": [
+						{
+							"color": "ffffff00",
+							"curve": [
+								0.125,
+								1,
+								0.375,
+								1,
+								0.125,
+								1,
+								0.375,
+								1,
+								0.125,
+								1,
+								0.375,
+								1,
+								0.125,
+								0,
+								0.375,
+								1
+							]
+						},
+						{
+							"time": 0.5,
+							"color": "ffffffff"
+						}
+					]
+				}
+			},
+			"bones": {
+				"press": {
+					"scale": [
+						{
+							"x": 0.96,
+							"y": 0.96,
+							"curve": [
+								0.125,
+								0.96,
+								0.375,
+								1,
+								0.125,
+								0.96,
+								0.375,
+								1
+							]
+						},
+						{
+							"time": 0.5
+						}
+					]
+				}
+			}
+		},
+		"loop": {
+			"bones": {
+				"press": {
+					"scale": [
+						{
+							"curve": [
+								0.125,
+								1,
+								0.375,
+								1.06,
+								0.125,
+								1,
+								0.375,
+								1.06
+							]
+						},
+						{
+							"time": 0.5,
+							"x": 1.06,
+							"y": 1.06,
+							"curve": [
+								0.625,
+								1.06,
+								0.875,
+								1,
+								0.625,
+								1.06,
+								0.875,
+								1
+							]
+						},
+						{
+							"time": 1
+						}
+					]
+				}
+			}
+		},
+		"out": {
+			"slots": {
+				"Layer 1": {
+					"rgba": [
+						{
+							"color": "ffffffff",
+							"curve": [
+								0.125,
+								1,
+								0.375,
+								1,
+								0.125,
+								1,
+								0.375,
+								1,
+								0.125,
+								1,
+								0.375,
+								1,
+								0.125,
+								1,
+								0.375,
+								0
+							]
+						},
+						{
+							"time": 0.5,
+							"color": "ffffff00"
+						}
+					]
+				}
+			},
+			"bones": {
+				"press": {
+					"scale": [
+						{
+							"curve": [
+								0.125,
+								1,
+								0.375,
+								1.06,
+								0.125,
+								1,
+								0.375,
+								1.06
+							]
+						},
+						{
+							"time": 0.5,
+							"x": 1.06,
+							"y": 1.06
+						}
+					]
+				}
+			}
+		}
+	}
+}

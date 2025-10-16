@@ -27,8 +27,12 @@ export default {
 		preload: true,
 	},
 	pressToContinueText: {
-		type: 'sprites',
-		src: new URL('../../assets/sprites/pressToContinueText/MM_pressanywhere.json', import.meta.url).href,
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/pressToContinueText/pressToContinue.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/pressToContinueText/pressToContinue.json', import.meta.url).href,
+			scale: 0.75,
+		},
 		preload: true,
 	},
 	H1: {

@@ -12,11 +12,10 @@
 	import { FadeContainer, WinCountUpProvider } from 'components-pixi';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
 	import { waitForResolve } from 'utils-shared/wait';
-	import { CanvasSizeRectangle } from 'components-layout';
-	import { OnMount } from 'components-shared';
+	import { CanvasSizeRectangle, OnPressFullScreen } from 'components-layout';
+	import { OnMount, OnHotkey } from 'components-shared';
 
 	import { getContext } from '../game/context';
-	import PressToContinue from './PressToContinue.svelte';
 
 	type AnimationName = 'brbo_banner_in' | 'brbo_banner_loop' | 'brbo_banner_out';
 
@@ -87,7 +86,8 @@
 					</SpineProvider>
 				</Container>
 
-				<PressToContinue onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
+				<OnHotkey hotkey="Space" onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
+				<OnPressFullScreen onpress={() => (countUpCompleted ? oncomplete() : finishCountUp())} />
 			{/snippet}
 		</WinCountUpProvider>
 	{/if}

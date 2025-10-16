@@ -6,13 +6,13 @@
 </script>
 
 <script lang="ts">
-	import { CanvasSizeRectangle } from 'components-layout';
+	import { CanvasSizeRectangle, OnPressFullScreen } from 'components-layout';
 	import { FadeContainer } from 'components-pixi';
 	import { waitForResolve } from 'utils-shared/wait';
 	import { Text, SpineProvider, SpineSlot, SpineTrack, SpineEventEmitterProvider, Container } from 'pixi-svelte';
+	import { OnHotkey } from 'components-shared';
 
 	import { getContext } from '../game/context';
-	import PressToContinue from './PressToContinue.svelte';
 
 	type AnimationName = 'brbo_banner_in' | 'brbo_banner_loop' | 'brbo_banner_out';
 
@@ -75,5 +75,6 @@
 		</SpineProvider>
 	</Container>
 
-	<PressToContinue onpress={() => oncomplete()} />
+	<OnHotkey hotkey="Space" onpress={() => oncomplete()} />
+	<OnPressFullScreen onpress={() => oncomplete()} />
 </FadeContainer>
