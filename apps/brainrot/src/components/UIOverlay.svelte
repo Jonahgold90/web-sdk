@@ -23,13 +23,17 @@
 	let showVolumeSlider = $state(false);
 	let isDraggingVolume = $state(false);
 	let volumeSliderElement: { y: number; height: number } | null = null;
+	let previousVolume = $state(50); // Store the volume level before muting (for slider display)
 
 	function handleVolumePointerMove(e: PointerEvent | TouchEvent) {
 		if (!isDraggingVolume || !volumeSliderElement) return;
 		const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 		const localY = clientY - (volumeSliderElement.y - volumeSliderElement.height / 2);
 		const newVolume = 1 - Math.max(0, Math.min(1, localY / volumeSliderElement.height));
-		stateSound.volumeValueMaster = Math.round(newVolume * 100);
+		const roundedVolume = Math.round(newVolume * 100);
+		// When user drags slider, update both actual and displayed volume
+		previousVolume = roundedVolume;
+		stateSound.volumeValueMaster = roundedVolume;
 	}
 
 	function handleVolumePointerUp() {
@@ -40,7 +44,40 @@
 		const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 		const localY = clientY - (sliderY - trackHeight / 2);
 		const newVolume = 1 - Math.max(0, Math.min(1, localY / trackHeight));
-		stateSound.volumeValueMaster = Math.round(newVolume * 100);
+		const roundedVolume = Math.round(newVolume * 100);
+		// When user clicks slider, update both actual and displayed volume
+		previousVolume = roundedVolume;
+		stateSound.volumeValueMaster = roundedVolume;
+	}
+
+	function toggleVolumeButton(e: PointerEvent) {
+		e.stopPropagation(); // Prevent window click handler from interfering
+		e.preventDefault(); // Prevent default click behavior
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+
+		// Capture the current slider state BEFORE doing anything else
+		const wasOpen = showVolumeSlider;
+
+		// If slider is already open, just close it without changing mute state
+		if (wasOpen) {
+			showVolumeSlider = false;
+			return;
+		}
+
+		// Slider is closed, so toggle mute state and open slider
+		if (stateSound.volumeValueMaster === 0) {
+			// If currently muted, restore to previous volume (default to 50 if previous was also 0)
+			const volumeToRestore = previousVolume === 0 ? 50 : previousVolume;
+			stateSound.volumeValueMaster = volumeToRestore;
+			previousVolume = volumeToRestore; // Update previousVolume so slider shows the restored value
+		} else {
+			// If currently unmuted, save current volume and mute
+			previousVolume = stateSound.volumeValueMaster;
+			stateSound.volumeValueMaster = 0;
+		}
+
+		// Open slider
+		showVolumeSlider = true;
 	}
 
 	// Free spin counter state
@@ -431,6 +468,9 @@
 	// Settings button
 	const mobileSettingsX = $derived(canvasSize.width - mobileButtonSize / 2 - 5); // From right edge
 	const mobileSettingsY = $derived(mobileY);
+
+	// Volume button sprite key - changes based on master volume
+	const volumeSpriteKey = $derived(stateSound.volumeValueMaster === 0 ? 'mutedState' : 'uiSpek');
 </script>
 
 <svelte:window
@@ -525,7 +565,7 @@
 <!-- Left side buttons -->
 <!-- Spek button (top) - Volume button -->
 <Sprite
-	key="uiSpek"
+	key={volumeSpriteKey}
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={spekX}
 	y={spekY}
@@ -535,10 +575,8 @@
 	interactive={true}
 	cursor="pointer"
 	data-volume-button
-	onpointerup={() => {
-		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-		showVolumeSlider = !showVolumeSlider;
-	}}
+	onpointerdown={(e) => e.stopPropagation()}
+	onpointerup={toggleVolumeButton}
 />
 
 <!-- Settings button (bottom) -->
@@ -1003,7 +1041,7 @@
 
 <!-- Volume button (using spek sprite) -->
 <Sprite
-	key="uiSpek"
+	key={volumeSpriteKey}
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileVolumeX}
 	y={mobileVolumeY}
@@ -1013,10 +1051,8 @@
 	interactive={true}
 	cursor="pointer"
 	data-volume-button
-	onpointerup={() => {
-		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-		showVolumeSlider = !showVolumeSlider;
-	}}
+	onpointerdown={(e) => e.stopPropagation()}
+	onpointerup={toggleVolumeButton}
 />
 
 <!-- Settings button -->
@@ -1046,12 +1082,15 @@
 	{@const gap = isMobile ? 5 : 10}
 	{@const textHeight = isMobile ? 20 : 25}
 	{@const trackY = sliderY - sliderHeight / 2 + padding + textHeight + gap + trackHeight / 2}
+	{@const isMuted = stateSound.volumeValueMaster === 0}
+	{@const displayVolume = isMuted ? previousVolume : stateSound.volumeValueMaster}
 	<div
 		class="volume-slider"
 		class:mobile={isMobile}
+		class:muted={isMuted}
 		style="left: {sliderX}px; top: {sliderY}px; height: {sliderHeight}px;"
 	>
-		<div class="volume-percentage">{stateSound.volumeValueMaster}%</div>
+		<div class="volume-percentage">{displayVolume}%</div>
 		<div class="volume-slider-container" style="height: {trackHeight}px;">
 			<div
 				class="volume-slider-track"
@@ -1063,11 +1102,11 @@
 					handleVolumeTrackClick(e, trackY, trackHeight);
 				}}
 			>
-				<div class="volume-slider-fill" style="height: {stateSound.volumeValueMaster}%"></div>
+				<div class="volume-slider-fill" style="height: {displayVolume}%"></div>
 			</div>
 			<div
 				class="volume-slider-thumb"
-				style="top: {(1 - stateSound.volumeValueMaster / 100) * 100}%"
+				style="top: {(1 - displayVolume / 100) * 100}%"
 				role="button"
 				tabindex="0"
 				onpointerdown={(e) => {
@@ -1144,6 +1183,11 @@
 	.volume-slider-fill {
 		width: 100%;
 		background: #00ff00;
+		transition: background 0.2s ease;
+	}
+
+	.volume-slider.muted .volume-slider-fill {
+		background: #ff0000;
 	}
 
 	.volume-slider-thumb {
@@ -1158,6 +1202,11 @@
 		cursor: pointer;
 		pointer-events: auto;
 		z-index: 10;
+		transition: border-color 0.2s ease;
+	}
+
+	.volume-slider.muted .volume-slider-thumb {
+		border-color: #ff0000;
 	}
 
 	.volume-slider-thumb:hover {

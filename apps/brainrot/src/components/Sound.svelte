@@ -154,11 +154,20 @@
 		// game - completely block old bgm calls, our custom music is always running
 		soundMusic: ({ name }) => {
 			// Block all old background music from the audio sprite
-			if (name === 'bgm_main' || name === 'bgm_freespin') {
+			// This includes base/bonus music AND big win music (we want our custom loops to play instead)
+			if (
+				name === 'bgm_main' ||
+				name === 'bgm_freespin' ||
+				name === 'bgm_winlevel_big' ||
+				name === 'bgm_winlevel_superwin' ||
+				name === 'bgm_winlevel_mega' ||
+				name === 'bgm_winlevel_epic' ||
+				name === 'bgm_winlevel_max'
+			) {
 				// Do nothing - our custom music handles this
 				return;
 			}
-			// Allow other music (like big win music, etc.)
+			// Allow other music types if any exist
 			sound.players.music.play({ name });
 		},
 		soundLoop: ({ name }) => sound.players.loop.play({ name }),

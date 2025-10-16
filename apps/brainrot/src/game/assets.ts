@@ -291,6 +291,10 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/spek.png', import.meta.url).href,
 	},
+	mutedState: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/mutedState.png', import.meta.url).href,
+	},
 	uiMain: {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/uiSlotsAssetsBespoke/UI.png', import.meta.url).href,
