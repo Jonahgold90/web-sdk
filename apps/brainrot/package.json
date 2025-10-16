@@ -37,6 +37,7 @@
 		"components-ui-pixi": "workspace:*",
 		"constants-shared": "workspace:*",
 		"envs": "workspace:*",
+		"howler": "2.2.4",
 		"lodash": "4.17.16",
 		"pixi-svelte": "workspace:*",
 		"pixi.js": "8.8.1",

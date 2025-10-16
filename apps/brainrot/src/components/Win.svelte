@@ -80,7 +80,7 @@
 								anchor={{ x: 0.5, y: 0.5 }}
 								text={bookEventAmountToCurrencyString(countUpAmount)}
 								style={{
-									fontFamily: 'pinkFont',
+									fontFamily: 'yellowFont',
 									fontSize: 18,
 								}}
 							/>

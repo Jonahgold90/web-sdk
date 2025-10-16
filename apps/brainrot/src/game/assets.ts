@@ -353,6 +353,11 @@ export default {
 		src: new URL('../../assets/fonts/greenFont/greenFont.xml', import.meta.url).href,
 		preload: true,
 	},
+	yellowFont: {
+		type: 'font',
+		src: new URL('../../assets/fonts/yellowFont/yellowFont.xml', import.meta.url).href,
+		preload: true,
+	},
 	bigwin: {
 		type: 'spine',
 		src: {
