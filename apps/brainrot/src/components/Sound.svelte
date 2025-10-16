@@ -151,27 +151,34 @@
 		// scatterCounter
 		soundScatterCounterIncrease: () => (context.stateGame.scatterCounter = context.stateGame.scatterCounter + 1), // prettier-ignore
 		soundScatterCounterClear: () => (context.stateGame.scatterCounter = 0),
-		// game - just ignore bgm calls since our music is always running
+		// game - completely block old bgm calls, our custom music is always running
 		soundMusic: ({ name }) => {
-			if (name !== 'bgm_main' && name !== 'bgm_freespin') {
-				sound.players.music.play({ name });
+			// Block all old background music from the audio sprite
+			if (name === 'bgm_main' || name === 'bgm_freespin') {
+				// Do nothing - our custom music handles this
+				return;
 			}
+			// Allow other music (like big win music, etc.)
+			sound.players.music.play({ name });
 		},
 		soundLoop: ({ name }) => sound.players.loop.play({ name }),
 		soundOnce: ({ name, forcePlay }) => {
-			// Intercept small win sound and use custom sound
+			// Only intercept sounds we have custom replacements for
 			if (name === 'sfx_winlevel_small') {
+				// Use custom small win sound
 				if (smallWinHowl && stateSound.volumeValueSoundEffect > 0) {
 					smallWinHowl.play();
 				}
-			}
-			// Intercept bonus trigger sound (scatter win) and use custom sound
-			else if (name === 'sfx_scatter_win_v2') {
+			} else if (name === 'sfx_scatter_win_v2') {
+				// Use custom bonus trigger sound
 				if (bonusTriggerHowl && stateSound.volumeValueSoundEffect > 0) {
 					bonusTriggerHowl.play();
 				}
-			}
-			else {
+			} else if (name === 'jng_intro_fs') {
+				// Block this sound - we're using custom bonus trigger instead
+				return;
+			} else {
+				// Let all other sounds play from audio sprite
 				sound.players.once.play({ name, forcePlay });
 			}
 		},
