@@ -8,6 +8,24 @@ export default {
 		},
 		preload: true,
 	},
+	loadingScreen: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/loadingScreen/loading_screen.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/loadingScreen/loading_screen.json', import.meta.url).href,
+			scale: 0.5,
+		},
+		preload: true,
+	},
+	introScreen: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/introScreen/brbo_desktop_intro.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/introScreen/brbo_desktop_intro.json', import.meta.url).href,
+			scale: 0.5,
+		},
+		preload: true,
+	},
 	pressToContinueText: {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/pressToContinueText/MM_pressanywhere.json', import.meta.url).href,

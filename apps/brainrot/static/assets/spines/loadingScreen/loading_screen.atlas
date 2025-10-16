@@ -1,0 +1,15 @@
+loading_screen.png
+size:1738,1031
+filter:Linear,Linear
+pma:true
+dark
+bounds:2,2,1231,132
+effects
+bounds:2,136,1261,162
+offsets:1,1,1263,164
+frame
+bounds:2,561,1557,468
+offsets:15,13,1587,494
+logo
+bounds:2,300,1734,259
+offsets:3,3,1740,266
