@@ -787,7 +787,6 @@
 />
 
 <!-- Bonus buy cost text -->
-{#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
 	text={`$${(stateBet.betAmount * 100).toString()}`}
 	x={mobileBuyFrameX - 6}
@@ -795,11 +794,10 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: canvasSize.height < 580 ? 3.5 : 4,
+		fontSize: 4,
 	}}
 	zIndex={110}
 />
-{/key}
 
 <!-- Bet frame - right of spin button -->
 <Sprite
@@ -813,7 +811,6 @@
 />
 
 <!-- Bet amount text on bet frame -->
-{#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
 	text={`$${(stateBet.betAmount * 1.25).toFixed(2)}`}
 	x={mobileBetFrameX - 5 - 2.5}
@@ -821,14 +818,12 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: canvasSize.height < 580 ? 2.5 : 3.5,
+		fontSize: 3.5,
 	}}
 	zIndex={110}
 />
-{/key}
 
 <!-- DOUBLE label text on bet frame -->
-{#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
 	text="DOUBLE"
 	x={mobileBetFrameX}
@@ -836,14 +831,12 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'greenFont',
-		fontSize: canvasSize.height < 580 ? 1 : 1.3,
+		fontSize: 1.3,
 	}}
 	zIndex={110}
 />
-{/key}
 
 <!-- CHANCE TO label text on bet frame -->
-{#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
 	text="CHANCE TO"
 	x={mobileBetFrameX}
@@ -851,14 +844,12 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'greenFont',
-		fontSize: canvasSize.height < 580 ? 0.8 : 1.1,
+		fontSize: 1.1,
 	}}
 	zIndex={110}
 />
-{/key}
 
 <!-- WIN FEATURE label text on bet frame -->
-{#key `${canvasSize.width}-${canvasSize.height}`}
 <BitmapText
 	text={stateUrlDerived.social() ? "PLAY FEATURE" : "WIN FEATURE"}
 	x={mobileBetFrameX}
@@ -866,11 +857,10 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'greenFont',
-		fontSize: canvasSize.height < 580 ? 0.8 : 1.1,
+		fontSize: 1.1,
 	}}
 	zIndex={110}
 />
-{/key}
 
 <!-- Button 01 (toggle button) -->
 <Sprite
