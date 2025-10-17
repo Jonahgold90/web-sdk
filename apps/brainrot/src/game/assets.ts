@@ -602,4 +602,9 @@ export default {
 		src: new URL('../../assets/audio/sfx/TransitionNoLaugh.mp3', import.meta.url).href,
 		preload: true,
 	},
+	anticipationSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/Anticipation.mp3', import.meta.url).href,
+		preload: true,
+	},
 } as const;

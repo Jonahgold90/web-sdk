@@ -42,6 +42,7 @@
 	let bonusTriggerHowl: Howl;
 	let reelLandHowls: Howl[] = [];
 	let transitionHowl: Howl;
+	let anticipationHowl: Howl;
 
 	// Calculate actual volume based on master and music settings
 	const calculateMusicVolume = (baseMultiplier: number = 0.3) => {
@@ -88,7 +89,7 @@
 
 		bonusTriggerHowl = new Howl({
 			src: ['./assets/audio/sfx/Bonus trigger.mp3'],
-			volume: calculateSfxVolume(0.3) // 0.3 base volume for bonus trigger (quieter)
+			volume: calculateSfxVolume(0.2) // 0.2 base volume for bonus trigger (quieter)
 		});
 
 		// Initialize reel land sounds
@@ -104,6 +105,11 @@
 		transitionHowl = new Howl({
 			src: ['./assets/audio/sfx/TransitionNoLaugh.mp3'],
 			volume: calculateSfxVolume(0.75)
+		});
+
+		anticipationHowl = new Howl({
+			src: ['./assets/audio/sfx/Anticipation.mp3'],
+			volume: calculateSfxVolume()
 		});
 
 		// Start with base game music
@@ -133,13 +139,16 @@
 			smallWinHowl.volume(calculateSfxVolume());
 		}
 		if (bonusTriggerHowl) {
-			bonusTriggerHowl.volume(calculateSfxVolume(0.3)); // 0.3 base volume for bonus trigger (quieter)
+			bonusTriggerHowl.volume(calculateSfxVolume(0.2)); // 0.2 base volume for bonus trigger (quieter)
 		}
 		if (reelLandHowls.length > 0) {
 			reelLandHowls.forEach(howl => howl.volume(calculateSfxVolume(1.0)));
 		}
 		if (transitionHowl) {
 			transitionHowl.volume(calculateSfxVolume(0.75));
+		}
+		if (anticipationHowl) {
+			anticipationHowl.volume(calculateSfxVolume());
 		}
 	});
 
@@ -201,7 +210,17 @@
 			// Allow other music types if any exist
 			sound.players.music.play({ name });
 		},
-		soundLoop: ({ name }) => sound.players.loop.play({ name }),
+		soundLoop: ({ name }) => {
+			// Replace template anticipation loop with custom anticipation sound
+			if (name === 'sfx_anticipation') {
+				if (anticipationHowl && stateSound.volumeValueSoundEffect > 0) {
+					anticipationHowl.loop(true);
+					anticipationHowl.play();
+				}
+			} else {
+				sound.players.loop.play({ name });
+			}
+		},
 		soundOnce: ({ name, forcePlay }) => {
 			// Only intercept sounds we have custom replacements for
 			if (name === 'sfx_winlevel_small') {
@@ -228,22 +247,42 @@
 						: Math.floor(Math.random() * reelLandHowls.length);
 					reelLandHowls[soundIndex].play();
 				}
+			} else if (name === 'sfx_anticipation') {
+				// Replace template anticipation sound with custom anticipation sound
+				if (anticipationHowl && stateSound.volumeValueSoundEffect > 0) {
+					anticipationHowl.play();
+				}
 			} else {
 				// Let all other sounds play from audio sprite
 				sound.players.once.play({ name, forcePlay });
 			}
 		},
 		soundStop: ({ name }) => {
-			// Stop custom transition sound
+			// Stop custom sounds
 			if (name === 'transition' && transitionHowl) {
 				transitionHowl.stop();
+			} else if (name === 'sfx_anticipation' && anticipationHowl) {
+				// Fade out anticipation sound over 200ms instead of immediate stop
+				// This prevents gaps when switching between anticipating reels
+				const currentVol = anticipationHowl.volume();
+				anticipationHowl.fade(currentVol, 0, 200);
+				setTimeout(() => {
+					anticipationHowl.stop();
+					// Reset volume for next time
+					anticipationHowl.volume(calculateSfxVolume());
+				}, 200);
 			} else {
 				// Stop audio sprite sounds
 				sound.stop({ name });
 			}
 		},
 		soundFade: async ({ name, duration, from, to }) => {
-			if (name !== 'bgm_main' && name !== 'bgm_freespin') {
+			// Handle custom anticipation sound fade
+			if (name === 'sfx_anticipation' && anticipationHowl) {
+				// Howler.js fade - fade from current volume * from to current volume * to
+				const currentVol = calculateSfxVolume();
+				anticipationHowl.fade(currentVol * from, currentVol * to, duration);
+			} else if (name !== 'bgm_main' && name !== 'bgm_freespin') {
 				await sound.fade({ name, duration, from, to });
 			}
 		},
