@@ -80,7 +80,7 @@
 					animationName="out"
 					loop={false}
 					listener={{
-						complete: () => (loadingType = 'transition'),
+						complete: () => props.onloaded(),
 					}}
 				/>
 			{/if}

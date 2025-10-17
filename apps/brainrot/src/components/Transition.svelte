@@ -15,6 +15,7 @@
 
 	context.eventEmitter.subscribeOnMount({
 		transition: async () => {
+			console.log('Transition component - transition event received, setting transitioning = true');
 			transitioning = true;
 			await waitForResolve((resolve) => (oncomplete = resolve));
 		},

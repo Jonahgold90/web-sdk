@@ -10,12 +10,13 @@
 		| { type: 'soundScatterCounterIncrease' }
 		| { type: 'soundScatterCounterClear' }
 		| { type: 'soundSkibidiLaser' }
-		| { type: 'soundSmallWin' };
+		| { type: 'soundSmallWin' }
+		| { type: 'soundTransition' };
 </script>
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Howl } from 'howler';
+	import { Howl, Howler } from 'howler';
 
 	import { waitForTimeout } from 'utils-shared/wait';
 	import { SECOND } from 'constants-shared/time';
@@ -25,6 +26,13 @@
 
 	const context = getContext();
 
+	// Helper to ensure audio context is resumed
+	const ensureAudioContext = () => {
+		if (Howler.ctx && Howler.ctx.state === 'suspended') {
+			Howler.ctx.resume();
+		}
+	};
+
 	let baseMusicHowl: Howl;
 	let bonusMusicHowl: Howl;
 	let currentMusicHowl: Howl | null = null;
@@ -33,6 +41,7 @@
 	let smallWinHowl: Howl;
 	let bonusTriggerHowl: Howl;
 	let reelLandHowls: Howl[] = [];
+	let transitionHowl: Howl;
 
 	// Calculate actual volume based on master and music settings
 	const calculateMusicVolume = (baseMultiplier: number = 0.3) => {
@@ -59,7 +68,7 @@
 		bonusMusicHowl = new Howl({
 			src: ['./assets/audio/music/Bonus game loop 1.mp3'],
 			loop: true,
-			volume: calculateMusicVolume(0.3) // 0.3 base volume for bonus game
+			volume: calculateMusicVolume(0.25) // 0.25 base volume for bonus game
 		});
 
 		spinButtonClickHowl = new Howl({
@@ -92,6 +101,11 @@
 			new Howl({ src: ['./assets/audio/sfx/reelLands/Single_land_6.mp3'], volume: calculateSfxVolume(1.0) })
 		];
 
+		transitionHowl = new Howl({
+			src: ['./assets/audio/sfx/TransitionNoLaugh.mp3'],
+			volume: calculateSfxVolume(0.75)
+		});
+
 		// Start with base game music
 		currentMusicHowl = baseMusicHowl;
 		baseMusicHowl.play();
@@ -103,7 +117,7 @@
 			baseMusicHowl.volume(calculateMusicVolume(0.2)); // 0.2 base volume for main game
 		}
 		if (bonusMusicHowl) {
-			bonusMusicHowl.volume(calculateMusicVolume(0.3)); // 0.3 base volume for bonus game
+			bonusMusicHowl.volume(calculateMusicVolume(0.25)); // 0.25 base volume for bonus game
 		}
 	});
 
@@ -123,6 +137,9 @@
 		}
 		if (reelLandHowls.length > 0) {
 			reelLandHowls.forEach(howl => howl.volume(calculateSfxVolume(1.0)));
+		}
+		if (transitionHowl) {
+			transitionHowl.volume(calculateSfxVolume(0.75));
 		}
 	});
 
@@ -216,7 +233,15 @@
 				sound.players.once.play({ name, forcePlay });
 			}
 		},
-		soundStop: ({ name }) => sound.stop({ name }),
+		soundStop: ({ name }) => {
+			// Stop custom transition sound
+			if (name === 'transition' && transitionHowl) {
+				transitionHowl.stop();
+			} else {
+				// Stop audio sprite sounds
+				sound.stop({ name });
+			}
+		},
 		soundFade: async ({ name, duration, from, to }) => {
 			if (name !== 'bgm_main' && name !== 'bgm_freespin') {
 				await sound.fade({ name, duration, from, to });
@@ -226,6 +251,23 @@
 			// Play skibidi toilet laser sound
 			if (skibidiToiletLaserHowl && stateSound.volumeValueSoundEffect > 0) {
 				skibidiToiletLaserHowl.play();
+			}
+		},
+		soundTransition: () => {
+			// Play transition sound
+			console.log('soundTransition event received');
+			console.log('transitionHowl:', transitionHowl);
+			console.log('volumeValueSoundEffect:', stateSound.volumeValueSoundEffect);
+			console.log('AudioContext state:', Howler.ctx?.state);
+			ensureAudioContext();
+			console.log('AudioContext state after resume:', Howler.ctx?.state);
+			if (transitionHowl && stateSound.volumeValueSoundEffect > 0) {
+				console.log('Attempting to play transition sound');
+				transitionHowl.play();
+			} else if (!transitionHowl) {
+				console.log('transitionHowl not initialized');
+			} else if (stateSound.volumeValueSoundEffect <= 0) {
+				console.log('Sound effects volume is 0 or muted');
 			}
 		},
 	});
