@@ -43,6 +43,7 @@
 	let reelLandHowls: Howl[] = [];
 	let transitionHowl: Howl;
 	let anticipationHowl: Howl;
+	let buttonPressHowl: Howl;
 
 	// Calculate actual volume based on master and music settings
 	const calculateMusicVolume = (baseMultiplier: number = 0.3) => {
@@ -112,6 +113,11 @@
 			volume: calculateSfxVolume()
 		});
 
+		buttonPressHowl = new Howl({
+			src: ['./assets/audio/sfx/ButtonPress.wav'],
+			volume: calculateSfxVolume()
+		});
+
 		// Start with base game music
 		currentMusicHowl = baseMusicHowl;
 		baseMusicHowl.play();
@@ -150,6 +156,9 @@
 		if (anticipationHowl) {
 			anticipationHowl.volume(calculateSfxVolume());
 		}
+		if (buttonPressHowl) {
+			buttonPressHowl.volume(calculateSfxVolume());
+		}
 	});
 
 	// Switch music based on game type
@@ -181,7 +190,12 @@
 			}
 			// Music is always playing, no need to start it
 		},
-		soundPressGeneral: () => sound.players.once.play({ name: 'sfx_btn_general' }),
+		soundPressGeneral: () => {
+			// Use custom button press sound
+			if (buttonPressHowl && stateSound.volumeValueSoundEffect > 0) {
+				buttonPressHowl.play();
+			}
+		},
 		soundPressBet: () => {
 			// Use custom spin button click sound
 			if (spinButtonClickHowl && stateSound.volumeValueSoundEffect > 0) {

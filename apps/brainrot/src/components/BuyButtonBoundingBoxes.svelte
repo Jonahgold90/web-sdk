@@ -6,9 +6,12 @@
 	import { onMount } from 'svelte';
 	import { stateBet } from 'state-shared';
 	import { gameActor } from '../game/actor';
+	import { getContext } from '../game/context';
 
 	// Spine instance passed as prop from parent
 	let { spineInstance }: { spineInstance: Spine } = $props();
+
+	const context = getContext();
 
 	const bounds = new spine.SkeletonBounds();
 
@@ -58,6 +61,9 @@
 	// Handle pointer down on the spine
 	function onPointerDown(e: FederatedPointerEvent) {
 		if (hitBox('yes_place_holder2', e)) {
+			// Play button sound
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+
 			// Set bet mode to bonus and trigger the bet (matching chocolate implementation)
 			stateBet.activeBetModeKey = 'BONUS';
 			gameActor.send({ type: 'BET' });
@@ -66,9 +72,15 @@
 			stateBuyButton.animationName = 'big_buy_yes_out';
 			stateBuyButton.loop = false;
 		} else if (hitBox('x_place_holder2', e)) {
+			// Play button sound
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+
 			stateBuyButton.animationName = 'big_buy_no_out';
 			stateBuyButton.loop = false;
 		} else if (hitBox('upper_cross', e)) {
+			// Play button sound
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+
 			stateBuyButton.animationName = 'big_buy_upper_cross_out';
 			stateBuyButton.loop = false;
 		}

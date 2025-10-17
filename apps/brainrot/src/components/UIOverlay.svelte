@@ -769,6 +769,7 @@
 	interactive={true}
 	cursor="pointer"
 	onpointerup={() => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
 		stateBuyButton.animationName = 'big_buy_in';
 		stateBuyButton.loop = false;
 	}}
