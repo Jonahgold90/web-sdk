@@ -7,7 +7,7 @@
 	import { App } from 'pixi-svelte';
 	import { stateModal } from 'state-shared';
 
-	import { GameVersion, Modals } from 'components-ui-html';
+	import { GameVersion } from 'components-ui-html';
 
 	import { getContext } from '../game/context';
 	import EnableSound from './EnableSound.svelte';
@@ -33,6 +33,7 @@
 	import Transition from './Transition.svelte';
 	import UIOverlay from './UIOverlay.svelte';
 	import VolumeControl from './VolumeControl.svelte';
+	import ModalPayTable from './ModalPayTable.svelte';
 
 	const context = getContext();
 
@@ -106,8 +107,5 @@
 	{/if}
 </App>
 
-<Modals>
-	{#snippet version()}
-		<GameVersion version="0.0.0" />
-	{/snippet}
-</Modals>
+<!-- Brainrot-specific PayTable Modal -->
+<ModalPayTable />

@@ -607,6 +607,10 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={() => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		stateModal.modal = { name: 'payTable' };
+	}}
 />
 
 <!-- Text displays - vertically stacked, left aligned -->
@@ -972,6 +976,10 @@
 	zIndex={101}
 	interactive={true}
 	cursor="pointer"
+	onpointerup={() => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		stateModal.modal = { name: 'payTable' };
+	}}
 />
 
 <!-- Credit label -->
