@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { OnPressFullScreen } from 'components-layout';
 	import { OnHotkey } from 'components-shared';
-	import { SpineProvider, SpineTrack } from 'pixi-svelte';
+	import { SpineProvider, SpineTrack, Container } from 'pixi-svelte';
 
 	import { getContext } from '../game/context';
 
@@ -27,18 +27,20 @@
 	);
 	const controlBarHeight = $derived(isMobile ? mobileOverlayHeight : bottomOverlayHeight);
 
-	// Position text - different for mobile vs desktop
+	// Position text - move it up and center it better, especially on mobile
 	const textY = $derived(
 		isMobile
-			? canvasSize.height - controlBarHeight - 20
+			? canvasSize.height * 0.65  // More centered on mobile screens
 			: canvasSize.height - controlBarHeight - 60
 	);
 	const textX = $derived(canvasSize.width / 2);
-	const textScale = $derived(isMobile ? 0.5 : 1);
+	const textScale = $derived(isMobile ? 0.4 : 1);
 </script>
 
-<SpineProvider key="pressToContinueText" x={textX} y={textY} scale={{ x: textScale, y: textScale }}>
-	<SpineTrack trackIndex={0} animationName="loop" loop={true} />
-</SpineProvider>
+<Container zIndex={10000}>
+	<SpineProvider key="pressToContinueText" x={textX} y={textY} scale={{ x: textScale, y: textScale }}>
+		<SpineTrack trackIndex={0} animationName="loop" loop={true} />
+	</SpineProvider>
+</Container>
 <OnHotkey hotkey="Space" onpress={() => props.onpress()} />
 <OnPressFullScreen onpress={() => props.onpress()} />
