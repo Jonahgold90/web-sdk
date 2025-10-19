@@ -20,8 +20,8 @@ export default {
 	introScreen: {
 		type: 'spine',
 		src: {
-			atlas: new URL('../../assets/spines/introScreen/brbo_desktop_intro.atlas', import.meta.url).href,
-			skeleton: new URL('../../assets/spines/introScreen/brbo_desktop_intro.json', import.meta.url).href,
+			atlas: new URL('../../assets/spines/introScreen/brbo_intro.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/introScreen/brbo_intro.json', import.meta.url).href,
 			scale: 0.5,
 		},
 		preload: true,

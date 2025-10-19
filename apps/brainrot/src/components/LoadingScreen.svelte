@@ -23,6 +23,17 @@
 	// Track intro animation state
 	let introAnimationState = $state<'in' | 'loop' | 'out'>('in');
 
+	// Determine if we're on mobile/portrait layout
+	const isMobile = $derived(context.stateLayoutDerived.isStacked());
+
+	// Get animation name based on state and layout
+	const getAnimationName = (state: 'in' | 'loop' | 'out') => {
+		return isMobile ? `${state}_mobile` : state;
+	};
+
+	// Scale up mobile intro to fill portrait screens better
+	const introScale = $derived(isMobile ? 1.6 : 1);
+
 	// When assets are loaded, switch to intro
 	$effect(() => {
 		if (context.stateApp.loaded && loadingType === 'start') {
@@ -62,22 +73,23 @@
 			key="introScreen"
 			x={context.stateLayoutDerived.mainLayout().width * 0.5}
 			y={context.stateLayoutDerived.mainLayout().height * 0.5}
+			scale={introScale}
 		>
 			{#if introAnimationState === 'in'}
 				<SpineTrack
 					trackIndex={0}
-					animationName="in"
+					animationName={getAnimationName('in')}
 					loop={false}
 					listener={{
 						complete: () => (introAnimationState = 'loop'),
 					}}
 				/>
 			{:else if introAnimationState === 'loop'}
-				<SpineTrack trackIndex={0} animationName="loop" loop={true} />
+				<SpineTrack trackIndex={0} animationName={getAnimationName('loop')} loop={true} />
 			{:else if introAnimationState === 'out'}
 				<SpineTrack
 					trackIndex={0}
-					animationName="out"
+					animationName={getAnimationName('out')}
 					loop={false}
 					listener={{
 						complete: () => props.onloaded(),

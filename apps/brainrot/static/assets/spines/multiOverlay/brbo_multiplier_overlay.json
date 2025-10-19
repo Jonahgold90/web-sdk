@@ -1,0 +1,267 @@
+{
+	"skeleton": {
+		"hash": "4yFnnj4LWOU",
+		"spine": "4.2.43",
+		"x": -451.89,
+		"y": -450.39,
+		"width": 903.78,
+		"height": 901.79,
+		"images": "./images/",
+		"audio": ""
+	},
+	"bones": [
+		{
+			"name": "root"
+		}
+	],
+	"slots": [
+		{
+			"name": "overlay_multi_00000",
+			"bone": "root",
+			"attachment": "overlay_multi_00019"
+		}
+	],
+	"skins": [
+		{
+			"name": "default",
+			"attachments": {
+				"overlay_multi_00000": {
+					"overlay_multi_00000": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00001": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00002": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00003": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00004": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00005": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00006": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00007": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00008": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00009": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00010": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00011": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00012": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00013": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00014": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00015": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00016": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00017": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00018": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"width": 450,
+						"height": 449
+					},
+					"overlay_multi_00019": {
+						"y": 0.5,
+						"scaleX": 2,
+						"scaleY": 2,
+						"rotation": -0.24,
+						"width": 450,
+						"height": 449
+					}
+				}
+			}
+		}
+	],
+	"animations": {
+		"brbo_multiplier_overlay": {
+			"slots": {
+				"overlay_multi_00000": {
+					"attachment": [
+						{
+							"time": 0.0333,
+							"name": "overlay_multi_00000"
+						},
+						{
+							"time": 0.0667,
+							"name": "overlay_multi_00001"
+						},
+						{
+							"time": 0.1,
+							"name": "overlay_multi_00002"
+						},
+						{
+							"time": 0.1333,
+							"name": "overlay_multi_00003"
+						},
+						{
+							"time": 0.1667,
+							"name": "overlay_multi_00004"
+						},
+						{
+							"time": 0.2,
+							"name": "overlay_multi_00005"
+						},
+						{
+							"time": 0.2333,
+							"name": "overlay_multi_00006"
+						},
+						{
+							"time": 0.2667,
+							"name": "overlay_multi_00007"
+						},
+						{
+							"time": 0.3,
+							"name": "overlay_multi_00008"
+						},
+						{
+							"time": 0.3333,
+							"name": "overlay_multi_00009"
+						},
+						{
+							"time": 0.3667,
+							"name": "overlay_multi_00010"
+						},
+						{
+							"time": 0.4,
+							"name": "overlay_multi_00011"
+						},
+						{
+							"time": 0.4333,
+							"name": "overlay_multi_00012"
+						},
+						{
+							"time": 0.4667,
+							"name": "overlay_multi_00013"
+						},
+						{
+							"time": 0.5,
+							"name": "overlay_multi_00014"
+						},
+						{
+							"time": 0.5333,
+							"name": "overlay_multi_00015"
+						},
+						{
+							"time": 0.5667,
+							"name": "overlay_multi_00016"
+						},
+						{
+							"time": 0.6,
+							"name": "overlay_multi_00017"
+						},
+						{
+							"time": 0.6333,
+							"name": "overlay_multi_00018"
+						},
+						{
+							"time": 0.6667,
+							"name": "overlay_multi_00019"
+						},
+						{
+							"time": 0.7
+						}
+					]
+				}
+			}
+		}
+	}
+}
