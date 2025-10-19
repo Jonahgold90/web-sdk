@@ -10,6 +10,13 @@
 	const props: Props = $props();
 	const context = getContext();
 
+	// Determine if we're on mobile/portrait layout
+	const isMobile = $derived(context.stateLayoutDerived.isStacked());
+
+	// Use appropriate asset and animation for layout
+	const transitionKey = $derived(isMobile ? 'transitionMobile' : 'transition');
+	const animationName = $derived(isMobile ? 'brbo_transition_portrait' : 'brbo_transition');
+
 	// Play transition sound when component mounts (animation starts)
 	onMount(() => {
 		console.log('TransitionAnimation mounted - broadcasting soundTransition');
@@ -25,7 +32,7 @@
 </script>
 
 <SpineProvider
-	key="transition"
+	key={transitionKey}
 	x={context.stateLayoutDerived.canvasSizes().width * 0.5}
 	y={context.stateLayoutDerived.canvasSizes().height * 0.5}
 	width={context.stateLayoutDerived.canvasSizes().width}
@@ -33,7 +40,7 @@
 >
 	<SpineTrack
 		trackIndex={0}
-		animationName={'brbo_transition'}
+		{animationName}
 		listener={{
 			complete: handleComplete,
 		}}

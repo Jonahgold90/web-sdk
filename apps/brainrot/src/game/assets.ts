@@ -507,6 +507,18 @@ export default {
 			scale: 1.2,
 		},
 	},
+	transitionMobile: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/transitionMobile/brbo_transition_protrait.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/transitionMobile/brbo_transition_protrait.json', import.meta.url).href,
+			images: [
+				new URL('../../assets/spines/transitionMobile/brbo_transition_protrait.png', import.meta.url).href,
+				new URL('../../assets/spines/transitionMobile/brbo_transition_protrait_2.png', import.meta.url).href,
+			],
+			scale: 1.2,
+		},
+	},
 	skibidiToilet: {
 		type: 'spine',
 		src: {
