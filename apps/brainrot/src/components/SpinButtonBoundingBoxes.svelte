@@ -15,11 +15,15 @@
 	// Spin button animation state (passed from parent)
 	let spinButtonAnimation = $state('spin_button_idle');
 	let isHoveringButton = $state<'plus' | 'minus' | 'spin' | 'autoplay' | 'turbo' | null>(null);
+	let isPlayingClickAnimation = $state(false);
 
 	const isSpinning = $derived(!context.stateXstateDerived.isIdle());
 
 	// Update animation based on spinning state and hover
 	$effect(() => {
+		// Don't interrupt click animations
+		if (isPlayingClickAnimation) return;
+
 		if (isSpinning) {
 			spinButtonAnimation = 'spin_pause_idle';
 		} else if (isHoveringButton === 'plus') {
@@ -103,6 +107,7 @@
 			setTimeout(() => (isHoveringButton = null), 300);
 		} else if (hitBox('plus2', e)) {
 			// Plus clicked - increase bet to next interval
+			isPlayingClickAnimation = true;
 			spinButtonAnimation = 'plus_click';
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
 
@@ -112,9 +117,13 @@
 			const nextIndex = Math.min(currentIndex + 1, betOptions.length - 1);
 			stateBetDerived.setBetAmount(betOptions[nextIndex]);
 
-			setTimeout(() => (isHoveringButton = null), 300);
+			setTimeout(() => {
+				isPlayingClickAnimation = false;
+				isHoveringButton = null;
+			}, 300);
 		} else if (hitBox('minus2', e)) {
 			// Minus clicked - decrease bet to previous interval
+			isPlayingClickAnimation = true;
 			spinButtonAnimation = 'minus_click';
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
 
@@ -124,7 +133,10 @@
 			const prevIndex = Math.max(currentIndex - 1, 0);
 			stateBetDerived.setBetAmount(betOptions[prevIndex]);
 
-			setTimeout(() => (isHoveringButton = null), 300);
+			setTimeout(() => {
+				isPlayingClickAnimation = false;
+				isHoveringButton = null;
+			}, 300);
 		} else if (hitBox('spin_bounding', e)) {
 			// Spin clicked
 			onSpinPress();
