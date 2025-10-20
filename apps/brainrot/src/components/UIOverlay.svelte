@@ -458,7 +458,7 @@
 	const mobileBetY = $derived(mobileY);
 
 	// Bet amount position (space for 4-digit amounts like 1000) - more space to prevent overlap
-	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + (canvasSize.height < 580 ? 27 : 33));
+	const mobileBetAmountX = $derived(mobileBetX + mobileBetWidth / 2 + (canvasSize.height < 580 ? 32 : 38));
 	const mobileBetNextX = $derived(mobileBetAmountX + (canvasSize.height < 580 ? 40 : 50));
 
 	// Volume button (using spek sprite)
@@ -929,37 +929,40 @@
 	zIndex={101}
 />
 
-<!-- Free spin counter text -->
-{#if fontLoaded}
-<Text
+<!-- Free spin counter text - moved down and bigger -->
+<!-- Use separate components for different sizes to avoid texture corruption on mobile -->
+{#if canvasSize.height < 580}
+<BitmapText
 	text={`${freeSpinTotal - freeSpinCurrent}`}
-	x={mobileBuyFrameX}
-	y={mobileBuyFrameY - (canvasSize.height < 580 ? 11.3 : 14)}
+	x={mobileBuyFrameX - 5}
+	y={mobileBuyFrameY - 6}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 580 ? 14 : 17,
-		fill: 0xFFFFFF,
-		align: 'center'
+		fontFamily: 'pinkFont',
+		fontSize: 3.5,
+	}}
+	zIndex={102}
+/>
+{:else}
+<BitmapText
+	text={`${freeSpinTotal - freeSpinCurrent}`}
+	x={mobileBuyFrameX - 5}
+	y={mobileBuyFrameY - 6}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 4.5,
 	}}
 	zIndex={102}
 />
 {/if}
 
+<!-- Free spins label - moved up -->
 <Sprite
 	key="free_spins.png"
 	anchor={{ x: 0.5, y: 0.5 }}
 	x={mobileBuyFrameX}
-	y={mobileBuyFrameY + (canvasSize.height < 580 ? 1.6 : 2)}
-	scale={{ x: canvasSize.height < 580 ? 0.162 : 0.2, y: canvasSize.height < 580 ? 0.162 : 0.2 }}
-	zIndex={102}
-/>
-
-<Sprite
-	key="left.png"
-	anchor={{ x: 0.5, y: 0.5 }}
-	x={mobileBuyFrameX}
-	y={mobileBuyFrameY + (canvasSize.height < 580 ? 13 : 16)}
+	y={mobileBuyFrameY + (canvasSize.height < 580 ? 9 : 11)}
 	scale={{ x: canvasSize.height < 580 ? 0.162 : 0.2, y: canvasSize.height < 580 ? 0.162 : 0.2 }}
 	zIndex={102}
 />

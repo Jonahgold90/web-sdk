@@ -18,6 +18,10 @@
 
 	const context = getContext();
 	const canvasSize = $derived(context.stateLayoutDerived.canvasSizes());
+	const isMobile = $derived(context.stateLayoutDerived.isStacked());
+
+	// Make banner bigger on mobile for better visibility
+	const bannerWidth = $derived(canvasSize.width * (isMobile ? 0.35 : 0.25));
 
 	let show = $state(false);
 	let animationName = $state<AnimationName>('brbo_banner_in');
@@ -43,7 +47,7 @@
 	<CanvasSizeRectangle backgroundColor={0x000000} backgroundAlpha={0.5} />
 
 	<Container x={canvasSize.width / 2} y={canvasSize.height / 2}>
-		<SpineProvider key="freeSpinIntroOutro" width={canvasSize.width * 0.25}>
+		<SpineProvider key="freeSpinIntroOutro" width={bannerWidth}>
 			<SpineTrack
 				trackIndex={0}
 				{animationName}
