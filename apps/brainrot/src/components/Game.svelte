@@ -85,10 +85,13 @@
 			<ClusterWinAmounts />
 		</MainContainer>
 
-		<MainContainer>
-			<SkibidiToilet />
-			<TungTung />
-		</MainContainer>
+		<!-- Character spines - hidden on mobile as they get cut off at screen edges -->
+		{#if !context.stateLayoutDerived.isStacked()}
+			<MainContainer>
+				<SkibidiToilet />
+				<TungTung />
+			</MainContainer>
+		{/if}
 
 		<MainContainer>
 			<BuyButtonPopup />

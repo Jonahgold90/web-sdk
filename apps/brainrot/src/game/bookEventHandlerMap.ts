@@ -7,6 +7,7 @@ import { eventEmitter } from './eventEmitter';
 import { playBookEvent } from './utils';
 import { winLevelMap, type WinLevel, type WinLevelData } from './winLevelMap';
 import { stateGame, stateGameDerived } from './stateGame.svelte';
+import { stateLayoutDerived } from './stateLayout';
 import type { BookEvent, BookEventOfType, BookEventContext } from './typesBookEvent';
 import type { Position } from './types';
 
@@ -141,8 +142,10 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'soundOnce', name: 'sfx_superfreespin' });
 		await eventEmitter.broadcastAsync({ type: 'uiHide' });
 
-		// Skibidi celebrates retrigger with head swing
-		eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
+		// Skibidi celebrates retrigger with head swing (desktop only)
+		if (!stateLayoutDerived.isStacked()) {
+			eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
+		}
 
 		await eventEmitter.broadcastAsync({ type: 'transition' });
 		eventEmitter.broadcast({ type: 'freeSpinIntroShow' });
@@ -184,8 +187,8 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			stateGame.multiplierValues = [];
 		}
 
-		// Skibidi shoots laser eyes when multiplier increases (not on reset)
-		if (bookEvent.globalMult > 1) {
+		// Skibidi shoots laser eyes when multiplier increases (not on reset, desktop only)
+		if (bookEvent.globalMult > 1 && !stateLayoutDerived.isStacked()) {
 			eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
 		}
 
@@ -308,7 +311,16 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	skibidiLaser: async (bookEvent: BookEventOfType<'skibidiLaser'>) => {
 		console.log('🔫 skibidiLaser event received!', bookEvent);
-		// Play laser animation and wait for it to complete
+
+		// Skip laser animation on mobile - multipliers show immediately
+		const isMobile = stateLayoutDerived.isStacked();
+		if (isMobile) {
+			console.log('📱 Mobile detected - skipping laser animation, multipliers already visible');
+			stateGame.laserHasFired = true; // Mark as fired to maintain game state
+			return;
+		}
+
+		// Desktop: Play laser animation and wait for it to complete
 		console.log('📢 Broadcasting skibidiLaserEyes');
 		eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
 		// Wait for laser animation to complete before revealing multipliers
