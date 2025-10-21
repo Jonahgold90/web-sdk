@@ -20,5 +20,5 @@
 	x={SYMBOL_SIZE * 0 - 5}
 	y={SYMBOL_SIZE * 0.5}
 	anchor={{ x: 0.5, y: 1 }}
-	scale={{ x: 0.35, y: 0.35 }}
+	scale={{ x: 0.525, y: 0.525 }}
 />
