@@ -33,6 +33,7 @@
 	let showOverlay = $state(false);
 	let overlayX = $state(0);
 	let overlayY = $state(0);
+	let overlaySize = $state(SYMBOL_SIZE * 2); // Default size for center explosion
 	let finalWinAmount = $state(0);
 	let overlayComplete = $state(() => {});
 
@@ -110,6 +111,7 @@
 				// Step 3: Start explosion at the same center position
 				overlayX = centerX;
 				overlayY = centerY;
+				overlaySize = SYMBOL_SIZE * 2; // Full size for center explosion
 				showOverlay = true;
 				await waitForResolve((resolve) => (overlayComplete = resolve));
 				showOverlay = false;
@@ -124,6 +126,7 @@
 				showMergedMulti = false;
 				overlayX = centerX;
 				overlayY = tumbleFrameY();
+				overlaySize = SYMBOL_SIZE * 1; // Smaller size for tumble frame explosion
 				showOverlay = true;
 
 				// Update tumbleWinAmount to final win right when overlay plays
@@ -157,6 +160,7 @@
 				animatingMultipliers = [];
 				overlayX = centerX;
 				overlayY = tumbleFrameY();
+				overlaySize = SYMBOL_SIZE * 1; // Smaller size for tumble frame explosion
 				showOverlay = true;
 
 				// Update tumbleWinAmount to final win right when overlay plays
@@ -218,8 +222,8 @@
 			key="multiOverlay"
 			x={overlayX}
 			y={overlayY}
-			width={SYMBOL_SIZE * 2}
-			height={SYMBOL_SIZE * 2}
+			width={overlaySize}
+			height={overlaySize}
 		>
 			<SpineTrack
 				trackIndex={0}

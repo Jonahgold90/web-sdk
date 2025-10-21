@@ -35,7 +35,7 @@
 </script>
 
 <!-- TumbleFrame positioned at the top of reelFrame, centered horizontally, always visible -->
-<!-- Scaled to 30% of original size -->
+<!-- Scaled to 20% of original size -->
 <Sprite
 	key="tumbleFrame"
 	anchor={0.5}
