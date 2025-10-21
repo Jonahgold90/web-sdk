@@ -312,7 +312,22 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	},
 	boardMultiplierInfo: async (bookEvent: BookEventOfType<'boardMultiplierInfo'>) => {
 		// Handle board multiplier info - this shows the combined multiplier effect on wins
-		// You can add visual effects here if needed
+		// Trigger multi animation with all multipliers on the board
+		if (bookEvent.multInfo.positions.length > 0) {
+			const multipliers = bookEvent.multInfo.positions.map((pos) => ({
+				reel: pos.reel,
+				row: pos.row,
+				value: pos.multiplier,
+			}));
+
+			const totalWin = bookEvent.winInfo.totalWin;
+
+			await eventEmitter.broadcastAsync({
+				type: 'multiAnimationStart',
+				multipliers,
+				totalWin,
+			});
+		}
 	},
 	skibidiLaser: async (bookEvent: BookEventOfType<'skibidiLaser'>) => {
 		console.log('🔫 skibidiLaser event received!', bookEvent);

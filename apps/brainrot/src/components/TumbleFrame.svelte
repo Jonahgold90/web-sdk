@@ -14,7 +14,7 @@
 	const yPosition = $derived(
 		context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT +
 		VERTICAL_OFFSET -
-		(context.stateGameDerived.boardLayout().height / 2) - 45);
+		(context.stateGameDerived.boardLayout().height / 2) - 50);
 
 	const xPosition = $derived(context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT);
 

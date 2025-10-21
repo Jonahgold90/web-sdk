@@ -7,6 +7,17 @@
 
 	const context = getContext();
 
+	let hideMultipliers = $state(false);
+
+	context.eventEmitter.subscribeOnMount({
+		multiAnimationStart: () => {
+			hideMultipliers = true;
+		},
+		multiAnimationComplete: () => {
+			hideMultipliers = false;
+		},
+	});
+
 	// Create a list of multipliers with their screen positions
 	const multiplierDisplays = $derived.by(() => {
 		return context.stateGame.multiplierValues.map((mult) => {
@@ -22,6 +33,7 @@
 	});
 </script>
 
+{#if !hideMultipliers}
 <BoardContainer>
 	{#each multiplierDisplays as display}
 		<BitmapText
@@ -37,3 +49,4 @@
 		/>
 	{/each}
 </BoardContainer>
+{/if}

@@ -503,6 +503,14 @@ export default {
 			scale: 2,
 		},
 	},
+	multiOverlay: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/multiOverlay/brbo_multiplier_overlay.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/multiOverlay/brbo_multiplier_overlay.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
 	transition: {
 		type: 'spine',
 		src: {
