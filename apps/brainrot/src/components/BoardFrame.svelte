@@ -10,7 +10,9 @@
 		| { type: 'tungtungWinSpin' }
 		| { type: 'tungtungWinMultiplier' }
 		| { type: 'tungtungWinBig' }
-		| { type: 'tungtungIdle' };
+		| { type: 'tungtungIdle' }
+		| { type: 'logoHide' }
+		| { type: 'logoShow' };
 
 	export type BuyButtonAnimation = 'small_buy_click' | 'big_buy_in' | 'big_buy_loop';
 
@@ -82,6 +84,7 @@
 	let showFreeSpinCounter = $state(false);
 	let freeSpinCurrent = $state(0);
 	let freeSpinTotal = $state(0);
+	let showLogo = $state(true);
 
 	context.eventEmitter.subscribeOnMount({
 		boardFrameGlowShow: () => {
@@ -99,6 +102,12 @@
 		freeSpinCounterUpdate: (emitterEvent) => {
 			if (emitterEvent.current !== undefined) freeSpinCurrent = emitterEvent.current;
 			if (emitterEvent.total !== undefined) freeSpinTotal = emitterEvent.total;
+		},
+		logoHide: () => {
+			showLogo = false;
+		},
+		logoShow: () => {
+			showLogo = true;
 		},
 	});
 </script>
@@ -126,7 +135,8 @@
 	blendMode="add"
 />
 
-<!-- Top banner above the frame -->
+<!-- Top banner above the frame (logo) - hidden during tumbles -->
+{#if showLogo}
 <Sprite
 	key="topBanner"
 	anchor={0.5}
@@ -134,8 +144,9 @@
 	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET - (context.stateGameDerived.boardLayout().height / 2) - 50}
 	width={context.stateGameDerived.boardLayout().width * 1.2}
 	height={100}
-	zIndex={2}
+	zIndex={4}
 />
+{/if}
 
 <!-- Reel frame on top -->
 <Sprite

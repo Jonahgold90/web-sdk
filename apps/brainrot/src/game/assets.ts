@@ -224,6 +224,10 @@ export default {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/reelFrame/reelFrame.png', import.meta.url).href,
 	},
+	tumbleFrame: {
+		type: 'sprite',
+		src: new URL('../../assets/sprites/tumbleFrame/tumbleFrame.jpg', import.meta.url).href,
+	},
 	reelBackground: {
 		type: 'sprite',
 		src: new URL('../../assets/sprites/reel/reel.png', import.meta.url).href,

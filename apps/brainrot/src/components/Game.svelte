@@ -17,6 +17,7 @@
 	import Background from './Background.svelte';
 	import LoadingScreen from './LoadingScreen.svelte';
 	import BoardFrame from './BoardFrame.svelte';
+	import TumbleFrame from './TumbleFrame.svelte';
 	import MultiplierGrid from './MultiplierGrid.svelte';
 	import Board from './Board.svelte';
 	import Anticipations from './Anticipations.svelte';
@@ -67,6 +68,7 @@
 
 		<MainContainer>
 			<BoardFrame />
+			<TumbleFrame />
 		</MainContainer>
 
 		<MainContainer>

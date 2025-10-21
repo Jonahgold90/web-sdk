@@ -48,6 +48,8 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'tumbleWinAmountReset' });
 		// Reset laser flag for new spin
 		stateGame.laserHasFired = false;
+		// Show logo at the start of each spin
+		eventEmitter.broadcast({ type: 'logoShow' });
 		const isBonusGame = checkIsMultipleRevealEvents({ bookEvents });
 		if (isBonusGame) {
 			eventEmitter.broadcast({ type: 'stopButtonEnable' });
@@ -235,6 +237,8 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'drawerButtonHide' });
 	},
 	tumbleBoard: async (bookEvent: BookEventOfType<'tumbleBoard'>) => {
+		// Hide logo when tumble starts
+		eventEmitter.broadcast({ type: 'logoHide' });
 		eventEmitter.broadcast({ type: 'boardHide' });
 		eventEmitter.broadcast({ type: 'tumbleBoardShow' });
 		eventEmitter.broadcast({ type: 'tumbleBoardInit', addingBoard: bookEvent.newSymbols });
@@ -254,6 +258,7 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 		eventEmitter.broadcast({ type: 'tumbleBoardReset' });
 		eventEmitter.broadcast({ type: 'tumbleBoardHide' });
 		eventEmitter.broadcast({ type: 'boardShow' });
+		// Logo will be shown again when the next spin starts (in reveal event)
 	},
 	setWin: async (bookEvent: BookEventOfType<'setWin'>) => {
 		const winLevelData = winLevelMap[bookEvent.winLevel as WinLevel];
