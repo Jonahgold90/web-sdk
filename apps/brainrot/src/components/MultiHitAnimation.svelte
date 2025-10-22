@@ -27,7 +27,8 @@
 	let nextId = 0;
 
 	// Board top position (where lightning starts)
-	const BOARD_TOP_Y = -SYMBOL_SIZE * 0.5; // Top of the visible board area
+	// Row 0 (padding row) centers at 0.5 * SYMBOL_SIZE, start from top of that row
+	const BOARD_TOP_Y = 0;
 
 	const startMultiHitAnimation = async (positions: Array<{ reel: number; row: number }>) => {
 		if (positions.length === 0) {
