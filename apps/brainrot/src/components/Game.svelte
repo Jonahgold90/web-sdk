@@ -26,6 +26,7 @@
 	import TumbleWinAmount from './TumbleWinAmount.svelte';
 	import GlobalMultiplier from './GlobalMultiplier.svelte';
 	import MultiAnimation from './MultiAnimation.svelte';
+	import MultiHitAnimation from './MultiHitAnimation.svelte';
 	import BuyButtonPopup from './BuyButtonPopup.svelte';
 	import SkibidiToilet from './SkibidiToilet.svelte';
 	import TungTung from './TungTung.svelte';
@@ -82,6 +83,7 @@
 			<!-- TumbleWinAmount moved to UIOverlay control bar -->
 			<GlobalMultiplier />
 			<MultiAnimation />
+			<MultiHitAnimation />
 		</MainContainer>
 
 		<MainContainer>

@@ -511,6 +511,14 @@ export default {
 			scale: 2,
 		},
 	},
+	multiHit: {
+		type: 'spine',
+		src: {
+			atlas: new URL('../../assets/spines/multiHit/brbo_multipler_hit.atlas', import.meta.url).href,
+			skeleton: new URL('../../assets/spines/multiHit/brbo_multipler_hit.json', import.meta.url).href,
+			scale: 2,
+		},
+	},
 	transition: {
 		type: 'spine',
 		src: {

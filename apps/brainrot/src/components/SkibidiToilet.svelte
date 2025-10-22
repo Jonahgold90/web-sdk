@@ -90,9 +90,8 @@
 						skibidiLoop = true;
 						scheduleIdleBreak();
 					}
-					// After laser eyes, return to idle and reveal multiplier
+					// After laser eyes, return to idle (multiplier reveal now triggered by lightning)
 					else if (entry.animation.name === 'laser_eyes_zapping_the_board') {
-						context.eventEmitter.broadcast({ type: 'skibidiLaserReveal' });
 						skibidiAnimationName = 'idle';
 						skibidiLoop = true;
 						scheduleIdleBreak();
