@@ -8,6 +8,7 @@
 	import { getContext } from '../game/context';
 	import { getSymbolX, getSymbolY } from '../game/utils';
 	import { SYMBOL_SIZE } from '../game/constants';
+	import { stateLayoutDerived } from '../game/stateLayout';
 	import BoardContainer from './BoardContainer.svelte';
 
 	const context = getContext();
@@ -85,8 +86,14 @@
 
 	context.eventEmitter.subscribeOnMount({
 		skibidiLaserEyes: async ({ positions }: { positions: Array<{ reel: number; row: number }> }) => {
-			// Wait for laser to start before triggering lightning (500ms delay)
-			await new Promise(resolve => setTimeout(resolve, 500));
+			const isMobile = stateLayoutDerived.isStacked();
+
+			// Desktop: Wait for laser to start before triggering lightning
+			// Mobile: Play lightning immediately (no laser to wait for)
+			if (!isMobile) {
+				await new Promise(resolve => setTimeout(resolve, 500));
+			}
+
 			// Trigger multi-hit animation with backend-provided positions
 			startMultiHitAnimation(positions);
 		},

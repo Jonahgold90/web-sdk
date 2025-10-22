@@ -332,24 +332,29 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 	skibidiLaser: async (bookEvent: BookEventOfType<'skibidiLaser'>) => {
 		console.log('🔫 skibidiLaser event received!', bookEvent);
 
-		// Skip laser animation on mobile - multipliers show immediately
 		const isMobile = stateLayoutDerived.isStacked();
-		if (isMobile) {
-			console.log('📱 Mobile detected - skipping laser animation, multipliers already visible');
-			stateGame.laserHasFired = true; // Mark as fired to maintain game state
-			return;
-		}
 
-		// Desktop: Play laser animation and pass multiplier positions for lightning strikes
-		console.log('📢 Broadcasting skibidiLaserEyes with positions:', bookEvent.positions);
-		eventEmitter.broadcast({
-			type: 'skibidiLaserEyes',
-			positions: bookEvent.positions
-		});
-		// Wait for laser and lightning animations to complete
-		await new Promise(resolve => setTimeout(resolve, 1500)); // Increased to accommodate lightning
-		// Mark that laser has fired for this spin
-		stateGame.laserHasFired = true;
+		if (isMobile) {
+			// Mobile: Play lightning animation only (no laser)
+			console.log('📱 Mobile detected - playing lightning only, skipping laser');
+			eventEmitter.broadcast({
+				type: 'skibidiLaserEyes',
+				positions: bookEvent.positions
+			});
+			// Wait for lightning animation to complete
+			await new Promise(resolve => setTimeout(resolve, 1200)); // Lightning completes around 1100-1200ms
+			stateGame.laserHasFired = true;
+		} else {
+			// Desktop: Play laser animation and pass multiplier positions for lightning strikes
+			console.log('📢 Broadcasting skibidiLaserEyes with positions:', bookEvent.positions);
+			eventEmitter.broadcast({
+				type: 'skibidiLaserEyes',
+				positions: bookEvent.positions
+			});
+			// Wait for laser and lightning animations to complete
+			await new Promise(resolve => setTimeout(resolve, 1500)); // Increased to accommodate lightning
+			stateGame.laserHasFired = true;
+		}
 		// Note: skibidiLaserReveal is now triggered by the lightning animation itself
 	},
 };

@@ -27,12 +27,11 @@
 			!['S'].includes(props.rawSymbol.name),
 	);
 
-	// For M symbols, hide multiplier initially only if laser hasn't revealed yet (desktop only)
-	// On mobile, multipliers are always visible (no laser system)
-	const isMobile = $derived(context.stateLayoutDerived.isStacked());
+	// For M symbols, hide multiplier initially until revealed by lightning animation
+	// Both mobile and desktop now use the reveal system
 	let multiplierRevealed = $state(false);
 
-	// Listen for laser reveal event to show multipliers (desktop only)
+	// Listen for laser reveal event to show multipliers (triggered by lightning animation)
 	context.eventEmitter?.subscribeOnMount({
 		skibidiLaserReveal: () => {
 			if (props.rawSymbol.name === 'M') {
@@ -41,10 +40,9 @@
 		},
 	});
 
-	// Show multiplier if: not M symbol, OR M symbol and (mobile OR laser revealed OR laser already fired)
+	// Show multiplier if: not M symbol, OR M symbol and (laser revealed OR laser already fired)
 	const showMultiplier = $derived(
 		props.rawSymbol.name !== 'M' ||
-		isMobile ||
 		multiplierRevealed ||
 		stateGame.laserHasFired
 	);
