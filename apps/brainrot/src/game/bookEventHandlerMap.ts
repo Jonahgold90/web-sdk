@@ -340,17 +340,16 @@ export const bookEventHandlerMap: BookEventHandlerMap<BookEvent, BookEventContex
 			return;
 		}
 
-		// Desktop: Play laser animation and wait for it to complete
-		console.log('📢 Broadcasting skibidiLaserEyes');
-		eventEmitter.broadcast({ type: 'skibidiLaserEyes' });
-		// Wait for laser animation to complete before revealing multipliers
-		await new Promise(resolve => setTimeout(resolve, 1000)); // Adjust timing to match animation
+		// Desktop: Play laser animation and pass multiplier positions for lightning strikes
+		console.log('📢 Broadcasting skibidiLaserEyes with positions:', bookEvent.positions);
+		eventEmitter.broadcast({
+			type: 'skibidiLaserEyes',
+			positions: bookEvent.positions
+		});
+		// Wait for laser and lightning animations to complete
+		await new Promise(resolve => setTimeout(resolve, 1500)); // Increased to accommodate lightning
 		// Mark that laser has fired for this spin
 		stateGame.laserHasFired = true;
-		// Reveal all M symbol multipliers
-		console.log('✨ Broadcasting skibidiLaserReveal');
-		eventEmitter.broadcast({ type: 'skibidiLaserReveal' });
-		// Add delay after revealing so player can see what multipliers they missed
-		await new Promise(resolve => setTimeout(resolve, 800));
+		// Note: skibidiLaserReveal is now triggered by the lightning animation itself
 	},
 };

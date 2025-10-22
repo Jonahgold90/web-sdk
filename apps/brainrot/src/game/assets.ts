@@ -516,7 +516,7 @@ export default {
 		src: {
 			atlas: new URL('../../assets/spines/multiHit/brbo_multipler_hit.atlas', import.meta.url).href,
 			skeleton: new URL('../../assets/spines/multiHit/brbo_multipler_hit.json', import.meta.url).href,
-			scale: 2,
+			scale: 1.25,
 		},
 	},
 	transition: {

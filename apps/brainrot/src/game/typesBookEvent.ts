@@ -125,6 +125,7 @@ type BookEventBoardMultiplierInfo = {
 type BookEventSkibidiLaser = {
 	index: number;
 	type: 'skibidiLaser';
+	positions: Array<{ reel: number; row: number }>;
 };
 
 // customised
