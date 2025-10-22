@@ -209,7 +209,7 @@
 			anchor={0.5}
 			style={{
 				fontFamily: 'greenFont',
-				fontSize: 6,
+				fontSize: 7.5,
 			}}
 			zIndex={100}
 		/>
