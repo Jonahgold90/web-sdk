@@ -59,6 +59,9 @@
 			const originalHeight = SYMBOL_SIZE * 2;
 			const scaleY = distance / originalHeight;
 
+			// Play sound for this lightning strike
+			context.eventEmitter.broadcast({ type: 'soundPlayMultiHit' });
+
 			// Add to animating list
 			animatingHits = [
 				...animatingHits,

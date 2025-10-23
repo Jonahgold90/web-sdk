@@ -644,4 +644,14 @@ export default {
 		src: new URL('../../assets/audio/sfx/ButtonPress.wav', import.meta.url).href,
 		preload: true,
 	},
+	multiOverlaySound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/multiOverlay.mp3', import.meta.url).href,
+		preload: true,
+	},
+	multiHitSound: {
+		type: 'audio',
+		src: new URL('../../assets/audio/sfx/multiHit.mp3', import.meta.url).href,
+		preload: true,
+	},
 } as const;

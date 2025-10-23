@@ -45,6 +45,8 @@
 	let transitionHowl: Howl;
 	let anticipationHowl: Howl;
 	let buttonPressHowl: Howl;
+	let multiOverlayHowl: Howl;
+	let multiHitHowl: Howl;
 
 	// Calculate actual volume based on master and music settings
 	const calculateMusicVolume = (baseMultiplier: number = 0.3) => {
@@ -125,6 +127,16 @@
 			volume: calculateSfxVolume()
 		});
 
+		multiOverlayHowl = new Howl({
+			src: ['./assets/audio/sfx/multiOverlay.mp3'],
+			volume: calculateSfxVolume(1.5)
+		});
+
+		multiHitHowl = new Howl({
+			src: ['./assets/audio/sfx/multiHit.mp3'],
+			volume: calculateSfxVolume(1.5)
+		});
+
 		// Start with base game music
 		currentMusicHowl = baseMusicHowl;
 		baseMusicHowl.play();
@@ -168,6 +180,12 @@
 		}
 		if (buttonPressHowl) {
 			buttonPressHowl.volume(calculateSfxVolume());
+		}
+		if (multiOverlayHowl) {
+			multiOverlayHowl.volume(calculateSfxVolume(1.5));
+		}
+		if (multiHitHowl) {
+			multiHitHowl.volume(calculateSfxVolume(1.5));
 		}
 	});
 
@@ -370,6 +388,18 @@
 				console.log('transitionHowl not initialized');
 			} else if (stateSound.volumeValueSoundEffect <= 0) {
 				console.log('Sound effects volume is 0 or muted');
+			}
+		},
+		soundPlayMultiOverlay: () => {
+			// Play multiOverlay sound
+			if (multiOverlayHowl && stateSound.volumeValueSoundEffect > 0) {
+				multiOverlayHowl.play();
+			}
+		},
+		soundPlayMultiHit: () => {
+			// Play multiHit sound
+			if (multiHitHowl && stateSound.volumeValueSoundEffect > 0) {
+				multiHitHowl.play();
 			}
 		},
 	});

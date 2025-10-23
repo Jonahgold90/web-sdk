@@ -113,6 +113,7 @@
 				overlayY = centerY;
 				overlaySize = SYMBOL_SIZE * 2; // Full size for center explosion
 				showOverlay = true;
+				context.eventEmitter.broadcast({ type: 'soundPlayMultiOverlay' });
 				await waitForResolve((resolve) => (overlayComplete = resolve));
 				showOverlay = false;
 
@@ -128,6 +129,7 @@
 				overlayY = tumbleFrameY();
 				overlaySize = SYMBOL_SIZE * 1; // Smaller size for tumble frame explosion
 				showOverlay = true;
+				context.eventEmitter.broadcast({ type: 'soundPlayMultiOverlay' });
 
 				// Update tumbleWinAmount to final win right when overlay plays
 				context.eventEmitter.broadcast({
@@ -162,6 +164,7 @@
 				overlayY = tumbleFrameY();
 				overlaySize = SYMBOL_SIZE * 1; // Smaller size for tumble frame explosion
 				showOverlay = true;
+				context.eventEmitter.broadcast({ type: 'soundPlayMultiOverlay' });
 
 				// Update tumbleWinAmount to final win right when overlay plays
 				context.eventEmitter.broadcast({
