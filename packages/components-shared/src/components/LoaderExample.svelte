@@ -11,9 +11,9 @@
 </script>
 
 <LoaderBase
-	maxWidth={200}
+	maxWidth={1200}
 	backgroundColor={'#000000'}
-	timeout={2000}
+	timeout={3000}
 	src={props.src}
 	oncomplete={() => (showText = false)}
 />
