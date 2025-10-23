@@ -30,35 +30,69 @@ export const bookEventAmountToNormalisedAmount = (bookEventAmount: number) => {
 export const numberToFloat = (value: number) => Number.parseFloat(`${value}`);
 
 export const numberToCurrencyString = (value: number) => {
-	// Handle special stake currencies that should show as abbreviations
 	if (stateBet.currency in NO_LOCALISATION_CURRENCY_MAP) {
 		return `${NO_LOCALISATION_CURRENCY_MAP[stateBet.currency]} ${numberToFloat(value).toFixed(2)}`;
 	}
 
-	// For all currencies, use the browser's currency formatting
-	try {
-		const formatted = stateI18n.i18n.number(value, {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-			style: 'currency',
-			currency: stateBet.currency,
-			currencyDisplay: 'symbol',
-		});
-
-		// Fix USD display - replace "US$" with "$" if it appears
-		if (stateBet.currency === 'USD') {
-			return formatted.replace('US$', '$');
-		}
-
-		return formatted;
-	} catch (error) {
-		// Fallback if currency formatting fails
-		console.warn(`Failed to format currency ${stateBet.currency}:`, error);
-		return `${stateBet.currency} ${numberToFloat(value).toFixed(2)}`;
-	}
+	return stateI18n.i18n.number(value, {
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2,
+		style: 'currency',
+		currency: stateBet.currency,
+		// numberingSystem: 'latn',
+	});
 };
 
 export const bookEventAmountToCurrencyString = (bookEventAmount: number) => {
 	const normalisedAmount = bookEventAmountToNormalisedAmount(bookEventAmount);
 	return numberToCurrencyString(normalisedAmount);
+};
+
+// Map of currencies to bitmap-font safe symbols/abbreviations
+const BITMAP_SAFE_CURRENCY_MAP: Record<string, string> = {
+	USD: '$',
+	CAD: 'C$',
+	AUD: 'A$',
+	NZD: 'NZ$',
+	HKD: 'HK$',
+	SGD: 'S$',
+	// Use symbols for currencies supported in bitmap fonts (€, £)
+	EUR: '€',
+	GBP: '£',
+	// Use abbreviations for currencies with special symbols not in bitmap fonts
+	JPY: 'JPY',
+	CNY: 'CNY',
+	KRW: 'KRW',
+	INR: 'INR',
+	RUB: 'RUB',
+	BRL: 'BRL',
+	MXN: 'MXN',
+	// Social casino currencies
+	XGC: 'GC',
+	XSC: 'SC',
+};
+
+// Get currency code/abbreviation for bitmap font display (symbols might not render)
+export const getCurrencyCode = () => {
+	// Use bitmap-safe mapping if available
+	if (stateBet.currency in BITMAP_SAFE_CURRENCY_MAP) {
+		return BITMAP_SAFE_CURRENCY_MAP[stateBet.currency];
+	}
+	// Fallback to currency code itself
+	return stateBet.currency;
+};
+
+// Format amount with currency code (bitmap font safe)
+export const numberToCurrencyCodeString = (value: number) => {
+	const formattedNumber = numberToFloat(value).toFixed(2);
+	const currencyCode = getCurrencyCode();
+	// Add space after currency code if it's more than 2 characters (abbreviation vs symbol)
+	const separator = currencyCode.length > 2 ? ' ' : '';
+	return `${currencyCode}${separator}${formattedNumber}`;
+};
+
+// Bitmap font safe version of bookEventAmountToCurrencyString
+export const bookEventAmountToCurrencyCodeString = (bookEventAmount: number) => {
+	const normalisedAmount = bookEventAmountToNormalisedAmount(bookEventAmount);
+	return numberToCurrencyCodeString(normalisedAmount);
 };

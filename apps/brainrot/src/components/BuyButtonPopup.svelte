@@ -4,7 +4,7 @@
 	import { getContext } from '../game/context';
 	import BuyButtonBoundingBoxesWrapper from './BuyButtonBoundingBoxesWrapper.svelte';
 	import { stateBet, stateBetDerived } from 'state-shared';
-	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
+	import { bookEventAmountToCurrencyString, numberToCurrencyCodeString } from 'utils-shared/amount';
 
 	const context = getContext();
 	const POSITION_ADJUSTMENT = 1.01;
@@ -48,8 +48,8 @@
 		<SpineSlot slotName="frame_big">
 			{@const bonusBuyCost = stateBet.betAmount * 100}
 			<BitmapText
-				text={`$${bonusBuyCost.toString()}`}
-				x={-25}	
+				text={numberToCurrencyCodeString(bonusBuyCost)}
+				x={-25}
 				anchor={{ x: 0.5, y: 0.5 }}
 				style={{
 					fontFamily: 'pinkFont',

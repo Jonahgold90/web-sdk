@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Sprite, Text, BitmapText, SpineProvider, SpineTrack, Graphics } from 'pixi-svelte';
 	import { stateBet, stateBetDerived, stateModal, stateConfig, stateSound, stateUrlDerived } from 'state-shared';
-	import { numberToCurrencyString, bookEventAmountToCurrencyString } from 'utils-shared/amount';
+	import { numberToCurrencyString, bookEventAmountToCurrencyString, numberToCurrencyCodeString } from 'utils-shared/amount';
 	import { onMount } from 'svelte';
 
 	import { getContext } from '../game/context';
@@ -863,7 +863,7 @@
 
 <!-- Bonus buy cost text -->
 <BitmapText
-	text={`$${(stateBet.betAmount * 100).toString()}`}
+	text={numberToCurrencyCodeString(stateBet.betAmount * 100)}
 	x={mobileBuyFrameX - 6}
 	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -887,7 +887,7 @@
 
 <!-- Bet amount text on bet frame -->
 <BitmapText
-	text={`$${(stateBet.betAmount * 1.25).toFixed(2)}`}
+	text={numberToCurrencyCodeString(stateBet.betAmount * 1.25)}
 	x={mobileBetFrameX - 5 - 2.5}
 	y={mobileBetFrameY - (canvasSize.height < 580 ? 30 : 37)}
 	anchor={{ x: 0.5, y: 0.5 }}

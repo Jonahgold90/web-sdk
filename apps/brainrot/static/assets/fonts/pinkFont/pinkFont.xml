@@ -8,7 +8,8 @@
     <page id="2" file="pinkFont2.png"/>
     <page id="3" file="pinkFont3.png"/>
   </pages>
-  <chars count="77">
+  <chars count="78">
+    <char id="32" x="0" y="0" width="0" height="0" xoffset="0" yoffset="0" xadvance="47.5" page="0" chnl="15"/>
     <char id="163" x="5" y="5" width="185" height="211" xoffset="0" yoffset="-89.5" xadvance="95" page="0" chnl="15"/>
     <char id="89" x="195" y="5" width="185" height="211" xoffset="0" yoffset="-89.5" xadvance="95" page="0" chnl="15"/>
     <char id="58" x="385" y="5" width="185" height="211" xoffset="0" yoffset="-89.5" xadvance="95" page="0" chnl="15"/>

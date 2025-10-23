@@ -29,6 +29,7 @@
 	import { onMount } from 'svelte';
 	import { Sprite, SpineProvider, SpineTrack, BitmapText } from 'pixi-svelte';
 	import { stateBet, stateBetDerived, stateModal, stateConfig, stateUrlDerived } from 'state-shared';
+	import { numberToCurrencyCodeString } from 'utils-shared/amount';
 
 	import { getContext } from '../game/context';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -195,7 +196,7 @@
 
 <!-- Bonus buy cost text -->
 <BitmapText
-	text={`$${bonusBuyCost.toString()}`}
+	text={numberToCurrencyCodeString(bonusBuyCost)}
 	x={buyButtonX - 15}
 	y={buyButtonY + 30}
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -281,7 +282,7 @@
 
 <!-- Bet amount text on bet frame -->
 <BitmapText
-	text={`$${(stateBet.betAmount * 1.25).toFixed(2)}`}
+	text={numberToCurrencyCodeString(stateBet.betAmount * 1.25)}
 	x={betFrameX - 10}
 	y={betFrameY - 60}
 	anchor={{ x: 0.5, y: 0.5 }}
