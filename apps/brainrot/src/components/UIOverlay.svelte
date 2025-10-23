@@ -106,6 +106,9 @@
 			if (emitterEvent.current !== undefined) freeSpinCurrent = emitterEvent.current;
 			if (emitterEvent.total !== undefined) freeSpinTotal = emitterEvent.total;
 		},
+		autoplayButtonPress: () => {
+			onAutoplayPress();
+		},
 	});
 
 	const tumbleWinAmountFormatted = $derived(bookEventAmountToCurrencyString(tumbleWinAmount));
@@ -339,6 +342,10 @@
 		}
 	};
 
+	// Auto-spin menu state
+	let isAutoSpinMenuOpen = $state(false);
+	let pendingAutoSpinCount = $state<number | null>(null);
+
 	// Autoplay button functionality
 	const hasAutoSpins = $derived(stateBetDerived.hasAutoBetCounter());
 
@@ -347,10 +354,34 @@
 		if (hasAutoSpins) {
 			// Stop auto spins if already running
 			stateBet.autoSpinsCounter = 0;
+			isAutoSpinMenuOpen = false;
+			pendingAutoSpinCount = null;
 		} else {
-			// Open autoplay modal
-			stateModal.modal = { name: 'autoSpin' };
+			// Toggle auto-spin menu
+			isAutoSpinMenuOpen = !isAutoSpinMenuOpen;
+			pendingAutoSpinCount = null;
 		}
+	};
+
+	const handleAutoSpinSelect = (count: number) => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		pendingAutoSpinCount = count;
+		isAutoSpinMenuOpen = false;
+	};
+
+	const confirmAutoSpin = () => {
+		if (pendingAutoSpinCount !== null) {
+			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+			stateBet.autoSpinsCounter = pendingAutoSpinCount;
+			pendingAutoSpinCount = null;
+			// Trigger autoBet to start the auto-betting loop
+			context.eventEmitter.broadcast({ type: 'autoBet' });
+		}
+	};
+
+	const cancelAutoSpin = () => {
+		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
+		pendingAutoSpinCount = null;
 	};
 
 	// Mobile UI layout - horizontal arrangement from left to right
@@ -682,6 +713,26 @@
 	<SpineTrack trackIndex={0} animationName="spin_button_idle" loop={true} />
 	<SpinButtonBoundingBoxesWrapper />
 </SpineProvider>
+
+<!-- Autospin counter display on desktop - centered on spin button (hidden in free spins) -->
+{#if hasAutoSpins && stateBet.autoSpinsCounter > 0 && fontLoaded && !showFreeSpinCounter}
+<Text
+	text={stateBet.autoSpinsCounter.toString()}
+	x={spinX}
+	y={spinY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: isLandscape && canvasSize.width < 500 ? 11 : isLandscape ? 17 : canvasSize.height < 600 ? 20 : 26,
+		fill: 0x00ff00,
+		align: 'center',
+		fontWeight: 'bold',
+		stroke: 0x000000,
+		strokeThickness: 2
+	}}
+	zIndex={105}
+/>
+{/if}
 {/if}
 
 <!-- Mobile UI - horizontal layout at bottom -->
@@ -759,6 +810,26 @@
 	<SpineTrack trackIndex={0} animationName="spin_button_idle" loop={true} />
 	<SpinButtonBoundingBoxesWrapper />
 </SpineProvider>
+
+<!-- Autospin counter display on mobile - centered on spin button (hidden in free spins) -->
+{#if hasAutoSpins && stateBet.autoSpinsCounter > 0 && fontLoaded && !showFreeSpinCounter}
+<Text
+	text={stateBet.autoSpinsCounter.toString()}
+	x={mobileSpinX}
+	y={mobileSpinY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: canvasSize.height < 580 ? 12 : canvasSize.height < 700 ? 14 : 17,
+		fill: 0x00ff00,
+		align: 'center',
+		fontWeight: 'bold',
+		stroke: 0x000000,
+		strokeThickness: 2
+	}}
+	zIndex={105}
+/>
+{/if}
 
 <!-- Buy frame - left of spin button (only in base game) -->
 {#if !showFreeSpinCounter}
@@ -1126,6 +1197,31 @@
 	</div>
 {/if}
 
+<!-- Auto-spin menu / confirmation - positioned above spin button -->
+{#if pendingAutoSpinCount !== null || isAutoSpinMenuOpen}
+	{@const menuX = isMobile ? mobileSpinX : spinX}
+	{@const menuY = isMobile ? mobileSpinY - mobileSpinButtonHeight / 2 - 80 : spinY - spinButtonHeight / 2 - 100}
+	<div class="auto-spin-container" style="left: {menuX}px; top: {menuY}px;" class:mobile={isMobile}>
+		{#if pendingAutoSpinCount !== null}
+			<div class="auto-spin-confirm">
+				<div class="confirm-text">Start {pendingAutoSpinCount} Autospins?</div>
+				<div class="confirm-buttons">
+					<button onclick={confirmAutoSpin} class="confirm-btn confirm">✓</button>
+					<button onclick={cancelAutoSpin} class="confirm-btn cancel">✕</button>
+				</div>
+			</div>
+		{:else if isAutoSpinMenuOpen}
+			<div class="auto-spin-menu">
+				{#each [10, 25, 50, 100] as count}
+					<button onclick={() => handleAutoSpinSelect(count)} class="auto-option">
+						{count}
+					</button>
+				{/each}
+			</div>
+		{/if}
+	</div>
+{/if}
+
 <style>
 	.volume-slider {
 		position: absolute;
@@ -1221,5 +1317,141 @@
 		font-size: 18px;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 		pointer-events: none;
+	}
+
+	/* Auto-spin menu styles - modern & compact */
+	.auto-spin-container {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		z-index: 1001;
+		pointer-events: auto;
+	}
+
+	.auto-spin-menu {
+		background: rgba(10, 10, 15, 0.95);
+		backdrop-filter: blur(10px);
+		border: 2px solid rgba(0, 255, 0, 0.3);
+		border-radius: 12px;
+		padding: 8px;
+		display: flex;
+		gap: 6px;
+		flex-direction: column;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+	}
+
+	.auto-spin-container.mobile .auto-spin-menu {
+		padding: 6px;
+		gap: 5px;
+	}
+
+	.auto-option {
+		background: linear-gradient(135deg, rgba(0, 255, 0, 0.15) 0%, rgba(0, 200, 0, 0.25) 100%);
+		border: 1.5px solid rgba(0, 255, 0, 0.4);
+		border-radius: 8px;
+		color: #00ff00;
+		font-size: 18px;
+		font-weight: 600;
+		padding: 10px 24px;
+		cursor: pointer;
+		transition: all 0.15s ease;
+		font-family: 'Darling Coffee', sans-serif;
+		text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+	}
+
+	.auto-spin-container.mobile .auto-option {
+		font-size: 16px;
+		padding: 8px 20px;
+	}
+
+	.auto-option:hover {
+		background: linear-gradient(135deg, rgba(0, 255, 0, 0.25) 0%, rgba(0, 255, 0, 0.35) 100%);
+		border-color: rgba(0, 255, 0, 0.7);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 16px rgba(0, 255, 0, 0.4);
+	}
+
+	.auto-spin-confirm {
+		background: rgba(10, 10, 15, 0.95);
+		backdrop-filter: blur(10px);
+		border: 2px solid rgba(255, 170, 0, 0.4);
+		border-radius: 12px;
+		padding: 12px 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		align-items: center;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+	}
+
+	.auto-spin-container.mobile .auto-spin-confirm {
+		padding: 10px 14px;
+		gap: 8px;
+	}
+
+	.confirm-text {
+		color: #ffffff;
+		font-size: 16px;
+		font-weight: 600;
+		text-align: center;
+		font-family: 'Darling Coffee', sans-serif;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+	}
+
+	.auto-spin-container.mobile .confirm-text {
+		font-size: 14px;
+	}
+
+	.confirm-buttons {
+		display: flex;
+		gap: 10px;
+	}
+
+	.auto-spin-container.mobile .confirm-buttons {
+		gap: 8px;
+	}
+
+	.confirm-btn {
+		width: 42px;
+		height: 42px;
+		border-radius: 10px;
+		border: 1.5px solid rgba(255, 255, 255, 0.3);
+		font-size: 22px;
+		font-weight: bold;
+		cursor: pointer;
+		transition: all 0.15s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.auto-spin-container.mobile .confirm-btn {
+		width: 36px;
+		height: 36px;
+		font-size: 18px;
+	}
+
+	.confirm-btn.confirm {
+		background: linear-gradient(135deg, rgba(0, 255, 0, 0.2) 0%, rgba(0, 200, 0, 0.3) 100%);
+		color: #00ff00;
+		text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+	}
+
+	.confirm-btn.cancel {
+		background: linear-gradient(135deg, rgba(255, 50, 50, 0.2) 0%, rgba(200, 0, 0, 0.3) 100%);
+		color: #ff5555;
+		text-shadow: 0 0 8px rgba(255, 50, 50, 0.6);
+	}
+
+	.confirm-btn:hover {
+		transform: translateY(-2px);
+		border-color: rgba(255, 255, 255, 0.6);
+	}
+
+	.confirm-btn.confirm:hover {
+		box-shadow: 0 4px 16px rgba(0, 255, 0, 0.4);
+	}
+
+	.confirm-btn.cancel:hover {
+		box-shadow: 0 4px 16px rgba(255, 50, 50, 0.4);
 	}
 </style>

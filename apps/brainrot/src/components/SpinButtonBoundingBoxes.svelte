@@ -101,9 +101,9 @@
 			stateBetDerived.updateIsTurbo(!stateBet.isTurbo, { persistent: true });
 			setTimeout(() => (isHoveringButton = null), 300);
 		} else if (hitBox('autoplay_button2', e)) {
-			// Autoplay clicked - open autoplay modal
+			// Autoplay clicked - toggle autoplay menu
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-			stateModal.modal = { name: 'autoSpin' };
+			context.eventEmitter.broadcast({ type: 'autoplayButtonPress' });
 			setTimeout(() => (isHoveringButton = null), 300);
 		} else if (hitBox('plus2', e)) {
 			// Plus clicked - increase bet to next interval
@@ -199,34 +199,34 @@
 	// Control turbo mode arrow visibility and color
 	$effect(() => {
 		const skeleton = spineInstance.skeleton;
-		const aarow01Slot = skeleton.findSlot('aarow_01');
-		const aarow02Slot = skeleton.findSlot('aarow_02');
-		const aarow03Slot = skeleton.findSlot('aarow_03');
+		const bolt01Slot = skeleton.findSlot('bolt_01');
+		const bolt02Slot = skeleton.findSlot('bolt_02');
+		const bolt03Slot = skeleton.findSlot('bolt_03');
 
 		// Show all 3 arrows based on turbo mode state
 		// Off state: show all arrows in grey (dimmed)
 		// On state: show all arrows in white (bright)
 		if (stateBet.isTurbo) {
 			// Turbo mode ON - show all 3 arrows in bright white
-			if (aarow01Slot) {
-				aarow01Slot.color.set(1, 1, 1, 1); // White
+			if (bolt01Slot) {
+				bolt01Slot.color.set(1, 1, 1, 1); // White
 			}
-			if (aarow02Slot) {
-				aarow02Slot.color.set(1, 1, 1, 1); // White
+			if (bolt02Slot) {
+				bolt02Slot.color.set(1, 1, 1, 1); // White
 			}
-			if (aarow03Slot) {
-				aarow03Slot.color.set(1, 1, 1, 1); // White
+			if (bolt03Slot) {
+				bolt03Slot.color.set(1, 1, 1, 1); // White
 			}
 		} else {
 			// Turbo mode OFF - show all 3 arrows in grey (dimmed)
-			if (aarow01Slot) {
-				aarow01Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
+			if (bolt01Slot) {
+				bolt01Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
 			}
-			if (aarow02Slot) {
-				aarow02Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
+			if (bolt02Slot) {
+				bolt02Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
 			}
-			if (aarow03Slot) {
-				aarow03Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
+			if (bolt03Slot) {
+				bolt03Slot.color.set(0.5, 0.5, 0.5, 1); // Grey
 			}
 		}
 	});
