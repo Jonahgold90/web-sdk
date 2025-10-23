@@ -194,9 +194,11 @@
 	zIndex={2}
 />
 
-<!-- Bonus buy cost text -->
+<!-- Bonus buy cost text with dynamic sizing based on length -->
+{@const buyText = numberToCurrencyCodeString(bonusBuyCost)}
+{#if buyText.length <= 6}
 <BitmapText
-	text={numberToCurrencyCodeString(bonusBuyCost)}
+	text={buyText}
 	x={buyButtonX - 15}
 	y={buyButtonY + 30}
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -206,6 +208,43 @@
 	}}
 	zIndex={2}
 />
+{:else if buyText.length <= 8}
+<BitmapText
+	text={buyText}
+	x={buyButtonX - 15}
+	y={buyButtonY + 30}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 9,
+	}}
+	zIndex={2}
+/>
+{:else if buyText.length <= 10}
+<BitmapText
+	text={buyText}
+	x={buyButtonX - 15}
+	y={buyButtonY + 30}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 7.5,
+	}}
+	zIndex={2}
+/>
+{:else}
+<BitmapText
+	text={buyText}
+	x={buyButtonX - 15}
+	y={buyButtonY + 30}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 6.5,
+	}}
+	zIndex={2}
+/>
+{/if}
 {/if}
 
 <!-- Free Spin Counter Frame - shown during free spins in same position as buy frame -->

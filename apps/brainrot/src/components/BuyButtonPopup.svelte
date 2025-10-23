@@ -44,11 +44,13 @@
 	/>
 
 	<SpineEventEmitterProvider>
-		<!-- Buy cost text displayed in the frame_big slot -->
+		<!-- Buy cost text displayed in the frame_big slot with dynamic sizing -->
 		<SpineSlot slotName="frame_big">
 			{@const bonusBuyCost = stateBet.betAmount * 100}
+			{@const buyText = numberToCurrencyCodeString(bonusBuyCost)}
+			{#if buyText.length <= 6}
 			<BitmapText
-				text={numberToCurrencyCodeString(bonusBuyCost)}
+				text={buyText}
 				x={-25}
 				anchor={{ x: 0.5, y: 0.5 }}
 				style={{
@@ -56,6 +58,37 @@
 					fontSize: 20,
 				}}
 			/>
+			{:else if buyText.length <= 8}
+			<BitmapText
+				text={buyText}
+				x={-25}
+				anchor={{ x: 0.5, y: 0.5 }}
+				style={{
+					fontFamily: 'pinkFont',
+					fontSize: 17,
+				}}
+			/>
+			{:else if buyText.length <= 10}
+			<BitmapText
+				text={buyText}
+				x={-25}
+				anchor={{ x: 0.5, y: 0.5 }}
+				style={{
+					fontFamily: 'pinkFont',
+					fontSize: 14,
+				}}
+			/>
+			{:else}
+			<BitmapText
+				text={buyText}
+				x={-25}
+				anchor={{ x: 0.5, y: 0.5 }}
+				style={{
+					fontFamily: 'pinkFont',
+					fontSize: 12,
+				}}
+			/>
+			{/if}
 		</SpineSlot>
 	</SpineEventEmitterProvider>
 

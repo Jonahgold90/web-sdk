@@ -97,7 +97,7 @@
 
 		bonusTriggerHowl = new Howl({
 			src: ['./assets/audio/sfx/Bonus trigger.mp3'],
-			volume: calculateSfxVolume(0.2) // 0.2 base volume for bonus trigger (quieter)
+			volume: calculateSfxVolume(1.0) // Full volume for bonus trigger
 		});
 
 		// Initialize reel land sounds
@@ -155,7 +155,7 @@
 			smallWinHowl.volume(calculateSfxVolume());
 		}
 		if (bonusTriggerHowl) {
-			bonusTriggerHowl.volume(calculateSfxVolume(0.2)); // 0.2 base volume for bonus trigger (quieter)
+			bonusTriggerHowl.volume(calculateSfxVolume(1.0)); // Full volume for bonus trigger
 		}
 		if (reelLandHowls.length > 0) {
 			reelLandHowls.forEach(howl => howl.volume(calculateSfxVolume(1.0)));
@@ -293,8 +293,8 @@
 				if (bonusTriggerHowl && stateSound.volumeValueSoundEffect > 0) {
 					bonusTriggerHowl.play();
 				}
-			} else if (name === 'jng_intro_fs') {
-				// Block this sound - we're using custom bonus trigger instead
+			} else if (name === 'jng_intro_fs' || name === 'sfx_superfreespin') {
+				// Block these template sounds - we're using custom bonus trigger instead
 				return;
 			} else if (name.startsWith('sfx_reel_stop_')) {
 				// Replace template reel stop sounds with custom reel land sounds

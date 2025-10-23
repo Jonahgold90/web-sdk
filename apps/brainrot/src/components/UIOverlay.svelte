@@ -861,9 +861,11 @@
 	zIndex={102}
 />
 
-<!-- Bonus buy cost text -->
+<!-- Bonus buy cost text with dynamic sizing based on length -->
+{@const buyText = numberToCurrencyCodeString(stateBet.betAmount * 100)}
+{#if buyText.length <= 6}
 <BitmapText
-	text={numberToCurrencyCodeString(stateBet.betAmount * 100)}
+	text={buyText}
 	x={mobileBuyFrameX - 6}
 	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -873,6 +875,43 @@
 	}}
 	zIndex={110}
 />
+{:else if buyText.length <= 8}
+<BitmapText
+	text={buyText}
+	x={mobileBuyFrameX - 6}
+	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 3.5,
+	}}
+	zIndex={110}
+/>
+{:else if buyText.length <= 10}
+<BitmapText
+	text={buyText}
+	x={mobileBuyFrameX - 6}
+	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 3,
+	}}
+	zIndex={110}
+/>
+{:else}
+<BitmapText
+	text={buyText}
+	x={mobileBuyFrameX - 6}
+	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 2.5,
+	}}
+	zIndex={110}
+/>
+{/if}
 
 <!-- Bet frame - right of spin button -->
 <Sprite
