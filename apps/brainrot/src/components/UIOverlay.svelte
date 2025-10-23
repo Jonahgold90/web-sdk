@@ -560,38 +560,6 @@
 />
 {/if}
 
-<!-- PAYS display - between WIN and spin button -->
-{#if showTumbleWin && fontLoaded}
-<!-- PAYS label text -->
-<Text
-	text="PAYS:"
-	x={paysLabelX}
-	y={paysY}
-	anchor={{ x: 0.5, y: 0.5 }}
-	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: isLandscape && canvasSize.width < 500 ? 12 : 24,
-		fill: 0xFFFFFF,
-		align: 'center'
-	}}
-	zIndex={103}
-/>
-
-<!-- PAYS amount text - to the right of label -->
-<Text
-	text={tumbleWinAmountFormatted}
-	x={paysAmountX}
-	y={paysY}
-	anchor={{ x: 0.5, y: 0.5 }}
-	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: isLandscape && canvasSize.width < 500 ? 12 : 24,
-		fill: 0xFFFFFF,
-		align: 'center'
-	}}
-	zIndex={103}
-/>
-{/if}
 
 <!-- Left side buttons -->
 <!-- Spek button (top) - Volume button -->
@@ -765,38 +733,6 @@
 />
 {/if}
 
-<!-- PAYS display on mobile - between WIN and spin button -->
-{#if showTumbleWin && fontLoaded}
-<!-- PAYS label text -->
-<Text
-	text="PAYS:"
-	x={mobilePaysLabelX}
-	y={mobilePaysY}
-	anchor={{ x: 0.5, y: 0.5 }}
-	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 580 ? 13 : 16,
-		fill: 0xFFFFFF,
-		align: 'center'
-	}}
-	zIndex={103}
-/>
-
-<!-- PAYS amount text - to the right of label -->
-<Text
-	text={tumbleWinAmountFormatted}
-	x={mobilePaysAmountX}
-	y={mobilePaysY}
-	anchor={{ x: 0.5, y: 0.5 }}
-	style={{
-		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 580 ? 13 : 16,
-		fill: 0xFFFFFF,
-		align: 'center'
-	}}
-	zIndex={103}
-/>
-{/if}
 
 <!-- Spin button spine - centered between board and control bar -->
 <SpineProvider

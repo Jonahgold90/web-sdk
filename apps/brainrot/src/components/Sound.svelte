@@ -119,7 +119,8 @@
 
 		anticipationHowl = new Howl({
 			src: ['./assets/audio/sfx/Anticipation.mp3'],
-			volume: calculateSfxVolume()
+			volume: calculateSfxVolume(1.5),
+			loop: true
 		});
 
 		buttonPressHowl = new Howl({
@@ -176,7 +177,7 @@
 			transitionHowl.volume(calculateSfxVolume(0.75));
 		}
 		if (anticipationHowl) {
-			anticipationHowl.volume(calculateSfxVolume());
+			anticipationHowl.volume(calculateSfxVolume(1.5));
 		}
 		if (buttonPressHowl) {
 			buttonPressHowl.volume(calculateSfxVolume());
@@ -350,7 +351,7 @@
 				setTimeout(() => {
 					anticipationHowl.stop();
 					// Reset volume for next time
-					anticipationHowl.volume(calculateSfxVolume());
+					anticipationHowl.volume(calculateSfxVolume(1.5));
 				}, 200);
 			} else {
 				// Stop audio sprite sounds
@@ -361,7 +362,7 @@
 			// Handle custom anticipation sound fade
 			if (name === 'sfx_anticipation' && anticipationHowl) {
 				// Howler.js fade - fade from current volume * from to current volume * to
-				const currentVol = calculateSfxVolume();
+				const currentVol = calculateSfxVolume(1.5);
 				anticipationHowl.fade(currentVol * from, currentVol * to, duration);
 			} else if (name !== 'bgm_main' && name !== 'bgm_freespin') {
 				await sound.fade({ name, duration, from, to });
