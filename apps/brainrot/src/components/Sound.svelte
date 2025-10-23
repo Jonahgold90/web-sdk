@@ -277,6 +277,9 @@
 					anticipationHowl.loop(true);
 					anticipationHowl.play();
 				}
+			} else if (name === 'sfx_bigwin_coinloop') {
+				// Block template big win loop - we're using custom big win music
+				return;
 			} else {
 				sound.players.loop.play({ name });
 			}
@@ -293,7 +296,7 @@
 				if (bonusTriggerHowl && stateSound.volumeValueSoundEffect > 0) {
 					bonusTriggerHowl.play();
 				}
-			} else if (name === 'jng_intro_fs' || name === 'sfx_superfreespin') {
+			} else if (name === 'jng_intro_fs' || name === 'sfx_superfreespin' || name === 'sfx_youwon_panel') {
 				// Block these template sounds - we're using custom bonus trigger instead
 				return;
 			} else if (name.startsWith('sfx_reel_stop_')) {
