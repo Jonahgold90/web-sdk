@@ -35,6 +35,7 @@
 
 	let baseMusicHowl: Howl;
 	let bonusMusicHowl: Howl;
+	let bigWinMusicHowl: Howl;
 	let currentMusicHowl: Howl | null = null;
 	let spinButtonClickHowl: Howl;
 	let skibidiToiletLaserHowl: Howl;
@@ -71,6 +72,12 @@
 			src: ['./assets/audio/music/Bonus game loop 1.mp3'],
 			loop: true,
 			volume: calculateMusicVolume(0.25) // 0.25 base volume for bonus game
+		});
+
+		bigWinMusicHowl = new Howl({
+			src: ['./assets/audio/music/Epic-Mega-Big win.mp3'],
+			loop: false, // Big win music plays once
+			volume: calculateMusicVolume(0.3) // 0.3 base volume for big win
 		});
 
 		spinButtonClickHowl = new Howl({
@@ -130,6 +137,9 @@
 		}
 		if (bonusMusicHowl) {
 			bonusMusicHowl.volume(calculateMusicVolume(0.25)); // 0.25 base volume for bonus game
+		}
+		if (bigWinMusicHowl) {
+			bigWinMusicHowl.volume(calculateMusicVolume(0.3)); // 0.3 base volume for big win
 		}
 	});
 
@@ -207,20 +217,56 @@
 		soundScatterCounterClear: () => (context.stateGame.scatterCounter = 0),
 		// game - completely block old bgm calls, our custom music is always running
 		soundMusic: ({ name }) => {
-			// Block all old background music from the audio sprite
-			// This includes base/bonus music AND big win music (we want our custom loops to play instead)
+			// Block base/bonus music - always running
+			if (name === 'bgm_main' || name === 'bgm_freespin') {
+				// Do nothing - our custom music handles this
+				return;
+			}
+
+			// Handle big win music calls
 			if (
-				name === 'bgm_main' ||
-				name === 'bgm_freespin' ||
 				name === 'bgm_winlevel_big' ||
 				name === 'bgm_winlevel_superwin' ||
 				name === 'bgm_winlevel_mega' ||
 				name === 'bgm_winlevel_epic' ||
 				name === 'bgm_winlevel_max'
 			) {
-				// Do nothing - our custom music handles this
+				if (bigWinMusicHowl && currentMusicHowl && stateSound.volumeValueMusic > 0) {
+					// Fade out current music
+					const currentVol = currentMusicHowl.volume();
+					currentMusicHowl.fade(currentVol, 0, 500);
+
+					// Play big win music after fade
+					setTimeout(() => {
+						if (currentMusicHowl) {
+							currentMusicHowl.pause();
+						}
+						bigWinMusicHowl.play();
+
+						// When big win music ends, fade back to the appropriate music
+						bigWinMusicHowl.once('end', () => {
+							// Determine which music to return to based on game type
+							const returnToMusic = context.stateGame.gameType === 'freegame' ? bonusMusicHowl : baseMusicHowl;
+
+							if (currentMusicHowl && currentMusicHowl !== returnToMusic) {
+								currentMusicHowl.stop();
+							}
+
+							currentMusicHowl = returnToMusic;
+							currentMusicHowl.volume(0);
+							currentMusicHowl.play();
+
+							// Fade in the return music
+							const targetVol = returnToMusic === bonusMusicHowl
+								? calculateMusicVolume(0.25)
+								: calculateMusicVolume(0.2);
+							currentMusicHowl.fade(0, targetVol, 1000);
+						});
+					}, 500);
+				}
 				return;
 			}
+
 			// Allow other music types if any exist
 			sound.players.music.play({ name });
 		},
