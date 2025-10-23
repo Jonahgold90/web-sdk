@@ -1354,7 +1354,7 @@
 		padding: 10px 24px;
 		cursor: pointer;
 		transition: all 0.15s ease;
-		font-family: 'Darling Coffee', sans-serif;
+		font-family: Arial, sans-serif;
 		text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
 	}
 
@@ -1393,7 +1393,7 @@
 		font-size: 16px;
 		font-weight: 600;
 		text-align: center;
-		font-family: 'Darling Coffee', sans-serif;
+		font-family: Arial, sans-serif;
 		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 	}
 
