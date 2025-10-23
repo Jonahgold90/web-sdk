@@ -12,7 +12,9 @@ bottle_stroke
 bounds:600,41,203,200
 rotate:90
 cap
-bounds:2,15,129,25
+bounds:117,15,129,25
 mustard
 bounds:802,89,155,154
 rotate:90
+scatter_01
+bounds:2,9,113,31

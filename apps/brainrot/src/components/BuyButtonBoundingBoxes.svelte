@@ -15,6 +15,12 @@
 
 	const bounds = new spine.SkeletonBounds();
 
+	// Check if player has enough balance for bonus buy (100x bet)
+	const hasEnoughBalance = $derived(() => {
+		const bonusBuyCost = stateBet.betAmount * 100;
+		return stateBet.balanceAmount >= bonusBuyCost;
+	});
+
 	// Refresh bounds with current pose
 	function refreshBounds() {
 		// In spine-pixi-v8, updateWorldTransform requires a Physics parameter
@@ -61,6 +67,12 @@
 	// Handle pointer down on the spine
 	function onPointerDown(e: FederatedPointerEvent) {
 		if (hitBox('yes_place_holder2', e)) {
+			// Check if player has enough balance
+			if (!hasEnoughBalance()) {
+				// Don't do anything if insufficient balance
+				return;
+			}
+
 			// Play button sound
 			context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
 
@@ -85,6 +97,22 @@
 			stateBuyButton.loop = false;
 		}
 	}
+
+	// Update the yes button appearance based on balance
+	$effect(() => {
+		const greenButton = spineInstance.skeleton.findSlot('green_button');
+		const greenButton2 = spineInstance.skeleton.findSlot('green_button2');
+
+		if (hasEnoughBalance()) {
+			// Normal appearance - white tint, full opacity
+			if (greenButton) greenButton.color.set(1, 1, 1, 1);
+			if (greenButton2) greenButton2.color.set(1, 1, 1, 1);
+		} else {
+			// Greyed out appearance - darker tint, reduced opacity
+			if (greenButton) greenButton.color.set(0.4, 0.4, 0.4, 0.5);
+			if (greenButton2) greenButton2.color.set(0.4, 0.4, 0.4, 0.5);
+		}
+	});
 
 	// Make the spine interactive when component mounts
 	onMount(() => {
