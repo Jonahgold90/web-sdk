@@ -57,8 +57,8 @@
 		return isMobile ? `${state}_mobile` : state;
 	};
 
-	// Scale up mobile intro to fill portrait screens better
-	const introScale = $derived(isMobile ? 1.6 : 1);
+	// Scale intro screen - mobile larger, desktop slightly smaller
+	const introScale = $derived(isMobile ? 1.6 : 0.95);
 
 	// When assets are loaded, switch to intro (disabled in debug mode)
 	$effect(() => {
