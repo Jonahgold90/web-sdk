@@ -61,8 +61,8 @@
 	key="skibidiToilet"
 	x={context.stateGameDerived.boardLayout().x * POSITION_ADJUSTMENT + (context.stateGameDerived.boardLayout().width / 2) + 20 + 110}
 	y={context.stateGameDerived.boardLayout().y * POSITION_ADJUSTMENT + VERTICAL_OFFSET + (context.stateGameDerived.boardLayout().height / 2) - 50}
-	width={150}
-	height={150}
+	width={130}
+	height={130}
 	zIndex={1000}
 >
 	<SpineTrack
