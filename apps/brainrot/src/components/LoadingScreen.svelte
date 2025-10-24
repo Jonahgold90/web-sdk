@@ -18,7 +18,7 @@
 	let loadingType = $state<'start' | 'intro' | 'transition'>('start');
 
 	// DEBUG MODE: Set to true to loop the loading screen indefinitely for testing
-	const DEBUG_LOOP_LOADING = true;
+	const DEBUG_LOOP_LOADING = false;
 	let debugProgress = $state(0);
 
 	// Visual adjustments
