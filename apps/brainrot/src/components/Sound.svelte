@@ -36,6 +36,7 @@
 	let baseMusicHowl: Howl;
 	let bonusMusicHowl: Howl;
 	let bigWinMusicHowl: Howl;
+	let bigWinIntroHowl: Howl;
 	let currentMusicHowl: Howl | null = null;
 	let spinButtonClickHowl: Howl;
 	let skibidiToiletLaserHowl: Howl;
@@ -78,8 +79,14 @@
 
 		bigWinMusicHowl = new Howl({
 			src: ['./assets/audio/music/Epic-Mega-Big win.mp3'],
-			loop: false, // Big win music plays once
-			volume: calculateMusicVolume(0.3) // 0.3 base volume for big win
+			loop: true, // Big win music loops during animation
+			volume: calculateMusicVolume(0.6) // 0.6 base volume for big win
+		});
+
+		bigWinIntroHowl = new Howl({
+			src: ['./assets/audio/sfx/BigWin Intro.mp3'],
+			loop: false,
+			volume: calculateSfxVolume(0.8) // Slightly lower volume for big win intro
 		});
 
 		spinButtonClickHowl = new Howl({
@@ -152,12 +159,15 @@
 			bonusMusicHowl.volume(calculateMusicVolume(0.25)); // 0.25 base volume for bonus game
 		}
 		if (bigWinMusicHowl) {
-			bigWinMusicHowl.volume(calculateMusicVolume(0.3)); // 0.3 base volume for big win
+			bigWinMusicHowl.volume(calculateMusicVolume(0.6)); // 0.6 base volume for big win
 		}
 	});
 
 	// Volume control for SFX based on master volume and SFX toggle
 	$effect(() => {
+		if (bigWinIntroHowl) {
+			bigWinIntroHowl.volume(calculateSfxVolume(0.75)); // Slightly lower volume for big win intro
+		}
 		if (spinButtonClickHowl) {
 			spinButtonClickHowl.volume(calculateSfxVolume());
 		}
@@ -194,6 +204,11 @@
 	$effect(() => {
 		if (!baseMusicHowl || !bonusMusicHowl) return;
 
+		// Don't switch music if big win music is currently playing
+		if (bigWinMusicHowl && bigWinMusicHowl.playing()) {
+			return;
+		}
+
 		const shouldPlayBonus = context.stateGame.gameType === 'freegame';
 		const targetMusic = shouldPlayBonus ? bonusMusicHowl : baseMusicHowl;
 
@@ -210,6 +225,48 @@
 	});
 
 	context.eventEmitter.subscribeOnMount({
+		// win
+		winHide: () => {
+			// When big win animation ends or is skipped, stop big win music and resume background music
+			if (bigWinMusicHowl && bigWinMusicHowl.playing()) {
+				bigWinMusicHowl.stop();
+
+				// Determine which music to return to based on game type
+				const returnToMusic = context.stateGame.gameType === 'freegame' ? bonusMusicHowl : baseMusicHowl;
+
+				if (currentMusicHowl && currentMusicHowl !== returnToMusic) {
+					currentMusicHowl.stop();
+				}
+
+				currentMusicHowl = returnToMusic;
+				currentMusicHowl.volume(0);
+				currentMusicHowl.play();
+
+				// Fade in the return music
+				const targetVol = returnToMusic === bonusMusicHowl
+					? calculateMusicVolume(0.25)
+					: calculateMusicVolume(0.2);
+				currentMusicHowl.fade(0, targetVol, 1000);
+			}
+		},
+		freeSpinOutroHide: () => {
+			// When free spin outro hides, stop big win music and resume base game music
+			if (bigWinMusicHowl && bigWinMusicHowl.playing()) {
+				bigWinMusicHowl.stop();
+
+				// Always return to base game music after bonus outro
+				if (currentMusicHowl && currentMusicHowl !== baseMusicHowl) {
+					currentMusicHowl.stop();
+				}
+
+				currentMusicHowl = baseMusicHowl;
+				currentMusicHowl.volume(0);
+				currentMusicHowl.play();
+
+				// Fade in base game music
+				currentMusicHowl.fade(0, calculateMusicVolume(0.2), 1000);
+			}
+		},
 		// ui
 		soundBetMode: async ({ betModeKey }) => {
 			if (betModeKey === 'SUPERSPIN') {
@@ -255,32 +312,17 @@
 					const currentVol = currentMusicHowl.volume();
 					currentMusicHowl.fade(currentVol, 0, 500);
 
+					// Play big win intro SFX immediately
+					if (bigWinIntroHowl && stateSound.volumeValueSoundEffect > 0) {
+						bigWinIntroHowl.play();
+					}
+
 					// Play big win music after fade
 					setTimeout(() => {
 						if (currentMusicHowl) {
 							currentMusicHowl.pause();
 						}
 						bigWinMusicHowl.play();
-
-						// When big win music ends, fade back to the appropriate music
-						bigWinMusicHowl.once('end', () => {
-							// Determine which music to return to based on game type
-							const returnToMusic = context.stateGame.gameType === 'freegame' ? bonusMusicHowl : baseMusicHowl;
-
-							if (currentMusicHowl && currentMusicHowl !== returnToMusic) {
-								currentMusicHowl.stop();
-							}
-
-							currentMusicHowl = returnToMusic;
-							currentMusicHowl.volume(0);
-							currentMusicHowl.play();
-
-							// Fade in the return music
-							const targetVol = returnToMusic === bonusMusicHowl
-								? calculateMusicVolume(0.25)
-								: calculateMusicVolume(0.2);
-							currentMusicHowl.fade(0, targetVol, 1000);
-						});
 					}, 500);
 				}
 				return;
