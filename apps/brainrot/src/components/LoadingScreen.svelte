@@ -21,8 +21,11 @@
 	const DEBUG_LOOP_LOADING = false;
 	let debugProgress = $state(0);
 
-	// Visual adjustments
-	const logoScale = 2.0; // Make logo bigger (1 = original size)
+	// Determine if we're on mobile/portrait layout
+	const isMobile = $derived(context.stateLayoutDerived.isStacked());
+
+	// Visual adjustments - responsive to mobile/desktop
+	const logoScale = $derived(isMobile ? 0.5 : 2.0); // Smaller on mobile
 	const progressBarScale = 0.7; // Make progress bar smaller (1 = original size)
 	const verticalOffset = 100; // Move everything down (positive = down)
 
@@ -44,8 +47,10 @@
 		}
 	});
 
-	// Determine if we're on mobile/portrait layout
-	const isMobile = $derived(context.stateLayoutDerived.isStacked());
+	// Debug: Log mobile state and logo scale
+	$effect(() => {
+		console.log('isMobile:', isMobile, '| logoScale:', logoScale);
+	});
 
 	// Get animation name based on state and layout
 	const getAnimationName = (state: 'in' | 'loop' | 'out') => {
@@ -78,14 +83,21 @@
 			y={context.stateLayoutDerived.mainLayout().height * 0.5 + verticalOffset}
 		>
 			{#if DEBUG_LOOP_LOADING || !context.stateApp.loaded}
-				<SpineProvider key="loadingScreen">
-					<!-- Scale the logo bigger -->
-					<SpineBone boneName="logo" scaleX={logoScale} scaleY={logoScale} />
-					<!-- Scale the frame (progress bar container) smaller -->
-					<SpineBone boneName="frame" scaleX={progressBarScale} scaleY={progressBarScale} />
-					<!-- Don't use any animation, just manually scale the progress bone -->
-					<SpineBone boneName="progess" scaleX={progressScale} scaleY={1} />
-				</SpineProvider>
+				{#if isMobile}
+					<SpineProvider key="loadingScreen" scale={0.8}>
+						<!-- Scale the frame (progress bar container) smaller -->
+						<SpineBone boneName="frame" scaleX={progressBarScale} scaleY={progressBarScale} />
+						<!-- Don't use any animation, just manually scale the progress bone -->
+						<SpineBone boneName="progess" scaleX={progressScale} scaleY={1} />
+					</SpineProvider>
+				{:else}
+					<SpineProvider key="loadingScreen" scale={1.3}>
+						<!-- Scale the frame (progress bar container) smaller -->
+						<SpineBone boneName="frame" scaleX={progressBarScale} scaleY={progressBarScale} />
+						<!-- Don't use any animation, just manually scale the progress bone -->
+						<SpineBone boneName="progess" scaleX={progressScale} scaleY={1} />
+					</SpineProvider>
+				{/if}
 			{/if}
 
 			<!-- Debug progress display -->
@@ -96,6 +108,13 @@
 					y={200}
 				>
 					Progress: {debugProgress}%
+				</text>
+				<text
+					style="fill: white; fontSize: 24px; fontFamily: Arial;"
+					x={-100}
+					y={250}
+				>
+					Mobile: {isMobile} | Scale: {logoScale}
 				</text>
 			{/if}
 		</Container>
