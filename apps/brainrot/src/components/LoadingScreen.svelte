@@ -17,11 +17,32 @@
 
 	let loadingType = $state<'start' | 'intro' | 'transition'>('start');
 
+	// DEBUG MODE: Set to true to loop the loading screen indefinitely for testing
+	const DEBUG_LOOP_LOADING = true;
+	let debugProgress = $state(0);
+
+	// Visual adjustments
+	const logoScale = 2.0; // Make logo bigger (1 = original size)
+	const progressBarScale = 0.7; // Make progress bar smaller (1 = original size)
+	const verticalOffset = 100; // Move everything down (positive = down)
+
 	// Scale the progress bone based on loading progress (0-100%)
-	const progressScale = $derived(context.stateApp.loadingProgress / 100);
+	const progressScale = $derived(
+		DEBUG_LOOP_LOADING ? debugProgress / 100 : context.stateApp.loadingProgress / 100
+	);
 
 	// Track intro animation state
 	let introAnimationState = $state<'in' | 'loop' | 'out'>('in');
+
+	// Debug effect: Loop progress from 0 to 100
+	$effect(() => {
+		if (DEBUG_LOOP_LOADING) {
+			const interval = setInterval(() => {
+				debugProgress = (debugProgress + 1) % 101;
+			}, 30); // Update every 30ms
+			return () => clearInterval(interval);
+		}
+	});
 
 	// Determine if we're on mobile/portrait layout
 	const isMobile = $derived(context.stateLayoutDerived.isStacked());
@@ -34,9 +55,9 @@
 	// Scale up mobile intro to fill portrait screens better
 	const introScale = $derived(isMobile ? 1.6 : 1);
 
-	// When assets are loaded, switch to intro
+	// When assets are loaded, switch to intro (disabled in debug mode)
 	$effect(() => {
-		if (context.stateApp.loaded && loadingType === 'start') {
+		if (!DEBUG_LOOP_LOADING && context.stateApp.loaded && loadingType === 'start') {
 			loadingType = 'intro';
 		}
 	});
@@ -54,13 +75,28 @@
 	<MainContainer>
 		<Container
 			x={context.stateLayoutDerived.mainLayout().width * 0.5}
-			y={context.stateLayoutDerived.mainLayout().height * 0.5}
+			y={context.stateLayoutDerived.mainLayout().height * 0.5 + verticalOffset}
 		>
-			{#if !context.stateApp.loaded}
+			{#if DEBUG_LOOP_LOADING || !context.stateApp.loaded}
 				<SpineProvider key="loadingScreen">
-					<SpineTrack trackIndex={0} animationName="idle" loop={true} />
+					<!-- Scale the logo bigger -->
+					<SpineBone boneName="logo" scaleX={logoScale} scaleY={logoScale} />
+					<!-- Scale the frame (progress bar container) smaller -->
+					<SpineBone boneName="frame" scaleX={progressBarScale} scaleY={progressBarScale} />
+					<!-- Don't use any animation, just manually scale the progress bone -->
 					<SpineBone boneName="progess" scaleX={progressScale} scaleY={1} />
 				</SpineProvider>
+			{/if}
+
+			<!-- Debug progress display -->
+			{#if DEBUG_LOOP_LOADING}
+				<text
+					style="fill: white; fontSize: 32px; fontFamily: Arial;"
+					x={-100}
+					y={200}
+				>
+					Progress: {debugProgress}%
+				</text>
 			{/if}
 		</Container>
 	</MainContainer>
