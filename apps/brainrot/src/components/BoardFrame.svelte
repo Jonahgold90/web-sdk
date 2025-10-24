@@ -211,7 +211,7 @@
 {:else if buyText.length <= 8}
 <BitmapText
 	text={buyText}
-	x={buyButtonX - 15}
+	x={buyButtonX - 13}
 	y={buyButtonY + 30}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
@@ -220,27 +220,27 @@
 	}}
 	zIndex={2}
 />
-{:else if buyText.length <= 10}
+{:else if buyText.length <= 11}
 <BitmapText
 	text={buyText}
-	x={buyButtonX - 15}
+	x={buyButtonX - 10}
 	y={buyButtonY + 30}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: 7.5,
+		fontSize: 7,
 	}}
 	zIndex={2}
 />
 {:else}
 <BitmapText
 	text={buyText}
-	x={buyButtonX - 15}
+	x={buyButtonX - 7}
 	y={buyButtonY + 30}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: 6.5,
+		fontSize: 5.5,
 	}}
 	zIndex={2}
 />
@@ -319,9 +319,11 @@
 	zIndex={5}
 />
 
-<!-- Bet amount text on bet frame -->
+<!-- Bet amount text on bet frame with dynamic sizing -->
+{@const betFrameText = numberToCurrencyCodeString(stateBet.betAmount * 1.25)}
+{#if betFrameText.length <= 6}
 <BitmapText
-	text={numberToCurrencyCodeString(stateBet.betAmount * 1.25)}
+	text={betFrameText}
 	x={betFrameX - 10}
 	y={betFrameY - 60}
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -331,6 +333,43 @@
 	}}
 	zIndex={5}
 />
+{:else if betFrameText.length <= 8}
+<BitmapText
+	text={betFrameText}
+	x={betFrameX - 8}
+	y={betFrameY - 60}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 6.5,
+	}}
+	zIndex={5}
+/>
+{:else if betFrameText.length <= 11}
+<BitmapText
+	text={betFrameText}
+	x={betFrameX - 6}
+	y={betFrameY - 60}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 5.3,
+	}}
+	zIndex={5}
+/>
+{:else}
+<BitmapText
+	text={betFrameText}
+	x={betFrameX - 3}
+	y={betFrameY - 60}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 4.3,
+	}}
+	zIndex={5}
+/>
+{/if}
 
 <!-- BET label text on bet frame -->
 <BitmapText

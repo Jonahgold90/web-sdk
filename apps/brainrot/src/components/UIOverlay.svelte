@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Sprite, Text, BitmapText, SpineProvider, SpineTrack, Graphics } from 'pixi-svelte';
 	import { stateBet, stateBetDerived, stateModal, stateConfig, stateSound, stateUrlDerived } from 'state-shared';
-	import { numberToCurrencyString, bookEventAmountToCurrencyString, numberToCurrencyCodeString } from 'utils-shared/amount';
+	import { numberToCurrencyCodeString, bookEventAmountToCurrencyCodeString } from 'utils-shared/amount';
 	import { onMount } from 'svelte';
 
 	import { getContext } from '../game/context';
@@ -11,9 +11,9 @@
 	const context = getContext();
 
 	// Get balance, bet, and win amounts
-	const balanceAmount = $derived(numberToCurrencyString(stateBet.balanceAmount));
-	const betAmount = $derived(numberToCurrencyString(stateBetDerived.betCost()));
-	const winAmount = $derived(bookEventAmountToCurrencyString(stateBet.winBookEventAmount));
+	const balanceAmount = $derived(numberToCurrencyCodeString(stateBet.balanceAmount));
+	const betAmount = $derived(numberToCurrencyCodeString(stateBetDerived.betCost()));
+	const winAmount = $derived(bookEventAmountToCurrencyCodeString(stateBet.winBookEventAmount));
 
 	// Tumble win amount state
 	let tumbleWinAmount = $state(0);
@@ -624,8 +624,10 @@
 	zIndex={101}
 />
 
-<!-- Balance amount text next to credit label -->
+<!-- Balance amount text next to credit label with dynamic sizing -->
 {#if fontLoaded}
+{@const baseFontSize = isLandscape && canvasSize.width < 500 ? 14 : isLandscape ? 22 : 28}
+{#if balanceAmount.length <= 8}
 <Text
 	text={balanceAmount}
 	x={creditAmountX}
@@ -633,12 +635,55 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: isLandscape && canvasSize.width < 500 ? 14 : isLandscape ? 22 : 28,
+		fontSize: baseFontSize,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
 	zIndex={103}
 />
+{:else if balanceAmount.length <= 10}
+<Text
+	text={balanceAmount}
+	x={creditAmountX}
+	y={creditAmountY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: baseFontSize * 0.85,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else if balanceAmount.length <= 12}
+<Text
+	text={balanceAmount}
+	x={creditAmountX}
+	y={creditAmountY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: baseFontSize * 0.7,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else}
+<Text
+	text={balanceAmount}
+	x={creditAmountX}
+	y={creditAmountY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: baseFontSize * 0.6,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
 {/if}
 
 <!-- Bet display (bottom) -->
@@ -652,8 +697,10 @@
 	zIndex={101}
 />
 
-<!-- Bet amount text next to bet label -->
+<!-- Bet amount text next to bet label with dynamic sizing -->
 {#if fontLoaded}
+{@const baseBetFontSize = isLandscape && canvasSize.width < 500 ? 14 : isLandscape ? 22 : 28}
+{#if betAmount.length <= 6}
 <Text
 	text={betAmount}
 	x={betAmountX}
@@ -661,12 +708,55 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: isLandscape && canvasSize.width < 500 ? 14 : isLandscape ? 22 : 28,
+		fontSize: baseBetFontSize,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
 	zIndex={103}
 />
+{:else if betAmount.length <= 8}
+<Text
+	text={betAmount}
+	x={betAmountX}
+	y={betY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: baseBetFontSize * 0.75,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else if betAmount.length <= 11}
+<Text
+	text={betAmount}
+	x={betAmountX}
+	y={betY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: baseBetFontSize * 0.58,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else}
+<Text
+	text={betAmount}
+	x={betAmountX}
+	y={betY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: baseBetFontSize * 0.5,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
 {/if}
 
 <!-- Spin button spine -->
@@ -814,36 +904,36 @@
 {:else if buyText.length <= 8}
 <BitmapText
 	text={buyText}
-	x={mobileBuyFrameX - 6}
+	x={mobileBuyFrameX - 5}
 	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: 3.5,
+		fontSize: 3.4,
 	}}
 	zIndex={110}
 />
-{:else if buyText.length <= 10}
+{:else if buyText.length <= 11}
 <BitmapText
 	text={buyText}
-	x={mobileBuyFrameX - 6}
+	x={mobileBuyFrameX - 3.5}
 	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: 3,
+		fontSize: 2.7,
 	}}
 	zIndex={110}
 />
 {:else}
 <BitmapText
 	text={buyText}
-	x={mobileBuyFrameX - 6}
+	x={mobileBuyFrameX - 2}
 	y={mobileBuyFrameY + (canvasSize.height < 580 ? 10 : 12)}
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'pinkFont',
-		fontSize: 2.5,
+		fontSize: 2.2,
 	}}
 	zIndex={110}
 />
@@ -860,9 +950,11 @@
 	zIndex={101}
 />
 
-<!-- Bet amount text on bet frame -->
+<!-- Bet amount text on bet frame with dynamic sizing -->
+{@const betFrameText = numberToCurrencyCodeString(stateBet.betAmount * 1.25)}
+{#if betFrameText.length <= 6}
 <BitmapText
-	text={numberToCurrencyCodeString(stateBet.betAmount * 1.25)}
+	text={betFrameText}
 	x={mobileBetFrameX - 5 - 2.5}
 	y={mobileBetFrameY - (canvasSize.height < 580 ? 30 : 37)}
 	anchor={{ x: 0.5, y: 0.5 }}
@@ -872,6 +964,43 @@
 	}}
 	zIndex={110}
 />
+{:else if betFrameText.length <= 8}
+<BitmapText
+	text={betFrameText}
+	x={mobileBetFrameX - 5 - 1.5}
+	y={mobileBetFrameY - (canvasSize.height < 580 ? 30 : 37)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 3,
+	}}
+	zIndex={110}
+/>
+{:else if betFrameText.length <= 11}
+<BitmapText
+	text={betFrameText}
+	x={mobileBetFrameX - 5 - 0.5}
+	y={mobileBetFrameY - (canvasSize.height < 580 ? 30 : 37)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 2.4,
+	}}
+	zIndex={110}
+/>
+{:else}
+<BitmapText
+	text={betFrameText}
+	x={mobileBetFrameX - 5 + 0.5}
+	y={mobileBetFrameY - (canvasSize.height < 580 ? 30 : 37)}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'pinkFont',
+		fontSize: 2,
+	}}
+	zIndex={110}
+/>
+{/if}
 
 <!-- DOUBLE label text on bet frame -->
 <BitmapText
@@ -1042,8 +1171,10 @@
 	zIndex={101}
 />
 
-<!-- Credit amount text -->
+<!-- Credit amount text with dynamic sizing -->
 {#if fontLoaded}
+{@const mobileFontSize = canvasSize.height < 580 ? 13 : 16}
+{#if balanceAmount.length <= 8}
 <Text
 	text={balanceAmount}
 	x={mobileCreditAmountX}
@@ -1051,12 +1182,55 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 580 ? 13 : 16,
+		fontSize: mobileFontSize,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
 	zIndex={103}
 />
+{:else if balanceAmount.length <= 10}
+<Text
+	text={balanceAmount}
+	x={mobileCreditAmountX}
+	y={mobileCreditY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: mobileFontSize * 0.85,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else if balanceAmount.length <= 12}
+<Text
+	text={balanceAmount}
+	x={mobileCreditAmountX}
+	y={mobileCreditY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: mobileFontSize * 0.7,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else}
+<Text
+	text={balanceAmount}
+	x={mobileCreditAmountX}
+	y={mobileCreditY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: mobileFontSize * 0.6,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
 {/if}
 
 <!-- Bet label -->
@@ -1070,8 +1244,10 @@
 	zIndex={101}
 />
 
-<!-- Bet amount text -->
+<!-- Bet amount text with dynamic sizing -->
 {#if fontLoaded}
+{@const mobileBetFontSize = canvasSize.height < 580 ? 13 : 16}
+{#if betAmount.length <= 6}
 <Text
 	text={betAmount}
 	x={mobileBetAmountX}
@@ -1079,12 +1255,55 @@
 	anchor={{ x: 0.5, y: 0.5 }}
 	style={{
 		fontFamily: 'Darling Coffee',
-		fontSize: canvasSize.height < 580 ? 13 : 16,
+		fontSize: mobileBetFontSize,
 		fill: 0xFFFFFF,
 		align: 'center'
 	}}
 	zIndex={103}
 />
+{:else if betAmount.length <= 8}
+<Text
+	text={betAmount}
+	x={mobileBetAmountX}
+	y={mobileBetY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: mobileBetFontSize * 0.7,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else if betAmount.length <= 11}
+<Text
+	text={betAmount}
+	x={mobileBetAmountX}
+	y={mobileBetY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: mobileBetFontSize * 0.53,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{:else}
+<Text
+	text={betAmount}
+	x={mobileBetAmountX}
+	y={mobileBetY}
+	anchor={{ x: 0.5, y: 0.5 }}
+	style={{
+		fontFamily: 'Darling Coffee',
+		fontSize: mobileBetFontSize * 0.45,
+		fill: 0xFFFFFF,
+		align: 'center'
+	}}
+	zIndex={103}
+/>
+{/if}
 {/if}
 
 <!-- Volume button (using spek sprite) -->
