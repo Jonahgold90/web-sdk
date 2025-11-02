@@ -14,7 +14,41 @@
 		| { type: 'logoHide' }
 		| { type: 'logoShow' };
 
-	export type BuyButtonAnimation = 'small_buy_click' | 'big_buy_in' | 'big_buy_loop';
+	export type BuyButtonAnimation =
+		| 'small_buy_click'
+		| 'small_play_click'
+		// Buy mode (normal)
+		| 'buy_panel_super_feature_in'
+		| 'buy_panel_super_feature_loop'
+		| 'buy_panel_upper_cross_out'
+		| 'buy_panel_feature_click'
+		| 'buy_feature_in'
+		| 'buy_feature_loop'
+		| 'buy_feature_yes_out'
+		| 'buy_feature_no_out'
+		| 'buy_feature_upper_cross_out'
+		| 'buy_super_feature_click'
+		| 'buy_super_feature_in'
+		| 'buy_super_feature_loop'
+		| 'buy_super_feature_no_out'
+		| 'buy_super_feature_upper_cross_out'
+		| 'buy_super_feature_yes_out'
+		// Play mode (social)
+		| 'play_panel_super_feature_in'
+		| 'play_panel_super_feature_loop'
+		| 'play_panel_upper_cross_out'
+		| 'play_panel_feature_click'
+		| 'play_feature_in'
+		| 'play_feature_loop'
+		| 'play_feature_yes_out'
+		| 'play_feature_no_out'
+		| 'play_feature_upper_cross_out'
+		| 'play_super_feature_click'
+		| 'play_super_feature_in'
+		| 'play_super_feature_loop'
+		| 'play_super_feature_no_out'
+		| 'play_super_feature_upper_cross_out'
+		| 'play_super_feature_yes_out';
 
 	export const stateBuyButton = $state<{
 		animationName: BuyButtonAnimation;
@@ -23,6 +57,29 @@
 		animationName: 'small_buy_click',
 		loop: true,
 	});
+
+	// Helper function to get animation name based on social mode
+	export function getAnimationName(isSocial: boolean, type:
+		| 'small_click'
+		| 'panel_super_feature_in'
+		| 'panel_super_feature_loop'
+		| 'panel_upper_cross_out'
+		| 'panel_feature_click'
+		| 'feature_in'
+		| 'feature_loop'
+		| 'feature_yes_out'
+		| 'feature_no_out'
+		| 'feature_upper_cross_out'
+		| 'super_feature_click'
+		| 'super_feature_in'
+		| 'super_feature_loop'
+		| 'super_feature_no_out'
+		| 'super_feature_upper_cross_out'
+		| 'super_feature_yes_out'
+	): BuyButtonAnimation {
+		const prefix = isSocial ? 'play' : 'buy';
+		return `${prefix}_${type}` as BuyButtonAnimation;
+	}
 </script>
 
 <script lang="ts">
@@ -33,6 +90,8 @@
 
 	import { getContext } from '../game/context';
 	import { SYMBOL_SIZE } from '../game/constants';
+
+	const isSocial = $derived(stateUrlDerived.social());
 
 	const context = getContext();
 
@@ -178,7 +237,7 @@
 	cursor="pointer"
 	onpointerup={() => {
 		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-		stateBuyButton.animationName = 'big_buy_in';
+		stateBuyButton.animationName = getAnimationName(isSocial, 'panel_super_feature_in');
 		stateBuyButton.loop = false;
 	}}
 />

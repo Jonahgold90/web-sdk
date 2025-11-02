@@ -871,7 +871,8 @@
 	cursor="pointer"
 	onpointerup={() => {
 		context.eventEmitter.broadcast({ type: 'soundPressGeneral' });
-		stateBuyButton.animationName = 'big_buy_in';
+		const isSocial = stateUrlDerived.social();
+		stateBuyButton.animationName = isSocial ? 'play_panel_super_feature_in' : 'buy_panel_super_feature_in';
 		stateBuyButton.loop = false;
 	}}
 />

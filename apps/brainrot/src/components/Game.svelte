@@ -99,10 +99,6 @@
 			</MainContainer>
 		{/if}
 
-		<MainContainer>
-			<BuyButtonPopup />
-		</MainContainer>
-
 		<Win />
 		<FreeSpinIntro />
 		<FreeSpinOutro />
@@ -113,6 +109,9 @@
 
 		<!-- Volume Control Panel -->
 		<VolumeControl />
+
+		<!-- Buy Button Popup (rendered last to be on top) -->
+		<BuyButtonPopup />
 	{/if}
 </App>
 

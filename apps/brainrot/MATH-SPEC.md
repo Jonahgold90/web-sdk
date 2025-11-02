@@ -1,4 +1,4 @@
-# Brainrot Bonanza — Math Spec (SB1000 Clone, No Super Buy)
+# Brainrot Bonanza — Math Spec (SB1000 Clone with Super Buy)
 
 ## Core
 - **Grid:** 6×5 (30 symbols visible each spin)
@@ -16,7 +16,9 @@
 - **Ante Bet:**
   - Off (1x base bet): Normal play, Bonus Buy enabled
   - On (1.25× base bet): Increases FS hit rate (e.g., 1/100 vs 1/200), Bonus Buy disabled
-- **Bonus Buy:** 100× bet → guarantees 4+ `scatter` on the entry spin
+- **Bonus Buy:**
+  - **Regular Bonus:** 100× bet → guarantees 4+ `scatter` on the entry spin
+  - **Super Bonus:** 300× bet → guarantees 4+ `scatter` on the entry spin with enhanced multipliers (minimum 15x)
 - **RTP targets:**
   - 96% for all modes
 
@@ -55,7 +57,11 @@
 
 ### Multiplier (FS-only)
 - **Label:** `multiplier`
-- Values (weighted in rarity so 1000x extremely rare 2x common): {2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 50, 100, 1000}×
+- **Regular Bonus & Base FS Values:** {2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 50, 100, 1000}×
+  - Weighted in rarity: lower values more common, 1000× extremely rare
+- **Super Bonus Values:** {15, 20, 25, 50, 100, 1000}×
+  - Minimum multiplier value of 15×
+  - Enhanced distribution with higher average multipliers
 - At end of each tumble chain, sum all multipliers on screen and apply to that tumble chain's total win
 - Clears before next FS spin (not sticky)
 
